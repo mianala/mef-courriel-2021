@@ -8,4 +8,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'mef-courriel';
   // from codesandbox
+  // pulled from vscode and then pushed
 }
