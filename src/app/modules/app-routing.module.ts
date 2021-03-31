@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from '../app.component';
+import { ChatComponent } from '../app/chat/chat.component';
+import { FlowComponent } from '../app/flow/flow.component';
 import { AuthComponent } from '../auth/auth.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HelpComponent } from '../help/help.component';
@@ -31,6 +33,34 @@ const routes: Routes = [
   {
     path: 'app',
     component: AppComponent,
+    children: [
+      {
+        path: 'chat',
+        component: ChatComponent,
+      },
+      {
+        path: 'flow',
+        component: FlowComponent,
+        children: [
+          {
+            path: 'all',
+            component: FlowComponent, 
+          },
+          {
+            path: 'saved',
+            component: FlowComponent, 
+          },
+          {
+            path: 'received',
+            component: FlowComponent, 
+          },
+          {
+            path: 'sent',
+            component: FlowComponent, 
+          },
+        ],
+      },
+    ],
   },
 ];
 
