@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './modules/app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -13,6 +13,8 @@ import { FeedbacksComponent } from './admin/feedbacks/feedbacks.component';
 import { DocsComponent } from './docs/docs.component';
 import { SearchComponent } from './search/search.component';
 import { HelpComponent } from './help/help.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ViewerComponent } from './viewer/viewer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { HelpComponent } from './help/help.component';
     FeedbacksComponent,
     DocsComponent,
     SearchComponent,
-    HelpComponent
+    HelpComponent,
+    DashboardComponent,
+    ViewerComponent
   ],
   imports: [
     BrowserModule,
