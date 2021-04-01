@@ -36,6 +36,7 @@ import { EntitiesComponent } from './app/entities/entities.component';
 import { EntityComponent } from './app/entity/entity.component';
 import { UsersComponent } from './app/users/users.component';
 import { FeedbackComponent } from './app/feedback/feedback.component';
+import { SharedComponent } from './app/shared/shared.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { FeedbackComponent } from './app/feedback/feedback.component';
     EntitiesComponent,
     EntityComponent,
     UsersComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    SharedComponent
   ],
   imports: [
     BrowserModule,
