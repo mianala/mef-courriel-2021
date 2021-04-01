@@ -1,18 +1,35 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from '../app.component';
-import { ChatComponent } from '../app/chat/chat.component';
+import { ChatComponent } from '../chat/chat.component';
 import { FlowComponent } from '../app/flow/flow.component';
 import { AuthComponent } from '../auth/auth.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HelpComponent } from '../help/help.component';
 import { SearchComponent } from '../search/search.component';
 import { ViewerComponent } from '../viewer/viewer.component';
+import { LoginComponent } from '../auth/login/login.component';
+import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
+import { SignupComponent } from '../auth/signup/signup.component';
 
 const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'signup',
+        component: SignupComponent,
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+      },
+    ],
   },
   {
     path: 'search',
@@ -44,19 +61,19 @@ const routes: Routes = [
         children: [
           {
             path: 'all',
-            component: FlowComponent, 
+            component: FlowComponent,
           },
           {
             path: 'saved',
-            component: FlowComponent, 
+            component: FlowComponent,
           },
           {
             path: 'received',
-            component: FlowComponent, 
+            component: FlowComponent,
           },
           {
             path: 'sent',
-            component: FlowComponent, 
+            component: FlowComponent,
           },
         ],
       },
@@ -66,6 +83,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

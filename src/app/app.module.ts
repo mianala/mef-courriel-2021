@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
@@ -38,6 +38,8 @@ import { UsersComponent } from './app/users/users.component';
 import { FeedbackComponent } from './app/feedback/feedback.component';
 import { SharedComponent } from './app/shared/shared.component';
 import { AppPageComponent } from './app/app-page/app-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './modules/material.module';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,10 @@ import { AppPageComponent } from './app/app-page/app-page.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FlexLayoutModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
