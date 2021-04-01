@@ -15,7 +15,7 @@ import { SearchComponent } from './search/search.component';
 import { HelpComponent } from './help/help.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewerComponent } from './viewer/viewer.component';
-import { ChatComponent } from './app/chat/chat.component';
+import { ChatComponent } from './chat/chat.component';
 import { FlowComponent } from './app/flow/flow.component';
 import { AllComponent } from './app/flow/pages/all/all.component';
 import { SavedComponent } from './app/flow/pages/saved/saved.component';
@@ -37,6 +37,7 @@ import { EntityComponent } from './app/entity/entity.component';
 import { UsersComponent } from './app/users/users.component';
 import { FeedbackComponent } from './app/feedback/feedback.component';
 import { SharedComponent } from './app/shared/shared.component';
+import { AppPageComponent } from './app/app-page/app-page.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { SharedComponent } from './app/shared/shared.component';
     EntityComponent,
     UsersComponent,
     FeedbackComponent,
-    SharedComponent
+    SharedComponent,
+    AppPageComponent
   ],
   imports: [
     BrowserModule,
