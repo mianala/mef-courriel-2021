@@ -40,6 +40,7 @@ import { SharedComponent } from './app/shared/shared.component';
 import { AppPageComponent } from './app/app-page/app-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { MaterialModule } from './modules/material.module';
     UsersComponent,
     FeedbackComponent,
     SharedComponent,
-    AppPageComponent
+    AppPageComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

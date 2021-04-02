@@ -11,6 +11,7 @@ import { ViewerComponent } from '../viewer/viewer.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { SignupComponent } from '../auth/signup/signup.component';
+import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
+      },
+      {
+        path: 'reset-password/:last_user_update_timestamp/:username',
+        component: ResetPasswordComponent,
       },
     ],
   },
