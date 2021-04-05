@@ -12,6 +12,11 @@ import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { SignupComponent } from '../auth/signup/signup.component';
 import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
+import { AppPageComponent } from '../app/app-page/app-page.component';
+import { AllComponent } from '../app/flow/pages/all/all.component';
+import { SavedComponent } from '../app/flow/pages/saved/saved.component';
+import { ReceivedComponent } from '../app/flow/pages/received/received.component';
+import { SentComponent } from '../app/flow/pages/sent/sent.component';
 
 const routes: Routes = [
   {
@@ -54,7 +59,7 @@ const routes: Routes = [
   },
   {
     path: 'app',
-    component: AppComponent,
+    component: AppPageComponent,
     children: [
       {
         path: 'chat',
@@ -66,19 +71,19 @@ const routes: Routes = [
         children: [
           {
             path: 'all',
-            component: FlowComponent,
+            component: AllComponent,
           },
           {
             path: 'saved',
-            component: FlowComponent,
+            component: SavedComponent,
           },
           {
             path: 'received',
-            component: FlowComponent,
+            component: ReceivedComponent,
           },
           {
             path: 'sent',
-            component: FlowComponent,
+            component: SentComponent,
           },
         ],
       },
