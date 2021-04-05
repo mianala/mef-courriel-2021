@@ -1,10 +1,24 @@
+<section class="actions">
+  <button mat-raised-button color="primary" (click)="openSaveDialog()">
+    <mat-icon>
+      add
+    </mat-icon>
+    Enregistrer
+  </button>
+  <button mat-raised-button color="primary" (click)="openComposeDialog()">
+    <mat-icon>
+      create
+    </mat-icon>
+    Ecrire
+  </button>
+</section>
 <nav mat-tab-nav-bar>
   <a mat-tab-link routerLink="/app/flow/all">
     <mat-icon class="example-tab-icon">topic</mat-icon>
     Tout</a
   >
   <a mat-tab-link routerLink="/app/flow/saved">
-    <mat-icon class="example-tab-icon">save</mat-icon>
+    <mat-icon class="example-tab-icon">mail</mat-icon>
     Enregistrés</a
   >
   <a mat-tab-link routerLink="/app/flow/received">

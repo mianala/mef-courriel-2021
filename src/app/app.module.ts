@@ -46,6 +46,8 @@ import { SearchResultComponent } from './search/search-result/search-result.comp
 import { SearchHomeComponent } from './search/search-home/search-home.component';
 import { ResultListComponent } from './search/components/result-list/result-list.component';
 import { ResultItemComponent } from './search/components/result-item/result-item.component';
+import { SaveFlowDialogComponent } from './app/flow/dialogs/save-flow-dialog/save-flow-dialog.component';
+import { ComposeFlowDialogComponent } from './app/flow/dialogs/compose-flow-dialog/compose-flow-dialog.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +92,9 @@ import { ResultItemComponent } from './search/components/result-item/result-item
     SearchResultComponent,
     SearchHomeComponent,
     ResultListComponent,
-    ResultItemComponent
+    ResultItemComponent,
+    SaveFlowDialogComponent,
+    ComposeFlowDialogComponent
   ],
   imports: [
     BrowserModule,

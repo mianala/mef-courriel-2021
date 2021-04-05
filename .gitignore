@@ -6,7 +6,7 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
-/src/environments
+/src/environments/*
 # dependencies
 /node_modules
 
@@ -45,3 +45,4 @@ testem.log
 .DS_Store
 Thumbs.db
 package-lock.json
+src/environments/environment.ts

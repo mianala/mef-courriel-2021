@@ -12,4 +12,15 @@ export class FlowComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  openSaveDialog(){
+
+  }
+
+  
+  openComposeDialog(){
+
+  }
+
+
+
 }
