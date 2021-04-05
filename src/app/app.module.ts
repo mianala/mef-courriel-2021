@@ -41,6 +41,11 @@ import { AppPageComponent } from './app/app-page/app-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { EmptySearchResultComponent } from './search/empty-search-result/empty-search-result.component';
+import { SearchResultComponent } from './search/search-result/search-result.component';
+import { SearchHomeComponent } from './search/search-home/search-home.component';
+import { ResultListComponent } from './search/components/result-list/result-list.component';
+import { ResultItemComponent } from './search/components/result-item/result-item.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +85,12 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     FeedbackComponent,
     SharedComponent,
     AppPageComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    EmptySearchResultComponent,
+    SearchResultComponent,
+    SearchHomeComponent,
+    ResultListComponent,
+    ResultItemComponent
   ],
   imports: [
     BrowserModule,

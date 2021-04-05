@@ -1,1 +1,3 @@
 <!-- ?query => search query -->
+<search-home [hidden]="q"></search-home>
+<search-results *ngIf="q" [query]="q"></search-results>

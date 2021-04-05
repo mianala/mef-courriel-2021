@@ -1,0 +1,119 @@
+#topbar {
+    display: flex;
+    height: 64px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    // position: fixed;
+    background-color: white;
+
+    #searchbarimage {
+        height: 40px;
+        padding: 0px 28px 10px 30px;
+        cursor: pointer;
+    }
+    searchbar {
+        flex: 1;
+    }
+    .actions {
+        padding-right: 50px;
+        .mat-icon-button {
+            border-radius: 50%;
+            margin-left: 5px;
+            background-color: #f3994e;
+        }
+    }
+}
+
+#searchresultsarea {
+
+    // max-width: 1300px;
+    font-family: "Arial";
+    mat-drawer-container{
+        min-height: 75vh;
+        
+    }
+    .mat-drawer-inner-container{
+    }
+    mat-drawer{
+        width: 50%;
+    }
+    mat-drawer-content{
+        padding-left: 2rem;
+    }
+}
+
+#optionsbar {
+    padding-left: 150px;
+    border-bottom: 1px solid gray;
+    .options{
+        margin-bottom: -1.34375em;
+    }
+}
+
+::ng-deep .textLayer{
+    border: 3px solid grey;
+}
+
+.pdf-container{
+    padding-left: .5rem;
+}
+
+#searchbar {
+    max-width: 625px;
+    height: 45px;
+    border-radius: 100px;
+    border-color: lightgray;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 16px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+#searchbar:hover {
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+}
+
+#searchbar > input {
+    height: 45px;
+    border-style: none;
+    font-size: 16px;
+    line-height: 45px;
+    padding-left: 20px;
+    flex: 1;
+}
+
+#searchbar > input:focus {
+    outline: none;
+}
+
+#searchbar button {
+    border: none;
+    cursor: pointer;
+}
+
+#searchbar button:focus {
+    outline: none;
+}
+
+
+#searchbarbutton {
+    height: 45px;
+    width: 55px;
+    position: relative;
+    margin-right: -2px;
+    background-color: white;
+}
+
+#searchbarbutton svg {
+    height: 25px;
+    width: 35px;
+    position: relative;
+    left: -3px;
+}
+
+#searchbarbutton svg path {
+    fill: #4285F4
+}

@@ -1,0 +1,67 @@
+<div id="header">
+  <div id="topbar">
+    <img routerLink="" id="searchbarimage" src="/assets/flag.png" />
+    <div id="searchbar" type="text">
+        <input id="searchbartext" type="text" />
+        <button id="searchbarbutton">
+          <svg
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    <div class="actions">
+      <button mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </button>
+      <button routerLink="" mat-icon-button>
+        <mat-icon>home</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="compte"
+      >
+        <mat-icon>person</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>account_circle</mat-icon>
+          <span>Modifier le profil</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>list</mat-icon>
+          <span>Afficher l'historique</span>
+        </button>
+        <button mat-menu-item routerLink="/signup">
+          <mat-icon>logout</mat-icon>
+          <span>Se déconnecter</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+  <div id="optionsbar">
+    <mat-form-field class="options" appearance="fill">
+      <mat-label>Résultats </mat-label>
+      <mat-select value="Tout">
+        <mat-option selected value="Tout">Tout</mat-option>
+        <mat-option value="Lettre">Lettre</mat-option>
+        <mat-option value="Signature">Signature</mat-option>
+        <mat-option value="Lecture">Lecture</mat-option>
+        <mat-option value="Images">Images</mat-option>
+        <mat-option value="Vidéos">Vidéos</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+
+<div id="searchresultsarea">
+  <empty-search-result></empty-search-result>
+  <result-list></result-list>
+</div>
