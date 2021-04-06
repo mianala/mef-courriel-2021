@@ -48,6 +48,12 @@ import { ResultListComponent } from './search/components/result-list/result-list
 import { ResultItemComponent } from './search/components/result-item/result-item.component';
 import { SaveFlowDialogComponent } from './app/flow/dialogs/save-flow-dialog/save-flow-dialog.component';
 import { ComposeFlowDialogComponent } from './app/flow/dialogs/compose-flow-dialog/compose-flow-dialog.component';
+import { FollupUpFlowDialogComponent } from './app/flow/dialogs/follup-up-flow-dialog/follup-up-flow-dialog.component';
+import { SendFlowDialogComponent } from './app/flow/dialogs/send-flow-dialog/send-flow-dialog.component';
+import { AssignFlowDialogComponent } from './app/flow/dialogs/assign-flow-dialog/assign-flow-dialog.component';
+import { CloseFlowDialogComponent } from './app/flow/dialogs/close-flow-dialog/close-flow-dialog.component';
+import { FileUploadButtonComponent } from './app/flow/components/file-upload-button/file-upload-button.component';
+import { FilesComponent } from './app/flow/components/files/files.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +100,13 @@ import { ComposeFlowDialogComponent } from './app/flow/dialogs/compose-flow-dial
     ResultListComponent,
     ResultItemComponent,
     SaveFlowDialogComponent,
-    ComposeFlowDialogComponent
+    ComposeFlowDialogComponent,
+    FollupUpFlowDialogComponent,
+    SendFlowDialogComponent,
+    AssignFlowDialogComponent,
+    CloseFlowDialogComponent,
+    FileUploadButtonComponent,
+    FilesComponent
   ],
   imports: [
     BrowserModule,

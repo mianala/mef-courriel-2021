@@ -1,1 +1,72 @@
-<p>save-flow-dialog works!</p>
+<div mat-dialog-title>
+  <h1><mat-icon>add</mat-icon>Enregistrer un nouveau courrier</h1>
+  <p>Please enter all the details abou the mail in the box bellow</p>
+</div>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input type="number" name="numero" matInput placeholder="N° du courrier" />
+  </mat-form-field>
+
+  <!-- sender -->
+
+  <mat-form-field>
+    <input name="ref" matInput placeholder="Référence / CR " />
+  </mat-form-field>
+  <!-- expediteur -> send to anotehr component -->
+  <!--date du courriel-->
+  <mat-form-field>
+    <input
+      disabled
+      name="date"
+      matInput
+      [matDatepicker]="picker"
+      placeholder="Date du courrier"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  </mat-form-field>
+  <mat-datepicker disabled="false" #picker></mat-datepicker>
+  <!-- date de reception -->
+  <mat-form-field>
+    <input
+      disabled
+      matInput
+      name="received_date"
+      [matDatepicker]="recieved_picker"
+      placeholder="Reçu le"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="recieved_picker"
+    ></mat-datepicker-toggle>
+  </mat-form-field>
+  <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
+
+  <mat-form-field>
+    <mat-select name="lettre" placeholder="Type">
+      <mat-option>Lettres</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--objet-->
+  <mat-form-field>
+    <textarea name="title" matInput placeholder="Objet"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select name="type" placeholder="Document">
+      <mat-option>Types</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      name="content"
+      matInput
+      placeholder="Observations / Instructions"
+    ></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <file-upload-button (fileSelected)="getFiles($event)"></file-upload-button>
+  <button mat-button cdkFocusInitial>Enregistrer</button>
+</div>

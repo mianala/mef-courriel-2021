@@ -1,0 +1,36 @@
+:host {
+  margin: .5em;
+  padding: .5em;
+  min-height: 45px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  display: flex;
+
+  .file-icon
+  {
+    img{
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .file-info {
+    flex-grow: 1;
+    padding-left: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    color: #77839F;
+    .title {
+      color: #77839F;
+      font-weight: bold;
+    }
+    .filesize {
+      font-weight: normal;
+    }
+  }
+
+  button{
+    margin-left: .6em;
+  }
+}
