@@ -1,89 +1,148 @@
 <main class="main">
   <div class="wrapper">
-    <div class="card">
-      <div class="title">
+    <mat-card class="card">
+      <mat-card-header>
         <div class="logo"></div>
         <h1 class="title title-large">Inscription</h1>
-      </div>
-      <form class="form">
-        <div class="form-group">
-          <input
-            type="name"
-            name="name"
-            id="name"
-            class="input-field"
-            placeholder="Nom"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="im"
-            name="im"
-            id="im"
-            class="input-field"
-            placeholder="IM"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="fonction"
-            name="fonction"
-            id="fonction"
-            class="input-field"
-            placeholder="Fonction - Ex: Chef de Service"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="enitity"
-            name="enitity"
-            id="enitity"
-            class="input-field"
-            placeholder="Département - Ex: DSSA"
-          />
-        </div>
+      </mat-card-header>
 
-        <hr style="margin-bottom: 1rem" />
+      <mat-card-content>
+        <form class="form" [formGroup]="signUpForm" (ngSubmit)="submit()">
+          <mat-form-field>
+            <mat-label>Nom</mat-label>
+            <input
+              matInput
+              type="firstname"
+              name="firstname"
+              id="firstname"
+              formControlName="firstname"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Prénom</mat-label>
+            <input
+              matInput
+              type="lastname"
+              name="lastname"
+              id="lastname"
+              formControlName="lastname"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>IM</mat-label>
+            <input
+              matInput
+              type="im"
+              name="im"
+              id="im"
+              formControlName="im"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Fonction - Ex: Chef de Service</mat-label>
+            <input
+              matInput
+              type="fonction"
+              name="title"
+              id="title"
+              formControlName="title"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Département - Ex: DSSA</mat-label>
+            <input
+              matInput
+              type="text"
+              name="entity_id"
+              id="entity_id"
+              formControlName="entity_id"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Numero Télephone</mat-label>
+            <input
+              matInput
+              type="phone"
+              name="phone"
+              id="phone"
+              formControlName="phone"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
 
-        <div class="form-group">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            class="input-field"
-            placeholder="Email"
-          />
-        </div>
+          <hr style="margin-bottom: 1rem" />
 
-        <div class="form-group">
-          <input
-            type="text"
-            name="username"
-            id="username"
-            class="input-field"
-            placeholder="Nom d'utilisateur"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="input-field"
-            placeholder="Mot de passe"
-          />
-        </div>
-        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              name="email"
+              id="email"
+              formControlName="email"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Nom d'utilisateur</mat-label>
+            <input
+              matInput
+              type="text"
+              name="username"
+              id="username"
+              formControlName="username"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Mot de passe</mat-label>
+            <input
+              matInput
+              type="password"
+              name="password"
+              id="password"
+              formControlName="password"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Confirmez votre mot de passe</mat-label>
+            <input
+              matInput
+              type="password"
+              name="confirm"
+              id="confirm"
+              formControlName="confirm"
+              class="input-field"
+              required
+            />
+          </mat-form-field>
           <button
-            routerLink="/login"
-            type="button"
+            mat-raised-button
+            color="primary"
+            type="submit"
             name="submit"
             class="input-submit"
           >
             S'inscrire
           </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </div>
 </main>
