@@ -106,7 +106,7 @@ import { FilesComponent } from './app/flow/components/files/files.component';
     AssignFlowDialogComponent,
     CloseFlowDialogComponent,
     FileUploadButtonComponent,
-    FilesComponent
+    FilesComponent,
   ],
   imports: [
     BrowserModule,
