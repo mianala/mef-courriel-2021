@@ -54,6 +54,10 @@ import { AssignFlowDialogComponent } from './app/flow/dialogs/assign-flow-dialog
 import { CloseFlowDialogComponent } from './app/flow/dialogs/close-flow-dialog/close-flow-dialog.component';
 import { FileUploadButtonComponent } from './app/flow/components/file-upload-button/file-upload-button.component';
 import { FilesComponent } from './app/flow/components/files/files.component';
+import { HttpClientModule } from '@angular/common/http';
+import { APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 
 @NgModule({
   declarations: [
@@ -113,9 +117,25 @@ import { FilesComponent } from './app/flow/components/files/files.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (httpLink: HttpLink) => {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            // uri: 'https://hasura.io/learn/graphql',
+            // headers: {
+            //   Authorization: `Bearer ${localStorage.getItem('token')}`,
+            // },
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
