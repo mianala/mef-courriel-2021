@@ -14,8 +14,8 @@ export class AddNewEntityComponent implements OnInit {
   entity: IEntity | undefined
 
   get_entity_query = gql`
-    query get_entity($if) {
-      entity(where: { id: { _eq: $id }) {
+    query get_entity($id: Int!) {
+      entity(where: { id: { _eq: $id }}) {
         id
         id_text
         long
@@ -36,12 +36,12 @@ export class AddNewEntityComponent implements OnInit {
     short: new FormControl(),
     long: new FormControl(),
   });
-  
+
   constructor(private route: ActivatedRoute, private apollo: Apollo) { }
 
   ngOnInit(): void {
     console.log('init')
-    this.entity_id = this.route.snapshot.params.entity_id;
+    this.entity_id = parseInt(this.route.snapshot.params.entity_id);
 
     this.apollo.query({
       query: this.get_entity_query,
