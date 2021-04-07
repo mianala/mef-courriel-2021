@@ -16,12 +16,9 @@ export class FilesComponent implements OnInit {
 
   // wait
   remove(file:any) {
-    if (file.id) {
-      console.log(file)
+    if (file.name) {
       this.fileRemoved.emit(file)
     }
-
-    this.files.splice(this.files.indexOf(file), 1)
   }
 
 }

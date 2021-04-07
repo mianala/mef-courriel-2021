@@ -33,7 +33,7 @@ import { EmptyConversationComponent } from './chat/pages/conversation/empty-conv
 import { MessageComponent } from './chat/components/message/message.component';
 import { ConversationListComponent } from './chat/conversation-list/conversation-list.component';
 import { EntitiesComponent } from './app/entities/entities.component';
-import { EntityComponent } from './app/entity/entity.component';
+import { EntityComponent } from './app/entities/entity/entity.component';
 import { UsersComponent } from './app/users/users.component';
 import { FeedbackComponent } from './app/feedback/feedback.component';
 import { SharedComponent } from './app/shared/shared.component';
@@ -56,6 +56,8 @@ import { FileUploadButtonComponent } from './app/flow/components/file-upload-but
 import { FilesComponent } from './app/flow/components/files/files.component';
 import { ApolloModule } from './modules/apollo.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserComponent } from './app/users/user/user.component';
+import { AddNewEntityDialogComponent } from './app/entities/dialogs/add-new-entity-dialog/add-new-entity-dialog.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +110,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     AssignFlowDialogComponent,
     CloseFlowDialogComponent,
     FileUploadButtonComponent,
-    FilesComponent
+    FilesComponent,
+    UserComponent,
+    AddNewEntityDialogComponent
   ],
   imports: [
     BrowserModule,

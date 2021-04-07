@@ -11,17 +11,17 @@ import gql from 'graphql-tag';
 })
 export class SaveFlowDialogComponent implements OnInit {
   saveFlowForm = new FormGroup({
-    content: new FormControl('saved', [
+    content: new FormControl('Observation', [
       Validators.required,
       Validators.minLength(4),
     ]),
-    title: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    reference: new FormControl('', [
+    title: new FormControl('Objet', [Validators.required, Validators.minLength(4)]),
+    reference: new FormControl('Reference', [
       Validators.required,
       Validators.minLength(1),
     ]),
-    type_text: new FormControl(''),
-    letter_text: new FormControl(''),
+    type_text: new FormControl('Lettre'),
+    letter_text: new FormControl('Originale'),
     numero: new FormControl(1351, [
       Validators.required,
       Validators.minLength(1),
@@ -30,11 +30,17 @@ export class SaveFlowDialogComponent implements OnInit {
       Validators.required,
       Validators.minLength(3),
     ]),
-    date: new FormControl(new Date()),
-    date_received: new FormControl(new Date()),
+    date: new FormControl(new Date(), [
+      Validators.required,
+      Validators.minLength(1),
+    ]),
+    date_received: new FormControl(new Date(), [
+      Validators.required,
+      Validators.minLength(1),
+    ]),
   });
 
-  mutation = gql`
+  save_project_flow_files = gql`
     mutation newSavedProject(
       $type_text: String = "Video"
       $title: String = "Title"
@@ -46,6 +52,7 @@ export class SaveFlowDialogComponent implements OnInit {
       $owner_id: Int = 4
       $user_id: Int = 15
       $numero: String = "3512"
+      $content: String = "Observation"
       $owner_text: String = "CIFAG"
       $owner_id1: Int = 4
       $initiator_id: Int = 4
@@ -69,6 +76,7 @@ export class SaveFlowDialogComponent implements OnInit {
               action: $action
               owner_id: $owner_id
               user_id: $user_id
+              content: $content
               files: $files
               initiator_id: $initiator_id
             }
@@ -87,6 +95,10 @@ export class SaveFlowDialogComponent implements OnInit {
       }
     }
   `;
+
+  files: any[] = [];
+
+  query_get_last_numero = '';
   constructor(
     public dialogRef: MatDialogRef<SaveFlowDialogComponent>,
     private apollo: Apollo
@@ -96,8 +108,13 @@ export class SaveFlowDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  getFiles(files: Event) {
-    console.log(files)
+  getFiles(files: any[]) {
+    this.files = files;
+  }
+
+  removeFile(file: any) {
+    this.files.splice(this.files.indexOf(file), 1);
+    console.log(this.files);
   }
 
   ngOnInit(): void {}
@@ -106,9 +123,18 @@ export class SaveFlowDialogComponent implements OnInit {
 
   submit() {
     const form = this.saveFlowForm.value;
+    const form_files: { name: string; size: number; type: string }[] = [];
+    this.files.forEach((file) => {
+      form_files.push({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      });
+    });
+
     this.apollo
       .mutate({
-        mutation: this.mutation,
+        mutation: this.save_project_flow_files,
         variables: {
           date1: form.date,
           owner_id: 4,
@@ -120,12 +146,10 @@ export class SaveFlowDialogComponent implements OnInit {
           numero: form.numero.toString(),
           action: 1,
           user_id: 15,
+          content: form.content,
           owner_text: form.owner_text,
           files: {
-            data: [
-              { name: 'New File', size: 10 },
-              { name: 'New File', size: 10 },
-            ],
+            data: form_files,
           },
         },
       })

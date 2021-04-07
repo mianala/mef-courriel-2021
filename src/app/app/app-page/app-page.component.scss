@@ -4,7 +4,7 @@
 
 $blue-pantone: #3326ae;
 $red-ryb: #ff392bff;
-$nav-width: 76px;
+$nav-width: 70px;
 
 div {
   color: white;
@@ -30,26 +30,32 @@ nav {
       width: 100%;
       padding: 20px 0;
     }
-    .mat-icon{
+    .mat-icon {
       font-size: 27px;
       height: 27px;
       width: 27px;
     }
     span {
+      outline: 0;
+      border: none;
+      -moz-outline-style: none;
+
       width: 100%;
       padding: 15px 0;
       text-align: center;
+      transition: 0.3s ease-in;
       &:not(.active):hover {
-        // background-color: white;
-        div {
-          transition: 0.3s ease-in;
-          color: $red-ryb;
-        }
+        background-color: transparent;
         transition: 0.3s ease-in;
+        div {
+          color: $red-ryb;
+          transition: 0.3s ease-in;
+        }
       }
-      
+
       &.active {
         margin-left: 38px;
+        transition: 0.3s ease-in;
 
         div {
           display: flex;
@@ -57,11 +63,11 @@ nav {
           align-items: center;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
             0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          transition: 0.3s ease-in;
           border-radius: 20px;
           width: 65px;
           background-color: white;
           height: 65px;
-          transition: 0.5s ease-in;
           color: $red-ryb;
         }
       }
@@ -71,5 +77,5 @@ nav {
 
 main {
   padding-top: 1em;
-  padding-left: $nav-width*3/2;
+  padding-left: $nav-width * 3/2;
 }

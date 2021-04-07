@@ -14,6 +14,13 @@ export class LoginComponent implements OnInit {
     password: new FormControl('mypassword'),
   });
 
+  get_user_query = gql`
+    query login($username: String!, $hashed: String!) {
+      user(where: { username: { _eq: $username }, hashed: { _eq: $hashed } }) {
+        id
+      }
+    }
+  `;
   constructor(private titleService: Title, private apollo: Apollo) {
     this.titleService.setTitle('Login');
   }
@@ -22,19 +29,10 @@ export class LoginComponent implements OnInit {
 
   submit() {
     const form = this.loginForm.value;
-    const query = gql`
-      query login($username: String!, $hashed: String!) {
-        user(
-          where: { username: { _eq: $username }, hashed: { _eq: $hashed } }
-        ) {
-          id
-        }
-      }
-    `;
 
     this.apollo
       .query({
-        query: query,
+        query: this.get_user_query,
         variables: {
           username: form.username,
           hashed: form.password,

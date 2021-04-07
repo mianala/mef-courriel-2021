@@ -1,10 +1,10 @@
-<div *ngFor="let file in files">
+<div *ngFor="let file of files" class="file">
   <div class="file-icon">
-    <img src="../assets/img/file_icons/doc.svg" alt="">
+    <img src="/assets/file-icons/doc.svg" alt="">
   </div>
   <div class="file-info">
-    <div class="title">{{file.name || file.originalname}}</div>
-    <div class="filesize">{{file.ko}}</div>
+    <div class="title">{{file.name}}</div>
+    <div class="filesize">{{file.size}}</div>
   </div>
-  <button (click)="remove(file)" mat-mini-fab=""><mat-icon>close</mat-icon></button>
+  <button (click)="remove(file)" color="warn" mat-icon-button style="font-size: 13px;"><mat-icon>close</mat-icon></button>
 </div>

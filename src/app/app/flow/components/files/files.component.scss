@@ -1,10 +1,15 @@
 :host {
   margin: .5em;
   padding: .5em;
-  min-height: 45px;
   background-color: #f4f4f4;
   border-radius: 5px;
   display: flex;
+  flex-direction: column;
+
+  .file{
+    display: flex;
+    align-items: center;
+  }
 
   .file-icon
   {

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from '../app.component';
 import { ChatComponent } from '../chat/chat.component';
 import { FlowComponent } from '../app/flow/flow.component';
 import { AuthComponent } from '../auth/auth.component';
@@ -17,6 +16,8 @@ import { AllComponent } from '../app/flow/pages/all/all.component';
 import { SavedComponent } from '../app/flow/pages/saved/saved.component';
 import { ReceivedComponent } from '../app/flow/pages/received/received.component';
 import { SentComponent } from '../app/flow/pages/sent/sent.component';
+import { EntitiesComponent } from '../app/entities/entities.component';
+import { UsersComponent } from '../app/users/users.component';
 
 const routes: Routes = [
   {
@@ -66,9 +67,29 @@ const routes: Routes = [
         component: ChatComponent,
       },
       {
+        path: 'entity',
+        component: ChatComponent,
+      },
+      {
+        path: 'entities',
+        component: EntitiesComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
         path: 'flow',
         component: FlowComponent,
         children: [
+          {
+            path: '',
+            component: AllComponent,
+          },
           {
             path: 'all',
             component: AllComponent,

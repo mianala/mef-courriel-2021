@@ -3,27 +3,23 @@
     <div>
       <img id="searchbarimage" src="/assets/flag.png" />
     </div>
-    <span class="active">
+    <span class="nav-link" routerLink="/app/flow" routerLinkActive="active">
       <div matTooltip="Courriers" matTooltipPosition="right">
         <mat-icon>inbox</mat-icon>
       </div>
     </span>
-    <span>
-      <div  matTooltip="Envoyés" matTooltipPosition="right">
-        <mat-icon>send</mat-icon>
-      </div>
-    </span>
-    <span>
+
+    <span  class="nav-link" routerLink="/app/users" routerLinkActive="active">
       <div>
         <mat-icon>people_outline</mat-icon>
       </div>
     </span>
-    <span>
-      <div>
+    <span  class="nav-link" routerLink="/app/entities" routerLinkActive="active">
+      <div >
         <mat-icon>home_work</mat-icon>
       </div>
     </span>
-    <span>
+    <span  class="nav-link" routerLink="/app/dashboard" routerLinkActive="active">
       <div>
         <mat-icon>bar_chart</mat-icon>
       </div>
