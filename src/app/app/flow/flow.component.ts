@@ -16,7 +16,7 @@ export class FlowComponent implements OnInit {
   openSaveDialog(){
     const dialogRef = this.dialog.open(SaveFlowDialogComponent, {
       width: '600px',
-      height: '800px',
+      height: '600px',
     })
   }
 

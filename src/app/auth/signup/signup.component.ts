@@ -15,7 +15,7 @@ export class SignupComponent implements OnInit {
     lastname: new FormControl('Loharano'),
     im: new FormControl(321654),
     title: new FormControl('Développeur'),
-    email: new FormControl('mianalaloharano@gmail.com'),
+    email: new FormControl('mymail@gmail.com'),
     entity_id: new FormControl(4),
     username: new FormControl('myusername'),
     password: new FormControl('mypassword'),

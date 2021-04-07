@@ -1,72 +1,87 @@
-<div mat-dialog-title>
+<div class="header">
   <h1><mat-icon>add</mat-icon>Enregistrer un nouveau courrier</h1>
   <p>Please enter all the details abou the mail in the box bellow</p>
 </div>
-<div mat-dialog-content>
-  <mat-form-field>
-    <input type="number" name="numero" matInput placeholder="N° du courrier" />
-  </mat-form-field>
+<div>
+  <form [formGroup]="saveFlowForm">
+    <div class="two-columns">
+      <mat-form-field appearance="outline">
+        <mat-label>N° du courrier</mat-label>
+        <input
+          type="number"
+          appearance="outline"
+          name="numero"
+          formControlName="numero"
+          matInput
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Référence / CR </mat-label>
+        <input name="ref" formControlName="reference" matInput />
+      </mat-form-field>
+    </div>
+    
+    <!-- sender -->
+    <!-- expediteur -> send to anotehr component -->
 
-  <!-- sender -->
+    <!--date du courriel-->
+    <mat-datepicker disabled="false" #picker></mat-datepicker>
+    <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
 
-  <mat-form-field>
-    <input name="ref" matInput placeholder="Référence / CR " />
-  </mat-form-field>
-  <!-- expediteur -> send to anotehr component -->
-  <!--date du courriel-->
-  <mat-form-field>
-    <input
-      disabled
-      name="date"
-      matInput
-      [matDatepicker]="picker"
-      placeholder="Date du courrier"
-    />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  </mat-form-field>
-  <mat-datepicker disabled="false" #picker></mat-datepicker>
-  <!-- date de reception -->
-  <mat-form-field>
-    <input
-      disabled
-      matInput
-      name="received_date"
-      [matDatepicker]="recieved_picker"
-      placeholder="Reçu le"
-    />
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="recieved_picker"
-    ></mat-datepicker-toggle>
-  </mat-form-field>
-  <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
+    <div class="two-columns">
+      <mat-form-field appearance="outline">
+        <mat-label>Date du courrier</mat-label>
+        <input
+          name="date"
+          formControlName="date"
+          matInput
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      </mat-form-field>
+      <!-- date de reception -->
+      <mat-form-field appearance="outline">
+        <mat-label>Reçu le</mat-label>
+        <input
+          matInput
+          name="received_date"
+          formControlName="date_received"
+          [matDatepicker]="recieved_picker"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="recieved_picker"
+        ></mat-datepicker-toggle>
+      </mat-form-field>
+    </div>
 
-  <mat-form-field>
-    <mat-select name="lettre" placeholder="Type">
-      <mat-option>Lettres</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Objet</mat-label>
+      <textarea name="title" formControlName="title" matInput></textarea>
+    </mat-form-field>
+    <div class="two-columns">
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="letter_text" name="lettre">
+          <mat-option>Lettres</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <!--objet-->
-  <mat-form-field>
-    <textarea name="title" matInput placeholder="Objet"></textarea>
-  </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Document</mat-label>
+        <mat-select name="type" formControlName="type_text">
+          <mat-option>Types</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <mat-form-field>
-    <mat-select name="type" placeholder="Document">
-      <mat-option>Types</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <textarea
-      name="content"
-      matInput
-      placeholder="Observations / Instructions"
-    ></textarea>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Observations / Instructions</mat-label>
+      <textarea name="content" formControlName="content" matInput></textarea>
+    </mat-form-field>
+  </form>
 </div>
-<div mat-dialog-actions>
+<div class="two-columns">
   <file-upload-button (fileSelected)="getFiles($event)"></file-upload-button>
-  <button mat-button cdkFocusInitial>Enregistrer</button>
+  <button (click)="submit()" mat-raised-button color="primary" cdkFocusInitial>ENREGISTRER</button>
 </div>
