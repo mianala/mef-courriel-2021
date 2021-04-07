@@ -13,11 +13,14 @@
           name="numero"
           formControlName="numero"
           matInput
+          required
         />
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Référence / CR </mat-label>
-        <input name="ref" formControlName="reference" matInput />
+        <mat-label>Provenance / Prep* </mat-label>
+        <input name="ref" 
+        required
+        formControlName="reference" matInput />
       </mat-form-field>
     </div>
     
@@ -27,13 +30,19 @@
     <!--date du courriel-->
     <mat-datepicker disabled="false" #picker></mat-datepicker>
     <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
-
+    <mat-form-field appearance="outline">
+      <mat-label>Référence / CR </mat-label>
+      <input name="ref" 
+      required
+      formControlName="owner_text" matInput />
+    </mat-form-field>
     <div class="two-columns">
       <mat-form-field appearance="outline">
         <mat-label>Date du courrier</mat-label>
         <input
           name="date"
           formControlName="date"
+          required
           matInput
           [matDatepicker]="picker"
         />
@@ -44,6 +53,7 @@
         <mat-label>Reçu le</mat-label>
         <input
           matInput
+          required
           name="received_date"
           formControlName="date_received"
           [matDatepicker]="recieved_picker"
@@ -57,20 +67,42 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Objet</mat-label>
-      <textarea name="title" formControlName="title" matInput></textarea>
+      <textarea required name="title" formControlName="title" matInput></textarea>
     </mat-form-field>
     <div class="two-columns">
       <mat-form-field appearance="outline">
         <mat-label>Type</mat-label>
-        <mat-select formControlName="letter_text" name="lettre">
-          <mat-option>Lettres</mat-option>
+        <mat-select required formControlName="letter_text" name="lettre">
+          <mat-option value="Lettres">Lettres</mat-option>
+          <mat-option value="BE">BE</mat-option>
+          <mat-option value="Notes">Notes</mat-option>
+          <mat-option value="Fiche">Fiche</mat-option>
+          <mat-option value="Communication  Verbal">Communication Verbal</mat-option>
+          <mat-option value="Instruction">Instruction</mat-option>
+          <mat-option value="Circulaire">Circulaire</mat-option>
+          <mat-option value="Facture">Facture</mat-option>
+          <mat-option value="Décision">Décision</mat-option>
+          <mat-option value="Decret">Decret</mat-option>
+          <mat-option value="Magazine">Magazine</mat-option>
+          <mat-option value="Note de Service">Note de Service</mat-option>
+          <mat-option value="Mensuel">Mensuel</mat-option>
+          <mat-option value="Autre">Autre</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Document</mat-label>
-        <mat-select name="type" formControlName="type_text">
-          <mat-option>Types</mat-option>
+        <mat-select 
+        required
+        name="type" formControlName="type_text">
+          <mat-option value="Types">Types</mat-option>
+          <mat-option value="Originale">Originale</mat-option>
+          <mat-option value="Copie">Copie</mat-option>
+          <mat-option value="Confidentiel">Confidentiel</mat-option>
+          <mat-option value="Enveloppe">Enveloppe</mat-option>
+          <mat-option value="Lecture">Lecture</mat-option>
+          <mat-option value="signature">signature</mat-option>
+          <mat-option value="Sortie">Sortie</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -83,5 +115,5 @@
 </div>
 <div class="two-columns">
   <file-upload-button (fileSelected)="getFiles($event)"></file-upload-button>
-  <button (click)="submit()" mat-raised-button color="primary" cdkFocusInitial>ENREGISTRER</button>
+  <button [disabled]="!saveFlowForm.valid" (click)="submit()" mat-raised-button color="primary" cdkFocusInitial>ENREGISTRER</button>
 </div>
