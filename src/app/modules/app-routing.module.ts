@@ -18,6 +18,8 @@ import { ReceivedComponent } from '../app/flow/pages/received/received.component
 import { SentComponent } from '../app/flow/pages/sent/sent.component';
 import { EntitiesComponent } from '../app/entities/entities.component';
 import { UsersComponent } from '../app/users/users.component';
+import { AddNewEntityComponent } from '../app/entities/add-new-entity/add-new-entity.component';
+import { EditEntityComponent } from '../app/entities/edit-entity/edit-entity.component';
 
 const routes: Routes = [
   {
@@ -73,6 +75,14 @@ const routes: Routes = [
       {
         path: 'entities',
         component: EntitiesComponent,
+      },
+      {
+        path: 'entities/add/:entity_id',
+        component: AddNewEntityComponent,
+      },
+      {
+        path: 'entities/edit/:entity_id',
+        component: EditEntityComponent,
       },
       {
         path: 'users',

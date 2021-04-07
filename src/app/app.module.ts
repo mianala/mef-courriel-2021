@@ -58,6 +58,8 @@ import { ApolloModule } from './modules/apollo.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './app/users/user/user.component';
 import { AddNewEntityDialogComponent } from './app/entities/dialogs/add-new-entity-dialog/add-new-entity-dialog.component';
+import { AddNewEntityComponent } from './app/entities/add-new-entity/add-new-entity.component';
+import { EditEntityComponent } from './app/entities/edit-entity/edit-entity.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +114,9 @@ import { AddNewEntityDialogComponent } from './app/entities/dialogs/add-new-enti
     FileUploadButtonComponent,
     FilesComponent,
     UserComponent,
-    AddNewEntityDialogComponent
+    AddNewEntityDialogComponent,
+    AddNewEntityComponent,
+    EditEntityComponent
   ],
   imports: [
     BrowserModule,

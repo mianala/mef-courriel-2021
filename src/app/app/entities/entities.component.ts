@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import gql from 'graphql-tag';
 
 @Component({
   selector: 'app-entities',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EntitiesComponent implements OnInit {
 
+  getEntitiesQuery = gql`
+  `
   constructor() { }
 
   ngOnInit(): void {
