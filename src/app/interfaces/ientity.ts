@@ -10,5 +10,5 @@ export interface IEntity {
   short_header: string;
   long_header: string;
   labels: string;
-  sub_entity_count: number;
+  sub_entities_count: number;
 }

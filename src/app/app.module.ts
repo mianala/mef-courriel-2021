@@ -57,7 +57,6 @@ import { FilesComponent } from './app/flow/components/files/files.component';
 import { ApolloModule } from './modules/apollo.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './app/users/user/user.component';
-import { AddNewEntityDialogComponent } from './app/entities/dialogs/add-new-entity-dialog/add-new-entity-dialog.component';
 import { AddNewEntityComponent } from './app/entities/add-new-entity/add-new-entity.component';
 import { EditEntityComponent } from './app/entities/edit-entity/edit-entity.component';
 
@@ -114,7 +113,6 @@ import { EditEntityComponent } from './app/entities/edit-entity/edit-entity.comp
     FileUploadButtonComponent,
     FilesComponent,
     UserComponent,
-    AddNewEntityDialogComponent,
     AddNewEntityComponent,
     EditEntityComponent
   ],

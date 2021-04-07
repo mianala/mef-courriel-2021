@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { IEntity } from 'src/app/interfaces/ientity';
+import { EntityService } from '../service/entity.service';
 
 @Component({
   selector: 'entity',
@@ -8,25 +10,12 @@ import { IEntity } from 'src/app/interfaces/ientity';
   styleUrls: ['./entity.component.scss'],
 })
 export class EntityComponent implements OnInit {
-  entities: IEntity[] = [];
-  get_entities_query = gql`
-    query get_entities {
-      entity {
-        id
-        id_text
-        long
-        short
-        active
-        numero
-        received_count
-        sent_count
-        sub_entities_count
-        labels
-      }
-    }
-  `;
-  
+  @Input() entity: IEntity | undefined
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+
+
+  }
 }

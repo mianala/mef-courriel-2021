@@ -4,5 +4,5 @@
   </button>
 </div>
 <div class="entities">
-  <entity></entity>
+  <entity *ngFor="let entity of entities" [entity]="entity"></entity>
 </div>
