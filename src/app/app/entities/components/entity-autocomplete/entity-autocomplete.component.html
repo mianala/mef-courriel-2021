@@ -1,0 +1,16 @@
+<mat-form-field class="example-full-width" appearance="outline">
+  <mat-label>Département</mat-label>
+  <input type="text" (keyup)="_filter($event)"
+         aria-label="entity"
+         matInput
+         [(ngModel)]="query"
+         [matAutocomplete]="auto">
+         
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option (onSelectionChange)="selected(entity)" *ngFor="let entity of filteredOptions" [value]="entity.short">
+      {{entity.short_header.substring(entity.short_header.length - 10)}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+{{selectedEntity.short_header}}
+

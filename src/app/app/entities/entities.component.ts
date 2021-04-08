@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApolloQueryResult } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { IEntity } from 'src/app/interfaces/ientity';
+import { Entity } from 'src/app/classes/entity';
+import { EntityService } from './service/entity.service';
 
 @Component({
   selector: 'app-entities',
@@ -11,42 +9,23 @@ import { IEntity } from 'src/app/interfaces/ientity';
 })
 export class EntitiesComponent implements OnInit {
 
-  getEntitiesQuery = gql`
-    query get_entities {
-      entity {
-        id
-        id_text
-        long
-        short
-        numero
-        sent_count
-        received_count
-        active
-        short_header
-        long_header
-        labels
-        sub_entities_count
-      }
-    }
-  `;
 
-entities:IEntity[] = []
+entities:Entity[] = []
 
-  constructor(private apollo:Apollo) {}
+  constructor( private entityService:EntityService) {
+    this.entityService.getEntities().subscribe(data => {
+      next: this.getEntities(data.data)
+    })
+  }
 
   ngOnInit(): void {
 
-    this.apollo.query({
-      query: this.getEntitiesQuery,
-    }).subscribe(data => {
-      next: this.getEntities(data.data)
-    })
+
   }
 
   getEntities(data:any)
   {
     this.entities = data.entity
-    console.log(data)
   }
 
 }

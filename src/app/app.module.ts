@@ -55,10 +55,12 @@ import { CloseFlowDialogComponent } from './app/flow/dialogs/close-flow-dialog/c
 import { FileUploadButtonComponent } from './app/flow/components/file-upload-button/file-upload-button.component';
 import { FilesComponent } from './app/flow/components/files/files.component';
 import { ApolloModule } from './modules/apollo.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './app/users/user/user.component';
 import { AddNewEntityComponent } from './app/entities/add-new-entity/add-new-entity.component';
 import { EditEntityComponent } from './app/entities/edit-entity/edit-entity.component';
+import { TestingGroundComponent } from './testing-ground/testing-ground.component';
+import { EntityAutocompleteComponent } from './app/entities/components/entity-autocomplete/entity-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +116,9 @@ import { EditEntityComponent } from './app/entities/edit-entity/edit-entity.comp
     FilesComponent,
     UserComponent,
     AddNewEntityComponent,
-    EditEntityComponent
+    EditEntityComponent,
+    TestingGroundComponent,
+    EntityAutocompleteComponent
   ],
   imports: [
     BrowserModule,
@@ -123,7 +127,8 @@ import { EditEntityComponent } from './app/entities/edit-entity/edit-entity.comp
     FlexLayoutModule,
     MaterialModule,
     ApolloModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

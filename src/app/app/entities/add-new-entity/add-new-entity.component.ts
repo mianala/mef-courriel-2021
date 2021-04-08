@@ -1,62 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Apollo, gql } from 'apollo-angular';
-import { IEntity } from 'src/app/interfaces/ientity';
+import { Entity } from 'src/app/classes/entity';
+import { EntityService } from '../service/entity.service';
 
 @Component({
   selector: 'app-add-new-entity',
   templateUrl: './add-new-entity.component.html',
-  styleUrls: ['./add-new-entity.component.scss']
+  styleUrls: ['./add-new-entity.component.scss'],
 })
 export class AddNewEntityComponent implements OnInit {
-  entity_id: number | undefined
-  entity: IEntity | undefined
+  parent_entity_id: number = 0;
+  parent_entity: Entity = new Entity();
 
-  get_entity_query = gql`
-    query get_entity($id: Int!) {
-      entity(where: { id: { _eq: $id }}) {
-        id
-        id_text
-        long
-        short
-        numero
-        sent_count
-        received_count
-        active
-        short_header
-        long_header
-        labels
-        sub_entities_count
-      }
-    }
-  `;
-  
   newNewEntityForm = new FormGroup({
-    short: new FormControl(),
-    long: new FormControl(),
+    short: new FormControl('', [Validators.required]),
+    long: new FormControl('', [Validators.required]),
+    level: new FormControl(0, [Validators.required]),
+    short_header: new FormControl(''),
   });
 
-  constructor(private route: ActivatedRoute, private apollo: Apollo) { }
+  constructor(
+    private route: ActivatedRoute,
+    private entityService: EntityService
+  ) {
+    this.parent_entity_id = parseInt(this.route.snapshot.params.entity_id);
+    this.entityService.getEntity(this.parent_entity_id).subscribe((data) => {
+      next: this.getEntity(data.data);
+    });
+  }
 
   ngOnInit(): void {
-    console.log('init')
-    this.entity_id = parseInt(this.route.snapshot.params.entity_id);
 
-    this.apollo.query({
-      query: this.get_entity_query,
-      variables:{id:this.entity_id}
-    }).subscribe(data => {
-      next: this.getEntity(data.data)
-    })
   }
 
-  getEntity(data:any)
-  {
-    this.entity = data.entity[0]
-    console.log(data)
+  getEntity(data: any) {
+    Object.assign(this.parent_entity, data.entity[0]);
+
+    this.newNewEntityForm.patchValue({
+      level: this.parent_entity.level + 1,
+    });
   }
 
+  submit() {
+    const form = this.newNewEntityForm.value;
+    const short_header =
+      this.parent_entity.short_header + '/' + form.short_header;
 
+    const variables = {
+      level: parseInt(form.level),
+      short: parseInt(form.short),
+      long: form.long,
+      short_header: short_header,
+      id_text:
+        this.parent_entity.id_text +
+        '-' +
+        (this.parent_entity.sub_entities_count + 1),
+      parent_entity_id: this.parent_entity_id,
+    };
 
+    this.entityService.addNewEntity(variables).subscribe((data) => {
+      next: this.entityAdded(data);
+    });
+  }
+
+  entityAdded(data: any) {
+    console.log(data);
+    this.parent_entity.sub_entities_count += 1;
+  }
 }

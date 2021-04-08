@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
 import { IEntity } from 'src/app/interfaces/ientity';
-import { EntityService } from '../service/entity.service';
 
 @Component({
   selector: 'entity',
@@ -14,8 +11,6 @@ export class EntityComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-
-
 
   }
 }

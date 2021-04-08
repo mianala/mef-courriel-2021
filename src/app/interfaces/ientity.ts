@@ -11,4 +11,6 @@ export interface IEntity {
   long_header: string;
   labels: string;
   sub_entities_count: number;
+  level: number;
+  parent_entity_id: number;
 }

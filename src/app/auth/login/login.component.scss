@@ -11,6 +11,9 @@ main {
       margin: 5em 0 5em 0;
 			width: 400px;
       .header {
+        img{
+          width: 350px;
+        }
         display: flex;
         flex-direction: column;
 				justify-content: center;

@@ -7,7 +7,10 @@ main {
       margin: 5em 0 5em 0;
       width: 450px;
       .header {
-        display: flex;
+      
+        img{
+          width: 350px;
+        }  display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;

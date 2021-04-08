@@ -37,6 +37,7 @@ import { MatCardModule } from '@angular/material/card';
     MatDatepickerModule,
     MatNativeDateModule ,
     MatCardModule ,
+    MatAutocompleteModule,
   ],
   exports: [
     MatIconModule,
@@ -55,6 +56,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTabsModule,
     MatDatepickerModule,
     MatCardModule ,
+    MatAutocompleteModule,
     MatNativeDateModule ,
   ],
   providers: [  

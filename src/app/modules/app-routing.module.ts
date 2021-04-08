@@ -20,6 +20,7 @@ import { EntitiesComponent } from '../app/entities/entities.component';
 import { UsersComponent } from '../app/users/users.component';
 import { AddNewEntityComponent } from '../app/entities/add-new-entity/add-new-entity.component';
 import { EditEntityComponent } from '../app/entities/edit-entity/edit-entity.component';
+import { TestingGroundComponent } from '../testing-ground/testing-ground.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
   {
     path: 'viewer',
     component: ViewerComponent,
+  },
+  {
+    path: 'test',
+    component: TestingGroundComponent,
   },
   {
     path: 'help',
