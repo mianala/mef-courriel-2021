@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { Entity } from 'src/app/classes/entity';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EntityService {
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) {
+
+    this.getEntities().subscribe(this.gotEntities);
+  }
+
+  gotEntities(data:any){
+    this.entities = data.entity
+  }
+
+  entities: Entity[] = [];
 
   get_entity_query = gql`
     query get_entity($id: Int!) {
@@ -56,15 +66,14 @@ export class EntityService {
     });
   }
 
-  getEntity(id:number) {
+  getEntity(id: number) {
     return this.apollo.query({
       query: this.get_entity_query,
       variables: {
-        id: id
-      }
+        id: id,
+      },
     });
   }
-
 
   add_new_entity_mutation = gql`
     mutation add_new_entity(
@@ -106,11 +115,10 @@ export class EntityService {
     }
   `;
 
-  addNewEntity(variables:any){
-    return this.apollo
-    .mutate({
+  addNewEntity(variables: any) {
+    return this.apollo.mutate({
       mutation: this.add_new_entity_mutation,
       variables: variables,
-    })
+    });
   }
 }
