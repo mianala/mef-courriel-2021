@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Apollo, gql } from 'apollo-angular';
+import { Entity } from 'src/app/classes/entity';
+import { ValidatorService } from 'src/app/services/validator.service';
 
 @Component({
   selector: 'app-signup',
@@ -9,25 +16,61 @@ import { Apollo, gql } from 'apollo-angular';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
+  signUpForm: FormGroup = new FormGroup({});
 
-  signUpForm = new FormGroup({
-    firstname: new FormControl('Mianala'),
-    lastname: new FormControl('Loharano'),
-    im: new FormControl(321654),
-    title: new FormControl('Développeur'),
-    email: new FormControl('mymail@gmail.com'),
-    entity_id: new FormControl(4),
-    username: new FormControl('myusername'),
-    password: new FormControl('mypassword'),
-    confirm: new FormControl(''),
-    phone: new FormControl('+261320000000')
-  })
-
-  constructor(private titleService: Title, private apollo: Apollo) {
+  constructor(
+    private titleService: Title,
+    private apollo: Apollo,
+    private fb: FormBuilder
+  ) {
     this.titleService.setTitle('Signup');
   }
 
   ngOnInit(): void {
+    this.signUpForm = this.fb.group({
+      firstname: [
+        'Mianala',
+        Validators.compose([Validators.required, Validators.minLength(3)]),
+      ],
+      lastname: [
+        'Loharano',
+        Validators.compose([Validators.required, Validators.minLength(3)]),
+      ],
+      entity_id: [
+        0,
+        Validators.compose([Validators.required, Validators.min(1)]),
+      ],
+      im: [
+        321654,
+        Validators.compose([Validators.required, Validators.minLength(3)]),
+      ],
+      title: [
+        'Développeur',
+        Validators.compose([Validators.required, Validators.minLength(3)]),
+      ],
+      phone: [
+        '+261320000000',
+        Validators.compose([Validators.required, Validators.minLength(9)]),
+      ],
+      email: [
+        'mymail@gmail.com',
+        Validators.compose([Validators.required, Validators.email]),
+      ],
+      username: [
+        'myusername',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(ValidatorService.username_min_length),
+        ]),
+      ],
+      password: [
+        'mypassword',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(ValidatorService.password_min_length),
+        ]),
+      ],
+    });
   }
 
   submit() {
@@ -82,5 +125,17 @@ export class SignupComponent implements OnInit {
       .subscribe((data) => {
         next: console.log(data);
       });
+  }
+
+  entitySelected(entity: Entity) {
+    this.signUpForm.patchValue({
+      entity_id: entity.id,
+    });
+  }
+
+  typingEntity(e: Event) {
+    this.signUpForm.patchValue({
+      entity_id: 0,
+    });
   }
 }

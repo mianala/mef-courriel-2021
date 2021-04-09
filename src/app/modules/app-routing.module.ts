@@ -21,6 +21,9 @@ import { UsersComponent } from '../app/users/users.component';
 import { AddNewEntityComponent } from '../app/entities/add-new-entity/add-new-entity.component';
 import { EditEntityComponent } from '../app/entities/edit-entity/edit-entity.component';
 import { TestingGroundComponent } from '../testing-ground/testing-ground.component';
+import { SaveFlowPageComponent } from '../app/flow/save-flow-page/save-flow-page.component';
+import { FlowPageComponent } from '../app/flow/pages/flow-page/flow-page.component';
+import { FlowLandingPageComponent } from '../app/flow/pages/flow-landing-page/flow-landing-page.component';
 
 const routes: Routes = [
   {
@@ -99,27 +102,33 @@ const routes: Routes = [
       },
       {
         path: 'flow',
-        component: FlowComponent,
+        component: FlowLandingPageComponent,
         children: [
           {
-            path: '',
-            component: AllComponent,
+            path: 'save',
+            component: SaveFlowPageComponent,
           },
           {
-            path: 'all',
-            component: AllComponent,
-          },
-          {
-            path: 'saved',
-            component: SavedComponent,
-          },
-          {
-            path: 'received',
-            component: ReceivedComponent,
-          },
-          {
-            path: 'sent',
-            component: SentComponent,
+            path: 'view',
+            component: FlowComponent,
+            children: [
+              {
+                path: 'all',
+                component: AllComponent,
+              },
+              {
+                path: 'saved',
+                component: SavedComponent,
+              },
+              {
+                path: 'received',
+                component: ReceivedComponent,
+              },
+              {
+                path: 'sent',
+                component: SentComponent,
+              },
+            ],
           },
         ],
       },

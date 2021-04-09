@@ -18,10 +18,7 @@
                 matInput
                 type="text"
                 name="firstname"
-                id="firstname"
                 formControlName="firstname"
-                class="input-field"
-                required
               />
             </mat-form-field>
             <mat-form-field appearance="outline">
@@ -30,52 +27,31 @@
                 matInput
                 type="text"
                 name="lastname"
-                id="lastname"
                 formControlName="lastname"
-                class="input-field"
-                required
               />
             </mat-form-field>
           </div>
 
           <div class="two-columns">
-            <mat-form-field appearance="outline">
-              <mat-label>Département - Ex: DSSA</mat-label>
-              <input
-                matInput
-                type="text"
-                name="entity_id"
-                id="entity_id"
-                formControlName="entity_id"
-                class="input-field"
-                required
-              />
-            </mat-form-field>
+            <entity-autocomplete
+              [must_select_entity]="true"
+              (_keypress)="typingEntity($event)"
+              (entitySelected)="entitySelected($event)"
+            ></entity-autocomplete>
             <mat-form-field appearance="outline">
               <mat-label>Fonction - Ex: Chef de Service</mat-label>
               <input
                 matInput
                 type="fonction"
                 name="title"
-                id="title"
                 formControlName="title"
-                class="input-field"
-                required
               />
             </mat-form-field>
           </div>
           <div class="two-columns">
             <mat-form-field appearance="outline">
               <mat-label>IM</mat-label>
-              <input
-                matInput
-                type="im"
-                name="im"
-                id="im"
-                formControlName="im"
-                class="input-field"
-                required
-              />
+              <input matInput type="im" name="im" formControlName="im" />
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Numero Télephone</mat-label>
@@ -83,10 +59,7 @@
                 matInput
                 type="phone"
                 name="phone"
-                id="phone"
                 formControlName="phone"
-                class="input-field"
-                required
               />
             </mat-form-field>
           </div>
@@ -100,8 +73,6 @@
               name="email"
               id="email"
               formControlName="email"
-              class="input-field"
-              required
             />
           </mat-form-field>
 
@@ -113,8 +84,6 @@
               name="username"
               id="username"
               formControlName="username"
-              class="input-field"
-              required
             />
           </mat-form-field>
           <mat-form-field appearance="outline">
@@ -125,21 +94,24 @@
               name="password"
               id="password"
               formControlName="password"
-              class="input-field"
-              required
             />
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Confirmez votre mot de passe</mat-label>
             <input
+              #confirm
               matInput
-              type="password"
-              name="confirm"
-              id="confirm"
-              formControlName="confirm"
-              class="input-field"
               required
+              type="password"
+              id="confirm"
             />
+            <mat-hint
+              *ngIf="confirm.value.length && confirm.value !== signUpForm.value.password"
+              align="start"
+              style="color: #f44336"
+            >
+              Confirmez votre mot de passe
+            </mat-hint>
           </mat-form-field>
           <div class="two-columns">
             <a routerLink="/auth/login">Se connecter</a>
@@ -149,6 +121,7 @@
               type="submit"
               name="submit"
               class="input-submit"
+              [disabled]="!signUpForm.valid || (confirm.value !== signUpForm.value.password)"
             >
               S'inscrire
             </button>

@@ -61,6 +61,12 @@ import { AddNewEntityComponent } from './app/entities/add-new-entity/add-new-ent
 import { EditEntityComponent } from './app/entities/edit-entity/edit-entity.component';
 import { TestingGroundComponent } from './testing-ground/testing-ground.component';
 import { EntityAutocompleteComponent } from './app/entities/components/entity-autocomplete/entity-autocomplete.component';
+import { LabelsComponent } from './app/flow/components/labels/labels.component';
+import { EntityUsersComponent } from './app/entities/entity-users/entity-users.component';
+import { EntityPageComponent } from './app/entities/entity-page/entity-page.component';
+import { SaveFlowPageComponent } from './app/flow/save-flow-page/save-flow-page.component';
+import { FlowLandingPageComponent } from './app/flow/pages/flow-landing-page/flow-landing-page.component';
+import { SaveFlowFormComponent } from './app/flow/form/save-flow-form/save-flow-form.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +124,13 @@ import { EntityAutocompleteComponent } from './app/entities/components/entity-au
     AddNewEntityComponent,
     EditEntityComponent,
     TestingGroundComponent,
-    EntityAutocompleteComponent
+    EntityAutocompleteComponent,
+    LabelsComponent,
+    EntityUsersComponent,
+    EntityPageComponent,
+    SaveFlowPageComponent,
+    FlowLandingPageComponent,
+    SaveFlowFormComponent
   ],
   imports: [
     BrowserModule,

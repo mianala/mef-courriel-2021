@@ -25,9 +25,7 @@ export class AddNewEntityComponent implements OnInit {
     private entityService: EntityService
   ) {
     this.parent_entity_id = parseInt(this.route.snapshot.params.entity_id);
-    this.entityService.getEntity(this.parent_entity_id).subscribe((data) => {
-      next: this.getEntity(data.data);
-    });
+    this.entityService.getEntity(this.parent_entity_id).subscribe(this.getEntity.bind(this));
   }
 
   ngOnInit(): void {
@@ -35,7 +33,8 @@ export class AddNewEntityComponent implements OnInit {
   }
 
   getEntity(data: any) {
-    Object.assign(this.parent_entity, data.entity[0]);
+    
+    Object.assign(this.parent_entity, data.data.entity[0]);
 
     this.newNewEntityForm.patchValue({
       level: this.parent_entity.level + 1,

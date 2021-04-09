@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import {Subject } from 'rxjs';
 import { Entity } from 'src/app/classes/entity';
 
 @Injectable({
@@ -8,15 +9,14 @@ import { Entity } from 'src/app/classes/entity';
 })
 export class EntityService {
   constructor(private apollo: Apollo) {
-
-    this.getEntities().subscribe(this.gotEntities);
+    this.getEntities().subscribe(this.updateEntities.bind(this));
   }
 
-  gotEntities(data:any){
-    this.entities = data.entity
+  updateEntities(data:any){
+    this.entities.next(data.data.entity)
   }
 
-  entities: Entity[] = [];
+  entities:Subject<Entity[]> = new Subject();
 
   get_entity_query = gql`
     query get_entity($id: Int!) {

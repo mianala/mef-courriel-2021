@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Apollo, gql } from 'apollo-angular';
+import { ValidatorService } from 'src/app/services/validator.service';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,14 @@ import { Apollo, gql } from 'apollo-angular';
 })
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
-    username: new FormControl('myusername'),
-    password: new FormControl('mypassword'),
+    username: new FormControl('myusername' ,[
+      Validators.required,
+      Validators.minLength(ValidatorService.username_min_length),
+    ]),
+    password: new FormControl('mypassword',[
+      Validators.required,
+      Validators.minLength(ValidatorService.password_min_length),
+    ]),
   });
 
   get_user_query = gql`

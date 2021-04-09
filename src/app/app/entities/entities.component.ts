@@ -13,19 +13,16 @@ export class EntitiesComponent implements OnInit {
 entities:Entity[] = []
 
   constructor( private entityService:EntityService) {
-    this.entityService.getEntities().subscribe(data => {
-      next: this.getEntities(data.data)
-    })
+    this.entityService.entities.subscribe(this.gotEntities.bind(this))
   }
 
   ngOnInit(): void {
 
-
   }
 
-  getEntities(data:any)
+  gotEntities(entities:Entity[])
   {
-    this.entities = data.entity
+    this.entities = entities
   }
 
 }

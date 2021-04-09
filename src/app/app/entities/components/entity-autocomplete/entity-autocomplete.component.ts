@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Entity } from 'src/app/classes/entity';
 import { EntityService } from '../../service/entity.service';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'entity-autocomplete',
@@ -9,37 +8,38 @@ import {Observable} from 'rxjs';
   styleUrls: ['./entity-autocomplete.component.scss'],
 })
 export class EntityAutocompleteComponent implements OnInit {
-  query = ''
-  entities:Entity[] = []
+  query = '';
+  entities: Entity[] = [];
   filteredOptions: Entity[] = [];
-  selectedEntity: Entity = new Entity()
+  selectedEntity: Entity = new Entity();
+
+  @Input() must_select_entity: Boolean = false;
+  @Input() label = "Département";
+
+  @Output() entitySelected: EventEmitter<Entity> = new EventEmitter();
+  @Output() _keypress: EventEmitter<any> = new EventEmitter();
+  @Output() _blur: EventEmitter<any> = new EventEmitter();
+  @Output() _keyup: EventEmitter<any> = new EventEmitter();
 
   constructor(private entityService: EntityService) {
-    this.entityService.getEntities().subscribe(data => {
-      next: this.getEntities(data.data)
-    })
+    this.entityService.entities.subscribe(this.getEntities.bind(this));
   }
 
-  getEntities(data:any)
-  {
-    this.filteredOptions = this.entities = data.entity
-    console.log(this.entities[1].short)
+  getEntities(entities: any) {
+    this.filteredOptions = this.entities = entities;
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
+  _filter() {
+    this.filteredOptions = this.entities.filter((entity) =>
+      entity.short_header.toLowerCase().includes(this.query.toLowerCase())
+    );
+    this._keyup.emit(this.query);
   }
 
-  _filter(e:any){
-    this.filteredOptions = this.entities.filter(entity => entity.short.toLowerCase().includes(e.target.value));
-    console.log(this.filteredOptions)
-  }
-
-  selected(e:any){
-    Object.assign(this.selectedEntity, e)
-  }
-
-  resetSelection(){
-    this.selectedEntity = new Entity()
+  resetSelection() {
+    this.selectedEntity = new Entity();
+    this._keypress.emit(this.query);
   }
 }
