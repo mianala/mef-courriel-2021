@@ -12,29 +12,29 @@ export class FlowService {
       $reference: String = "12"
       $letter_text: String = "Lettre"
       $date_received: date = "1992-10-09T00:00:00Z"
-      $date1: date = "1992-10-09T00:00:00Z"
+      $project_date: date = "1992-10-09T00:00:00Z"
       $action: Int = 10
       $owner_id: Int = 6
       $user_id: Int = 21 
       $numero: String = "3512"
       $content: String = "Observation"
-      $owner_text: String = "CIFAG"
-      $owner_id1: Int = 6
+      $project_owner_text: String = "CIFAG"
+      $project_owner_id: Int = 6
       $files: file_arr_rel_insert_input = {
         data: [{ name: "File", size: 10 }, { name: "File", size: 10 }]
       }
     ) {
       insert_project(
         objects: {
-          date: $date1
+          date: $project_date
           date_received: $date_received
           reference: $reference
           title: $title
           type_text: $type_text
           letter_text: $letter_text
           numero: $numero
-          owner_text: $owner_text
-          owner_id: $owner_id1
+          project_owner_text: $project_owner_text
+          owner_id: $project_owner_id 
           flows: {
             data: {
               action: $action
@@ -42,7 +42,7 @@ export class FlowService {
               user_id: $user_id
               content: $content
               files: $files
-              initiator_id: $owner_id1
+              initiator_id: $project_owner_id
             }
           }
         }

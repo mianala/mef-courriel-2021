@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import {Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Entity } from 'src/app/classes/entity';
 
 @Injectable({
@@ -9,14 +9,25 @@ import { Entity } from 'src/app/classes/entity';
 })
 export class EntityService {
   constructor(private apollo: Apollo) {
-    this.getEntities().subscribe(this.updateEntities.bind(this));
+    // const ets =
+    //   localStorage.getItem('entities') === null
+    //     ? this.getEntities().subscribe(this.updateEntities.bind(this))
+    //     : JSON.parse(localStorage.getItem('entities') || '[]');
+
+    // this.entities.next(ets);
+
+    this.getEntities().subscribe(this.updateEntities.bind(this))
   }
 
-  updateEntities(data:any){
-    this.entities.next(data.data.entity)
+  updateEntitiesFromLocalStorage() {}
+
+  updateEntities(data: any) {
+    this.entities.next(data.data.entity);
+    localStorage.setItem('entities', JSON.stringify(data.data.entity));
   }
 
-  entities:Subject<Entity[]> = new Subject();
+  // store in localstorage
+  entities: Subject<Entity[]> = new Subject();
 
   get_entity_query = gql`
     query get_entity($id: Int!) {

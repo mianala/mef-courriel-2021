@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Apollo, gql } from 'apollo-angular';
+import { UserService } from 'src/app/app/users/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { ValidatorService } from 'src/app/services/validator.service';
 
@@ -20,8 +20,8 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private apollo: Apollo,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private userService: UserService
   ) {
     this.titleService.setTitle('Signup');
   }
@@ -75,56 +75,21 @@ export class SignupComponent implements OnInit {
 
   submit() {
     const form = this.signUpForm.value;
-    const insert_user = gql`
-      mutation new_user(
-        $im: Int!
-        $lastname: String!
-        $phone: String!
-        $title: String!
-        $username: String!
-        $hashed: String!
-        $email: String!
-        $firstname: String!
-        $entity_id: Int!
-      ) {
-        insert_user(
-          objects: {
-            im: $im
-            lastname: $lastname
-            phone: $phone
-            title: $title
-            username: $username
-            hashed: $hashed
-            email: $email
-            firstname: $firstname
-            entity_id: $entity_id
-          }
-        ) {
-          returning {
-            id
-          }
-        }
-      }
-    `;
+    const variables = {
+      firstname: form.firstname,
+      lastname: form.lastname,
+      im: form.im,
+      title: form.title,
+      entity_id: form.entity_id,
+      email: form.email,
+      username: form.username,
+      hashed: form.password,
+      phone: form.phone,
+    };
 
-    this.apollo
-      .mutate({
-        mutation: insert_user,
-        variables: {
-          firstname: form.firstname,
-          lastname: form.lastname,
-          im: form.im,
-          title: form.title,
-          entity_id: form.entity_id,
-          email: form.email,
-          username: form.username,
-          hashed: form.password,
-          phone: form.phone,
-        },
-      })
-      .subscribe((data) => {
-        next: console.log(data);
-      });
+    this.userService.saveNewUser(variables).subscribe((data) => {
+      next: console.log(data);
+    });
   }
 
   entitySelected(entity: Entity) {

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/app/users/user.service';
+import { Entity } from 'src/app/classes/entity';
 import { FlowService } from '../../flow.service';
 
 @Component({
@@ -9,24 +11,46 @@ import { FlowService } from '../../flow.service';
 })
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
+  userEntity = new Entity();
 
-  constructor(private flowService: FlowService, private fb: FormBuilder) {}
+  constructor(private flowService: FlowService, private fb: FormBuilder, private userService:UserService) {
+    
+  }
 
   ngOnInit(): void {
     this.saveFlowForm = this.fb.group({
-      content: ['Observation', Validators.compose([Validators.required, Validators.minLength(4)])],
-      title:[ 'Objet', Validators.compose([Validators.required, Validators.minLength(4)])],
-      reference:[ 'Reference', Validators.compose([Validators.required, Validators.minLength(1)])],
-      type_text: ['Lettre'],
-      letter_text: ['Originale'],
-      numero: [1351, Validators.compose([Validators.required, Validators.minLength(1)])],
-      owner_text: ['Cifag', Validators.compose([Validators.required, Validators.minLength(3)])],
-      date: [new Date(), Validators.compose([Validators.required, Validators.minLength(1)])],
-      date_received:
-        [new Date(), Validators.compose([Validators.required, Validators.minLength(1)])],
+      content: [
+        'Observation',
+        Validators.compose([Validators.required, Validators.minLength(4)]),
+      ],
+      title: [
+        'Objet',
+        Validators.compose([Validators.required, Validators.minLength(4)]),
+      ],
+      reference: [
+        'Reference',
+        Validators.compose([Validators.required, Validators.minLength(1)]),
+      ],
+      type_text: ['Originale'],
+      letter_text: ['Lettre'],
+      numero: [
+        1351,
+        Validators.compose([Validators.required, Validators.minLength(1)]),
+      ],
+      project_owner_text: [
+        'Cifag',
+        Validators.compose([Validators.required, Validators.minLength(3)]),
+      ],
+      date: [
+        new Date(),
+        Validators.compose([Validators.required, Validators.minLength(1)]),
+      ],
+      date_received: [
+        new Date(),
+        Validators.compose([Validators.required, Validators.minLength(1)]),
+      ],
     });
   }
-
 
   files: any[] = [];
 
@@ -44,7 +68,7 @@ export class SaveFlowFormComponent implements OnInit {
   submit() {
     const form = this.saveFlowForm.value;
     const form_files: { name: string; size: number; type: string }[] = [];
-    
+
     this.files.forEach((file) => {
       form_files.push({
         name: file.name,
@@ -54,9 +78,9 @@ export class SaveFlowFormComponent implements OnInit {
     });
 
     const variables = {
-      date1: form.date,
+      project_date: form.date,
       owner_id: 6,
-      owner_id1: 6,
+      project_owner_id: 6, //
       type_text: form.type_text,
       letter_text: form.letter_text,
       title: form.title,
@@ -65,7 +89,7 @@ export class SaveFlowFormComponent implements OnInit {
       action: 1,
       user_id: 21,
       content: form.content,
-      owner_text: form.owner_text,
+      project_owner_text: form.project_owner_text,
       files: {
         data: form_files,
       },
@@ -81,4 +105,19 @@ export class SaveFlowFormComponent implements OnInit {
   }
 
   save() {}
+
+  entitySelected(entity: Entity) {
+    this.saveFlowForm.patchValue({
+      project_owner_id: entity.id,
+      project_owner_text: entity.short_header,
+    });
+  }
+
+  typingEntity(e: Event) {
+    console.log(e);
+    this.saveFlowForm.patchValue({
+      project_owner_id: 0,
+      // project_owner_text: entity.short_header,
+    });
+  }
 }
