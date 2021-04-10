@@ -67,6 +67,7 @@ import { EntityPageComponent } from './app/entities/entity-page/entity-page.comp
 import { SaveFlowPageComponent } from './app/flow/save-flow-page/save-flow-page.component';
 import { FlowLandingPageComponent } from './app/flow/pages/flow-landing-page/flow-landing-page.component';
 import { SaveFlowFormComponent } from './app/flow/form/save-flow-form/save-flow-form.component';
+import { ViewComponent } from './app/users/view/view.component';
 
 @NgModule({
   declarations: [
@@ -130,7 +131,8 @@ import { SaveFlowFormComponent } from './app/flow/form/save-flow-form/save-flow-
     EntityPageComponent,
     SaveFlowPageComponent,
     FlowLandingPageComponent,
-    SaveFlowFormComponent
+    SaveFlowFormComponent,
+    ViewComponent
   ],
   imports: [
     BrowserModule,

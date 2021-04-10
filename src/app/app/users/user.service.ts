@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
+import { Subject } from 'rxjs';
 import { User } from 'src/app/classes/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  save_new_user = gql`
+  SAVE_NEW_USER_MUTATION = gql`
     mutation new_user(
       $im: Int!
       $lastname: String!
@@ -39,30 +40,76 @@ export class UserService {
   `;
 
   // save in cookie no sensitive data
-  active_user = new User();
+  active_user: Subject<User> = new Subject();
 
-  query_login_user = gql`
+  USER_LOGIN_QUERY = gql`
     query login($username: String!, $hashed: String!) {
       user(where: { username: { _eq: $username }, hashed: { _eq: $hashed } }) {
         id
+        username
+        firstname
+        lastname
+        title
+        im
+        entity_id
+        profile_picture
+        email
+        rights
+        phone
+        settings_default_app
+        settings_default_flow_page
+        entity {
+          id
+          id_text
+          long
+          short
+          numero
+          sent_count
+          received_count
+          active
+          short_header
+          long_header
+          labels
+          level
+          parent_entity_id
+          sub_entities_count
+        }
       }
     }
   `;
 
   saveNewUser(variables: any) {
     return this.apollo.mutate({
-      mutation: this.save_new_user,
+      mutation: this.SAVE_NEW_USER_MUTATION,
       variables: variables,
     });
   }
 
-  logIn(variables: { username: any; hashed: any; }) {
-    this.apollo.query({
-      query: this.query_login_user,
-      variables: variables,
-    }).subscribe((data) => {
-      next: console.log(data);
-    })
+  logIn(variables: { username: any; hashed: any }) {
+    this.apollo
+      .query({
+        query: this.USER_LOGIN_QUERY,
+        variables: variables,
+      })
+      .subscribe(this.logInHandler.bind(this));
+  }
+
+  logInHandler(data: any) {
+    this.receivedUser(data.data.user[0]);
+  }
+
+  receivedUser(user: User) {
+    console.log(user);
+    
+    this.active_user.next(user);
+  }
+
+  saveActiveUserInCookies(){
+    
+  }
+
+  getActiveUserFromCookies(){ 
+
   }
 
   constructor(private apollo: Apollo) {}

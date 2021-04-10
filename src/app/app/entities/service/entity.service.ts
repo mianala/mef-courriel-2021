@@ -3,12 +3,14 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Subject } from 'rxjs';
 import { Entity } from 'src/app/classes/entity';
+import { User } from 'src/app/classes/user';
+import { UserService } from '../../users/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EntityService {
-  constructor(private apollo: Apollo) {
+  constructor(private apollo: Apollo, private userService: UserService) {
     // const ets =
     //   localStorage.getItem('entities') === null
     //     ? this.getEntities().subscribe(this.updateEntities.bind(this))
@@ -16,7 +18,11 @@ export class EntityService {
 
     // this.entities.next(ets);
 
-    this.getEntities().subscribe(this.updateEntities.bind(this))
+    this.getEntities().subscribe(this.updateEntities.bind(this));
+
+    this.userService.active_user.subscribe((user:User) => {
+      this.getActiveUserEntity(user.entity)
+    });
   }
 
   updateEntitiesFromLocalStorage() {}
@@ -29,7 +35,10 @@ export class EntityService {
   // store in localstorage
   entities: Subject<Entity[]> = new Subject();
 
-  get_entity_query = gql`
+  // store in cookie
+  active_entity: Subject<Entity> = new Subject();
+
+  GET_ENTITY_QUERY = gql`
     query get_entity($id: Int!) {
       entity(where: { id: { _eq: $id } }) {
         id
@@ -50,7 +59,7 @@ export class EntityService {
     }
   `;
 
-  get_entities_query = gql`
+  GET_ENTITIES_QUERY = gql`
     query get_entities {
       entity(order_by: { id: asc }) {
         id
@@ -73,17 +82,21 @@ export class EntityService {
 
   getEntities() {
     return this.apollo.query({
-      query: this.get_entities_query,
+      query: this.GET_ENTITIES_QUERY,
     });
   }
 
   getEntity(id: number) {
     return this.apollo.query({
-      query: this.get_entity_query,
+      query: this.GET_ENTITY_QUERY,
       variables: {
         id: id,
       },
-    });
+    })
+  }
+
+  getActiveUserEntity(entity: Entity) {
+    this.active_entity.next(entity);
   }
 
   add_new_entity_mutation = gql`
