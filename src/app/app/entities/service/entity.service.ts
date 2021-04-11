@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { UserService } from '../../users/user.service';
@@ -21,7 +21,7 @@ export class EntityService {
     this.getEntities().subscribe(this.updateEntities.bind(this));
 
     this.userService.active_user.subscribe((user:User) => {
-      this.getActiveUserEntity(user.entity)
+    this.getActiveUserEntity(user.entity)
     });
   }
 
@@ -33,10 +33,10 @@ export class EntityService {
   }
 
   // store in localstorage
-  entities: Subject<Entity[]> = new Subject();
+  entities: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
 
   // store in cookie
-  active_entity: Subject<Entity> = new Subject();
+  active_entity: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
 
   GET_ENTITY_QUERY = gql`
     query get_entity($id: Int!) {

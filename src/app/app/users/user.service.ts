@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { User } from 'src/app/classes/user';
 
 @Injectable({
@@ -40,7 +40,7 @@ export class UserService {
   `;
 
   // save in cookie no sensitive data
-  active_user: Subject<User> = new Subject();
+  active_user: BehaviorSubject<User> = new BehaviorSubject(new User());
 
   USER_LOGIN_QUERY = gql`
     query login($username: String!, $hashed: String!) {
@@ -96,21 +96,26 @@ export class UserService {
 
   logInHandler(data: any) {
     this.receivedUser(data.data.user[0]);
+    localStorage.setItem('user', JSON.stringify(data.data.user[0]));
+    localStorage.setItem('logged_in', new Date().toString());
   }
 
   receivedUser(user: User) {
-    console.log(user);
-    
     this.active_user.next(user);
   }
 
-  saveActiveUserInCookies(){
-    
+  saveActiveUserInCookies() {}
+
+  getActiveUserFromCookies() {}
+
+  constructor(private apollo: Apollo) {
+    const user =
+      localStorage.getItem('user') !== null
+        ? JSON.parse(localStorage.getItem('user') || '[]')
+        : null; // redirect to login
+
+    this.active_user.next(user)
+    // code for testing
+    // this.logIn({username: 'myusername', hashed:'mypassword'});
   }
-
-  getActiveUserFromCookies(){ 
-
-  }
-
-  constructor(private apollo: Apollo) {}
 }

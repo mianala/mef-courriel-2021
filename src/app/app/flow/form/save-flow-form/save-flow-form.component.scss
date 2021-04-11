@@ -10,15 +10,11 @@
   padding: 1em 0 1em 0;
 }
 
-textarea{
-  width: 500px;
-}
-
 form{
   display: flex;
   flex-direction: column;
 }
 
-.mat-form-field{
+.mat-form-field, labels, entity-autocomplete{
   margin: 0 10px;
 }

@@ -1,15 +1,15 @@
-<mat-form-field class="example-full-width" appearance="outline">
+<mat-form-field style="width: 100%;" appearance="outline">
   <mat-label><mat-icon>home_work</mat-icon> {{label}} </mat-label>
   <input
     type="text"
-    (keypress)="resetSelection()"
-    (keyup)="_filter()"
-    (blur)="_blur.emit(query)"
+    (keypress)="resetSelection($event)"
+    (keyup)="_filter($event)"
+    (blur)="_blur.emit(entityText)"
     aria-label="entity"
     matInput
     minlength="2"
     required
-    [(ngModel)]="query"
+    [(ngModel)]="entityText"
     [matAutocomplete]="auto"
   />
   <mat-autocomplete #auto="matAutocomplete">

@@ -8,7 +8,9 @@ import { EntityService } from '../../service/entity.service';
   styleUrls: ['./entity-autocomplete.component.scss'],
 })
 export class EntityAutocompleteComponent implements OnInit {
-  query = '';
+  @Input() entityText = '';
+  @Output() entityTextChange: EventEmitter<String> = new EventEmitter();
+
   entities: Entity[] = [];
   filteredOptions: Entity[] = [];
   selectedEntity: Entity = new Entity();
@@ -31,15 +33,15 @@ export class EntityAutocompleteComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  _filter() {
+  _filter(e:any) {
     this.filteredOptions = this.entities.filter((entity) =>
-      entity.short_header.toLowerCase().includes(this.query.toLowerCase())
+      entity.short_header.toLowerCase().includes(this.entityText.toLowerCase())
     );
-    this._keyup.emit(this.query);
+    this._keyup.emit(e.target.value);
   }
 
-  resetSelection() {
+  resetSelection(e:any) {
     this.selectedEntity = new Entity();
-    this._keypress.emit(this.query);
+    this._keypress.emit(e.target.value);
   }
 }

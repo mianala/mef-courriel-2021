@@ -27,7 +27,12 @@
     <mat-datepicker disabled="false" #picker></mat-datepicker>
     <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
 
-    <entity-autocomplete label="Provenance / Prep*"></entity-autocomplete>
+    <entity-autocomplete
+      label="Provenance / Prep*"
+      (_keyup)="typingEntity($event)"
+      (_keypress)="_keypress()"
+      (entitySelected)="entitySelected($event)"
+    ></entity-autocomplete>
     <div class="two-columns">
       <mat-form-field appearance="outline">
         <mat-label>Date du courrier</mat-label>
@@ -54,7 +59,6 @@
         ></mat-datepicker-toggle>
       </mat-form-field>
     </div>
-
     <mat-form-field appearance="outline">
       <mat-label>Objet</mat-label>
       <textarea name="title" formControlName="title" matInput></textarea>
@@ -102,12 +106,12 @@
       <textarea name="content" formControlName="content" matInput></textarea>
     </mat-form-field>
   </form>
+  <labels [(labels)]="labels"></labels>
 </div>
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title> Prévisualiser</mat-panel-title>
-    <mat-panel-description>
-    </mat-panel-description>
+    <mat-panel-description> </mat-panel-description>
   </mat-expansion-panel-header>
   <div>
     <div>

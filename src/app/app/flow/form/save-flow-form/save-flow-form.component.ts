@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/app/users/user.service';
 import { Entity } from 'src/app/classes/entity';
+import { User } from 'src/app/classes/user';
 import { FlowService } from '../../flow.service';
 
 @Component({
@@ -11,10 +12,16 @@ import { FlowService } from '../../flow.service';
 })
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
-  userEntity = new Entity();
+  user = new User();
+  labels:string[] = [];
 
-  constructor(private flowService: FlowService, private fb: FormBuilder, private userService:UserService) {
-    
+  constructor(
+    private flowService: FlowService,
+    private fb: FormBuilder,
+    private userService: UserService
+  ) {
+    this.user = this.userService.active_user.value;
+    console.log(this.user);
   }
 
   ngOnInit(): void {
@@ -41,6 +48,7 @@ export class SaveFlowFormComponent implements OnInit {
         'Cifag',
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
+      project_owner_id: [null],
       date: [
         new Date(),
         Validators.compose([Validators.required, Validators.minLength(1)]),
@@ -79,16 +87,17 @@ export class SaveFlowFormComponent implements OnInit {
 
     const variables = {
       project_date: form.date,
-      owner_id: 6,
-      project_owner_id: 6, //
+      date_received: form.date_received,
+      owner_id: this.user.entity_id, // flow owner id
+      project_owner_id: form.project_owner_id, //
       type_text: form.type_text,
       letter_text: form.letter_text,
       title: form.title,
       reference: form.reference,
       numero: form.numero.toString(),
-      action: 1,
-      user_id: 21,
+      user_id: this.user.id,
       content: form.content,
+      labels: this.labels.join(','),
       project_owner_text: form.project_owner_text,
       files: {
         data: form_files,
@@ -113,11 +122,14 @@ export class SaveFlowFormComponent implements OnInit {
     });
   }
 
-  typingEntity(e: Event) {
-    console.log(e);
+  typingEntity(e: String) {
     this.saveFlowForm.patchValue({
-      project_owner_id: 0,
-      // project_owner_text: entity.short_header,
+      project_owner_id: null,
+      project_owner_text: e,
     });
+  }
+
+  _keypress() {
+    this.saveFlowForm.patchValue({ project_owner_id: 0 });
   }
 }

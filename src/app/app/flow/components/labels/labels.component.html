@@ -1,1 +1,26 @@
-<p>labels works!</p>
+<mat-form-field style="width: 100%;" appearance="fill">
+  <mat-label> <mat-icon>label_outline</mat-icon> Labels</mat-label>
+  <mat-chip-list #chipList aria-label="label selection">
+    <mat-chip
+      *ngFor="let label of labels"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(label)">
+      {{label}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="Nouveau label..."
+      [(ngModel)]="labelInput"
+      [formControl]="labelCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let label of filteredLabels | async" [value]="label">
+      {{label}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

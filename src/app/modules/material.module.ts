@@ -17,6 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [],
@@ -39,7 +40,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatNativeDateModule ,
     MatCardModule ,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatChipsModule,
   ],
   exports: [
     MatIconModule,
@@ -61,6 +63,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatAutocompleteModule,
     MatNativeDateModule ,
     MatExpansionModule ,
+    MatChipsModule,
   ],
   providers: [  
     MatDatepickerModule,  
