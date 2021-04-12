@@ -1,13 +1,10 @@
-import { Injectable } from '@angular/core'
-import { Apollo, gql } from 'apollo-angular'
+import { Injectable } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlowService {
-  getFlow(flow_id: number) {
-    throw new Error('Method not implemented.')
-  }
   SAVE_PROJECT_FLOW_FILES = gql`
     mutation newSavedProject(
       $type_text: String!
@@ -64,14 +61,14 @@ export class FlowService {
         }
       }
     }
-  `
+  `;
 
   GET_FLOW_QUERY = gql`
     query get_flow($id: Int!) {
-      flow(where: { id: { _eq: $id } })
-      returning {
+      flow(where: { id: { _eq: $id } }) {
         id
         content
+        action
         initiator {
           id
           short
@@ -86,6 +83,13 @@ export class FlowService {
           id
           title
           date
+          reference
+          owner_text
+          owner{
+            id
+            short
+            short_header
+          }
           date_received
           flows {
             id
@@ -106,25 +110,25 @@ export class FlowService {
         }
       }
     }
-  `
+  `;
 
   constructor(private apollo: Apollo) {}
 
   saveProjectFlowFiles(variables: any) {
-    console.log('Inserting', variables)
+    console.log('Inserting', variables);
 
     return this.apollo.mutate({
       mutation: this.SAVE_PROJECT_FLOW_FILES,
       variables: variables,
-    })
+    });
   }
 
-  getEntity(id: number) {
+  getFlow(id: number) {
     return this.apollo.query({
       query: this.GET_FLOW_QUERY,
       variables: {
         id: id,
       },
-    })
+    });
   }
 }

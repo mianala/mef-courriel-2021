@@ -35,4 +35,16 @@ export class Flow {
     this.initiator = new Entity();
     this.files = [];
   }
+
+  hasFile(){
+    return this.files.length
+  }
+
+  isSaved(){
+    return this.action == 1
+  }
+
+  isUrgent(){
+    return this.status == 1
+  }
 }

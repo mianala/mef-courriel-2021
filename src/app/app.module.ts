@@ -68,6 +68,7 @@ import { SaveFlowPageComponent } from './app/flow/save-flow-page/save-flow-page.
 import { FlowLandingPageComponent } from './app/flow/pages/flow-landing-page/flow-landing-page.component';
 import { SaveFlowFormComponent } from './app/flow/form/save-flow-form/save-flow-form.component';
 import { ViewComponent } from './app/users/view/view.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -132,7 +133,7 @@ import { ViewComponent } from './app/users/view/view.component';
     SaveFlowPageComponent,
     FlowLandingPageComponent,
     SaveFlowFormComponent,
-    ViewComponent
+    ViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -142,7 +143,8 @@ import { ViewComponent } from './app/users/view/view.component';
     MaterialModule,
     ApolloModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    PdfViewerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

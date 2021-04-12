@@ -131,7 +131,7 @@ const routes: Routes = [
             ],
           },
           {
-            path: 'project/:id',
+            path: 'project/:flow_id',
             component: FlowPageComponent,
           },
         ],

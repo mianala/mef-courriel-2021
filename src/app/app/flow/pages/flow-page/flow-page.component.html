@@ -1,2 +1,28 @@
-<h1></h1>
+<div class="header-actions" >
+  <span class="start">
+    <button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+  </span>
+  <span class="end">
+    <button mat-icon-button><mat-icon>people_outline</mat-icon></button>
+    <button mat-icon-button><mat-icon>send_outline</mat-icon></button>
+    <button mat-icon-button><mat-icon>info_outline</mat-icon></button>
+  </span>
+</div>
+<main>
+
+<section class="flow">
+  <div [hidden]="project.hasOwner()">
+    {{ project.owner_text }} à {{ flow.owner.short }}
+  </div>
+  <div *ngIf="project.hasOwner()" class="mat-caption" style="color: #444;margin-bottom: 1em;">
+    <b class="flow-header-entity">{{ project.owner.short }}</b> à
+    <b class="flow-header-entity">{{ flow.owner.short }}</b>
+    (Réf: {{project.reference}})
+  </div>
+</section>
+<article>
+  <h1 style="font-weight: 300; margin-bottom: 0;" class="mat-display-1">{{ project.title }}</h1>
+</article>
+
 <!-- <flow-list></flow-list> -->
+</main>

@@ -1,14 +1,22 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
 :host {
   display: flex;
 }
 
-$blue-pantone: #3326ae;
-$red-ryb: #ff392bff;
+$blue-pantone: mat-color($mat-indigo, A400);
+$red-ryb: mat-color($mat-pink, A400);
 $nav-width: 70px;
 
 div {
   color: white;
   text-align: center;
+}
+
+main {
+  margin-left: $nav-width * 3/2;
+  width: 100%;
 }
 
 nav {
@@ -73,10 +81,4 @@ nav {
       }
     }
   }
-}
-
-main {
-  padding-top: 1em;
-  width: 100%;
-  padding-left: $nav-width * 3/2;
 }

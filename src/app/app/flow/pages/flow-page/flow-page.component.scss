@@ -1,0 +1,19 @@
+@import "~@angular/material/theming";
+@include mat-core();
+
+.header-actions {
+  padding: 0.3em 1em 0.2em 1em;
+  margin: 0 0 0 -45px;
+  // background-color: mat-color($mat-pink, A100);
+  display: flex;
+  color: #666;
+}
+
+main {
+  padding: 1em;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+}

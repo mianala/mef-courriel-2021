@@ -11,6 +11,7 @@ export class Project {
   owner_id;
   type_text;
   letter_text;
+  reference;
   labels;
   closed;
   owner: Entity;
@@ -23,11 +24,16 @@ export class Project {
     this.date = new Date()
     this.date_received =  new Date();
     this.owner_text = '';
+    this.reference = '';
     this.owner_id = 0;
     this.type_text = '';
     this.letter_text = '';
     this.labels = '';
     this.owner = new Entity();
     this.flows = [];
+  }
+
+  hasOwner(){
+    return this.owner_id !== null
   }
 }
