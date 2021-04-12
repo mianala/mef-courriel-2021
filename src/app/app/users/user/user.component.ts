@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IUser } from 'src/app/interfaces/iuser';
+import { User } from 'src/app/classes/user';
 
 @Component({
   selector: 'user',
@@ -7,7 +7,7 @@ import { IUser } from 'src/app/interfaces/iuser';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  @Input() user:IUser | undefined
+  @Input() user:User = new User()
   constructor() { }
 
   ngOnInit(): void {

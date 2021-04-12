@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IEntity } from 'src/app/interfaces/ientity';
+import { Entity } from 'src/app/classes/entity';
 
 @Component({
   selector: 'entity',
@@ -7,7 +7,7 @@ import { IEntity } from 'src/app/interfaces/ientity';
   styleUrls: ['./entity.component.scss'],
 })
 export class EntityComponent implements OnInit {
-  @Input() entity: IEntity | undefined
+  @Input() entity: Entity  = new Entity()
   constructor() {}
 
   ngOnInit(): void {

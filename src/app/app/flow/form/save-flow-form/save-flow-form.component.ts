@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/app/users/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
+import { NotificationService } from 'src/app/services/notification.service';
 import { FlowService } from '../../flow.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class SaveFlowFormComponent implements OnInit {
   constructor(
     private flowService: FlowService,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private notification: NotificationService,
   ) {
     this.user = this.userService.active_user.value;
     console.log(this.user);
@@ -27,9 +29,7 @@ export class SaveFlowFormComponent implements OnInit {
   ngOnInit(): void {
     this.saveFlowForm = this.fb.group({
       content: [
-        'Observation',
-        Validators.compose([Validators.required, Validators.minLength(4)]),
-      ],
+        'Observation'],
       title: [
         'Objet',
         Validators.compose([Validators.required, Validators.minLength(4)]),
@@ -40,12 +40,13 @@ export class SaveFlowFormComponent implements OnInit {
       ],
       type_text: ['Originale'],
       letter_text: ['Lettre'],
+      note: [''],
       numero: [
         1351,
         Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
       project_owner_text: [
-        'Cifag',
+        '',
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
       project_owner_id: [null],
@@ -97,6 +98,7 @@ export class SaveFlowFormComponent implements OnInit {
       numero: form.numero.toString(),
       user_id: this.user.id,
       content: form.content,
+      note: form.note,
       labels: this.labels.join(','),
       project_owner_text: form.project_owner_text,
       files: {
@@ -111,6 +113,7 @@ export class SaveFlowFormComponent implements OnInit {
 
   flowSaved(data: any) {
     console.log(data);
+    this.notification.flowSaved(data.data.insert_project.returning[0])
   }
 
   save() {}
@@ -131,5 +134,14 @@ export class SaveFlowFormComponent implements OnInit {
 
   _keypress() {
     this.saveFlowForm.patchValue({ project_owner_id: 0 });
+  }
+
+  reset(){
+    this.saveFlowForm.reset()
+    this.files = []
+    this.saveFlowForm.patchValue({
+      date: new Date(),
+      date_received: new Date(),
+    })
   }
 }

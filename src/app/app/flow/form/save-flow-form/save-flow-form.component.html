@@ -1,13 +1,14 @@
-<div class="header">
-  <h1><mat-icon>add</mat-icon>Enregistrer un nouveau courrier</h1>
-  <p>
-    Veuillez saisir toutes les informations sur le courrier dans le formulaire
-    ci-dessous
-  </p>
-</div>
-<div>
+
+<div class="wrapper">
+  <div class="header">
+    <h1><mat-icon>add</mat-icon>Enregistrer un nouveau courrier</h1>
+    <p>
+      Veuillez saisir toutes les informations sur le courrier dans le formulaire
+      ci-dessous
+    </p>
+  </div>
   <form [formGroup]="saveFlowForm">
-    <div class="two-columns">
+    <div class="columns">
       <mat-form-field appearance="outline">
         <mat-label>N° du courrier</mat-label>
         <input
@@ -22,48 +23,6 @@
         <mat-label>Référence / CR</mat-label>
         <input name="ref" formControlName="reference" matInput />
       </mat-form-field>
-    </div>
-
-    <mat-datepicker disabled="false" #picker></mat-datepicker>
-    <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
-
-    <entity-autocomplete
-      label="Provenance / Prep*"
-      (_keyup)="typingEntity($event)"
-      (_keypress)="_keypress()"
-      (entitySelected)="entitySelected($event)"
-    ></entity-autocomplete>
-    <div class="two-columns">
-      <mat-form-field appearance="outline">
-        <mat-label>Date du courrier</mat-label>
-        <input
-          name="date"
-          formControlName="date"
-          matInput
-          [matDatepicker]="picker"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      </mat-form-field>
-      <!-- date de reception -->
-      <mat-form-field appearance="outline">
-        <mat-label>Reçu le</mat-label>
-        <input
-          matInput
-          name="received_date"
-          formControlName="date_received"
-          [matDatepicker]="recieved_picker"
-        />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="recieved_picker"
-        ></mat-datepicker-toggle>
-      </mat-form-field>
-    </div>
-    <mat-form-field appearance="outline">
-      <mat-label>Objet</mat-label>
-      <textarea name="title" formControlName="title" matInput></textarea>
-    </mat-form-field>
-    <div class="two-columns">
       <mat-form-field appearance="outline">
         <mat-label>Type</mat-label>
         <mat-select formControlName="letter_text" name="lettre">
@@ -100,56 +59,104 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <mat-datepicker disabled="false" #picker></mat-datepicker>
+    <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
+
+    <entity-autocomplete
+      label="Provenance / Prep*"
+      (_keyup)="typingEntity($event)"
+      (_keypress)="_keypress()"
+      (entitySelected)="entitySelected($event)"
+    ></entity-autocomplete>
+    <div class="columns">
+      <mat-form-field appearance="outline">
+        <mat-label>Date du courrier</mat-label>
+        <input
+          name="date"
+          formControlName="date"
+          matInput
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      </mat-form-field>
+      <!-- date de reception -->
+      <mat-form-field appearance="outline">
+        <mat-label>Reçu le</mat-label>
+        <input
+          matInput
+          name="received_date"
+          formControlName="date_received"
+          [matDatepicker]="recieved_picker"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="recieved_picker"
+        ></mat-datepicker-toggle>
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Objet</mat-label>
+      <textarea name="title" formControlName="title" matInput></textarea>
+    </mat-form-field>
+
 
     <mat-form-field appearance="outline">
       <mat-label>Observations / Instructions</mat-label>
       <textarea name="content" formControlName="content" matInput></textarea>
     </mat-form-field>
+    <!-- <mat-form-field appearance="outline">
+      <mat-label>Note</mat-label>
+      <textarea name="content" formControlName="note" matInput></textarea>
+    </mat-form-field> -->
+    <labels [(labels)]="labels"></labels>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title fxLayoutAlign="start center"  ><mat-icon>preview</mat-icon> Prévisualiser</mat-panel-title>
+        <mat-panel-description> </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div>
+          Objet:
+          {{ saveFlowForm.value.title }}
+        </div>
+        <div>
+          Numero:
+          {{ saveFlowForm.value.numero }}
+        </div>
+        <div>
+          Date du courrier:
+          {{ saveFlowForm.value.date | date }}
+        </div>
+        <div>
+          Recu le:
+          {{ saveFlowForm.value.date_received | date }}
+        </div>
+        <div>
+          Observation:
+          {{ saveFlowForm.value.content }}
+        </div>
+        <div>
+          {{ saveFlowForm.value.letter_text }}
+          {{ saveFlowForm.value.type_text }}
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <files [files]="files" (fileRemoved)="removeFile($event)"></files>
+    <div class="columns">
+      <file-upload-button
+        (fileSelected)="getFiles($event)"
+      ></file-upload-button>
+      <button
+        [disabled]="!saveFlowForm.valid"
+        (click)="submit()"
+        mat-raised-button
+        color="primary"
+        cdkFocusInitial
+      >
+        ENREGISTRER
+      </button>
+      <!-- <button mat-raised-button="">VOIR CORRIER ENREGISTRE</button> -->
+    </div>
   </form>
-  <labels [(labels)]="labels"></labels>
-</div>
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title> Prévisualiser</mat-panel-title>
-    <mat-panel-description> </mat-panel-description>
-  </mat-expansion-panel-header>
-  <div>
-    <div>
-      Objet:
-      {{ saveFlowForm.value.title }}
-    </div>
-    <div>
-      Numero:
-      {{ saveFlowForm.value.numero }}
-    </div>
-    <div>
-      Date du courrier:
-      {{ saveFlowForm.value.date | date }}
-    </div>
-    <div>
-      Recu le:
-      {{ saveFlowForm.value.date_received | date }}
-    </div>
-    <div>
-      Observation:
-      {{ saveFlowForm.value.content }}
-    </div>
-    <div>
-      {{ saveFlowForm.value.letter_text }} {{ saveFlowForm.value.type_text }}
-    </div>
-  </div>
-</mat-expansion-panel>
-<files [files]="files" (fileRemoved)="removeFile($event)"></files>
-<div class="two-columns">
-  <file-upload-button (fileSelected)="getFiles($event)"></file-upload-button>
-  <button
-    [disabled]="!saveFlowForm.valid"
-    (click)="submit()"
-    mat-raised-button
-    color="primary"
-    cdkFocusInitial
-  >
-    ENREGISTRER
-  </button>
-  <!-- <button mat-raised-button="">VOIR CORRIER ENREGISTRE</button> -->
 </div>

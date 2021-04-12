@@ -53,6 +53,8 @@ export class LabelsComponent implements OnInit {
       this.labels.push(value.trim());
     }
 
+    console.log("added",value)
+
     // Reset the input value
     if (input) {
       input.value = '';
@@ -71,6 +73,7 @@ export class LabelsComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.labels.push(event.option.viewValue);
+    console.log("selected",event.option.viewValue)
     this.labelInput = '';
     this.labelCtrl.setValue(null);
   }

@@ -128,11 +128,11 @@ const routes: Routes = [
                 path: 'sent',
                 component: SentComponent,
               },
-              {
-                path: ':id',
-                component: FlowPageComponent,
-              },
             ],
+          },
+          {
+            path: 'project/:id',
+            component: FlowPageComponent,
           },
         ],
       },

@@ -1,7 +1,7 @@
-.mat-dialog-container{
-  padding: 0;
-}
 
+.wrapper{
+  max-width: 900px;
+}
 .header {
   display: flex;
   flex-direction: column;
@@ -11,10 +11,12 @@
 }
 
 form{
+  padding: 0 3em 2em 1em ;
   display: flex;
   flex-direction: column;
+
 }
 
-.mat-form-field, labels, entity-autocomplete{
-  margin: 0 10px;
+.columns .mat-form-field, file-upload-button{
+  margin-right: 10px;
 }

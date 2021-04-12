@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { IUser } from 'src/app/interfaces/iuser';
+import { User } from 'src/app/classes/user';
 
 @Component({
   selector: 'users',
@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
     }
   `;
 
-  users: IUser[] = [];
+  users: User[] = [];
 
   constructor(private apollo: Apollo) {}
 
