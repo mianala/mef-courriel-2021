@@ -14,7 +14,7 @@ export class Entity {
   level: number;
   parent_entity_id: number;
 
-  constructor() {
+  constructor(_entity: Partial<{}> = {}) {
     this.id = 0;
     this.id_text = '';
     this.long = '';
@@ -29,5 +29,7 @@ export class Entity {
     this.sub_entities_count = 0;
     this.level = 0;
     this.parent_entity_id = 0;
+    
+    Object.assign(this, _entity)
   }
 }

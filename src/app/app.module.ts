@@ -69,6 +69,8 @@ import { FlowLandingPageComponent } from './app/flow/pages/flow-landing-page/flo
 import { SaveFlowFormComponent } from './app/flow/form/save-flow-form/save-flow-form.component';
 import { ViewComponent } from './app/users/view/view.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { UserPageComponent } from './app/user/user-page/user-page.component';
+import { UserResetPasswordComponent } from './app/user/user-reset-password/user-reset-password.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +136,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FlowLandingPageComponent,
     SaveFlowFormComponent,
     ViewComponent,
+    UserPageComponent,
+    UserResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

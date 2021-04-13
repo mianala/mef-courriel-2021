@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Flow } from 'src/app/classes/flow';
+import { EntityService } from '../entities/service/entity.service';
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +89,7 @@ export class FlowService {
           date
           reference
           owner_text
-          owner{
+          owner {
             id
             short
             short_header
@@ -112,11 +116,61 @@ export class FlowService {
     }
   `;
 
-  constructor(private apollo: Apollo) {}
+  SUBSCRIBE_ALL_FLOWS = gql`
+    subscription all_recent_flows($entity_id: Int!) {
+      flow(where: { owner_id: { _eq: $entity_id } }) {
+        id
+        content
+        action
+        owner {
+          short
+        }
+
+        project {
+          title
+          reference
+          numero
+        }
+
+        initiator {
+          short
+        }
+      }
+    }
+  `;
+
+  GET_ALL_FLOWS = gql`
+    query all_recent_flows($entity_id: Int!) {
+      flow(where: { owner_id: { _eq: $entity_id } }) {
+        id
+        content
+        action
+        updated_at
+        created_at
+        owner {
+          short
+        }
+
+        project {
+          title
+          reference
+          numero
+        }
+
+        initiator {
+          short
+        }
+      }
+    }
+  `;
+
+  recent_flows: Subject<Flow[]> = new Subject();
+
+  constructor(private apollo: Apollo, private entityService: EntityService) {
+    this.getAllRecentFlow(this.entityService.active_entity.value.id);
+  }
 
   saveProjectFlowFiles(variables: any) {
-    console.log('Inserting', variables);
-
     return this.apollo.mutate({
       mutation: this.SAVE_PROJECT_FLOW_FILES,
       variables: variables,
@@ -130,5 +184,23 @@ export class FlowService {
         id: id,
       },
     });
+  }
+
+  getAllRecentFlow(entity_id: number) {
+    return this.apollo
+      .query({
+        query: this.GET_ALL_FLOWS,
+        variables: { entity_id },
+      })
+      .pipe(
+        map((val: any) => {
+          return val.data.flow.map((val: any) => {
+            return new Flow(val);
+          });
+        })
+      )
+      .subscribe((flows: any) => {
+        this.recent_flows.next(flows);
+      });
   }
 }

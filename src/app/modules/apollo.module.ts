@@ -1,14 +1,27 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { Apollo, APOLLO_OPTIONS } from 'apollo-angular';
+import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink } from '@apollo/client/core';
-import { setContext } from '@apollo/client/link/context';
+import { InMemoryCache, ApolloLink, split } from '@apollo/client/core';
 import { environment } from 'src/environments/environment';
-import { BrowserModule } from '@angular/platform-browser';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 const uri = environment.uri;
+const wsuri = environment.wsuri;
 const HASURA_SECRET = environment.HASURA_SECRET;
+
+const headers =  new HttpHeaders({
+  Authorization: localStorage.getItem('token') || '',
+  'x-hasura-admin-secret': HASURA_SECRET,
+})
+
+interface Definintion {
+  kind: string;
+  operation?: string;
+};
+
+
 
 @NgModule({
   exports: [HttpClientModule],
@@ -19,14 +32,28 @@ const HASURA_SECRET = environment.HASURA_SECRET;
       useFactory: (httpLink: HttpLink) => {
         return {
           cache: new InMemoryCache(),
-          link: httpLink.create({
-            uri: uri,
-            headers: new HttpHeaders({
-              Authorization: localStorage.getItem('token') || '',
-              'x-hasura-admin-secret': environment.HASURA_SECRET,
+          link: split(
+            ({ query }) => {
+              const { kind, operation }:Definintion = getMainDefinition(query);
+              return (
+                kind === 'OperationDefinition' && operation === 'subscription'
+              );
+            },
+            new WebSocketLink({
+              uri: `${wsuri}`,
+              options: {
+                reconnect: true,
+                timeout: 60000,
+                lazy: true,
+                connectionParams: { headers }
+              },
             }),
-          }),
-        };
+            httpLink.create({
+              uri: uri,
+              headers: headers
+            })
+          ),
+        }
       },
       deps: [HttpLink],
     },

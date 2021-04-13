@@ -9,20 +9,9 @@ import { EntityService } from './service/entity.service';
 })
 export class EntitiesComponent implements OnInit {
 
-
-entities:Entity[] = []
-
-  constructor( private entityService:EntityService) {
-    this.entityService.entities.subscribe(this.gotEntities.bind(this))
+  constructor(public entityService: EntityService) {
   }
 
-  ngOnInit(): void {
-
-  }
-
-  gotEntities(entities:Entity[])
-  {
-    this.entities = entities
-  }
+  ngOnInit(): void {}
 
 }

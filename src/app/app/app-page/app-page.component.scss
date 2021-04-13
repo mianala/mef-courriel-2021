@@ -43,9 +43,13 @@ nav {
       height: 27px;
       width: 27px;
     }
+    .nav-link{
+      cursor: pointer;
+    }
     span {
       outline: 0;
       border: none;
+
       -moz-outline-style: none;
 
       width: 100%;

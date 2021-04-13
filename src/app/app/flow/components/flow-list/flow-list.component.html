@@ -1,1 +1,28 @@
-<flow></flow>
+<mat-table [dataSource]="dataSource" >
+  <ng-container matColumnDef="sender" >
+    <mat-header-cell *matHeaderCellDef fxFlex="15" sticky> Provenance. </mat-header-cell>
+    <mat-cell *matCellDef="let flow" fxFlex="15">{{flow.senderText()}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title" >
+    <mat-header-cell *matHeaderCellDef fxFlex> Objet </mat-header-cell>
+    <mat-cell *matCellDef="let flow" fxFlex> {{flow.project.title}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="reference">
+    <mat-header-cell *matHeaderCellDef  fxFlex="15"> Ref. </mat-header-cell>
+    <mat-cell *matCellDef="let flow"  fxFlex="15"> {{flow.project.reference}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="id" sticky>
+    <mat-header-cell *matHeaderCellDef  fxFlex="7"> No. </mat-header-cell>
+    <mat-cell *matCellDef="let flow"  fxFlex="7"> {{flow.project.numero}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date" >
+    <mat-header-cell *matHeaderCellDef  fxFlex="12"> Date </mat-header-cell>
+    <mat-cell *matCellDef="let flow"  fxFlex="12"> {{flow.created_at | date}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FlowService } from './flow.service';
 @Component({
   selector: 'app-flow',
   templateUrl: './flow.component.html',
@@ -6,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FlowComponent implements OnInit {
 
- constructor() { }
+  
+ constructor(private flowService:FlowService) { }
 
   ngOnInit(): void {
   }

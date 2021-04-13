@@ -10,6 +10,8 @@ export class Flow {
   user_id: number;
   status: number;
   project_id: number;
+  updated_at: Date;
+  created_at: Date;
   receiver_text: string;
   content: string;
   labels: string;
@@ -18,7 +20,7 @@ export class Flow {
   owner: Entity;
   initiator: Entity;
   files: File[];
-  constructor() {
+  constructor(_flow: Partial<{}> = {}) {
     this.id = 0;
     this.action = 0;
     this.owner_id = 0;
@@ -28,23 +30,41 @@ export class Flow {
     this.project_id = 0;
     this.receiver_text = '';
     this.content = '';
+    this.updated_at = new Date();
+    this.created_at = new Date();
     this.labels = '';
     this.note = '';
     this.project = new Project();
     this.owner = new Entity();
     this.initiator = new Entity();
     this.files = [];
+
+    Object.assign(this, _flow)
   }
 
-  hasFile(){
-    return this.files.length
+
+  hasFile() {
+    return this.files.length;
   }
 
-  isSaved(){
-    return this.action == 1
+  isSaved() {
+    return this.action == 1;
   }
 
-  isUrgent(){
-    return this.status == 1
+  isUrgent() {
+    return this.status == 1;
+  }
+
+  senderText() {
+    return this.initiator !== null
+      ? this.initiator.short
+      : this.project.owner_text;
+  }
+
+  // for received flow
+  numero() {}
+  icon(){
+    console.log(this.action == 1 ? 'description' : 'inbox')
+    return this.action == 1 ? 'description' : 'inbox'
   }
 }

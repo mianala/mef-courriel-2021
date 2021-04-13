@@ -17,7 +17,7 @@ export class User {
   verified: boolean;
   entity: Entity
 
-  constructor() {
+  constructor(_user: Partial<{}> = {}) {
     this.id = 0;
     this.lastname = '';
     this.firstname = '';
@@ -33,5 +33,8 @@ export class User {
     this.settings_default_flow_page = 0;
     this.verified = true;
     this.entity = new Entity()
+
+    
+    Object.assign(this, _user)
   }
 }

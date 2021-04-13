@@ -1,1 +1,1 @@
-<user *ngFor="let user of users" [user]="user"></user>
+<user *ngFor="let user of userService.users | async" [user]="user"></user>

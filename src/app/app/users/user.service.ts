@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User } from 'src/app/classes/user';
 
 @Injectable({
@@ -78,6 +79,27 @@ export class UserService {
     }
   `;
 
+  GET_USERS_QUERY = gql`
+    query get_users {
+      user {
+        id
+        lastname
+        firstname
+        email
+        phone
+        im
+        title
+        action_counter
+        entity {
+          short
+          short_header
+        }
+      }
+    }
+  `;
+
+  users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+
   saveNewUser(variables: any) {
     return this.apollo.mutate({
       mutation: this.SAVE_NEW_USER_MUTATION,
@@ -92,6 +114,20 @@ export class UserService {
         variables: variables,
       })
       .subscribe(this.logInHandler.bind(this));
+  }
+
+  getUsers() {
+    this.apollo.query({
+      query: this.GET_USERS_QUERY,
+    }).pipe(
+      map((val: any) => {
+        return val.data.user.map((val: any) => {
+          return new User(val);
+        });
+      })
+    ).subscribe(data => {
+     this.users.next(data)
+    })
   }
 
   logInHandler(data: any) {
@@ -114,8 +150,10 @@ export class UserService {
         ? JSON.parse(localStorage.getItem('user') || '[]')
         : null; // redirect to login
 
-    this.active_user.next(user)
+    this.active_user.next(user);
     // code for testing
     // this.logIn({username: 'myusername', hashed:'mypassword'});
+
+    this.getUsers() 
   }
 }

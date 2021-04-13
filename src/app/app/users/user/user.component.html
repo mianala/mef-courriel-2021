@@ -1,4 +1,23 @@
-<img src="https://randomuser.me/api/portraits/women/68.jpg" alt="" />
-<h4>{{user?.firstname}} {{user?.lastname}}</h4>
-<small>{{user?.title}}</small>
-<button mat-raised-button>Contacter</button>
+<div class="background"></div>
+<div class="profile-card">
+  <div class="cover"></div>
+  <div class="profile">
+    <div class="pic"></div>
+    <div class="above-fold">
+      <div class="name">
+        {{user.firstname}} 
+        {{user.lastname}}
+      </div>
+      <div class="role">
+        {{user.title}}
+      </div>
+      <div class="location">
+        <mat-icon>home_work</mat-icon> {{user.entity.short_header}}
+      </div>
+      <div class="row">
+        <button mat-button><mat-icon>mail</mat-icon> Email</button>
+        <button mat-button><mat-icon>chat</mat-icon> Contacter</button>
+      </div>
+    </div>
+  </div>
+</div>

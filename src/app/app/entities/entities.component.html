@@ -4,5 +4,5 @@
   </button>
 </div> -->
 <div class="entities">
-  <entity *ngFor="let entity of entities" [entity]="entity"></entity>
+  <entity *ngFor="let entity of entityService.entities | async" [entity]="entity"></entity>
 </div>

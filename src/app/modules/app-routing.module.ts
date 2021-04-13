@@ -24,6 +24,8 @@ import { TestingGroundComponent } from '../testing-ground/testing-ground.compone
 import { SaveFlowPageComponent } from '../app/flow/save-flow-page/save-flow-page.component';
 import { FlowPageComponent } from '../app/flow/pages/flow-page/flow-page.component';
 import { FlowLandingPageComponent } from '../app/flow/pages/flow-landing-page/flow-landing-page.component';
+import { UserPageComponent } from '../app/user/user-page/user-page.component';
+import { SettingsComponent } from '../app/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -97,6 +99,14 @@ const routes: Routes = [
         component: UsersComponent,
       },
       {
+        path: 'settings',
+        component: SettingsComponent,
+      },
+      {
+        path: 'user',
+        component: UserPageComponent,
+      },
+      {
         path: 'dashboard',
         component: DashboardComponent,
       },
@@ -107,6 +117,10 @@ const routes: Routes = [
           {
             path: 'save',
             component: SaveFlowPageComponent,
+          },
+          {
+            path: '',
+            component: FlowComponent,
           },
           {
             path: 'view',
