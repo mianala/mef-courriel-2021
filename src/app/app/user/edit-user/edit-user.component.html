@@ -1,0 +1,40 @@
+<!-- upload file -->
+<div>
+  <button mat-stroked-button>
+    <mat-icon>upload</mat-icon> Uploaded Nouveau Photo de Profil
+  </button>
+</div>
+
+<!-- change names -->
+<div class="two-columns">
+  <mat-form-field appearance="outline">
+    <mat-label>Nom</mat-label>
+    <input
+      matInput
+      type="text"
+      name="firstname"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Prénom</mat-label>
+    <input
+      matInput
+      type="text"
+      name="lastname"
+    />
+  </mat-form-field>
+</div>
+
+<mat-form-field appearance="outline">
+  <mat-label>Bio</mat-label>
+  <textarea name="content" formControlName="content" matInput></textarea>
+</mat-form-field>
+
+<!-- transfer -->
+<entity-autocomplete
+  [must_select_entity]="true"
+  label="Transferer"
+></entity-autocomplete>
+
+<!-- reset password -->
+<user-reset-password></user-reset-password>

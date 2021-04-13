@@ -71,6 +71,7 @@ import { ViewComponent } from './app/users/view/view.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UserPageComponent } from './app/user/user-page/user-page.component';
 import { UserResetPasswordComponent } from './app/user/user-reset-password/user-reset-password.component';
+import { EditUserComponent } from './app/user/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { UserResetPasswordComponent } from './app/user/user-reset-password/user-
     ViewComponent,
     UserPageComponent,
     UserResetPasswordComponent,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,
