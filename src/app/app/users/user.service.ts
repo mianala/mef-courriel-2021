@@ -8,7 +8,29 @@ import { User } from 'src/app/classes/user';
   providedIn: 'root',
 })
 export class UserService {
-  SAVE_NEW_USER_MUTATION = gql`
+
+
+  // save in cookie no sensitive data
+  active_user: BehaviorSubject<User> = new BehaviorSubject(new User());
+
+  users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+
+
+  constructor(private apollo: Apollo) {
+    const user =
+      localStorage.getItem('user') !== null
+        ? JSON.parse(localStorage.getItem('user') || '[]')
+        : null; // redirect to login
+
+    this.active_user.next(user);
+    // code for testing
+    // this.logIn({username: 'myusername', hashed:'mypassword'});
+
+    this.getUsers()
+  }
+
+  saveNewUser(variables: any) {
+    const SAVE_NEW_USER_MUTATION = gql`
     mutation new_user(
       $im: Int!
       $lastname: String!
@@ -39,11 +61,14 @@ export class UserService {
       }
     }
   `;
+    return this.apollo.mutate({
+      mutation: SAVE_NEW_USER_MUTATION,
+      variables: variables,
+    });
+  }
 
-  // save in cookie no sensitive data
-  active_user: BehaviorSubject<User> = new BehaviorSubject(new User());
-
-  USER_LOGIN_QUERY = gql`
+  logIn(variables: { username: any; hashed: any }) {
+    const USER_LOGIN_QUERY = gql`
     query login($username: String!, $hashed: String!) {
       user(where: { username: { _eq: $username }, hashed: { _eq: $hashed } }) {
         id
@@ -78,8 +103,34 @@ export class UserService {
       }
     }
   `;
+    this.apollo
+      .query({
+        query: USER_LOGIN_QUERY,
+        variables: variables,
+      })
+      .subscribe(this.logInHandler.bind(this));
+  }
 
-  GET_USERS_QUERY = gql`
+  updateUserLastLogin() {
+    const UPDATE_LAST_LOGIN_QUERY = gql`
+      mutation update_user_last_login($user_id: Int!, $last_login: date = now) {
+        update_user(where: {id: {_eq: $user_id}}, _set: {last_login: $last_login}) {
+          affected_rows
+          returning{
+            id
+          }
+        }
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: UPDATE_LAST_LOGIN_QUERY,
+      variables: { user_id: this.active_user.value.id }
+    }).subscribe(data => console.log(data))
+  }
+
+  getUsers() {
+    const GET_USERS_QUERY = gql`
     query get_users {
       user {
         id
@@ -97,28 +148,8 @@ export class UserService {
       }
     }
   `;
-
-  users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-
-  saveNewUser(variables: any) {
-    return this.apollo.mutate({
-      mutation: this.SAVE_NEW_USER_MUTATION,
-      variables: variables,
-    });
-  }
-
-  logIn(variables: { username: any; hashed: any }) {
-    this.apollo
-      .query({
-        query: this.USER_LOGIN_QUERY,
-        variables: variables,
-      })
-      .subscribe(this.logInHandler.bind(this));
-  }
-
-  getUsers() {
     this.apollo.query({
-      query: this.GET_USERS_QUERY,
+      query: GET_USERS_QUERY,
     }).pipe(
       map((val: any) => {
         return val.data.user.map((val: any) => {
@@ -126,34 +157,110 @@ export class UserService {
         });
       })
     ).subscribe(data => {
-     this.users.next(data)
+      this.users.next(data)
     })
   }
 
   logInHandler(data: any) {
-    this.receivedUser(data.data.user[0]);
-    localStorage.setItem('user', JSON.stringify(data.data.user[0]));
-    localStorage.setItem('logged_in', new Date().toString());
+    this.active_user.next(data.data.user[0]);
+    this.updateUserLastLogin()
+    localStorage.setItem('user', JSON.stringify(data.data.user[0]))
+    localStorage.setItem('logged_in', new Date().toString())
   }
 
-  receivedUser(user: User) {
-    this.active_user.next(user);
+  resetPassword(hashed: string) {
+    const RESET_USER_PASSWORD = gql`
+      mutation update_user_reset_password($user_id: Int!, $hashed: String!) {
+        update_user(where: {id: {_eq: $user_id}}, _set: {hashed: $hashed}) {
+          affected_rows
+          returning{
+            id
+          }
+        }
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: RESET_USER_PASSWORD,
+      variables: { user_id: this.active_user.value.id, hashed: hashed }
+    }).subscribe(data => console.log(data))
   }
 
-  saveActiveUserInCookies() {}
+  transfer(entity_id: number) {
+    const TRANSFER_USER_MUTATION = gql`
+      mutation transfer_user($user_id: Int!, $entity_id: Int!) {
+        update_user(where: {id: {_eq: $user_id}}, _set: {
+          entity_id: $entity_id 
+          verified:false
+          }) {
+          affected_rows
+        }
+      }
+    `
 
-  getActiveUserFromCookies() {}
-
-  constructor(private apollo: Apollo) {
-    const user =
-      localStorage.getItem('user') !== null
-        ? JSON.parse(localStorage.getItem('user') || '[]')
-        : null; // redirect to login
-
-    this.active_user.next(user);
-    // code for testing
-    // this.logIn({username: 'myusername', hashed:'mypassword'});
-
-    this.getUsers() 
+    this.apollo.mutate({
+      mutation: TRANSFER_USER_MUTATION,
+      variables: { user_id: this.active_user.value.id, entity_id: entity_id }
+    }).subscribe(data => console.log(data))
   }
+
+  verifyUser(user_id: number) {
+    const VERIFY_USER_MUTATION = gql`
+      mutation transfer_user($user_id: Int!) {
+        update_user(where: {id: {_eq: $user_id}}, _set: {verified: true}) {
+          affected_rows
+        }
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: VERIFY_USER_MUTATION,
+      variables: { user_id: user_id }
+    }).subscribe(data => console.log(data))
+  }
+
+  desactivateUser(user: User) {
+    const DESACTIVATE_USER_MUTATION = gql`
+      mutation desactivate_user($id: Int!) {
+        update_user(where: {id: {_eq: $id}}, _set: {active: false}) {
+          affected_rows
+          returning{
+            id
+          }
+        }
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: DESACTIVATE_USER_MUTATION,
+      variables: user
+    }).subscribe(data => console.log(data))
+  }
+
+  updateUserInfo(user: any) {
+    const UDPATE_USER_INFO = gql`
+      mutation update_user($user_id: Int!, $firstname: String!,$last: String!, $title: String!) {
+        update_user(where: {id: {_eq: $user_id}}, _set: {
+            firstname: $firstname
+            lastname: $lastname
+            title: $title
+          }) {
+          affected_rows
+          returning{
+            id
+          }
+        }
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: UDPATE_USER_INFO,
+      variables: { user_id: this.active_user.value.id, firstname: user.firstname, last: user.last, title: user.title }
+    }).subscribe(data => console.log(data))
+  }
+
+  saveActiveUserInCookies() { }
+
+  getActiveUserFromCookies() { }
+
 }

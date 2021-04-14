@@ -17,9 +17,12 @@ export class Flow {
   labels: string;
   note: string;
   project: Project;
+  thread_id: number;
   owner: Entity;
   initiator: Entity;
   files: File[];
+  variable_files: { data: File[] };
+
   constructor(_flow: Partial<{}> = {}) {
     this.id = 0;
     this.action = 0;
@@ -35,9 +38,11 @@ export class Flow {
     this.labels = '';
     this.note = '';
     this.project = new Project();
+    this.thread_id = 0;
     this.owner = new Entity();
     this.initiator = new Entity();
     this.files = [];
+    this.variable_files = { data: [] };
 
     Object.assign(this, _flow)
   }
@@ -62,8 +67,13 @@ export class Flow {
   }
 
   // for received flow
-  numero() {}
-  icon(){
+  numero() { }
+
+  variableFiles() {
+    return { data: this.files }
+  }
+
+  icon() {
     console.log(this.action == 1 ? 'description' : 'inbox')
     return this.action == 1 ? 'description' : 'inbox'
   }

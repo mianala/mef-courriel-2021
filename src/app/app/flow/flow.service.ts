@@ -1,15 +1,52 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Entity } from 'src/app/classes/entity';
+import { File } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { EntityService } from '../entities/service/entity.service';
+import { UserService } from '../users/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlowService {
-  SAVE_PROJECT_FLOW_FILES = gql`
+
+
+
+
+  SUBSCRIBE_ALL_FLOWS = gql`
+    subscription all_recent_flows($entity_id: Int!) {
+      flow(where: { owner_id: { _eq: $entity_id } }) {
+        id
+        content
+        action
+        owner {
+          short
+        }
+
+        project {
+          title
+          reference
+          numero
+        }
+
+        initiator {
+          short
+        }
+      }
+    }
+  `;
+
+  recent_flows: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+
+  constructor(private apollo: Apollo, private entityService: EntityService, private userService: UserService) {
+    this.getAllFlow(this.entityService.active_entity.value.id);
+  }
+
+  saveProjectFlowFiles(variables: any) {
+    const SAVE_PROJECT_FLOW_FILES = gql`
     mutation newSavedProject(
       $type_text: String!
       $title: String!
@@ -66,130 +103,141 @@ export class FlowService {
       }
     }
   `;
+    return this.apollo.mutate({
+      mutation: SAVE_PROJECT_FLOW_FILES,
+      variables: variables,
+    });
+  }
 
-  GET_FLOW_QUERY = gql`
-    query get_flow($id: Int!) {
-      flow(where: { id: { _eq: $id } }) {
-        id
-        content
-        action
-        initiator {
-          id
-          short
-          short_header
+  send(flows: Flow[]) {
+
+    const SEND_PROJECT = gql`
+      mutation send_project($objects: [flow_insert_input!]) {
+        insert_flow(objects: $objects) {
+          affected_rows
         }
-        owner {
-          id
-          short
-          short_header
+      }
+    `
+
+    console.log(flows)
+
+    return
+
+    this.apollo.mutate({
+      mutation: SEND_PROJECT,
+      variables: flows
+    })
+
+  }
+
+  reply(flow: Flow) {
+    const REPLY_FLOW_MUTATION = gql`
+      mutation send_project( $status: Int, $user_id: Int!, $owner_id: Int!, $initiator_id: Int!, $content: String = "", $action: Int!, $files: file_arr_rel_insert_input = {data: {}}, $project_id: Int!) {
+        insert_flow(objects: {content: $content, user_id: $user_id, status: $status, owner_id: $owner_id, initiator_id: $initiator_id, action: $action, files: $files, project_id: $project_id}) {
+          affected_rows
         }
-        project {
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: REPLY_FLOW_MUTATION,
+      variables: flow
+    })
+
+    console.log(flow)
+
+    return
+
+    this.apollo.mutate({
+      mutation: REPLY_FLOW_MUTATION,
+      variables: flow
+    })
+  }
+  getFlow(id: number) {
+    const GET_FLOW_QUERY = gql`
+      query get_flow($id: Int!) {
+        flow(where: { id: { _eq: $id } }) {
           id
-          title
-          date
-          reference
-          owner_text
+          content
+          action
+          initiator {
+            id
+            short
+            short_header
+          }
           owner {
             id
             short
             short_header
           }
-          date_received
-          flows {
+          project {
             id
-            initiator {
-              id
-              short
-              short_header
-            }
+            title
+            date
+            reference
+            owner_text
             owner {
               id
               short
               short_header
             }
-            files {
+            date_received
+            flows {
               id
+              initiator {
+                id
+                short
+                short_header
+              }
+              owner {
+                id
+                short
+                short_header
+              }
+              files {
+                id
+              }
             }
           }
         }
       }
-    }
-  `;
-
-  SUBSCRIBE_ALL_FLOWS = gql`
-    subscription all_recent_flows($entity_id: Int!) {
-      flow(where: { owner_id: { _eq: $entity_id } }) {
-        id
-        content
-        action
-        owner {
-          short
-        }
-
-        project {
-          title
-          reference
-          numero
-        }
-
-        initiator {
-          short
-        }
-      }
-    }
-  `;
-
-  GET_ALL_FLOWS = gql`
-    query all_recent_flows($entity_id: Int!) {
-      flow(where: { owner_id: { _eq: $entity_id } }) {
-        id
-        content
-        action
-        updated_at
-        created_at
-        owner {
-          short
-        }
-
-        project {
-          title
-          reference
-          numero
-        }
-
-        initiator {
-          short
-        }
-      }
-    }
-  `;
-
-  recent_flows: Subject<Flow[]> = new Subject();
-
-  constructor(private apollo: Apollo, private entityService: EntityService) {
-    this.getAllRecentFlow(this.entityService.active_entity.value.id);
-  }
-
-  saveProjectFlowFiles(variables: any) {
-    return this.apollo.mutate({
-      mutation: this.SAVE_PROJECT_FLOW_FILES,
-      variables: variables,
-    });
-  }
-
-  getFlow(id: number) {
+    `
     return this.apollo.query({
-      query: this.GET_FLOW_QUERY,
+      query: GET_FLOW_QUERY,
       variables: {
         id: id,
       },
-    });
+    })
   }
 
-  getAllRecentFlow(entity_id: number) {
-    return this.apollo
+  getAllFlow(entity_id: number) {
+    const GET_ALL_FLOWS = gql`
+    query all_recent_flows($entity_id: Int!) {
+        flow(where: { owner_id: { _eq: $entity_id } }) {
+          id
+          content
+          action
+          updated_at
+          created_at
+          owner {
+            short
+          }
+
+          project {
+            title
+            reference
+            numero
+          }
+
+          initiator {
+            short
+          }
+        }
+      }
+    `
+    this.apollo
       .query({
-        query: this.GET_ALL_FLOWS,
+        query: GET_ALL_FLOWS,
         variables: { entity_id },
       })
       .pipe(
@@ -201,6 +249,8 @@ export class FlowService {
       )
       .subscribe((flows: any) => {
         this.recent_flows.next(flows);
-      });
+      })
   }
+
+
 }

@@ -14,7 +14,7 @@ import { FlowService } from '../../flow.service';
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
   user = new User();
-  labels:string[] = [];
+  labels: string[] = [];
 
   constructor(
     private flowService: FlowService,
@@ -72,7 +72,7 @@ export class SaveFlowFormComponent implements OnInit {
     console.log(this.files);
   }
 
-  preview() {}
+  preview() { }
 
   submit() {
     const form = this.saveFlowForm.value;
@@ -104,7 +104,7 @@ export class SaveFlowFormComponent implements OnInit {
       files: {
         data: form_files,
       },
-    };
+    }
 
     this.flowService
       .saveProjectFlowFiles(variables)
@@ -112,11 +112,10 @@ export class SaveFlowFormComponent implements OnInit {
   }
 
   flowSaved(data: any) {
-    console.log(data);
     this.notification.flowSaved(data.data.insert_project.returning[0])
   }
 
-  save() {}
+  save() { }
 
   entitySelected(entity: Entity) {
     this.saveFlowForm.patchValue({
@@ -136,7 +135,7 @@ export class SaveFlowFormComponent implements OnInit {
     this.saveFlowForm.patchValue({ project_owner_id: 0 });
   }
 
-  reset(){
+  reset() {
     this.saveFlowForm.reset()
     this.files = []
     this.saveFlowForm.patchValue({
