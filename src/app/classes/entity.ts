@@ -1,3 +1,5 @@
+import { EntityService } from "../app/entities/service/entity.service";
+
 export class Entity {
   id: number;
   id_text: string;
@@ -29,7 +31,11 @@ export class Entity {
     this.sub_entities_count = 0;
     this.level = 0;
     this.parent_entity_id = 0;
-    
+
     Object.assign(this, _entity)
+  }
+
+  delete() {
+
   }
 }

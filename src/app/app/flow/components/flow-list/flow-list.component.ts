@@ -10,12 +10,12 @@ import { FlowService } from '../../flow.service';
 export class FlowListComponent implements OnInit {
   displayedColumns: string[] = ['sender', 'title', 'reference', 'id', 'date', 'actions'];
 
-  dataSource: Flow[] = [];
+  flows: Flow[] = [];
 
   constructor(private flowService: FlowService) {
     this.flowService.recent_flows.subscribe((data) => {
       console.log(data)
-      this.dataSource = data;
+      this.flows = data;
     });
   }
 

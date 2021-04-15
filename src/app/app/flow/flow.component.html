@@ -6,13 +6,23 @@
     </button>
   </div>
   <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Resultats</mat-label>
+    <mat-form-field appearance="fill" style="margin-bottom: -1.2rem">
+      <mat-label
+        ><mat-icon class="mat-18">reorder</mat-icon> Resultats</mat-label
+      >
       <mat-select [(value)]="flowGroup">
-        <mat-option value="0">Tout</mat-option>
-        <mat-option value="1">Enregistrés</mat-option>
-        <mat-option value="2">Recu</mat-option>
-        <mat-option value="3">Envoyés</mat-option>
+        <mat-option value="0"
+          ><mat-icon class="mat-18">all</mat-icon> Tout</mat-option
+        >
+        <mat-option value="1"
+          ><mat-icon class="mat-18">save</mat-icon> Enregistrés</mat-option
+        >
+        <mat-option value="2"
+          ><mat-icon class="mat-18">inbox</mat-icon> Recu</mat-option
+        >
+        <mat-option value="3"
+          ><mat-icon class="mat-18">send</mat-icon> Envoyés</mat-option
+        >
       </mat-select>
     </mat-form-field>
   </div>

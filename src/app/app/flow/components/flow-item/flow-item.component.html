@@ -1,12 +1,14 @@
-<div>Sender</div>
-<div>Observation</div>
-<div>Title</div>
-<div>Date</div>
-<div>Labels</div>
-
-<button class="action">Mark as read</button>
-<button class="action">Send</button>
-<button class="action">Assign</button>
-<button class="action">Followup</button>
-<button class="action">Followup</button>
-<button class="action">Close</button>
+<article>
+  <div class="id">
+    <span class="numero">
+      {{ flow.project.numero }}
+    </span>
+    <span class="sender">
+      {{ flow.owner.short }}
+    </span>
+  </div>
+  <div class="content">{{ flow.project.title }}</div>
+  <div class="reference">{{ flow.project.reference }}</div>
+  <div class="date">{{ flow.created_at | date }}</div>
+  <div class="actions"></div>
+</article>

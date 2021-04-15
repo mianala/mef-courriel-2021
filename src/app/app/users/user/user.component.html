@@ -1,23 +1,40 @@
-<div class="background"></div>
-<div class="profile-card">
-  <div class="cover"></div>
-  <div class="profile">
-    <div class="pic"></div>
-    <div class="above-fold">
-      <div class="name">
-        {{user.firstname}} 
-        {{user.lastname}}
-      </div>
-      <div class="role">
-        {{user.title}}
-      </div>
-      <div class="location">
-        <mat-icon>home_work</mat-icon> {{user.entity.short_header}}
-      </div>
-      <div class="row">
-        <button mat-button><mat-icon>mail</mat-icon> Email</button>
-        <button mat-button><mat-icon>chat</mat-icon> Contacter</button>
-      </div>
+<mat-card>
+  <mat-card-header>
+    <div
+      mat-card-avatar
+      class="avatar"
+      style="background-size: cover"
+      [style.background-image]="
+        'url(https://randomuser.me/api/portraits/med/women/' + user.id + '.jpg)'
+      "
+    ></div>
+    <mat-card-title>
+      {{ user.firstname }}
+      {{ user.lastname }}
+    </mat-card-title>
+    <mat-card-subtitle>{{ user.title }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="location" fxLayoutAlign="start center">
+      <mat-icon>home_work</mat-icon> <span>{{ user.entity.short_header }}</span>
     </div>
-  </div>
-</div>
+  </mat-card-content>
+  <mat-card-actions fxLayoutAlign="center">
+    <button mat-icon-button color="primary">
+      <mat-icon>mail_outline</mat-icon>
+    </button>
+    <button mat-icon-button color="primary">
+      <mat-icon>chat_bubble_outlined</mat-icon>
+    </button>
+    <!-- <button *ngIf="!user.verified" mat-icon-button (click)="verify()"> -->
+    <button mat-icon-button (click)="verify()">
+      <mat-icon color="primary">check_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button (click)="delete()">
+      <mat-icon color="warn">delete_outline</mat-icon>
+    </button>
+    <button mat-icon-button (click)="transfer()">
+      <mat-icon color="warn">domain</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

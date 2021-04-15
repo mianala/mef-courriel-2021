@@ -4,13 +4,14 @@ import gql from 'graphql-tag';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
+import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from '../../users/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EntityService {
-  constructor(private apollo: Apollo, private userService: UserService) {
+  constructor(private apollo: Apollo, private userService: UserService, private notification: NotificationService) {
     // const ets =
     //   localStorage.getItem('entities') === null
     //     ? this.getEntities().subscribe(this.updateEntities.bind(this))
@@ -121,7 +122,7 @@ export class EntityService {
   updateEntityLabels(entity: Entity) {
 
     const UPDATE_ENTITY_LABELS_MUTATION = gql`
-      mutation desactivate_entity($id: Int!, $labels: String!) {
+      mutation update_entity_labels($id: Int!, $labels: String!) {
         update_entity(where: {id: {_eq: $id}}, _set: {labels: $labels}) {
           affected_rows
           returning{
@@ -148,11 +149,10 @@ export class EntityService {
         }
       }
     `
-
     this.apollo.mutate({
       mutation: DESACTIVATE_ENTITY_MUTATION,
       variables: { entity_id: entity_id }
-    }).subscribe(data => console.log(data))
+    }).subscribe(data => this.notification.open("Entité desactivé"))
   }
 
 

@@ -34,7 +34,8 @@ export class User {
     this.verified = true;
     this.entity = new Entity()
 
-    
+
     Object.assign(this, _user)
   }
+
 }

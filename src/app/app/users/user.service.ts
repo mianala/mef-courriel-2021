@@ -3,6 +3,7 @@ import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/classes/user';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class UserService {
   users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
 
-  constructor(private apollo: Apollo) {
+  constructor(private apollo: Apollo, private notification: NotificationService) {
     const user =
       localStorage.getItem('user') !== null
         ? JSON.parse(localStorage.getItem('user') || '[]')
@@ -140,6 +141,7 @@ export class UserService {
         phone
         im
         title
+        verified
         action_counter
         entity {
           short
@@ -186,7 +188,7 @@ export class UserService {
     }).subscribe(data => console.log(data))
   }
 
-  transfer(entity_id: number) {
+  transfer(user_id: number, entity_id: number) {
     const TRANSFER_USER_MUTATION = gql`
       mutation transfer_user($user_id: Int!, $entity_id: Int!) {
         update_user(where: {id: {_eq: $user_id}}, _set: {
@@ -200,7 +202,7 @@ export class UserService {
 
     this.apollo.mutate({
       mutation: TRANSFER_USER_MUTATION,
-      variables: { user_id: this.active_user.value.id, entity_id: entity_id }
+      variables: { user_id: user_id, entity_id: entity_id }
     }).subscribe(data => console.log(data))
   }
 
@@ -216,7 +218,7 @@ export class UserService {
     this.apollo.mutate({
       mutation: VERIFY_USER_MUTATION,
       variables: { user_id: user_id }
-    }).subscribe(data => console.log(data))
+    }).subscribe(data => this.notification.open('Utilisateur verifié'))
   }
 
   desactivateUser(user: User) {
@@ -233,8 +235,8 @@ export class UserService {
 
     this.apollo.mutate({
       mutation: DESACTIVATE_USER_MUTATION,
-      variables: user
-    }).subscribe(data => console.log(data))
+      variables: { id: user.id }
+    }).subscribe(data => this.notification.open("Utilisateur désactivé"))
   }
 
   updateUserInfo(user: any) {

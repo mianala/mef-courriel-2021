@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Flow } from 'src/app/classes/flow';
+import { FlowService } from '../../flow.service';
 
 @Component({
   selector: 'flow',
@@ -6,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./flow-item.component.scss']
 })
 export class FlowItemComponent implements OnInit {
-
-  constructor() { }
+  @Input() flow: Flow = new Flow()
+  constructor(private flowService: FlowService) { }
 
   ngOnInit(): void {
   }

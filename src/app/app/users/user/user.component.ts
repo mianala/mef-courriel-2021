@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/classes/user';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'user',
@@ -7,10 +8,22 @@ import { User } from 'src/app/classes/user';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  @Input() user:User = new User()
-  constructor() { }
+  @Input() user: User = new User()
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+  }
+
+  verify() {
+    this.userService.verifyUser(this.user.id)
+  }
+
+  delete() {
+    this.userService.desactivateUser(this.user)
+  }
+
+  transfer() {
+    this.userService.desactivateUser(this.user)
   }
 
 }
