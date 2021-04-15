@@ -1,0 +1,43 @@
+<mat-form-field style="width: 100%" appearance="fill">
+  <mat-label>Destinataires</mat-label>
+  <mat-chip-list multiple="false" #chipList aria-label="Destinataires">
+    <mat-chip
+      *ngFor="let entity of entities"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(entity)"
+      (click)="selected_entity_short_header = entity.short_header"
+    >
+      {{ entity.short }}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="Ajouter Destinataire..."
+      #entityInput
+      [formControl]="entityCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"
+    />
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option
+      *ngFor="let entity of filteredEntities"
+      (click)="selected(entity)"
+      [value]="entity.short"
+    >
+      {{ entity.short_header }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-hint
+    align="start"
+    style="color: red"
+    *ngIf="entityCtrl.touched && entities.length == 0"
+  >
+    Sélectionnez au moins <strong>un destinataire</strong>
+  </mat-hint>
+  <mat-hint align="end">
+    {{ selected_entity_short_header }}
+  </mat-hint>
+</mat-form-field>

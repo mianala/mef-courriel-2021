@@ -1,9 +1,9 @@
+<button mat-mini-fab routerLink="/app/entities">
+  <mat-icon>arrow_back</mat-icon>
+</button>
 <div class="container">
   <header>
-    <h1>
-      New Entity [{{ parent_entity?.short }} >
-      {{ short.value }}]
-    </h1>
+    <h1>New Entity [{{ parent_entity?.short }} > {{ short.value }}]</h1>
   </header>
   <form [formGroup]="newNewEntityForm" (ngSubmit)="submit()">
     <mat-form-field appearance="outline">
@@ -19,7 +19,9 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Abréviation (Ex: CIFAG)</mat-label>
-      <input #short (keyup)="newNewEntityForm.patchValue({short_header:short.value})"
+      <input
+        #short
+        (keyup)="newNewEntityForm.patchValue({ short_header: short.value })"
         matInput
         type="text"
         name="short"
@@ -27,10 +29,10 @@
         formControlName="short"
       />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Entête (Ex: MEF/SG/DGFAG)</mat-label>
-      <span matPrefix>{{this.parent_entity.short_header}}/  </span>
-      <input 
+      <span matPrefix>{{ this.parent_entity.short_header }}/ </span>
+      <input
         matInput
         type="text"
         name="short_header"

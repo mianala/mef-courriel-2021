@@ -72,6 +72,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UserPageComponent } from './app/user/user-page/user-page.component';
 import { UserResetPasswordComponent } from './app/user/user-reset-password/user-reset-password.component';
 import { EditUserComponent } from './app/user/edit-user/edit-user.component';
+import { EntitiesChipAutocompleteComponent } from './app/entities/components/entities-chip-autocomplete/entities-chip-autocomplete.component';
+import { SendFlowFormComponent } from './app/flow/form/send-flow-form/send-flow-form.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +142,8 @@ import { EditUserComponent } from './app/user/edit-user/edit-user.component';
     UserPageComponent,
     UserResetPasswordComponent,
     EditUserComponent,
+    EntitiesChipAutocompleteComponent,
+    SendFlowFormComponent,
   ],
   imports: [
     BrowserModule,

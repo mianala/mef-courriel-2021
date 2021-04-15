@@ -1,51 +1,22 @@
-<section class="actions">
-  <button mat-raised-button color="primary">
-    <mat-icon> add </mat-icon>
-    Enregistrer
-  </button>
+<section class="actions" fxLayoutAlign="space-between center ">
+  <div>
+    <button mat-raised-button color="primary" routerLink="/app/flow/save">
+      <mat-icon> add </mat-icon>
+      Enregistrer
+    </button>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Resultats</mat-label>
+      <mat-select [(value)]="flowGroup">
+        <mat-option value="0">Tout</mat-option>
+        <mat-option value="1">Enregistrés</mat-option>
+        <mat-option value="2">Recu</mat-option>
+        <mat-option value="3">Envoyés</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </section>
-<nav mat-tab-nav-bar>
-  <a
-    mat-tab-link
-    routerLink="/app/flow/view/all"
-    routerLinkActive
-    #RouterLinkActive="routerLinkActive"
-    [active]="RouterLinkActive.isActive"
-  >
-    <mat-icon class="example-tab-icon">topic</mat-icon>
-    Tout</a
-  >
-  <a
-    mat-tab-link
-    routerLink="/app/flow/view/saved"
-    routerLinkActive
-    #RouterLinkActive1="routerLinkActive"
-    [active]="RouterLinkActive1.isActive"
-  >
-    <mat-icon class="example-tab-icon">mail</mat-icon>
-    Enregistrés</a
-  >
-  <a
-    mat-tab-link
-    routerLink="/app/flow/view/received"
-    routerLinkActive
-    #RouterLinkActive2="routerLinkActive"
-    [active]="RouterLinkActive2.isActive"
-  >
-    <mat-icon class="example-tab-icon">inbox</mat-icon>
-    Reçu</a
-  >
-  <a
-    mat-tab-link
-    routerLink="/app/flow/view/sent"
-    routerLinkActive
-    #RouterLinkActive3="routerLinkActive"
-    [active]="RouterLinkActive3.isActive"
-  >
-    <mat-icon class="example-tab-icon">send</mat-icon>
-    Envoyés</a
-  >
-</nav>
 
 <flow-list></flow-list>
 

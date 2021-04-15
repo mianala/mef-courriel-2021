@@ -1,3 +1,10 @@
-:host{
-  max-width: 300px;
+mat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 75%;
+  mat-card-subtitle {
+    width: clamp(5rem, auto, 10rem);
+  }
 }

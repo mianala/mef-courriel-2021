@@ -1,8 +1,11 @@
-.entities{
+.entities {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  entity{
-    margin: 10px;
-    height: 160px;
+  padding: 1rem;
+  gap: 1rem;
+  entity {
+    // flex-basis: fit-content;
+    flex: 1 1 auto;
   }
 }

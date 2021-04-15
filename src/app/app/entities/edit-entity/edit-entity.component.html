@@ -1,1 +1,65 @@
-<p>edit-entity works!</p>
+<button mat-mini-fab routerLink="/app/entities">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+<div class="container">
+  <header>
+    <h1>Edit Entity [{{ entity?.short }}]</h1>
+  </header>
+  <form [formGroup]="editEntityForm" (ngSubmit)="submit()" fxLayout="column">
+    <mat-form-field appearance="outline">
+      <mat-label>Nom (Ex: Cellule Informatique ...) </mat-label>
+      <input
+        matInput
+        type="text"
+        name="long"
+        id="long"
+        formControlName="long"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Abréviation (Ex: CIFAG)</mat-label>
+      <input
+        #short
+        (keyup)="editEntityForm.patchValue({ short_header: short.value })"
+        matInput
+        type="text"
+        name="short"
+        id="short"
+        formControlName="short"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Entête (Ex: MEF/SG/DGFAG)</mat-label>
+      <span matPrefix>{{ this.entity.short_header }}/ </span>
+      <input
+        matInput
+        type="text"
+        name="short_header"
+        id="short_header"
+        formControlName="short_header"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Niveau</mat-label>
+      <input
+        matInput
+        type="number"
+        name="level"
+        id="level"
+        formControlName="level"
+      />
+    </mat-form-field>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!editEntityForm.valid"
+      >
+        Valider
+      </button>
+    </div>
+  </form>
+</div>

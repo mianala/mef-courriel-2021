@@ -1,0 +1,14 @@
+mat-row {
+  * {
+    outline: 0;
+  }
+  &:hover {
+    // background-color: #eee;
+    transition: 0.3s ease-out;
+    // cursor: pointer;
+  }
+
+  button {
+    z-index: 3;
+  }
+}

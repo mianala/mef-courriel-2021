@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @include mat-core();
 
 :host {
@@ -15,7 +15,7 @@ div {
 }
 
 main {
-  margin-left: $nav-width * 3/2;
+  margin-left: $nav-width;
   width: 100%;
 }
 
@@ -27,6 +27,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   section {
     display: flex;
     flex-direction: column;
@@ -43,11 +44,12 @@ nav {
       height: 27px;
       width: 27px;
     }
-    .nav-link{
+    .nav-link {
       cursor: pointer;
     }
     span {
       outline: 0;
+      z-index: 10;
       border: none;
 
       -moz-outline-style: none;

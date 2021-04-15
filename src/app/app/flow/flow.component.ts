@@ -7,8 +7,9 @@ import { FlowService } from './flow.service';
 })
 export class FlowComponent implements OnInit {
 
-  
- constructor(private flowService:FlowService) { }
+  flowGroup = 0
+
+  constructor(public flowService: FlowService) { }
 
   ngOnInit(): void {
   }

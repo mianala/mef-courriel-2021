@@ -1,6 +1,8 @@
-<div class="header-actions" >
+<div class="header-actions">
   <span class="start">
-    <button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+    <button mat-icon-button routerLink="/app/flow">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
   </span>
   <span class="end">
     <button mat-icon-button><mat-icon>people_outline</mat-icon></button>
@@ -9,24 +11,29 @@
   </span>
 </div>
 <main>
+  <section class="flow">
+    <div [hidden]="project.hasOwner()">
+      {{ project.owner_text }} à {{ flow.owner.short }}
+    </div>
+    <div
+      *ngIf="project.hasOwner()"
+      class="mat-caption"
+      style="color: #444; margin-bottom: 1em"
+    >
+      <b class="flow-header-entity">{{ project.owner.short }}</b> à
+      <b class="flow-header-entity">{{ flow.owner.short }}</b>
+      (Réf: {{ project.reference }})
+    </div>
+  </section>
+  <article>
+    <h1 style="font-weight: 300; margin-bottom: 0" class="mat-display-1">
+      {{ project.title }}
+    </h1>
+  </article>
 
-<section class="flow">
-  <div [hidden]="project.hasOwner()">
-    {{ project.owner_text }} à {{ flow.owner.short }}
-  </div>
-  <div *ngIf="project.hasOwner()" class="mat-caption" style="color: #444;margin-bottom: 1em;">
-    <b class="flow-header-entity">{{ project.owner.short }}</b> à
-    <b class="flow-header-entity">{{ flow.owner.short }}</b>
-    (Réf: {{project.reference}})
-  </div>
-</section>
-<article>
-  <h1 style="font-weight: 300; margin-bottom: 0;" class="mat-display-1">{{ project.title }}</h1>
-</article>
+  <pdf-viewer
+    src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf"
+  ></pdf-viewer>
 
-
-
-<pdf-viewer src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf"></pdf-viewer>
-
-<!-- <flow-list></flow-list> -->
+  <!-- <flow-list></flow-list> -->
 </main>

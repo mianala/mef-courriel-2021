@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Entity } from 'src/app/classes/entity';
+import { EntityService } from '../service/entity.service';
 
 @Component({
   selector: 'app-edit-entity',
@@ -8,16 +10,47 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-entity.component.scss']
 })
 export class EditEntityComponent implements OnInit {
-  entity_id: number | undefined;
+  entity_id: number = 0;
+  entity: Entity = new Entity();
 
   editEntityForm = new FormGroup({
-    short: new FormControl(),
-    long: new FormControl(),
+    short: new FormControl('', [Validators.required]),
+    long: new FormControl('', [Validators.required]),
+    level: new FormControl(0, [Validators.required]),
+    short_header: new FormControl(''),
   });
-  constructor(private route: ActivatedRoute) { }
+
+  constructor(
+    private route: ActivatedRoute,
+    private entityService: EntityService
+  ) {
+    this.entity_id = parseInt(this.route.snapshot.params.entity_id);
+    this.entityService.getEntity(this.entity_id).subscribe(this.getEntity.bind(this));
+  }
 
   ngOnInit(): void {
-    this.entity_id = this.route.snapshot.params.entity_id;
+
+  }
+
+  getEntity(data: any) {
+
+    Object.assign(this.entity, data.data.entity[0]);
+
+    this.editEntityForm.patchValue({
+      level: this.entity.level,
+      short: this.entity.short,
+      long: this.entity.long,
+      short_header: this.entity.short_header,
+    });
+  }
+
+  submit() {
+    const form = this.editEntityForm.value;
+
+    const old_entity = this.entity
+    const updatedEntity = { ...old_entity, ...form }
+
+    this.entityService.updateEntityInfo(updatedEntity)
   }
 
 }

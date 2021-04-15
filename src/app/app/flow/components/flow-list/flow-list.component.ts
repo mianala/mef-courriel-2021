@@ -8,9 +8,9 @@ import { FlowService } from '../../flow.service';
   styleUrls: ['./flow-list.component.scss'],
 })
 export class FlowListComponent implements OnInit {
-  displayedColumns: string[] = ['sender', 'title', 'reference', 'id', 'date'];
+  displayedColumns: string[] = ['sender', 'title', 'reference', 'id', 'date', 'actions'];
 
-  dataSource:Flow[] = [];
+  dataSource: Flow[] = [];
 
   constructor(private flowService: FlowService) {
     this.flowService.recent_flows.subscribe((data) => {
@@ -19,5 +19,6 @@ export class FlowListComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
+
 }

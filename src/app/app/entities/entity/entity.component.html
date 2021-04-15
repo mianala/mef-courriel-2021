@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z2">
   <mat-card-header>
-    <mat-card-title>{{entity?.short}}</mat-card-title>
-    <mat-card-subtitle>{{entity?.long}}</mat-card-subtitle>
+    <mat-card-title>{{ entity?.short }}</mat-card-title>
+    <mat-card-subtitle>{{ entity?.long }}</mat-card-subtitle>
   </mat-card-header>
   <!-- <mat-card-content>
     <p>
@@ -9,7 +9,15 @@
     </p>
   </mat-card-content> -->
   <mat-card-actions>
-    <button mat-icon-button [routerLink]="'/app/entities/add/'+entity?.id"><mat-icon>add</mat-icon></button>
-    <button mat-icon-button color="warn"> <mat-icon>people_outline</mat-icon> </button>
+    <button mat-icon-button [routerLink]="'/app/entities/add/' + entity?.id">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-icon-button><mat-icon>people_outline</mat-icon></button>
+    <button mat-icon-button [routerLink]="'/app/entities/edit/' + entity?.id">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="warn">
+      <mat-icon> do_not_disturb_on</mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>

@@ -97,10 +97,11 @@ export class EntityService {
 
   updateEntityInfo(entity: any) {
     const UDPATE_ENTITY_INFO = gql`
-      mutation entity($entity_id: Int!, $short: String!,$long: String!, $short_header: String!) {
-        entity(where: {id: {_eq: $entity_id}}, _set: {
+      mutation entity($id: Int!, $short: String!,$long: String!, $short_header: String!, $level: Int!) {
+        entity(where: {id: {_eq: $id}}, _set: {
             short: $short
             long: $long
+            level: $level
             short_header: $short_header
           }) {
           affected_rows
