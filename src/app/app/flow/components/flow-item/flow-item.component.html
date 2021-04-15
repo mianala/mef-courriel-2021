@@ -1,4 +1,9 @@
-<div class="id">
+<div class="labels">
+  <a mat-icon-button>
+    <mat-icon class="mat-18">label_important</mat-icon>
+  </a>
+</div>
+<div class="headers">
   <span class="numero">
     {{ flow.project.numero }}
   </span>
@@ -8,16 +13,27 @@
   <div class="reference">{{ flow.project.reference }}</div>
 </div>
 <div class="content">
-  <div class="title">
+  <div class="title" [routerLink]="'/app/flow/project/' + flow.id">
     {{ flow.project.title }}
   </div>
   <div class="observation">
     {{ flow.content }}
   </div>
 </div>
-<div class="date">{{ flow.created_at | date }}</div>
+<div class="info">
+  <mat-icon color="warn">error_outline</mat-icon
+  ><span class="date">
+    {{ flow.created_at | date }}
+  </span>
+</div>
 <div class="actions">
+  <a mat-icon-button [routerLink]="'/app/flow/project/' + flow.id">
+    <mat-icon class="mat-18">folder_open</mat-icon>
+  </a>
   <a mat-icon-button>
-    <mat-icon class="mat-18">project</mat-icon>
+    <mat-icon class="mat-18">mark_email_read</mat-icon>
+  </a>
+  <a mat-icon-button [routerLink]="'/app/flow/send/' + flow.id">
+    <mat-icon class="mat-18">call_split</mat-icon>
   </a>
 </div>

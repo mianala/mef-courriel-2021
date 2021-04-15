@@ -26,6 +26,7 @@ import { FlowPageComponent } from '../app/flow/pages/flow-page/flow-page.compone
 import { FlowLandingPageComponent } from '../app/flow/pages/flow-landing-page/flow-landing-page.component';
 import { UserPageComponent } from '../app/user/user-page/user-page.component';
 import { SettingsComponent } from '../app/settings/settings.component';
+import { SendFlowFormComponent } from '../app/flow/form/send-flow-form/send-flow-form.component';
 
 const routes: Routes = [
   {
@@ -148,6 +149,10 @@ const routes: Routes = [
             path: 'project/:flow_id',
             component: FlowPageComponent,
           },
+          {
+            path: 'send/:flow_id',
+            component: SendFlowFormComponent,
+          },
         ],
       },
     ],
@@ -158,4 +163,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

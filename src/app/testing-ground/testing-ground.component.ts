@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./testing-ground.component.scss']
 })
 export class TestingGroundComponent implements OnInit {
-labels = ['nothing']
+  labels = ['nothing']
   constructor() { }
 
   ngOnInit(): void {

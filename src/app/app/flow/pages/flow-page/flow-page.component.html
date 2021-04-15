@@ -1,26 +1,20 @@
-<div class="header-actions">
-  <span class="start">
-    <button mat-icon-button routerLink="/app/flow">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-  </span>
-  <span class="end">
-    <button mat-icon-button><mat-icon>people_outline</mat-icon></button>
-    <button mat-icon-button><mat-icon>send_outline</mat-icon></button>
-    <button mat-icon-button><mat-icon>info_outline</mat-icon></button>
-  </span>
-</div>
 <main>
+  <div class="header-actions">
+    <span class="start">
+      <button mat-icon-button routerLink="/app/flow">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </span>
+    <span class="end">
+      <button mat-icon-button><mat-icon>people_outline</mat-icon></button>
+      <button mat-icon-button><mat-icon>call_split</mat-icon></button>
+      <button mat-icon-button><mat-icon>mark_email_read</mat-icon></button>
+      <button mat-icon-button><mat-icon>info_outline</mat-icon></button>
+    </span>
+  </div>
   <section class="flow">
-    <div [hidden]="project.hasOwner()">
-      {{ project.owner_text }} à {{ flow.owner.short }}
-    </div>
-    <div
-      *ngIf="project.hasOwner()"
-      class="mat-caption"
-      style="color: #444; margin-bottom: 1em"
-    >
-      <b class="flow-header-entity">{{ project.owner.short }}</b> à
+    <div class="mat-caption" style="color: #444; margin-bottom: 1em">
+      <b class="flow-header-entity">{{ flow.senderText() }}</b> à
       <b class="flow-header-entity">{{ flow.owner.short }}</b>
       (Réf: {{ project.reference }})
     </div>

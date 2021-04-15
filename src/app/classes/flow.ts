@@ -55,9 +55,16 @@ export class Flow {
   isSaved() {
     return this.action == 1;
   }
+  isSent() {
+    return this.action == 2;
+  }
 
   isUrgent() {
     return this.status == 1;
+  }
+
+  isRead() {
+    return this.status == 2;
   }
 
   senderText() {

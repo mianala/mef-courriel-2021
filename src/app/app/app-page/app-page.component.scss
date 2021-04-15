@@ -7,7 +7,7 @@
 
 $blue-pantone: mat-color($mat-indigo, A400);
 $red-ryb: mat-color($mat-pink, A400);
-$nav-width: 70px;
+$nav-width: 4rem;
 
 div {
   color: white;
@@ -15,7 +15,8 @@ div {
 }
 
 main {
-  margin-left: $nav-width;
+  padding-left: $nav-width;
+  width: 100vw;
 }
 
 nav {
@@ -31,32 +32,35 @@ nav {
     display: flex;
     flex-direction: column;
     img {
-      text-align: center;
       display: flex;
       width: 55px;
       align-items: center;
-      width: 100%;
-      padding: 20px 0;
+      justify-content: center;
+      padding: 1rem 0;
     }
     .mat-icon {
       font-size: 27px;
-      height: 27px;
-      width: 27px;
     }
     .nav-link {
       cursor: pointer;
     }
     span {
       outline: 0;
-      z-index: 10;
-      border: none;
 
+      border: none;
       -moz-outline-style: none;
 
       width: 100%;
-      padding: 15px 0;
       text-align: center;
       transition: 0.3s ease-in;
+      padding: 0.2rem 0;
+      div {
+        z-index: 10;
+        height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       &:not(.active):hover {
         background-color: transparent;
         transition: 0.3s ease-in;
@@ -67,20 +71,16 @@ nav {
       }
 
       &.active {
-        margin-left: 38px;
-        transition: 0.3s ease-in;
+        margin-left: $nav-width/2;
+        transition: 0.3s ease-out;
 
         div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
             0 6px 20px 0 rgba(0, 0, 0, 0.19);
-          transition: 0.3s ease-in;
+          transition: 0.3s ease-out;
           border-radius: 20px;
-          width: 65px;
+          width: 4rem;
           background-color: white;
-          height: 65px;
           color: $red-ryb;
         }
       }
