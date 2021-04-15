@@ -1,14 +1,23 @@
-<article>
-  <div class="id">
-    <span class="numero">
-      {{ flow.project.numero }}
-    </span>
-    <span class="sender">
-      {{ flow.owner.short }}
-    </span>
-  </div>
-  <div class="content">{{ flow.project.title }}</div>
+<div class="id">
+  <span class="numero">
+    {{ flow.project.numero }}
+  </span>
+  <span class="sender">
+    {{ flow.owner.short }}
+  </span>
   <div class="reference">{{ flow.project.reference }}</div>
-  <div class="date">{{ flow.created_at | date }}</div>
-  <div class="actions"></div>
-</article>
+</div>
+<div class="content">
+  <div class="title">
+    {{ flow.project.title }}
+  </div>
+  <div class="observation">
+    {{ flow.content }}
+  </div>
+</div>
+<div class="date">{{ flow.created_at | date }}</div>
+<div class="actions">
+  <a mat-icon-button>
+    <mat-icon class="mat-18">project</mat-icon>
+  </a>
+</div>
