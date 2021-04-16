@@ -1,4 +1,3 @@
-
 <div class="wrapper">
   <div class="header">
     <h1><mat-icon>add</mat-icon>Enregistrer un nouveau courrier</h1>
@@ -99,7 +98,6 @@
       <textarea name="title" formControlName="title" matInput></textarea>
     </mat-form-field>
 
-
     <mat-form-field appearance="outline">
       <mat-label>Observations / Instructions</mat-label>
       <textarea name="content" formControlName="content" matInput></textarea>
@@ -110,43 +108,8 @@
     </mat-form-field> -->
     <labels [(labels)]="labels"></labels>
 
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title fxLayoutAlign="start center"  ><mat-icon>preview</mat-icon> Prévisualiser</mat-panel-title>
-        <mat-panel-description> </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div>
-        <div>
-          Objet:
-          {{ saveFlowForm.value.title }}
-        </div>
-        <div>
-          Numero:
-          {{ saveFlowForm.value.numero }}
-        </div>
-        <div>
-          Date du courrier:
-          {{ saveFlowForm.value.date | date }}
-        </div>
-        <div>
-          Recu le:
-          {{ saveFlowForm.value.date_received | date }}
-        </div>
-        <div>
-          Observation:
-          {{ saveFlowForm.value.content }}
-        </div>
-        <div>
-          {{ saveFlowForm.value.letter_text }}
-          {{ saveFlowForm.value.type_text }}
-        </div>
-      </div>
-    </mat-expansion-panel>
-    <files [files]="files" (fileRemoved)="removeFile($event)"></files>
+    <files [(files)]="files"></files>
     <div class="columns">
-      <file-upload-button
-        (fileSelected)="getFiles($event)"
-      ></file-upload-button>
       <button
         [disabled]="!saveFlowForm.valid"
         (click)="submit()"

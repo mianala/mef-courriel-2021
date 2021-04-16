@@ -1,0 +1,20 @@
+.wrapper {
+  max-width: 900px;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em 0 1em 0;
+}
+
+form {
+  padding: 0 1rem 2em 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-form-field {
+  display: block;
+}

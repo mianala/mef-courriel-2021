@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'files',
@@ -7,18 +7,24 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class FilesComponent implements OnInit {
   @Input() files: any[] = [];
-  @Output() fileRemoved = new EventEmitter;
+  @Output() filesChange = new EventEmitter;
+
   constructor() {
   }
 
   ngOnInit() {
   }
 
-  // wait
-  remove(file:any) {
-    if (file.name) {
-      this.fileRemoved.emit(file)
-    }
+  remove() {
+
+  }
+
+  removeFile(file: any) {
+    this.files.splice(this.files.indexOf(file), 1);
+  }
+
+  getFiles(e: File[]) {
+    this.files = [...this.files, ...e]
   }
 
 }

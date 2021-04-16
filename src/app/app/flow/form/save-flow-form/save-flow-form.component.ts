@@ -63,14 +63,7 @@ export class SaveFlowFormComponent implements OnInit {
 
   files: any[] = [];
 
-  getFiles(files: any[]) {
-    this.files = files;
-  }
 
-  removeFile(file: any) {
-    this.files.splice(this.files.indexOf(file), 1);
-    console.log(this.files);
-  }
 
   preview() { }
 
