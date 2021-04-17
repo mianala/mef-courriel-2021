@@ -1,13 +1,8 @@
-@import "~@angular/material/theming";
-@include mat-core();
+@import "~src/_variables";
 
 :host {
   display: flex;
 }
-
-$blue-pantone: mat-color($mat-indigo, A400);
-$red-ryb: mat-color($mat-pink, A400);
-$nav-width: 4rem;
 
 div {
   color: white;
@@ -23,7 +18,7 @@ nav {
   height: 100vh;
   width: $nav-width;
   position: fixed;
-  background-color: $blue-pantone;
+  background-color: $primary;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

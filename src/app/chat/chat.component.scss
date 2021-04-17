@@ -1,23 +1,84 @@
+@import "~src/_variables";
+
+$grey: hsl(218, 50%, 97%);
+$white: hsl(0, 0%, 100%);
+$avatar-size: 2.5rem;
+$border-radius: 0.5rem;
+
 :host {
+  padding: 0.5rem;
   display: flex;
+  gap: 1rem;
+  align-items: stretch;
 }
 .sidebar {
+  // sidebar flex
+  padding-right: 0.5rem;
+  flex-basis: 15rem;
+  flex-grow: 1;
+  padding: 1rem;
+
+  .chat-info {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    background-color: $grey;
+  }
   .users {
     display: flex;
     flex-direction: column;
+
+    gap: 0.5rem;
+    .user {
+      padding: 0.5rem;
+      border-radius: 1rem;
+      gap: 0.5rem;
+      .name {
+        flex: 1;
+      }
+      &.active {
+        background-color: $grey;
+      }
+    }
   }
 }
+
+.avatar {
+  display: flex;
+  min-width: $avatar-size;
+  height: $avatar-size;
+  border-radius: 1.5rem;
+}
+
 .conversation {
-  background-color: hsl(0, 0%, 83%);
+  min-height: 30rem;
+  height: calc(100vh - 1rem);
+  // is this how we do sidebar? Shout out to https://every-layout.dev/layouts/sidebar/
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: 50%;
+
+  background-color: $grey;
   border-radius: 1rem;
   padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+
   .header {
     display: flex;
     gap: 1rem;
     justify-content: space-between;
+    .user-info {
+      flex: 1 1 auto;
+    }
   }
   .messages {
+    padding: 1rem;
+    flex-basis: 0;
+    flex-grow: 999;
+    min-width: 50%;
+
     display: flex;
+
     flex-direction: column-reverse;
     .message-container {
       .message {
@@ -27,21 +88,50 @@
         justify-content: start;
         align-items: center;
         .content {
-          border-radius: 0.2rem;
-          padding: 0.3rem;
-          color: hsl(263, 91%, 8%);
-          background-color: hsl(0, 0%, 95%);
+          border-radius: 0.5rem;
+          padding: 0.5rem;
+          color: hsl(224, 39%, 17%);
+          background-color: $white;
         }
       }
-      &.received {
+      .time::before {
+        content: "";
+        width: 5rem;
+      }
+      &.sent {
         .message {
           flex-direction: row-reverse;
           .content {
-            color: hsl(0, 0%, 95%);
-            background-color: hsl(263, 91%, 8%);
+            color: $white;
+            background-color: $primary;
           }
         }
+
+        .time {
+          display: flex;
+          flex-direction: row-reverse;
+        }
       }
+    }
+  }
+
+  .write-message {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    background-color: $white;
+    mat-form-field {
+      flex-basis: 0;
+      flex-grow: 999;
+      min-width: 50%;
+      margin-bottom: -1.34375em;
+    }
+
+    button {
+      flex-basis: 7rem;
+      flex-grow: 1;
     }
   }
 }
