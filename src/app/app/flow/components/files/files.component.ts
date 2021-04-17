@@ -15,11 +15,7 @@ export class FilesComponent implements OnInit {
   ngOnInit() {
   }
 
-  remove() {
-
-  }
-
-  removeFile(file: any) {
+  remove(file: any) {
     this.files.splice(this.files.indexOf(file), 1);
   }
 

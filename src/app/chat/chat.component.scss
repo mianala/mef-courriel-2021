@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+}
+.sidebar {
+  .users {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.conversation {
+  background-color: hsl(0, 0%, 83%);
+  border-radius: 1rem;
+  padding: 0.7rem;
+  .header {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  .messages {
+    display: flex;
+    flex-direction: column-reverse;
+    .message-container {
+      .message {
+        height: fit-content;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: start;
+        align-items: center;
+        .content {
+          border-radius: 0.2rem;
+          padding: 0.3rem;
+          color: hsl(263, 91%, 8%);
+          background-color: hsl(0, 0%, 95%);
+        }
+      }
+      &.received {
+        .message {
+          flex-direction: row-reverse;
+          .content {
+            color: hsl(0, 0%, 95%);
+            background-color: hsl(263, 91%, 8%);
+          }
+        }
+      }
+    }
+  }
+}

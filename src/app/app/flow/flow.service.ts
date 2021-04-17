@@ -109,24 +109,24 @@ export class FlowService {
     });
   }
 
-  send(flows: Flow[]) {
+  send(flows: any[]) {
 
     const SEND_PROJECT = gql`
       mutation send_project($objects: [flow_insert_input!]) {
         insert_flow(objects: $objects) {
           affected_rows
+          returning{
+            id
+            content
+          }
         }
       }
     `
 
-    console.log(flows)
-
-    return
-
     this.apollo.mutate({
       mutation: SEND_PROJECT,
       variables: flows
-    })
+    }).subscribe(data => console.log(data));
 
   }
 
@@ -160,6 +160,7 @@ export class FlowService {
           id
           content
           action
+          project_id
           initiator {
             id
             short
@@ -207,7 +208,12 @@ export class FlowService {
       variables: {
         id: id,
       },
-    })
+    }).pipe(
+      map((val: any) => {
+        return val.data.flow.map((val: any) => {
+          return new Flow(val);
+        });
+      }))
   }
 
   getAllFlow(entity_id: number) {

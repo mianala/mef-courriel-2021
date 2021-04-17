@@ -1,1 +1,78 @@
-<p>chat works!</p>
+<div class="sidebar">
+  <div class="search"></div>
+  <div class="users">
+    <div class="user" fxLayoutAlign="space-between center">
+      <div
+        mat-card-avatar
+        class="avatar"
+        style="background-size: cover"
+        [style.background-image]="
+          'url(https://randomuser.me/api/portraits/med/women/12'
+        "
+      ></div>
+      <div class="name">Ashley</div>
+      <mat-icon matBadge="8" color="warn">chat_bubble</mat-icon>
+    </div>
+  </div>
+</div>
+<div class="conversation">
+  <div class="header">
+    <button mat-icon-button class="back-button">
+      <mat-icon class="mat-18">arrow_back</mat-icon>
+    </button>
+    <div class="user-info">
+      <div class="name">Ashley</div>
+      <div class="">
+        <div class="user-entity">CIFAG</div>
+        <div class="user-title">Développeur</div>
+      </div>
+    </div>
+    <button class="info" mat-icon-button>info</button>
+  </div>
+  <div class="messages">
+    <div class="message-container sent">
+      <div class="message">
+        <div
+          mat-card-avatar
+          class="avatar"
+          style="background-size: cover"
+          [style.background-image]="
+            'url(https://randomuser.me/api/portraits/med/women/12'
+          "
+        ></div>
+        <div class="content mat-elevaltion-z2">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+          tenetur, modi neque est harum expedita cupiditate earum amet corporis
+          quis non consectetur facilis nobis! Hic quam unde molestias obcaecati
+          magni?
+        </div>
+      </div>
+      <div class="time">12:45</div>
+    </div>
+    <div class="message-container received">
+      <div class="message">
+        <div
+          mat-card-avatar
+          class="avatar"
+          style="background-size: cover"
+          [style.background-image]="
+            'url(https://randomuser.me/api/portraits/med/women/12'
+          "
+        ></div>
+        <div class="content mat-elevaltion-z2">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+          tenetur, modi neque est harum expedita cupiditate earum amet corporis
+          quis non consectetur facilis nobis! Hic quam unde molestias obcaecati
+          magni?
+        </div>
+      </div>
+      <div class="time">12:45</div>
+    </div>
+    <div class="write-message">
+      <button mat-raised-button>
+        Envoyer <mat-icon class="mat-18">arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </div>
+  <!-- files in the future -->
+</div>

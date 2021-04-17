@@ -20,6 +20,9 @@
       matInput
     ></textarea>
   </mat-form-field>
+  <mat-checkbox [(ngModel)]="flow.urgent" name="urgent"
+    >Urgent <mat-icon color="warn">error_outline</mat-icon></mat-checkbox
+  >
   <mat-form-field appearance="outline">
     <mat-label>Note</mat-label>
     <textarea name="note" [(ngModel)]="flow.note" matInput></textarea>

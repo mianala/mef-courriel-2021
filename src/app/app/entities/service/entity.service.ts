@@ -68,25 +68,25 @@ export class EntityService {
 
   getEntity(id: number) {
     const GET_ENTITY_QUERY = gql`
-    query get_entity($id: Int!) {
-      entity(where: { id: { _eq: $id } }) {
-        id
-        id_text
-        long
-        short
-        numero
-        sent_count
-        received_count
-        active
-        short_header
-        long_header
-        labels
-        level
-        parent_entity_id
-        sub_entities_count
+      query get_entity($id: Int!) {
+        entity(where: { id: { _eq: $id } }) {
+          id
+          id_text
+          long
+          short
+          numero
+          sent_count
+          received_count
+          active
+          short_header
+          long_header
+          labels
+          level
+          parent_entity_id
+          sub_entities_count
+        }
       }
-    }
-  `
+    `
     return this.apollo.query({
       query: GET_ENTITY_QUERY,
       variables: {
@@ -94,7 +94,6 @@ export class EntityService {
       },
     })
   }
-
 
   updateEntityInfo(entity: any) {
     const UDPATE_ENTITY_INFO = gql`
@@ -170,6 +169,36 @@ export class EntityService {
       variables: { entity_id: entity_id }
     }).subscribe(data => console.log(data))
   }
+
+  incrementEntitySentCount() {
+    const INC_SENT_COUNT = gql`
+      mutation increment_sent_count($entity_id: Int!) {
+        update_entity(
+          where: { id: { _eq: $entity_id } }
+          _inc: { sent_count: 1 }
+        ) {
+          returning {
+            id
+            short
+            sent_count
+          }
+        }
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: INC_SENT_COUNT,
+      variables: {
+        entity_id: this.active_entity.value.id
+      }
+    }).subscribe(data => console.log(data))
+
+    const activeEntity = this.active_entity.value
+    activeEntity.sent_count += 1
+
+    this.active_entity.next(activeEntity)
+  }
+
   addNewEntity(variables: any) {
     const add_new_entity_mutation = gql`
       mutation add_new_entity(

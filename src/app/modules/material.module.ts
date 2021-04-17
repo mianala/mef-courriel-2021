@@ -19,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -44,6 +45,7 @@ import { MatTableModule } from '@angular/material/table';
     MatExpansionModule,
     MatChipsModule,
     MatTableModule,
+    MatCheckboxModule,
   ],
   exports: [
     MatIconModule,
@@ -67,7 +69,8 @@ import { MatTableModule } from '@angular/material/table';
     MatExpansionModule,
     MatChipsModule,
     MatTableModule,
+    MatCheckboxModule,
   ],
   providers: [MatDatepickerModule],
 })
-export class MaterialModule {}
+export class MaterialModule { }
