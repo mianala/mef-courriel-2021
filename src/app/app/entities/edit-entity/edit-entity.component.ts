@@ -34,7 +34,7 @@ export class EditEntityComponent implements OnInit {
 
   getEntity(data: any) {
 
-    Object.assign(this.entity, data.data.entity[0]);
+    Object.assign(this.entity, data[0]);
 
     this.editEntityForm.patchValue({
       level: this.entity.level,
@@ -47,8 +47,7 @@ export class EditEntityComponent implements OnInit {
   submit() {
     const form = this.editEntityForm.value;
 
-    const old_entity = this.entity
-    const updatedEntity = { ...old_entity, ...form }
+    const updatedEntity = { ...{ id: this.entity.id }, ...form }
 
     this.entityService.updateEntityInfo(updatedEntity)
   }

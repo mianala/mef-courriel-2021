@@ -23,7 +23,7 @@ export class UserComponent implements OnInit {
   }
 
   transfer() {
-    this.userService.desactivateUser(this.user)
+
   }
 
 }

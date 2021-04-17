@@ -27,6 +27,7 @@ import { FlowLandingPageComponent } from '../app/flow/pages/flow-landing-page/fl
 import { UserPageComponent } from '../app/user/user-page/user-page.component';
 import { SettingsComponent } from '../app/settings/settings.component';
 import { SendFlowFormComponent } from '../app/flow/form/send-flow-form/send-flow-form.component';
+import { EntityUsersComponent } from '../app/entities/entity-users/entity-users.component';
 
 const routes: Routes = [
   {
@@ -80,20 +81,25 @@ const routes: Routes = [
         component: ChatComponent,
       },
       {
-        path: 'entity',
-        component: ChatComponent,
-      },
-      {
         path: 'entities',
-        component: EntitiesComponent,
-      },
-      {
-        path: 'entities/add/:entity_id',
-        component: AddNewEntityComponent,
-      },
-      {
-        path: 'entities/edit/:entity_id',
-        component: EditEntityComponent,
+        children: [
+          {
+            path: '',
+            component: EntitiesComponent,
+          },
+          {
+            path: 'entity/:entity_id',
+            component: EntityUsersComponent,
+          },
+          {
+            path: 'add/:entity_id',
+            component: AddNewEntityComponent,
+          },
+          {
+            path: 'edit/:entity_id',
+            component: EditEntityComponent,
+          },
+        ]
       },
       {
         path: 'users',

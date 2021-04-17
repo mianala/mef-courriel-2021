@@ -10,14 +10,27 @@ div {
 }
 
 main {
-  padding-left: $nav-width;
-  width: 100vw;
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: 50%;
+  z-index: 0;
+}
+
+// I wish I could get rid of this
+.nav-holder {
+  flex-basis: $nav-width;
+  flex-grow: 1;
 }
 
 nav {
+  z-index: 10;
   height: 100vh;
-  width: $nav-width;
+
+  flex-basis: $nav-width;
+  max-width: $nav-width;
+
   position: fixed;
+
   background-color: $primary;
   display: flex;
   flex-direction: column;

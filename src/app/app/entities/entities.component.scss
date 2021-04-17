@@ -1,11 +1,16 @@
-.entities {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+:host {
   padding: 1rem;
-  gap: 1rem;
-  entity {
-    // flex-basis: fit-content;
-    flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+
+  .entities {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    entity {
+      // flex-basis: fit-content;
+      flex: 1 1 auto;
+    }
   }
 }

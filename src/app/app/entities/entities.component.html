@@ -3,6 +3,19 @@
     <mat-icon>add</mat-icon> Ajouter
   </button>
 </div> -->
+<div class="header">
+  <mat-form-field appearance="outline">
+    <mat-label>Rechercher</mat-label>
+    <input name="message" matInput />
+    <button mat-button matSuffix mat-icon-button aria-label="send">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
 <div class="entities">
-  <entity *ngFor="let entity of entityService.entities | async" [entity]="entity"></entity>
+  <entity
+    *ngFor="let entity of entityService.entities | async"
+    [entity]="entity"
+  ></entity>
 </div>

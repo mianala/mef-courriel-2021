@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -28,9 +29,9 @@ export class EntityService {
 
   updateEntitiesFromLocalStorage() { }
 
-  updateEntities(data: any) {
-    this.entities.next(data.data.entity);
-    localStorage.setItem('entities', JSON.stringify(data.data.entity));
+  updateEntities(entities: Entity[]) {
+    this.entities.next(entities);
+    localStorage.setItem('entities', JSON.stringify(entities));
   }
 
   // store in localstorage
@@ -63,7 +64,13 @@ export class EntityService {
 
     return this.apollo.query({
       query: GET_ENTITIES_QUERY,
-    })
+    }).pipe(
+      map((val: any) => {
+        return val.data.entity.map((val: any) => {
+          return new Entity(val);
+        });
+      })
+    )
   }
 
   getEntity(id: number) {
@@ -92,13 +99,19 @@ export class EntityService {
       variables: {
         id: id,
       },
-    })
+    }).pipe(
+      map((val: any) => {
+        return val.data.entity.map((val: any) => {
+          return new Entity(val);
+        });
+      })
+    )
   }
 
   updateEntityInfo(entity: any) {
     const UDPATE_ENTITY_INFO = gql`
-      mutation entity($id: Int!, $short: String!,$long: String!, $short_header: String!, $level: Int!) {
-        entity(where: {id: {_eq: $id}}, _set: {
+      mutation UDPATE_ENTITY_INFO($id: Int!, $short: String!,$long: String!, $short_header: String!, $level: Int!) {
+        update_entity(where: {id: {_eq: $id}}, _set: {
             short: $short
             long: $long
             level: $level
@@ -115,7 +128,9 @@ export class EntityService {
     this.apollo.mutate({
       mutation: UDPATE_ENTITY_INFO,
       variables: entity
-    }).subscribe(data => console.log(data))
+    }).subscribe(data => {
+      this.notification.open("Mis à Jour Enregistré")
+    })
   }
 
   updateEntityLabels(entity: Entity) {

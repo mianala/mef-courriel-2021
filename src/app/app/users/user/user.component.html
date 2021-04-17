@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-header>
+  <mat-card-header fxLayoutAlign="center">
     <div
       mat-card-avatar
       class="avatar"
@@ -15,8 +15,8 @@
     <mat-card-subtitle>{{ user.title }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div class="location" fxLayoutAlign="start center">
-      <mat-icon>home_work</mat-icon> <span>{{ user.entity.short_header }}</span>
+    <div class="entity" fxFlex fxLayoutGap="1rem" fxLayoutAlign="center center">
+      <mat-icon>domain</mat-icon> <span>{{ user.entity.short_header }}</span>
     </div>
   </mat-card-content>
   <mat-card-actions fxLayoutAlign="center">

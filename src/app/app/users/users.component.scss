@@ -1,10 +1,14 @@
 :host {
+  padding: 1rem;
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  user{
-    margin: 1em;
+  flex-direction: column;
+  .users {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 1rem;
+    user {
+      flex: 1 1 auto;
+    }
   }
 }

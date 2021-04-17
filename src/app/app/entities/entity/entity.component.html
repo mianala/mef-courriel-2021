@@ -12,7 +12,9 @@
     <button mat-icon-button [routerLink]="'/app/entities/add/' + entity?.id">
       <mat-icon>add</mat-icon>
     </button>
-    <button mat-icon-button><mat-icon>people_outline</mat-icon></button>
+    <button mat-icon-button [routerLink]="'/app/entities/entity/' + entity?.id">
+      <mat-icon>people_outline</mat-icon>
+    </button>
     <button mat-icon-button [routerLink]="'/app/entities/edit/' + entity?.id">
       <mat-icon>edit</mat-icon>
     </button>
