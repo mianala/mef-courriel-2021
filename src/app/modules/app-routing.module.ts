@@ -122,12 +122,12 @@ const routes: Routes = [
         component: FlowLandingPageComponent,
         children: [
           {
-            path: 'save',
-            component: SaveFlowPageComponent,
-          },
-          {
             path: '',
             component: FlowComponent,
+          },
+          {
+            path: 'save',
+            component: SaveFlowPageComponent,
           },
           {
             path: 'view',

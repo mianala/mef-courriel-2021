@@ -1,5 +1,11 @@
-section.actions{
-  button{
+section.actions {
+  button {
     margin-left: 1em;
+  }
+
+  .filters {
+    mat-form-field {
+      margin-bottom: -1.34375rem;
+    }
   }
 }

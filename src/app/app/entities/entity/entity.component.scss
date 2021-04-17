@@ -4,6 +4,9 @@ mat-card {
   justify-content: space-between;
   align-items: center;
   height: 75%;
+  .mat-card-header-text {
+    margin: 0;
+  }
   mat-card-title {
     text-align: center;
   }

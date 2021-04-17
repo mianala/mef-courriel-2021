@@ -32,9 +32,9 @@ export class AddNewEntityComponent implements OnInit {
 
   }
 
-  getEntity(data: any) {
-    
-    Object.assign(this.parent_entity, data.data.entity[0]);
+  getEntity(entities: Entity[]) {
+
+    Object.assign(this.parent_entity, entities[0]);
 
     this.newNewEntityForm.patchValue({
       level: this.parent_entity.level + 1,
@@ -64,7 +64,6 @@ export class AddNewEntityComponent implements OnInit {
   }
 
   entityAdded(data: any) {
-    console.log(data);
     this.parent_entity.sub_entities_count += 1;
   }
 }

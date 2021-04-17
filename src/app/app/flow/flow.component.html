@@ -5,26 +5,35 @@
       Enregistrer
     </button>
   </div>
-  <div>
-    <mat-form-field appearance="fill" style="margin-bottom: -1.2rem">
-      <mat-label
-        ><mat-icon class="mat-18">reorder</mat-icon> Resultats</mat-label
-      >
-      <mat-select [(value)]="flowGroup">
-        <mat-option value="0"
-          ><mat-icon class="mat-18">all</mat-icon> Tout</mat-option
-        >
-        <mat-option value="1"
-          ><mat-icon class="mat-18">save</mat-icon> Enregistrés</mat-option
-        >
-        <mat-option value="2"
-          ><mat-icon class="mat-18">inbox</mat-icon> Recu</mat-option
-        >
-        <mat-option value="3"
-          ><mat-icon class="mat-18">send</mat-icon> Envoyés</mat-option
-        >
-      </mat-select>
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Rechercher</mat-label>
+      <input name="message" matInput />
+      <button mat-button matSuffix mat-icon-button aria-label="send">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="mainFilters"
+      aria-label="main filters"
+    >
+      <mat-icon>view_list</mat-icon>
+    </button>
+    <mat-menu #mainFilters="matMenu">
+      <button mat-menu-item>
+        <mat-icon>reorder</mat-icon>
+        <span>Tout</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>inbox</mat-icon>
+        <span>Recu</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>send</mat-icon>
+        <span>Envoyés</span>
+      </button>
+    </mat-menu>
   </div>
 </section>
 

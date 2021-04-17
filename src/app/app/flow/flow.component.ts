@@ -9,6 +9,7 @@ export class FlowComponent implements OnInit {
 
   flowGroup = 0
 
+
   constructor(public flowService: FlowService) { }
 
   ngOnInit(): void {
