@@ -77,6 +77,8 @@ import { SendFlowFormComponent } from './app/flow/form/send-flow-form/send-flow-
 import { UsersChipAutocompleteComponent } from './app/users/components/users-chip-autocomplete/users-chip-autocomplete.component';
 import { BackButtonComponent } from './app/components/back-button/back-button.component';
 import { FlowsLoadingComponent } from './app/flows/components/flows-loading/flows-loading.component';
+import { ReplyFormComponent } from './app/flow/form/reply-form/reply-form.component';
+import { FlowLoadingComponent } from './app/flows/components/flow-loading/flow-loading.component';
 
 @NgModule({
   declarations: [
@@ -150,6 +152,8 @@ import { FlowsLoadingComponent } from './app/flows/components/flows-loading/flow
     UsersChipAutocompleteComponent,
     BackButtonComponent,
     FlowsLoadingComponent,
+    ReplyFormComponent,
+    FlowLoadingComponent,
   ],
   imports: [
     BrowserModule,

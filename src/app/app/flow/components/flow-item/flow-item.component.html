@@ -33,6 +33,9 @@
   <a mat-icon-button (click)="markAsRead(flow.id)">
     <mat-icon class="mat-18">mark_email_read</mat-icon>
   </a>
+  <a mat-icon-button (click)="reply(flow.id)">
+    <mat-icon class="mat-18">reply</mat-icon>
+  </a>
   <a mat-icon-button [routerLink]="'/app/flow/assign/' + flow.id">
     <mat-icon class="mat-18">person_add_alt</mat-icon>
   </a>

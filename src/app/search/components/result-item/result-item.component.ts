@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'result-item',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./result-item.component.scss']
 })
 export class ResultItemComponent implements OnInit {
-  @Input() item
+  @Input() item: any = {}
   constructor() { }
   Math = Math
   ngOnInit(): void {

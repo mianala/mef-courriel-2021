@@ -26,7 +26,6 @@ export class FlowComponent implements OnInit {
 
   constructor(private flowService: FlowService) {
     this.flowService.recent_flows.subscribe((data) => {
-      this.loading = false
       this.flows = data;
     });
   }

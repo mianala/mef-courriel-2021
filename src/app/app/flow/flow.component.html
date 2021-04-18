@@ -98,8 +98,10 @@
     </mat-menu>
   </div>
 </section>
-<flows-loading *ngIf="loading"></flows-loading>
-<div [hidden]="loading" class="flow-list">
+
+<flows-loading *ngIf="!flows.length"></flows-loading>
+
+<div *ngIf="flows.length" class="flow-list">
   <flow class="mat-typography" *ngFor="let flow of flows" [flow]="flow"></flow>
 </div>
 

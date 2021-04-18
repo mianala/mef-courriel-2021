@@ -18,4 +18,8 @@ export class FlowItemComponent implements OnInit {
 
   }
 
+  reply(flow_id: number) {
+
+  }
+
 }

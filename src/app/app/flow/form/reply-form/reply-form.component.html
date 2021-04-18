@@ -1,0 +1,43 @@
+<div class="header">
+  <h1><mat-icon>reply</mat-icon> Reponse au courriel</h1>
+  <p>
+    Veuillez saisir toutes les informations sur le courrier dans le formulaire
+    ci-dessous
+  </p>
+</div>
+<form #form="ngForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Message</mat-label>
+    <textarea
+      required
+      name="content"
+      [(ngModel)]="flow.content"
+      matInput
+    ></textarea>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="flow.urgent" name="urgent"
+    >Urgent <mat-icon color="warn">error_outline</mat-icon></mat-checkbox
+  >
+  <mat-form-field appearance="outline">
+    <mat-label>Note</mat-label>
+    <textarea name="note" [(ngModel)]="flow.note" matInput></textarea>
+  </mat-form-field>
+  <!-- <mat-form-field appearance="outline">
+      <mat-label>Note</mat-label>
+      <textarea name="content" formControlName="note" matInput></textarea>
+    </mat-form-field> -->
+  <labels [(labels)]="flow.labels"></labels>
+  <files ([files])="(flow.files)"></files>
+  <div class="columns">
+    <button
+      (click)="submit()"
+      [disabled]="!valid()"
+      mat-raised-button
+      color="primary"
+      cdkFocusInitial
+    >
+      <mat-icon>call_split</mat-icon> Envoyer
+    </button>
+    <!-- <button mat-raised-button="">VOIR CORRIER ENREGISTRE</button> -->
+  </div>
+</form>
