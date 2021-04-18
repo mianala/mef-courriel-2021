@@ -276,4 +276,46 @@ export class FlowService {
     }).subscribe(data => this.notification.open("Marqué Comme Lu"))
   }
 
+  search(searchFlowVariables: any) {
+    const SEARCH_FLOWS = gql`
+      query searchFlows($where: flow_bool_exp = {}) {
+        flow(where: $where, order_by: {id: desc}) {
+          action
+          id
+          created_at
+          content
+          initiator {
+            id
+            long
+          }
+          project_id
+          receiver_text
+          reference
+          status
+          thread_id
+          progress
+          owner_id
+          owner {
+            id
+            is_person
+            level
+            long
+            short
+            short_header
+          }
+        }
+      }
+      `
+
+    this.apollo.query({
+      query: SEARCH_FLOWS,
+      variables: searchFlowVariables
+    }).pipe(
+      map((val: any) => {
+        return val.data.flow.map((val: any) => {
+          return new Flow(val);
+        });
+      }))
+  }
+
 }

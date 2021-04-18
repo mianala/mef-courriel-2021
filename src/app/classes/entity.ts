@@ -1,4 +1,5 @@
 import { EntityService } from "../app/entities/service/entity.service";
+import { User } from "./user";
 
 export class Entity {
   id: number;
@@ -15,6 +16,7 @@ export class Entity {
   sub_entities_count: number;
   level: number;
   parent_entity_id: number;
+  users: User[]
 
   constructor(_entity: Partial<{}> = {}) {
     this.id = 0;
@@ -31,6 +33,7 @@ export class Entity {
     this.sub_entities_count = 0;
     this.level = 0;
     this.parent_entity_id = 0;
+    this.users = []
 
     Object.assign(this, _entity)
   }

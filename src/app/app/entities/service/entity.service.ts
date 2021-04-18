@@ -108,6 +108,49 @@ export class EntityService {
     )
   }
 
+
+  getEntityWithUsers(id: number) {
+    const GET_ENTITY_QUERY_WITH_USERS = gql`
+      query get_entity($id: Int!) {
+        entity(where: { id: { _eq: $id } }) {
+          id
+          id_text
+          long
+          short
+          numero
+          sent_count
+          received_count
+          active
+          short_header
+          long_header
+          labels
+          level
+          parent_entity_id
+          sub_entities_count
+          users {
+            id
+            firstname
+            lastname
+            title
+            im
+          }
+        }
+      }
+    `
+    return this.apollo.query({
+      query: GET_ENTITY_QUERY_WITH_USERS,
+      variables: {
+        id: id,
+      },
+    }).pipe(
+      map((val: any) => {
+        return val.data.entity.map((val: any) => {
+          return new Entity(val);
+        });
+      })
+    )
+  }
+
   updateEntityInfo(entity: any) {
     const UDPATE_ENTITY_INFO = gql`
       mutation UDPATE_ENTITY_INFO($id: Int!, $short: String!,$long: String!, $short_header: String!, $level: Int!) {

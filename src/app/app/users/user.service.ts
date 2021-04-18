@@ -68,6 +68,35 @@ export class UserService {
     });
   }
 
+  getEntityUsers(entity_id: number) {
+    const GET_ENTITY_USERS_QUERY = gql`
+      query get_entity_users($entity_id:Int!){
+        user({where:{entity_id:{_eq:$entity_id}}}){
+          id
+          firstname
+          lastname
+          profile_picture
+          im
+          last_login
+          title
+        }
+      }
+    `
+
+    return this.apollo.query({
+      query: GET_ENTITY_USERS_QUERY,
+      variables: {
+        entity_id: entity_id
+      }
+    }).pipe(
+      map((val: any) => {
+        return val.data.user.map((val: any) => {
+          return new User(val);
+        });
+      }))
+
+  }
+
   logIn(variables: { username: any; hashed: any }) {
     const USER_LOGIN_QUERY = gql`
     query login($username: String!, $hashed: String!) {
@@ -108,7 +137,12 @@ export class UserService {
       .query({
         query: USER_LOGIN_QUERY,
         variables: variables,
-      })
+      }).pipe(
+        map((val: any) => {
+          return val.data.user.map((val: any) => {
+            return new User(val);
+          });
+        }))
       .subscribe(this.logInHandler.bind(this));
   }
 
@@ -163,10 +197,10 @@ export class UserService {
     })
   }
 
-  logInHandler(data: any) {
-    this.active_user.next(data.data.user[0]);
+  logInHandler(users: User[]) {
+    this.active_user.next(users[0]);
     this.updateUserLastLogin()
-    localStorage.setItem('user', JSON.stringify(data.data.user[0]))
+    localStorage.setItem('user', JSON.stringify(users[0]))
     localStorage.setItem('logged_in', new Date().toString())
   }
 

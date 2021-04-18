@@ -1,0 +1,36 @@
+.searchresult {
+  margin-left: 8px;
+  a {
+    font-size: 14px;
+    line-height: 14px;
+    color: green;
+    margin-top: 25px;
+    margin-bottom: 0px;
+  }
+
+  button {
+    font-size: 10px;
+    line-height: 14px;
+    color: green;
+    margin-bottom: 0px;
+    padding: 0px;
+    border-width: 0px;
+    background-color: white;
+  }
+
+  h2 {
+    font-size: 19px;
+    line-height: 18px;
+    font-weight: normal;
+    color: rgb(29, 1, 189);
+    margin-bottom: 0px;
+  }
+  p {
+    max-width: 625px;
+    max-height: 55px;
+    overflow: hidden;
+    font-size: 13px;
+    margin-top: 0px;
+    color: rgb(82, 82, 82);
+  }
+}
