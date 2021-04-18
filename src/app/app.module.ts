@@ -76,6 +76,7 @@ import { EntitiesChipAutocompleteComponent } from './app/entities/components/ent
 import { SendFlowFormComponent } from './app/flow/form/send-flow-form/send-flow-form.component';
 import { UsersChipAutocompleteComponent } from './app/users/components/users-chip-autocomplete/users-chip-autocomplete.component';
 import { BackButtonComponent } from './app/components/back-button/back-button.component';
+import { FlowsLoadingComponent } from './app/flows/components/flows-loading/flows-loading.component';
 
 @NgModule({
   declarations: [
@@ -148,6 +149,7 @@ import { BackButtonComponent } from './app/components/back-button/back-button.co
     SendFlowFormComponent,
     UsersChipAutocompleteComponent,
     BackButtonComponent,
+    FlowsLoadingComponent,
   ],
   imports: [
     BrowserModule,

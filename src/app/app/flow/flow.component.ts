@@ -11,6 +11,7 @@ export class FlowComponent implements OnInit {
 
   flows: Flow[] = [];
   labels: string[] = []
+  loading = true
 
   searchToggle: boolean = false
   dateRangeToggle: boolean = false
@@ -25,7 +26,7 @@ export class FlowComponent implements OnInit {
 
   constructor(private flowService: FlowService) {
     this.flowService.recent_flows.subscribe((data) => {
-      console.log(data)
+      this.loading = false
       this.flows = data;
     });
   }
