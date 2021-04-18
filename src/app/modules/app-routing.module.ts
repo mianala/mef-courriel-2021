@@ -28,6 +28,7 @@ import { UserPageComponent } from '../app/user/user-page/user-page.component';
 import { SettingsComponent } from '../app/settings/settings.component';
 import { SendFlowFormComponent } from '../app/flow/form/send-flow-form/send-flow-form.component';
 import { EntityUsersComponent } from '../app/entities/entity-users/entity-users.component';
+import { AssignFlowComponent } from '../app/flow/assign-flow/assign-flow.component';
 
 const routes: Routes = [
   {
@@ -81,6 +82,22 @@ const routes: Routes = [
         component: ChatComponent,
       },
       {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+      },
+      {
+        path: 'user',
+        component: UserPageComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
         path: 'entities',
         children: [
           {
@@ -102,22 +119,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'users',
-        component: UsersComponent,
-      },
-      {
-        path: 'settings',
-        component: SettingsComponent,
-      },
-      {
-        path: 'user',
-        component: UserPageComponent,
-      },
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-      },
-      {
         path: 'flow',
         component: FlowLandingPageComponent,
         children: [
@@ -128,6 +129,18 @@ const routes: Routes = [
           {
             path: 'save',
             component: SaveFlowPageComponent,
+          },
+          {
+            path: 'assign/:flow_id',
+            component: AssignFlowComponent,
+          },
+          {
+            path: 'project/:flow_id',
+            component: FlowPageComponent,
+          },
+          {
+            path: 'send/:flow_id',
+            component: SendFlowFormComponent,
           },
           {
             path: 'view',
@@ -150,14 +163,6 @@ const routes: Routes = [
                 component: SentComponent,
               },
             ],
-          },
-          {
-            path: 'project/:flow_id',
-            component: FlowPageComponent,
-          },
-          {
-            path: 'send/:flow_id',
-            component: SendFlowFormComponent,
           },
         ],
       },

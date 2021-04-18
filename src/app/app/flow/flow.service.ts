@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { File } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
+import { NotificationService } from 'src/app/services/notification.service';
 import { EntityService } from '../entities/service/entity.service';
 import { UserService } from '../users/user.service';
 
@@ -41,7 +42,7 @@ export class FlowService {
 
   recent_flows: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
-  constructor(private apollo: Apollo, private entityService: EntityService, private userService: UserService) {
+  constructor(private apollo: Apollo, private entityService: EntityService, private userService: UserService, private notification: NotificationService) {
     this.getAllFlow(this.entityService.active_entity.value.id);
   }
 
@@ -258,5 +259,21 @@ export class FlowService {
       })
   }
 
+  markFlowAsRead(flow_id: number) {
+    const MARK_FLOW_AS_ANSWERED_MUTATION = gql`
+      mutation mark_flow_as_answered($flow_id: Int!) {
+        update_flow(where: {id: {_eq: $flow_id}}, _set: {progress: 1}) {
+          affected_rows
+          returning{
+            id
+          }
+        }
+      }
+    `
+    this.apollo.mutate({
+      mutation: MARK_FLOW_AS_ANSWERED_MUTATION,
+      variables: { flow_id: flow_id }
+    }).subscribe(data => this.notification.open("Marqué Comme Lu"))
+  }
 
 }

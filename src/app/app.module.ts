@@ -50,7 +50,7 @@ import { SaveFlowDialogComponent } from './app/flow/dialogs/save-flow-dialog/sav
 import { ComposeFlowDialogComponent } from './app/flow/dialogs/compose-flow-dialog/compose-flow-dialog.component';
 import { FollupUpFlowDialogComponent } from './app/flow/dialogs/follup-up-flow-dialog/follup-up-flow-dialog.component';
 import { SendFlowDialogComponent } from './app/flow/dialogs/send-flow-dialog/send-flow-dialog.component';
-import { AssignFlowDialogComponent } from './app/flow/dialogs/assign-flow-dialog/assign-flow-dialog.component';
+import { AssignFlowComponent } from './app/flow/assign-flow/assign-flow.component';
 import { CloseFlowDialogComponent } from './app/flow/dialogs/close-flow-dialog/close-flow-dialog.component';
 import { FileUploadButtonComponent } from './app/flow/components/file-upload-button/file-upload-button.component';
 import { FilesComponent } from './app/flow/components/files/files.component';
@@ -74,6 +74,7 @@ import { UserResetPasswordComponent } from './app/user/user-reset-password/user-
 import { EditUserComponent } from './app/user/edit-user/edit-user.component';
 import { EntitiesChipAutocompleteComponent } from './app/entities/components/entities-chip-autocomplete/entities-chip-autocomplete.component';
 import { SendFlowFormComponent } from './app/flow/form/send-flow-form/send-flow-form.component';
+import { UsersChipAutocompleteComponent } from './app/users/components/users-chip-autocomplete/users-chip-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,7 @@ import { SendFlowFormComponent } from './app/flow/form/send-flow-form/send-flow-
     ComposeFlowDialogComponent,
     FollupUpFlowDialogComponent,
     SendFlowDialogComponent,
-    AssignFlowDialogComponent,
+    AssignFlowComponent,
     CloseFlowDialogComponent,
     FileUploadButtonComponent,
     FilesComponent,
@@ -144,6 +145,7 @@ import { SendFlowFormComponent } from './app/flow/form/send-flow-form/send-flow-
     EditUserComponent,
     EntitiesChipAutocompleteComponent,
     SendFlowFormComponent,
+    UsersChipAutocompleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,4 +161,4 @@ import { SendFlowFormComponent } from './app/flow/form/send-flow-form/send-flow-
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssignFlowDialogComponent } from './assign-flow-dialog.component';
+import { AssignFlowDialogComponent } from './assign-flow.component';
 
 describe('AssignFlowDialogComponent', () => {
   let component: AssignFlowDialogComponent;
@@ -8,9 +8,9 @@ describe('AssignFlowDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AssignFlowDialogComponent ]
+      declarations: [AssignFlowDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

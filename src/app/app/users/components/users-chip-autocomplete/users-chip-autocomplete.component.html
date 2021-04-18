@@ -1,0 +1,39 @@
+<mat-form-field appearance="fill">
+  <mat-label>Destinataires</mat-label>
+  <mat-chip-list multiple="false" #chipList aria-label="Destinataires">
+    <mat-chip
+      *ngFor="let user of users"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(user)"
+    >
+      {{ user.lastname }}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="Assigné à ..."
+      required
+      #userInput
+      [formControl]="userCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    />
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option
+      *ngFor="let user of filteredEntities"
+      (click)="selected(user)"
+      [value]="user.lastname"
+    >
+      {{ user.lastname }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-hint
+    align="start"
+    style="color: red"
+    *ngIf="userCtrl.touched && users.length == 0"
+  >
+    Sélectionnez au moins <strong>une personne</strong>
+  </mat-hint>
+</mat-form-field>

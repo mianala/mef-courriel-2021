@@ -1,11 +1,51 @@
 section.actions {
-  button {
-    margin-left: 1em;
-  }
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: height ease-out 0.3s;
+
+  gap: 1rem;
 
   .filters {
-    mat-form-field {
-      margin-bottom: -1.34375rem;
+    flex-basis: 0;
+    flex-grow: 999;
+    min-width: 25%;
+
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+
+    mat-form-field,
+    entity-autocomplete,
+    labels {
+      margin-bottom: -1rem;
+    }
+
+    mat-form-field,
+    labels,
+    entity-autocomplete {
+      flex: 1 1;
     }
   }
+
+  button.mat-warn {
+    background-color: hsl(0, 0%, 96%);
+  }
+
+  .toggles {
+    display: flex;
+    justify-content: center;
+    flex-basis: 15rem;
+    gap: 0.2rem;
+  }
+}
+
+.flow-list {
+  display: flex;
+  flex-direction: column;
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Entity } from 'src/app/classes/entity';
 import { EntityService } from '../../service/entity.service';
 
@@ -11,9 +12,12 @@ export class EntityAutocompleteComponent implements OnInit {
   @Input() entityText = '';
   @Output() entityTextChange: EventEmitter<String> = new EventEmitter();
 
+  @Input() appearance: MatFormFieldAppearance = 'outline';
+
   entities: Entity[] = [];
   filteredOptions: Entity[] = [];
-  selectedEntity: Entity = new Entity();
+  @Input() entity: Entity = new Entity();
+  @Output() entityChange: EventEmitter<Entity> = new EventEmitter();
 
   @Input() must_select_entity: Boolean = false;
   @Input() label = "Département";
@@ -31,17 +35,17 @@ export class EntityAutocompleteComponent implements OnInit {
     this.filteredOptions = this.entities = entities;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  _filter(e:any) {
+  _filter(e: any) {
     this.filteredOptions = this.entities.filter((entity) =>
       entity.short_header.toLowerCase().includes(this.entityText.toLowerCase())
     );
     this._keyup.emit(e.target.value);
   }
 
-  resetSelection(e:any) {
-    this.selectedEntity = new Entity();
+  resetSelection(e: any) {
+    this.entity = new Entity();
     this._keypress.emit(e.target.value);
   }
 }

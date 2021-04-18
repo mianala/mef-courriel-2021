@@ -1,5 +1,5 @@
-<mat-form-field style="width: 100%;" appearance="outline">
-  <mat-label><mat-icon>home_work</mat-icon> {{label}} </mat-label>
+<mat-form-field [appearance]="appearance">
+  <mat-label><mat-icon>domain</mat-icon> {{ label }} </mat-label>
   <input
     type="text"
     (keypress)="resetSelection($event)"
@@ -14,14 +14,20 @@
   />
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option
-      (click)="selectedEntity = entity; entitySelected.emit(entity)"
-      *ngFor="let entity of filteredOptions"
-      [value]="entity.short"
+      (click)="entity = e; entitySelected.emit(entity)"
+      *ngFor="let e of filteredOptions"
+      [value]="e.short"
     >
-      {{ entity.short_header }}
+      {{ e.short_header }}
     </mat-option>
   </mat-autocomplete>
 
-  <mat-hint align="end">{{ selectedEntity.short_header }}</mat-hint>
-  <mat-hint *ngIf="!selectedEntity.id && must_select_entity" align="start" style="color:#f44336"> Sélectionnez l'une des options </mat-hint>
+  <mat-hint align="end">{{ entity.short_header }}</mat-hint>
+  <mat-hint
+    *ngIf="!entity.id && must_select_entity"
+    align="start"
+    style="color: #f44336"
+  >
+    Sélectionnez l'une des options
+  </mat-hint>
 </mat-form-field>

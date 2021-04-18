@@ -14,4 +14,8 @@ export class FlowItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  markAsRead(flow_id: number) {
+
+  }
+
 }

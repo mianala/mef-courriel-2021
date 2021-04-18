@@ -24,13 +24,13 @@ export class FlowPageComponent implements OnInit {
       .subscribe(this.receivedflow.bind(this));
   }
 
-  receivedflow(data: any) {
-    const flow = data.data.flow[0];
+  receivedflow(flows: any) {
+    const flow = flows[0];
     console.log(this.flow);
     Object.assign(this.flow, flow);
     Object.assign(this.project, flow.project);
     Object.assign(this.flows, flow.project.flows);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

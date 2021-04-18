@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Flow } from 'src/app/classes/flow';
 import { FlowService } from './flow.service';
 @Component({
   selector: 'app-flow',
@@ -7,10 +9,26 @@ import { FlowService } from './flow.service';
 })
 export class FlowComponent implements OnInit {
 
+  flows: Flow[] = [];
+  labels: string[] = []
+
+  searchToggle: boolean = false
+  dateRangeToggle: boolean = false
+  labelsToggle: boolean = false
+  entityToggle: boolean = false
+
   flowGroup = 0
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  })
 
-
-  constructor(public flowService: FlowService) { }
+  constructor(private flowService: FlowService) {
+    this.flowService.recent_flows.subscribe((data) => {
+      console.log(data)
+      this.flows = data;
+    });
+  }
 
   ngOnInit(): void {
   }
