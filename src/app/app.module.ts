@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './modules/app-routing.module';
@@ -79,6 +79,16 @@ import { BackButtonComponent } from './app/components/back-button/back-button.co
 import { FlowsLoadingComponent } from './app/flows/components/flows-loading/flows-loading.component';
 import { ReplyFormComponent } from './app/flow/form/reply-form/reply-form.component';
 import { FlowLoadingComponent } from './app/flows/components/flow-loading/flow-loading.component';
+import { EmptyFlowsComponent } from './app/flows/components/empty-flows/empty-flows.component';
+import { LandingComponent } from './landing/landing.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { HeaderComponent } from './home/header/header.component';
+import { SignedUpComponent } from './auth/signed-up/signed-up.component';
+import { ObservationsComponent } from './flow/components/observations/observations.component';
+import { UserEntityPageComponent } from './entity/user-entity-page/user-entity-page.component';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -154,6 +164,12 @@ import { FlowLoadingComponent } from './app/flows/components/flow-loading/flow-l
     FlowsLoadingComponent,
     ReplyFormComponent,
     FlowLoadingComponent,
+    EmptyFlowsComponent,
+    LandingComponent,
+    HeaderComponent,
+    SignedUpComponent,
+    ObservationsComponent,
+    UserEntityPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -166,7 +182,7 @@ import { FlowLoadingComponent } from './app/flows/components/flow-loading/flow-l
     FormsModule,
     PdfViewerModule,
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

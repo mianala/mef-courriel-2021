@@ -1,3 +1,4 @@
+import gql from "graphql-tag";
 import { EntityService } from "../app/entities/service/entity.service";
 import { User } from "./user";
 
@@ -41,4 +42,24 @@ export class Entity {
   delete() {
 
   }
+
+  static core_entity_fields = gql`
+    fragment CoreEntityFields on entity{
+      id
+      id_text
+      long
+      short
+      numero
+      sent_count
+      received_count
+      active
+      level
+      parent_entity_id
+      short_header
+      long_header            
+      labels
+      sub_entities_count
+      is_person
+    }
+  `
 }

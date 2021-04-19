@@ -1,3 +1,4 @@
+import { gql } from 'apollo-angular';
 import { Entity } from './entity';
 import { Flow } from './flow';
 
@@ -22,7 +23,7 @@ export class Project {
     this.closed = 0;
     this.title = 0;
     this.date = new Date()
-    this.date_received =  new Date();
+    this.date_received = new Date();
     this.owner_text = '';
     this.reference = '';
     this.owner_id = 0;
@@ -33,7 +34,18 @@ export class Project {
     this.flows = [];
   }
 
-  hasOwner(){
+  hasOwner() {
     return this.owner_id !== null
   }
+
+  static core_project_fields = gql`
+    fragment CoreProjectFields on project{
+      id
+      title
+      reference
+      numero
+      date
+      date_received
+    }
+  `
 }

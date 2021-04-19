@@ -1,5 +1,11 @@
 @import "~src/_variables";
 
+@media screen and (max-height: 39rem) {
+  .small-height-hidden {
+    display: none;
+  }
+}
+
 :host {
   display: flex;
 }
@@ -20,10 +26,12 @@ main {
 .nav-holder {
   flex-basis: $nav-width;
   flex-grow: 1;
+  // min-height: 39rem;
 }
 
 nav {
   z-index: 10;
+  min-height: max-content;
   height: 100vh;
 
   flex-basis: $nav-width;
@@ -47,7 +55,7 @@ nav {
       padding: 1rem 0;
     }
     .mat-icon {
-      font-size: 27px;
+      font-size: 23px;
     }
     .nav-link {
       cursor: pointer;
@@ -64,7 +72,7 @@ nav {
       padding: 0.2rem 0;
       div {
         z-index: 10;
-        height: 4rem;
+        height: $nav-width;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -87,7 +95,7 @@ nav {
             0 6px 20px 0 rgba(0, 0, 0, 0.19);
           transition: 0.3s ease-out;
           border-radius: 20px;
-          width: 4rem;
+          width: $nav-width;
           background-color: white;
           color: $red-ryb;
         }

@@ -1,0 +1,13 @@
+:host {
+}
+.container {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  place-content: center center;
+  text-align: center;
+  h2 {
+    padding: 1rem;
+    font-weight: 300;
+  }
+}

@@ -1,0 +1,31 @@
+<mat-form-field [appearance]="appearance">
+  <mat-label> <mat-icon>task_alt</mat-icon> Labels</mat-label>
+  <mat-chip-list #chipList aria-label="label selection">
+    <mat-chip
+      *ngFor="let observation of observations"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(observation)"
+    >
+      {{ observation }}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="Nouvelle Observation ..."
+      [(ngModel)]="observationInput"
+      [formControl]="observationCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"
+    />
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option
+      *ngFor="let observation of filteredLabels | async"
+      [value]="observation"
+    >
+      {{ observation }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

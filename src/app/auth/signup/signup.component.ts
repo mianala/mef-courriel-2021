@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/app/users/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { ValidatorService } from 'src/app/services/validator.service';
@@ -19,6 +20,7 @@ export class SignupComponent implements OnInit {
   signUpForm: FormGroup = new FormGroup({});
 
   constructor(
+    private router: Router,
     private titleService: Title,
     private fb: FormBuilder,
     private userService: UserService
@@ -87,9 +89,13 @@ export class SignupComponent implements OnInit {
       phone: form.phone,
     };
 
-    this.userService.saveNewUser(variables).subscribe((data) => {
-      next: console.log(data);
-    });
+    this.userService.saveNewUser(variables).subscribe(this.signedUp.bind(this));
+  }
+
+  signedUp(data: any) {
+    console.log(data)
+
+    data.data.insert_user.returning[0].id && this.router.navigate(['/auth/signed-up'])
   }
 
   entitySelected(entity: Entity) {

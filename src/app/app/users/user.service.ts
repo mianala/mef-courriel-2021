@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { _MatTabGroupBase } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,7 +19,7 @@ export class UserService {
   users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
 
-  constructor(private apollo: Apollo, private notification: NotificationService) {
+  constructor(private apollo: Apollo, private notification: NotificationService, private router: Router) {
     const user =
       localStorage.getItem('user') !== null
         ? JSON.parse(localStorage.getItem('user') || '[]')
@@ -70,15 +72,10 @@ export class UserService {
 
   getEntityUsers(entity_id: number) {
     const GET_ENTITY_USERS_QUERY = gql`
+      ${User.core_user_fields}
       query get_entity_users($entity_id:Int!){
         user({where:{entity_id:{_eq:$entity_id}}}){
-          id
-          firstname
-          lastname
-          profile_picture
-          im
-          last_login
-          title
+          ...CoreUserFields
         }
       }
     `
@@ -99,40 +96,34 @@ export class UserService {
 
   logIn(variables: { username: any; hashed: any }) {
     const USER_LOGIN_QUERY = gql`
-    query login($username: String!, $hashed: String!) {
-      user(where: { username: { _eq: $username }, hashed: { _eq: $hashed } }) {
-        id
-        username
-        firstname
-        lastname
-        title
-        im
-        entity_id
-        profile_picture
-        email
-        rights
-        phone
-        settings_default_app
-        settings_default_flow_page
-        entity {
-          id
-          id_text
-          long
-          short
-          numero
-          sent_count
-          received_count
-          active
-          short_header
-          long_header
-          labels
-          level
-          parent_entity_id
-          sub_entities_count
+      ${User.core_user_fields}
+      query login($username: String!, $hashed: String!) {
+        user(where: { username: { _eq: $username }, hashed: { _eq: $hashed } }) {
+          ...CoreUserFields
+          email
+          rights
+          phone
+          settings_default_app
+          settings_default_flow_page
+          entity {
+            id
+            id_text
+            long
+            short
+            numero
+            sent_count
+            received_count
+            active
+            short_header
+            long_header
+            labels
+            level
+            parent_entity_id
+            sub_entities_count
+          }
         }
       }
-    }
-  `;
+    `;
     this.apollo
       .query({
         query: USER_LOGIN_QUERY,
@@ -166,15 +157,10 @@ export class UserService {
 
   getUsers() {
     const GET_USERS_QUERY = gql`
+    ${User.core_user_fields}
     query get_users {
       user {
-        id
-        lastname
-        firstname
-        email
-        phone
-        im
-        title
+        ...CoreUserFields
         verified
         action_counter
         entity {
@@ -198,7 +184,16 @@ export class UserService {
   }
 
   logInHandler(users: User[]) {
+
+    if (users.length === 0) {
+      this.notification.open("Vous n'êtes pas encore inscrit, veuillez vous inscrire", 4000)
+      return
+    }
+
+    this.router.navigate(['/app/flow'])
+
     this.active_user.next(users[0]);
+
     this.updateUserLastLogin()
     localStorage.setItem('user', JSON.stringify(users[0]))
     localStorage.setItem('logged_in', new Date().toString())

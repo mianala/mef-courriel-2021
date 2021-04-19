@@ -1,31 +1,31 @@
 main {
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  // height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     .card {
       margin: 5em 0 5em 0;
-			width: 400px;
+      width: 400px;
       .header {
-        img{
+        img {
           width: 350px;
         }
         display: flex;
         flex-direction: column;
-				justify-content: center;
-				align-items: center;
+        justify-content: center;
+        align-items: center;
       }
       form {
         display: flex;
         flex-direction: column;
-				.actions{
-					display: flex;
-					justify-content: space-between;
-				}
+        .actions {
+          display: flex;
+          justify-content: space-between;
+        }
       }
     }
   }

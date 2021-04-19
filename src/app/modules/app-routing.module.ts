@@ -29,29 +29,16 @@ import { SettingsComponent } from '../app/settings/settings.component';
 import { SendFlowFormComponent } from '../app/flow/form/send-flow-form/send-flow-form.component';
 import { EntityUsersComponent } from '../app/entities/entity-users/entity-users.component';
 import { AssignFlowComponent } from '../app/flow/assign-flow/assign-flow.component';
+import { LandingComponent } from '../landing/landing.component';
+import { SignedUpComponent } from '../auth/signed-up/signed-up.component';
+import { EditUserComponent } from '../app/user/edit-user/edit-user.component';
+import { EntityPageComponent } from '../app/entities/entity-page/entity-page.component';
+import { UserEntityPageComponent } from '../entity/user-entity-page/user-entity-page.component';
 
 const routes: Routes = [
   {
-    path: 'auth',
-    component: AuthComponent,
-    children: [
-      {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'signup',
-        component: SignupComponent,
-      },
-      {
-        path: 'forgot-password',
-        component: ForgotPasswordComponent,
-      },
-      {
-        path: 'reset-password/:last_user_update_timestamp/:username',
-        component: ResetPasswordComponent,
-      },
-    ],
+    path: '',
+    component: LandingComponent,
   },
   {
     path: 'search',
@@ -74,6 +61,32 @@ const routes: Routes = [
     component: HelpComponent,
   },
   {
+    path: 'auth',
+    component: AuthComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'signup',
+        component: SignupComponent,
+      },
+      {
+        path: 'signed-up',
+        component: SignedUpComponent,
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+      },
+      {
+        path: 'reset-password/:last_user_update_timestamp/:username',
+        component: ResetPasswordComponent,
+      },
+    ],
+  },
+  {
     path: 'app',
     component: AppPageComponent,
     children: [
@@ -86,12 +99,26 @@ const routes: Routes = [
         component: UsersComponent,
       },
       {
+        path: 'entity',
+        component: UserEntityPageComponent,
+      },
+      {
         path: 'settings',
         component: SettingsComponent,
       },
       {
         path: 'user',
-        component: UserPageComponent,
+
+        children: [
+          {
+            path: '',
+            component: UserPageComponent,
+          },
+          {
+            path: 'edit',
+            component: EditUserComponent,
+          },
+        ]
       },
       {
         path: 'dashboard',
@@ -131,7 +158,11 @@ const routes: Routes = [
             component: SaveFlowPageComponent,
           },
           {
-            path: 'assign/:flow_id',
+            path: 'assign',
+            component: AssignFlowComponent,
+          },
+          {
+            path: 'reply/:flow_id',
             component: AssignFlowComponent,
           },
           {

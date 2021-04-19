@@ -6,6 +6,7 @@ import {
   MatAutocomplete,
 } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { UserService } from 'src/app/app/users/user.service';
@@ -19,6 +20,7 @@ export class LabelsComponent implements OnInit {
   visible = true;
   selectable = true;
   @Input() removable = true;
+  @Input() appearance: MatFormFieldAppearance = 'fill';
   separatorKeysCodes: number[] = [ENTER, COMMA];
   labelCtrl = new FormControl();
   filteredLabels: Observable<string[]>;
@@ -30,7 +32,7 @@ export class LabelsComponent implements OnInit {
   labelInput = '';
   @Input() InputLabels = '';
 
-  constructor(private userService:UserService) {
+  constructor(private userService: UserService) {
     this.filteredLabels = this.labelCtrl.valueChanges.pipe(
       startWith(null),
       map((label: string | null) =>
@@ -53,7 +55,7 @@ export class LabelsComponent implements OnInit {
       this.labels.push(value.trim());
     }
 
-    console.log("added",value)
+    console.log("added", value)
 
     // Reset the input value
     if (input) {
@@ -73,9 +75,8 @@ export class LabelsComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.labels.push(event.option.viewValue);
-    console.log("selected",event.option.viewValue)
     this.labelInput = '';
-    this.labelCtrl.setValue(null);
+    this.labelCtrl.setValue('');
   }
 
   private _filter(value: string): string[] {

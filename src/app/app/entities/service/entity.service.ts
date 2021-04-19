@@ -42,22 +42,10 @@ export class EntityService {
 
   getEntities() {
     const GET_ENTITIES_QUERY = gql`
+      ${Entity.core_entity_fields}
       query get_entities {
         entity(order_by: { id: asc }) {
-          id
-          id_text
-          long
-          short
-          numero
-          sent_count
-          received_count
-          active
-          level
-          parent_entity_id
-          short_header
-          long_header
-          labels
-          sub_entities_count
+          ...CoreEntityFields
         }
       }
     `
@@ -77,20 +65,7 @@ export class EntityService {
     const GET_ENTITY_QUERY = gql`
       query get_entity($id: Int!) {
         entity(where: { id: { _eq: $id } }) {
-          id
-          id_text
-          long
-          short
-          numero
-          sent_count
-          received_count
-          active
-          short_header
-          long_header
-          labels
-          level
-          parent_entity_id
-          sub_entities_count
+          ...CoreEntityFields
         }
       }
     `
@@ -111,22 +86,11 @@ export class EntityService {
 
   getEntityWithUsers(id: number) {
     const GET_ENTITY_QUERY_WITH_USERS = gql`
+    ${Entity.core_entity_fields}
       query get_entity($id: Int!) {
+        
         entity(where: { id: { _eq: $id } }) {
-          id
-          id_text
-          long
-          short
-          numero
-          sent_count
-          received_count
-          active
-          short_header
-          long_header
-          labels
-          level
-          parent_entity_id
-          sub_entities_count
+          ...CoreEntityFields
           users {
             id
             firstname
@@ -258,7 +222,9 @@ export class EntityService {
   }
 
   addNewEntity(variables: any) {
+
     const add_new_entity_mutation = gql`
+      ${Entity.core_entity_fields}
       mutation add_new_entity(
         $short: String!
         $long: String!
@@ -278,13 +244,10 @@ export class EntityService {
           }
         ) {
           returning {
-            id
-            short
-            long
-            short_header
-            id_text
+            ...CoreEntityFields
           }
         }
+        
         update_entity(
           where: { id: { _eq: $parent_entity_id } }
           _inc: { sub_entities_count: 1 }

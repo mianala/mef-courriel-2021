@@ -16,6 +16,7 @@ export class EntityPageComponent implements OnInit {
 
   constructor(private entityService: EntityService, private userService: UserService, private route: ActivatedRoute) {
     const entity_id = this.route.snapshot.params.entity_id
+
     this.entityService.getEntityWithUsers(parseInt(entity_id)).subscribe(e => this.entity = e[0])
   }
 

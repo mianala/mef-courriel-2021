@@ -1,3 +1,4 @@
+<app-header></app-header>
 <main class="main">
   <div class="wrapper">
     <mat-card class="card mat-elevation-z4">
@@ -54,7 +55,9 @@
               <input matInput type="number" name="im" formControlName="im" />
             </mat-form-field>
             <mat-form-field appearance="outline">
-              <mat-label> <mat-icon>phone</mat-icon> Numero Télephone</mat-label>
+              <mat-label>
+                <mat-icon>phone</mat-icon> Numero Télephone</mat-label
+              >
               <input
                 matInput
                 type="phone"
@@ -97,16 +100,15 @@
             />
           </mat-form-field>
           <mat-form-field appearance="outline">
-            <mat-label> <mat-icon>lock</mat-icon> Confirmez votre mot de passe</mat-label>
-            <input
-              #confirm
-              matInput
-              required
-              type="password"
-              id="confirm"
-            />
+            <mat-label>
+              <mat-icon>lock</mat-icon> Confirmez votre mot de passe</mat-label
+            >
+            <input #confirm matInput required type="password" id="confirm" />
             <mat-hint
-              *ngIf="confirm.value.length && confirm.value !== signUpForm.value.password"
+              *ngIf="
+                confirm.value.length &&
+                confirm.value !== signUpForm.value.password
+              "
               align="start"
               style="color: #f44336"
             >
@@ -121,7 +123,9 @@
               type="submit"
               name="submit"
               class="input-submit"
-              [disabled]="!signUpForm.valid || (confirm.value !== signUpForm.value.password)"
+              [disabled]="
+                !signUpForm.valid || confirm.value !== signUpForm.value.password
+              "
             >
               S'inscrire
             </button>

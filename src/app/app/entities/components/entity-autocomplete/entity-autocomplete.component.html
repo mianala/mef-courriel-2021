@@ -14,8 +14,8 @@
   />
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option
-      (click)="entity = e; entitySelected.emit(entity)"
       *ngFor="let e of filteredOptions"
+      (click)="select(e)"
       [value]="e.short"
     >
       {{ e.short_header }}

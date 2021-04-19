@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { File } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
+import { Project } from 'src/app/classes/project';
 import { NotificationService } from 'src/app/services/notification.service';
 import { EntityService } from '../entities/service/entity.service';
 import { UserService } from '../users/user.service';
@@ -20,22 +21,7 @@ export class FlowService {
   SUBSCRIBE_ALL_FLOWS = gql`
     subscription all_recent_flows($entity_id: Int!) {
       flow(where: { owner_id: { _eq: $entity_id } }) {
-        id
-        content
-        action
-        owner {
-          short
-        }
-
-        project {
-          title
-          reference
-          numero
-        }
-
-        initiator {
-          short
-        }
+        ...CoreFlowFields
       }
     }
   `;
@@ -131,6 +117,10 @@ export class FlowService {
 
   }
 
+  assign() {
+
+  }
+
   reply(flow: Flow) {
     const REPLY_FLOW_MUTATION = gql`
       mutation send_project( $status: Int, $user_id: Int!, $owner_id: Int!, $initiator_id: Int!, $content: String = "", $action: Int!, $files: file_arr_rel_insert_input = {data: {}}, $project_id: Int!) {
@@ -156,45 +146,31 @@ export class FlowService {
   }
   getFlow(id: number) {
     const GET_FLOW_QUERY = gql`
+
+      ${Project.core_project_fields}
+      ${Entity.core_entity_fields}
+      ${Flow.core_flow_fields}
       query get_flow($id: Int!) {
         flow(where: { id: { _eq: $id } }) {
-          id
-          content
-          action
-          project_id
+          ...CoreFlowFields
           initiator {
-            id
-            short
-            short_header
+            ...CoreEntityFields
           }
           owner {
-            id
-            short
-            short_header
+            ...CoreEntityFields
           }
           project {
-            id
-            title
-            date
-            reference
-            owner_text
+            ...CoreProjectFields
             owner {
-              id
-              short
-              short_header
+              ...CoreEntityFields
             }
-            date_received
             flows {
               id
               initiator {
-                id
-                short
-                short_header
+                ...CoreEntityFields
               }
               owner {
-                id
-                short
-                short_header
+                ...CoreEntityFields
               }
               files {
                 id
@@ -219,29 +195,24 @@ export class FlowService {
 
   getAllFlow(entity_id: number) {
     const GET_ALL_FLOWS = gql`
-    query all_recent_flows($entity_id: Int!) {
-        flow(where: { owner_id: { _eq: $entity_id } }) {
-          id
-          content
-          action
-          updated_at
-          created_at
-          owner {
-            short
-          }
-
-          project {
-            title
-            reference
-            numero
-          }
-
-          initiator {
-            short
+      ${Project.core_project_fields}
+      ${Entity.core_entity_fields}
+      ${Flow.core_flow_fields}
+      query all_recent_flows($entity_id: Int!) {
+          flow(where: { owner_id: { _eq: $entity_id } }, order_by: {id: desc}) {
+            ...CoreFlowFields
+            initiator {
+              ...CoreEntityFields
+            }
+            project {
+              ...CoreProjectFields
+            }
+            owner {
+              ...CoreEntityFields
+            }
           }
         }
-      }
-    `
+      `
     this.apollo
       .query({
         query: GET_ALL_FLOWS,
@@ -278,38 +249,28 @@ export class FlowService {
 
   search(searchFlowVariables: any) {
     const SEARCH_FLOWS = gql`
+      ${Project.core_project_fields}
+      ${Entity.core_entity_fields}
+      ${Flow.core_flow_fields}
       query searchFlows($where: flow_bool_exp = {}) {
         flow(where: $where, order_by: {id: desc}) {
-          action
-          id
-          created_at
-          content
+          ...CoreFlowFields
           initiator {
-            id
-            long
+            ...CoreEntityFields
           }
-          project_id
-          receiver_text
-          reference
-          status
-          thread_id
-          progress
-          owner_id
+          project {
+            ...CoreProjectFields
+          }
           owner {
-            id
-            is_person
-            level
-            long
-            short
-            short_header
+            ...CoreEntityFields
           }
         }
       }
       `
 
-    this.apollo.query({
+    return this.apollo.query({
       query: SEARCH_FLOWS,
-      variables: searchFlowVariables
+      variables: { where: searchFlowVariables }
     }).pipe(
       map((val: any) => {
         return val.data.flow.map((val: any) => {

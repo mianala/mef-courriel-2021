@@ -1,3 +1,4 @@
+import { gql } from "apollo-angular";
 import { Entity } from "./entity";
 
 export class User {
@@ -37,5 +38,16 @@ export class User {
 
     Object.assign(this, _user)
   }
-
+  static core_user_fields = gql`
+    fragment CoreUserFields on user{
+      id
+      firstname
+      lastname
+      profile_picture
+      entity_id
+      im
+      last_login
+      title
+    }
+  `
 }

@@ -2,5 +2,7 @@
 @include mat-core();
 
 $primary: mat-color($mat-indigo, A400);
-$red-ryb: mat-color($mat-pink, A400);
-$nav-width: 4rem;
+$red-ryb: mat-color($mat-pink, A200);
+$accent: mat-color($mat-pink, A200);
+$nav-width: 3.5rem;
+$grey: hsl(218, 50%, 97%);

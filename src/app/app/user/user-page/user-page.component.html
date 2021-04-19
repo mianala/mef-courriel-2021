@@ -1,0 +1,60 @@
+<div style fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-header fxLayoutAlign="center">
+      <div
+        mat-card-avatar
+        class="avatar"
+        style="background-size: cover"
+        [style.background-image]="
+          'url(https://randomuser.me/api/portraits/med/women/' +
+          user.id +
+          '.jpg)'
+        "
+      ></div>
+      <mat-card-title>
+        {{ user.firstname }}
+        {{ user.lastname }}
+      </mat-card-title>
+      <mat-card-subtitle>{{ user.title }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content fxLayout="column" fxLayoutGap=".5rem">
+      <div
+        class="entity"
+        fxFlex
+        fxLayoutGap="1rem"
+        fxLayoutAlign="center center"
+      >
+        <mat-icon>domain</mat-icon> <span>{{ user.entity.short_header }}</span>
+      </div>
+      <div
+        class="entity"
+        fxFlex
+        fxLayoutGap="1rem"
+        fxLayoutAlign="center center"
+      >
+        <mat-icon>phone</mat-icon> <span>{{ user.phone }}</span>
+      </div>
+      <div
+        class="entity"
+        fxFlex
+        fxLayoutGap="1rem"
+        fxLayoutAlign="center center"
+      >
+        <mat-icon>mail</mat-icon> <span>{{ user.email }}</span>
+      </div>
+      <div
+        class="entity"
+        fxFlex
+        fxLayoutGap="1rem"
+        fxLayoutAlign="center center"
+      >
+        <b> IM</b> <span>{{ user.im }}</span>
+      </div>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center">
+      <a routerLink="/app/user/edit" mat-raised-button color="accent">
+        <mat-icon>edit</mat-icon> Mettre à Jour
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>

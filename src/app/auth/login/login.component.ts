@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { UserService } from 'src/app/app/users/user.service';
 import { ValidatorService } from 'src/app/services/validator.service';
@@ -22,19 +23,21 @@ export class LoginComponent implements OnInit {
     ]),
   });
 
-  constructor(private titleService: Title, private userService: UserService) {
+  constructor(private titleService: Title, private userService: UserService, private router: Router) {
     this.titleService.setTitle('Login');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   submit() {
+
     const form = this.loginForm.value;
     const variables = {
       username: form.username,
       hashed: form.password,
     };
+
     this.userService.logIn(variables);
-    
+
   }
 }

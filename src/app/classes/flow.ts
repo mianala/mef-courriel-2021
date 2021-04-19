@@ -1,3 +1,5 @@
+import { DatePipe } from '@angular/common'
+import { gql } from 'apollo-angular';
 import { Entity } from './entity';
 import { File } from './file';
 import { Project } from './project';
@@ -22,8 +24,9 @@ export class Flow {
   initiator: Entity;
   files: File[];
   variable_files: { data: File[] };
-
+  datepipe: DatePipe
   constructor(_flow: Partial<{}> = {}) {
+    this.datepipe = new DatePipe("fr-FR")
     this.id = 0;
     this.action = 0;
     this.owner_id = 0;
@@ -84,4 +87,26 @@ export class Flow {
     console.log(this.action == 1 ? 'description' : 'inbox')
     return this.action == 1 ? 'description' : 'inbox'
   }
+
+  shortTime() {
+    return this.datepipe.transform(this.created_at, 'd MMM');
+  }
+
+
+  static core_flow_fields = gql`
+    fragment CoreFlowFields on flow{
+      id
+      action
+      content
+      project_id
+      receiver_text
+      reference
+      status
+      thread_id
+      progress
+      owner_id
+      created_at  
+      updated_at
+    }
+  `
 }

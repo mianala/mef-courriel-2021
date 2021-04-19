@@ -1,0 +1,13 @@
+@import "~src/_variables";
+
+:host {
+  display: block;
+  background-color: $grey;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  place-content: center center;
+  mat-card {
+    padding: 2rem;
+  }
+}

@@ -16,7 +16,8 @@ export class EntityAutocompleteComponent implements OnInit {
 
   entities: Entity[] = [];
   filteredOptions: Entity[] = [];
-  @Input() entity: Entity = new Entity();
+
+  @Input() entity = new Entity();
   @Output() entityChange: EventEmitter<Entity> = new EventEmitter();
 
   @Input() must_select_entity: Boolean = false;
@@ -42,6 +43,11 @@ export class EntityAutocompleteComponent implements OnInit {
       entity.short_header.toLowerCase().includes(this.entityText.toLowerCase())
     );
     this._keyup.emit(e.target.value);
+  }
+
+  select(e: Entity) {
+    this.entity = e
+    this.entitySelected.emit(e)
   }
 
   resetSelection(e: any) {
