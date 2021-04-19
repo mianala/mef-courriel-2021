@@ -9,15 +9,19 @@
     </p>
   </mat-card-content> -->
   <mat-card-actions>
-    <button mat-icon-button [routerLink]="'/app/entities/add/' + entity?.id">
+    <a mat-icon-button [routerLink]="'/app/entities/add/' + entity?.id">
       <mat-icon>add</mat-icon>
-    </button>
-    <button mat-icon-button [routerLink]="'/app/entities/entity/' + entity?.id">
+    </a>
+    <a
+      mat-icon-button
+      routerLink="/app/entities/entity/"
+      [queryParams]="{ entity_id: entity.id }"
+    >
       <mat-icon>people_outline</mat-icon>
-    </button>
-    <button mat-icon-button [routerLink]="'/app/entities/edit/' + entity?.id">
+    </a>
+    <a mat-icon-button [routerLink]="'/app/entities/edit/' + entity?.id">
       <mat-icon>edit</mat-icon>
-    </button>
+    </a>
     <button mat-icon-button color="warn" (click)="remove()">
       <mat-icon> do_not_disturb_on</mat-icon>
     </button>

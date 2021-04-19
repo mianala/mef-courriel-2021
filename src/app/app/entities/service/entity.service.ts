@@ -63,6 +63,7 @@ export class EntityService {
 
   getEntity(id: number) {
     const GET_ENTITY_QUERY = gql`
+      ${Entity.core_entity_fields}
       query get_entity($id: Int!) {
         entity(where: { id: { _eq: $id } }) {
           ...CoreEntityFields
@@ -97,6 +98,9 @@ export class EntityService {
             lastname
             title
             im
+            entity {
+              ...CoreEntityFields
+            }
           }
         }
       }
@@ -109,6 +113,8 @@ export class EntityService {
     }).pipe(
       map((val: any) => {
         return val.data.entity.map((val: any) => {
+          console.log(val);
+
           return new Entity(val);
         });
       })

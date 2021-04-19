@@ -1,8 +1,13 @@
+@import "~src/_variables";
 :host {
   padding: 1rem;
+
   display: flex;
   flex-direction: column;
   .users {
+    background-color: $grey;
+    padding: 1rem;
+    border-radius: 0.5rem;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;

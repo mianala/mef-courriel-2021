@@ -100,7 +100,7 @@ const routes: Routes = [
       },
       {
         path: 'entity',
-        component: UserEntityPageComponent,
+        component: EntityPageComponent,
       },
       {
         path: 'settings',
@@ -132,15 +132,15 @@ const routes: Routes = [
             component: EntitiesComponent,
           },
           {
-            path: 'entity/:entity_id',
-            component: EntityUsersComponent,
+            path: 'entity',
+            component: EntityPageComponent,
           },
           {
             path: 'add/:entity_id',
             component: AddNewEntityComponent,
           },
           {
-            path: 'edit/:entity_id',
+            path: 'edit',
             component: EditEntityComponent,
           },
         ]

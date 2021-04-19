@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  gap: 1rem;
+  mat-form-field,
+  entity-autocomplete {
+    display: block;
+    max-width: max-content;
+  }
+}

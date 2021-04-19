@@ -59,7 +59,6 @@ export class Entity {
       long_header            
       labels
       sub_entities_count
-      is_person
     }
   `
 }

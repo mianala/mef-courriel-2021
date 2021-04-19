@@ -24,8 +24,11 @@ export class EditEntityComponent implements OnInit {
     private route: ActivatedRoute,
     private entityService: EntityService
   ) {
-    this.entity_id = parseInt(this.route.snapshot.params.entity_id);
-    this.entityService.getEntity(this.entity_id).subscribe(this.getEntity.bind(this));
+
+    this.route.queryParams.subscribe(data => {
+      this.entity_id = parseInt(data.entity_id);
+      this.entityService.getEntity(this.entity_id).subscribe(this.getEntity.bind(this));
+    })
   }
 
   ngOnInit(): void {

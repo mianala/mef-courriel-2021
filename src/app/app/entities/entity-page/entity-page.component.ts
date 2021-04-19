@@ -13,11 +13,29 @@ import { EntityService } from '../service/entity.service';
 export class EntityPageComponent implements OnInit {
 
   entity = new Entity()
+  labelsToggle = false
+  observationsToggle = false
 
   constructor(private entityService: EntityService, private userService: UserService, private route: ActivatedRoute) {
-    const entity_id = this.route.snapshot.params.entity_id
+    this.route.queryParams.subscribe(this.getEntity.bind(this));
+  }
 
-    this.entityService.getEntityWithUsers(parseInt(entity_id)).subscribe(e => this.entity = e[0])
+  getEntity(data: any) {
+
+    if (!data.entity_id) {
+
+      this.entityService.active_entity.subscribe(entity => {
+        this.entityService.getEntityWithUsers(entity.id).subscribe(e => {
+          this.entity = e[0]
+        })
+      })
+
+      return
+    }
+
+    this.entityService.getEntityWithUsers(parseInt(data.entity_id)).subscribe(e => {
+      this.entity = e[0]
+    })
   }
 
   ngOnInit(): void {
