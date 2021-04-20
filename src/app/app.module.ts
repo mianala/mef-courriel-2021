@@ -89,6 +89,7 @@ import { ObservationsComponent } from './flow/components/observations/observatio
 import { UserEntityPageComponent } from './entity/user-entity-page/user-entity-page.component';
 import { RouteComponent } from './app/flow/route/route.component';
 import { RouteItemComponent } from './app/flow/components/route-item/route-item.component';
+import { AppsComponent } from './apps/apps.component';
 
 registerLocaleData(localeFr);
 
@@ -174,6 +175,7 @@ registerLocaleData(localeFr);
     UserEntityPageComponent,
     RouteComponent,
     RouteItemComponent,
+    AppsComponent,
   ],
   imports: [
     BrowserModule,
