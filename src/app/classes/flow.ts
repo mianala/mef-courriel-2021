@@ -18,6 +18,7 @@ export class Flow {
   content: string;
   labels: string;
   note: string;
+  reference: string;
   project: Project;
   thread_id: number;
   owner: Entity;
@@ -39,6 +40,7 @@ export class Flow {
     this.updated_at = new Date();
     this.created_at = new Date();
     this.labels = '';
+    this.reference = '';
     this.note = '';
     this.project = new Project();
     this.thread_id = 0;
