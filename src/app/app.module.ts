@@ -87,6 +87,8 @@ import { HeaderComponent } from './home/header/header.component';
 import { SignedUpComponent } from './auth/signed-up/signed-up.component';
 import { ObservationsComponent } from './flow/components/observations/observations.component';
 import { UserEntityPageComponent } from './entity/user-entity-page/user-entity-page.component';
+import { RouteComponent } from './app/flow/route/route.component';
+import { RouteItemComponent } from './app/flow/components/route-item/route-item.component';
 
 registerLocaleData(localeFr);
 
@@ -170,6 +172,8 @@ registerLocaleData(localeFr);
     SignedUpComponent,
     ObservationsComponent,
     UserEntityPageComponent,
+    RouteComponent,
+    RouteItemComponent,
   ],
   imports: [
     BrowserModule,

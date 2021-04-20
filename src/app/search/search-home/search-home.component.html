@@ -2,9 +2,14 @@
   <div class="logo">
     <img alt="MEF" src="/assets/flag.png" />
   </div>
-  <form id="searchbar" type="text" action="" method="GET" >
-    <input id="searchbartext" type="text" name="q"/>
-    <button type="submit" id="searchbarbutton">
+  <form id="searchbar">
+    <input id="searchbartext" type="text" name="q" [(ngModel)]="query" />
+    <button
+      type="submit"
+      id="searchbarbutton"
+      routerLink=""
+      [queryParams]="{ q: query }"
+    >
       <svg
         focusable="false"
         xmlns="http://www.w3.org/2000/svg"

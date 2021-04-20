@@ -137,6 +137,10 @@ export class UserService {
       .subscribe(this.logInHandler.bind(this));
   }
 
+  logOut() {
+    this.notification.open("Vous êtes déconnecté")
+  }
+
   updateUserLastLogin() {
     const UPDATE_LAST_LOGIN_QUERY = gql`
       mutation update_user_last_login($user_id: Int!, $last_login: date = now) {

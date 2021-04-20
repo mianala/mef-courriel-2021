@@ -34,6 +34,8 @@ import { SignedUpComponent } from '../auth/signed-up/signed-up.component';
 import { EditUserComponent } from '../app/user/edit-user/edit-user.component';
 import { EntityPageComponent } from '../app/entities/entity-page/entity-page.component';
 import { UserEntityPageComponent } from '../entity/user-entity-page/user-entity-page.component';
+import { RouteComponent } from '../app/flow/route/route.component';
+import { ReplyFormComponent } from '../app/flow/form/reply-form/reply-form.component';
 
 const routes: Routes = [
   {
@@ -162,15 +164,19 @@ const routes: Routes = [
             component: AssignFlowComponent,
           },
           {
-            path: 'reply/:flow_id',
-            component: AssignFlowComponent,
+            path: 'route',
+            component: RouteComponent,
           },
           {
-            path: 'project/:flow_id',
+            path: 'reply',
+            component: ReplyFormComponent,
+          },
+          {
+            path: 'project',
             component: FlowPageComponent,
           },
           {
-            path: 'send/:flow_id',
+            path: 'send',
             component: SendFlowFormComponent,
           },
           {

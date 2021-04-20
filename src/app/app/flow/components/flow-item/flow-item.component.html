@@ -28,23 +28,42 @@
   </span>
 </div>
 <div class="actions">
-  <a mat-icon-button [routerLink]="'/app/flow/project/' + flow.id">
+  <a
+    mat-icon-button
+    routerLink="/app/flow/project"
+    [queryParams]="{ flow_id: flow.id }"
+  >
     <mat-icon class="mat-18">folder_open</mat-icon>
   </a>
   <a mat-icon-button (click)="markAsRead(flow.id)">
     <mat-icon class="mat-18">mark_email_read</mat-icon>
   </a>
-  <a mat-icon-button [routerLink]="'/app/flow/reply/' + flow.id">
+  <a
+    mat-icon-button
+    routerLink="/app/flow/reply"
+    [queryParams]="{ flow_id: flow.id }"
+  >
     <mat-icon class="mat-18">reply</mat-icon>
   </a>
   <a
     mat-icon-button
-    routerLink="/app/flow/assign/"
+    routerLink="/app/flow/assign"
     [queryParams]="{ flow_id: flow.id }"
   >
     <mat-icon class="mat-18">person_add_alt</mat-icon>
   </a>
-  <a mat-icon-button [routerLink]="'/app/flow/send/' + flow.id">
-    <mat-icon class="mat-18">call_split</mat-icon>
+  <a
+    mat-icon-button
+    routerLink="/app/flow/route"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    <mat-icon class="mat-18">alt_route</mat-icon>
+  </a>
+  <a
+    mat-icon-button
+    routerLink="/app/flow/send"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    <mat-icon class="mat-18">send</mat-icon>
   </a>
 </div>

@@ -193,6 +193,10 @@ export class FlowService {
       }))
   }
 
+  deleteFlow(id: number) {
+
+  }
+
   getAllFlow(entity_id: number) {
     const GET_ALL_FLOWS = gql`
       ${Project.core_project_fields}

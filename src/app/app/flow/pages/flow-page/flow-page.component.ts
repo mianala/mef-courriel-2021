@@ -17,11 +17,14 @@ export class FlowPageComponent implements OnInit {
   flow_id = 0;
 
   constructor(private flowService: FlowService, private route: ActivatedRoute) {
-    this.flow_id = parseInt(this.route.snapshot.params.flow_id);
-    console.log(this.flow_id);
-    this.flowService
-      .getFlow(this.flow_id)
-      .subscribe(this.receivedflow.bind(this));
+
+    this.route.queryParams.subscribe(data => {
+      this.flow_id = parseInt(data.flow_id);
+
+      this.flowService
+        .getFlow(this.flow_id)
+        .subscribe(this.receivedflow.bind(this));
+    })
   }
 
   receivedflow(flows: any) {

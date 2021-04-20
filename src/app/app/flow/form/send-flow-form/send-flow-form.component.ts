@@ -25,9 +25,14 @@ export class SendFlowFormComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute, private flowService: FlowService, private userService: UserService, private entityService: EntityService) {
-    const project_flow_id = parseInt(this.route.snapshot.params.flow_id);
-    this.flowService.getFlow(project_flow_id).subscribe(data => this.project_flow = data[0]);
-    this.flowService.getFlow(project_flow_id).subscribe(data => console.log(data))
+
+    this.route.queryParams.subscribe(data => {
+      const flow_id = parseInt(data.flow_id);
+
+      this.flowService
+        .getFlow(flow_id)
+        .subscribe(data => this.project_flow = data[0]);
+    })
   }
 
   ngOnInit(): void {

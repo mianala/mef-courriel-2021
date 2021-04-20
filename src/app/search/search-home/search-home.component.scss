@@ -1,4 +1,3 @@
-
 .container {
   height: 100vh;
 
@@ -8,9 +7,11 @@
   align-items: center;
 }
 
-.logo {
+.logo img {
   // margin-top: 220px;
-  margin-bottom: 20px;
+  margin-bottom: 4rem;
+  max-width: 50vh;
+  width: 20rem;
 }
 
 #searchbar {
