@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Flow } from 'src/app/classes/flow';
 
 @Component({
   selector: 'result-item',
@@ -6,10 +7,18 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./result-item.component.scss']
 })
 export class ResultItemComponent implements OnInit {
-  @Input() item: any = {}
-  constructor() { }
+  @Input() flow: Flow
+
+  constructor() {
+    this.flow = new Flow()
+
+  }
   Math = Math
   ngOnInit(): void {
+
+    console.log(this.flow);
+
+
   }
 
 }

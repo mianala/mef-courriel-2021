@@ -31,7 +31,7 @@ export class SendFlowFormComponent implements OnInit {
 
       this.flowService
         .getFlow(flow_id)
-        .subscribe(data => this.project_flow = data[0]);
+        .subscribe(data => this.project_flow = data);
     })
   }
 

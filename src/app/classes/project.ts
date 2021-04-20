@@ -5,7 +5,7 @@ import { Flow } from './flow';
 export class Project {
   id;
   numero;
-  title;
+  title: string;
   date
   date_received;
   owner_text;
@@ -21,7 +21,7 @@ export class Project {
     this.id = 0;
     this.numero = 0;
     this.closed = 0;
-    this.title = 0;
+    this.title = "";
     this.date = new Date()
     this.date_received = new Date();
     this.owner_text = '';

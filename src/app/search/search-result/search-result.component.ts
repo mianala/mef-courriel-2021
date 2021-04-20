@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { FlowService } from 'src/app/app/flow/flow.service';
 import { UserService } from 'src/app/app/users/user.service';
@@ -13,23 +14,31 @@ export class SearchResultComponent implements OnInit {
   @Input() query: string = ""
 
   results: Flow[] = [];
-  constructor(private flowService: FlowService, private entityService: EntityService, private userService: UserService) {
+  constructor(private flowService: FlowService, private entityService: EntityService, private userService: UserService, route: ActivatedRoute) {
 
-
-
+    route.queryParams.subscribe(data => {
+      this.query = data.q;
+      this.search()
+    })
   }
 
   ngOnInit(): void {
   }
 
-  searchFlow() {
-    const searchFlowVariable = {
-      owner_id: { _eq: 10 },
-      content: { _eq: "" },
-    }
-    this.flowService.search(searchFlowVariable)
+  search() {
+    let searchFilters: any = {}
+
+    this.query.length ? searchFilters.project = { title: { _ilike: `%${this.query}%` } } : null
+
+    // searchFilters.owner_id = { _eq: this.entityService.active_entity.value.id }
+
+    console.log("searching", searchFilters)
+
+    Object.keys(searchFilters).length && this.flowService.search(searchFilters)
+      .subscribe(flows => {
+        this.results = flows
+        console.log(flows)
+      })
+
   }
-
-
-
 }

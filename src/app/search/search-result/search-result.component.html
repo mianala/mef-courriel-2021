@@ -2,8 +2,12 @@
   <div id="topbar">
     <img routerLink="" id="searchbarimage" src="/assets/flag.png" />
     <div id="searchbar" type="text">
-      <input id="searchbartext" type="text" />
-      <button id="searchbarbutton">
+      <input id="searchbartext" type="text" [(ngModel)]="query" />
+      <button
+        id="searchbarbutton"
+        routerLink="/search"
+        [queryParams]="{ q: query }"
+      >
         <svg
           focusable="false"
           xmlns="http://www.w3.org/2000/svg"
@@ -59,6 +63,6 @@
 <div id="searchresultsarea">
   <empty-search-result></empty-search-result>
   <div class="result-list">
-    <result-item *ngFor="let item of results"></result-item>
+    <result-item *ngFor="let item of results" [flow]="item"></result-item>
   </div>
 </div>
