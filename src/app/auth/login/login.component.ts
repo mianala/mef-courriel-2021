@@ -13,11 +13,11 @@ import { ValidatorService } from 'src/app/services/validator.service';
 })
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
-    username: new FormControl('myusername', [
+    username: new FormControl('', [
       Validators.required,
       Validators.minLength(ValidatorService.username_min_length),
     ]),
-    password: new FormControl('mypassword', [
+    password: new FormControl('', [
       Validators.required,
       Validators.minLength(ValidatorService.password_min_length),
     ]),
