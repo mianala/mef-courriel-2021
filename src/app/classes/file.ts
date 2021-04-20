@@ -29,4 +29,8 @@ export class AppFile {
       lastModified
     }
   `
+
+  static image_types = []
+  static pdf_types = ['application/pdf']
+  static pdf = []
 }

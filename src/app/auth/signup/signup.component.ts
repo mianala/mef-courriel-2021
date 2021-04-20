@@ -31,11 +31,11 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
       firstname: [
-        'Mianala',
+        '',
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
       lastname: [
-        'Loharano',
+        '',
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
       entity_id: [
@@ -43,30 +43,30 @@ export class SignupComponent implements OnInit {
         Validators.compose([Validators.required, Validators.min(1)]),
       ],
       im: [
-        321654,
+        0,
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
       title: [
-        'Développeur',
+        '',
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
       phone: [
-        '+261320000000',
+        '+261',
         Validators.compose([Validators.required, Validators.minLength(9)]),
       ],
       email: [
-        'mymail@gmail.com',
+        '',
         Validators.compose([Validators.required, Validators.email]),
       ],
       username: [
-        'myusername',
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(ValidatorService.username_min_length),
         ]),
       ],
       password: [
-        'mypassword',
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(ValidatorService.password_min_length),

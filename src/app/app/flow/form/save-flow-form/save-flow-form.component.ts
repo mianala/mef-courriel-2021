@@ -29,20 +29,20 @@ export class SaveFlowFormComponent implements OnInit {
   ngOnInit(): void {
     this.saveFlowForm = this.fb.group({
       content: [
-        'Observation'],
+        ''],
       title: [
-        'Objet',
+        '',
         Validators.compose([Validators.required, Validators.minLength(4)]),
       ],
       reference: [
-        'Reference',
+        '',
         Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
       type_text: ['Originale'],
       letter_text: ['Lettre'],
       note: [''],
       numero: [
-        1351,
+        ,
         Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
       project_owner_text: [
@@ -77,7 +77,7 @@ export class SaveFlowFormComponent implements OnInit {
         size: file.size,
         type: file.type,
         src: file.src,
-        lastModified: file.lastModified,
+        lastModified: file.lastModified.toString(),
       });
     });
 

@@ -35,8 +35,6 @@ export class FilesComponent implements OnInit {
         console.log(progress);
       })
     })
-
-
   }
 
 }
