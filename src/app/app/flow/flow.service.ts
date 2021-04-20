@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
-import { File } from 'src/app/classes/file';
+import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { Project } from 'src/app/classes/project';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -150,6 +150,7 @@ export class FlowService {
       ${Project.core_project_fields}
       ${Entity.core_entity_fields}
       ${Flow.core_flow_fields}
+      ${AppFile.core_file_fields}
       query get_flow($id: Int!) {
         flow(where: { id: { _eq: $id } }) {
           ...CoreFlowFields
@@ -158,6 +159,9 @@ export class FlowService {
           }
           owner {
             ...CoreEntityFields
+          }
+          files {
+            ...CoreFileFields
           }
           project {
             ...CoreProjectFields

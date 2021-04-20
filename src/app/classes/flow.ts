@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common'
 import { gql } from 'apollo-angular';
 import { Entity } from './entity';
-import { File } from './file';
+import { AppFile } from './file';
 import { Project } from './project';
 
 export class Flow {
@@ -23,8 +23,8 @@ export class Flow {
   thread_id: number;
   owner: Entity;
   initiator: Entity;
-  files: File[];
-  variable_files: { data: File[] };
+  files: AppFile[];
+  variable_files: { data: AppFile[] };
   datepipe: DatePipe
   constructor(_flow: Partial<{}> = {}) {
     this.datepipe = new DatePipe("fr-FR")

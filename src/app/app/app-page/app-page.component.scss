@@ -60,8 +60,9 @@ nav {
     .nav-link {
       cursor: pointer;
     }
-    span {
+    .nav-link {
       outline: 0;
+      text-decoration: none;
 
       border: none;
       -moz-outline-style: none;

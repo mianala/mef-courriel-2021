@@ -69,13 +69,15 @@ export class SaveFlowFormComponent implements OnInit {
 
   submit() {
     const form = this.saveFlowForm.value;
-    const form_files: { name: string; size: number; type: string }[] = [];
+    const form_files: { name: string; size: number; type: string; src: string, lastModified: number }[] = [];
 
     this.files.forEach((file) => {
       form_files.push({
         name: file.name,
         size: file.size,
         type: file.type,
+        src: file.src,
+        lastModified: file.lastModified,
       });
     });
 

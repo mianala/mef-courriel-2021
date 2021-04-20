@@ -21,6 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [],
@@ -48,6 +49,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatTableModule,
     MatCheckboxModule,
     MatBadgeModule,
+    MatProgressBarModule,
   ],
   exports: [
     MatIconModule,
@@ -73,6 +75,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatTableModule,
     MatCheckboxModule,
     MatBadgeModule,
+    MatProgressBarModule,
   ],
   providers: [MatDatepickerModule],
 })

@@ -55,6 +55,10 @@ const routes: Routes = [
         path: 'flow',
         component: FlowPageComponent,
       },
+      {
+        path: 'save',
+        component: SaveFlowPageComponent,
+      },
 
     ]
   },

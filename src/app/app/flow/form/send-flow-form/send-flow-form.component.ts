@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { UserService } from 'src/app/app/users/user.service';
 import { Entity } from 'src/app/classes/entity';
-import { File } from 'src/app/classes/file';
+import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { FlowService } from '../../flow.service';
 
@@ -14,7 +14,7 @@ import { FlowService } from '../../flow.service';
 })
 export class SendFlowFormComponent implements OnInit {
 
-  files: File[] = []
+  files: AppFile[] = []
   labels: string[] = []
   receivers: Entity[] = []
   project_flow: Flow = new Flow()

@@ -13,7 +13,11 @@
   <div class="reference">{{ flow.project.reference }}</div>
 </div>
 <div class="content">
-  <a class="title" [routerLink]="'/app/flow/project/' + flow.id">
+  <a
+    class="title"
+    routerLink="/app/flow/project"
+    [queryParams]="{ flow_id: flow.id }"
+  >
     {{ flow.project.title }}
   </a>
   <div class="observation">

@@ -15,4 +15,12 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
+<div class="progress-bars" fxLayout="column" fxLayoutGap=".5rem">
+  <mat-progress-bar
+    mode="determinate"
+    *ngFor="let p of progress"
+    [value]="p"
+  ></mat-progress-bar>
+</div>
+
 <file-upload-button (fileSelected)="getFiles($event)"></file-upload-button>
