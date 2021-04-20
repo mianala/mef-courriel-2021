@@ -1,6 +1,6 @@
 .searchresult {
   margin-left: 8px;
-  a {
+  .reference {
     font-size: 14px;
     line-height: 14px;
     color: green;
@@ -18,14 +18,17 @@
     background-color: white;
   }
 
-  h2 {
+  .title {
     font-size: 19px;
     line-height: 18px;
     font-weight: normal;
     color: rgb(29, 1, 189);
     margin-bottom: 0px;
+    a {
+      text-decoration: none;
+    }
   }
-  p {
+  .content {
     max-width: 625px;
     max-height: 55px;
     overflow: hidden;

@@ -1,6 +1,13 @@
 <div class="searchresult">
-  <a>https://www.base-mef.mg/{{ flow.project.reference }}</a> <button>▼</button>
-  <h2>{{ flow.project.title }}</h2>
-  <p>{{ flow.content }}</p>
+  <span class="reference">{{ flow.project.reference }}</span> <button>▼</button>
+  <h2 class="title">
+    <a
+      routerLink="/search/flow/"
+      [queryParams]="{ flow_id: flow.id }"
+      routerLinkActive="router-link-active"
+      >{{ flow.project.title }}</a
+    >
+  </h2>
+  <p class="content">{{ flow.content }}</p>
   <p>Nombre de consulation: {{ flow.project.title.length }}</p>
 </div>

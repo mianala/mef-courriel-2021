@@ -7,17 +7,13 @@ import { Flow } from 'src/app/classes/flow';
   styleUrls: ['./result-item.component.scss']
 })
 export class ResultItemComponent implements OnInit {
-  @Input() flow: Flow
+  @Input() flow: Flow = new Flow()
 
   constructor() {
-    this.flow = new Flow()
 
   }
   Math = Math
   ngOnInit(): void {
-
-    console.log(this.flow);
-
 
   }
 

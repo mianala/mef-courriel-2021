@@ -39,6 +39,7 @@ import { FeedbackComponent } from './app/feedback/feedback.component';
 import { SharedComponent } from './app/shared/shared.component';
 import { AppPageComponent } from './app/app-page/app-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FirebaseModule } from './modules/firebase.module';
 import { MaterialModule } from './modules/material.module';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { EmptySearchResultComponent } from './search/empty-search-result/empty-search-result.component';
@@ -90,6 +91,7 @@ import { UserEntityPageComponent } from './entity/user-entity-page/user-entity-p
 import { RouteComponent } from './app/flow/route/route.component';
 import { RouteItemComponent } from './app/flow/components/route-item/route-item.component';
 import { AppsComponent } from './apps/apps.component';
+import { RouterComponent } from './router/router.component';
 
 registerLocaleData(localeFr);
 
@@ -176,6 +178,7 @@ registerLocaleData(localeFr);
     RouteComponent,
     RouteItemComponent,
     AppsComponent,
+    RouterComponent,
   ],
   imports: [
     BrowserModule,
@@ -183,6 +186,7 @@ registerLocaleData(localeFr);
     BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
+    FirebaseModule,
     ApolloModule,
     ReactiveFormsModule,
     FormsModule,

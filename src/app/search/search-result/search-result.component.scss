@@ -5,41 +5,30 @@
   justify-content: space-between;
   // position: fixed;
   background-color: white;
-
   #searchbarimage {
     height: 40px;
     padding: 0px 28px 10px 30px;
     cursor: pointer;
+    max-width: 1200px;
   }
-  searchbar {
-    flex: 1;
-  }
-  .actions {
-    padding-right: 50px;
-    .mat-icon-button {
-      border-radius: 50%;
-      margin-left: 5px;
-      background-color: #f3994e;
-    }
+}
+#searchbar {
+  flex: 1;
+}
+.actions {
+  padding-right: 50px;
+  .mat-icon-button {
+    border-radius: 50%;
+    margin-left: 5px;
+    background-color: #f3994e;
   }
 }
 
-#searchresultsarea {
-  // max-width: 1300px;
-  font-family: "Arial";
-  mat-drawer-container {
-    min-height: 75vh;
-  }
-  .mat-drawer-inner-container {
-  }
-  mat-drawer {
-    width: 50%;
-  }
-  mat-drawer-content {
-    padding-left: 2rem;
-  }
+:host {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
 }
-
 #optionsbar {
   padding-left: 150px;
   border-bottom: 1px solid gray;
@@ -47,9 +36,29 @@
     margin-bottom: -1.34375em;
   }
 }
+::ng-deep {
+  .textLayer {
+    border: 3px solid grey;
+  }
+}
+#optionsbar {
+  max-width: 1200px;
+  margin: auto;
+}
+#searchresultsarea {
+  max-width: 1200px;
+  margin: auto;
+  font-family: "Arial";
+  mat-drawer-container {
+    min-height: 75vh;
+  }
+}
+mat-drawer {
+  width: 50%;
+}
 
-::ng-deep .textLayer {
-  border: 3px solid grey;
+mat-drawer-content {
+  padding-left: 2rem;
 }
 
 .pdf-container {
@@ -67,32 +76,27 @@
   position: relative;
   overflow: hidden;
   display: flex;
-}
-
-#searchbar:hover {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-#searchbar > input {
-  height: 45px;
-  border-style: none;
-  font-size: 16px;
-  line-height: 45px;
-  padding-left: 20px;
-  flex: 1;
-}
-
-#searchbar > input:focus {
-  outline: none;
-}
-
-#searchbar button {
-  border: none;
-  cursor: pointer;
-}
-
-#searchbar button:focus {
-  outline: none;
+  &:hover {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  > input {
+    height: 45px;
+    border-style: none;
+    font-size: 16px;
+    line-height: 45px;
+    padding-left: 20px;
+    flex: 1;
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    border: none;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 #searchbarbutton {
@@ -101,15 +105,13 @@
   position: relative;
   margin-right: -2px;
   background-color: white;
-}
-
-#searchbarbutton svg {
-  height: 25px;
-  width: 35px;
-  position: relative;
-  left: -3px;
-}
-
-#searchbarbutton svg path {
-  fill: #4285f4;
+  svg {
+    height: 25px;
+    width: 35px;
+    position: relative;
+    left: -3px;
+    path {
+      fill: #4285f4;
+    }
+  }
 }

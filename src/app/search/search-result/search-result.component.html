@@ -1,8 +1,8 @@
 <div id="header">
   <div id="topbar">
     <img routerLink="" id="searchbarimage" src="/assets/flag.png" />
-    <div id="searchbar" type="text">
-      <input id="searchbartext" type="text" [(ngModel)]="query" />
+    <form id="searchbar">
+      <input id="searchbartext" type="text" name="q" [(ngModel)]="query" />
       <button
         id="searchbarbutton"
         routerLink="/search"
@@ -18,7 +18,7 @@
           ></path>
         </svg>
       </button>
-    </div>
+    </form>
     <div class="actions">
       <button mat-icon-button>
         <mat-icon>add</mat-icon>
@@ -61,7 +61,9 @@
 </div>
 
 <div id="searchresultsarea">
-  <empty-search-result></empty-search-result>
+  <empty-search-result
+    [hidden]="results.length || loading"
+  ></empty-search-result>
   <div class="result-list">
     <result-item *ngFor="let item of results" [flow]="item"></result-item>
   </div>

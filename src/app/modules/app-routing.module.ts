@@ -36,6 +36,7 @@ import { EntityPageComponent } from '../app/entities/entity-page/entity-page.com
 import { UserEntityPageComponent } from '../entity/user-entity-page/user-entity-page.component';
 import { RouteComponent } from '../app/flow/route/route.component';
 import { ReplyFormComponent } from '../app/flow/form/reply-form/reply-form.component';
+import { RouterComponent } from '../router/router.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,18 @@ const routes: Routes = [
   },
   {
     path: 'search',
-    component: SearchComponent,
+    component: RouterComponent,
+    children: [
+      {
+        path: '',
+        component: SearchComponent,
+      },
+      {
+        path: 'flow',
+        component: FlowPageComponent,
+      },
+
+    ]
   },
   {
     path: 'dashboard',

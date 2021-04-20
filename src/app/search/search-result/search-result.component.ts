@@ -11,6 +11,7 @@ import { Flow } from 'src/app/classes/flow';
   styleUrls: ['./search-result.component.scss']
 })
 export class SearchResultComponent implements OnInit {
+  loading = true
   @Input() query: string = ""
 
   results: Flow[] = [];
@@ -37,6 +38,7 @@ export class SearchResultComponent implements OnInit {
     Object.keys(searchFilters).length && this.flowService.search(searchFilters)
       .subscribe(flows => {
         this.results = flows
+        this.loading = false
         console.log(flows)
       })
 
