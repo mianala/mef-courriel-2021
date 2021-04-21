@@ -92,6 +92,7 @@ import { RouteComponent } from './app/flow/route/route.component';
 import { RouteItemComponent } from './app/flow/components/route-item/route-item.component';
 import { AppsComponent } from './apps/apps.component';
 import { RouterComponent } from './router/router.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 registerLocaleData(localeFr);
 
@@ -179,6 +180,7 @@ registerLocaleData(localeFr);
     RouteItemComponent,
     AppsComponent,
     RouterComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

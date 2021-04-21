@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { yearsPerRow } from '@angular/material/datepicker';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -23,6 +24,10 @@ export class EntityService {
     this.getEntities().subscribe(this.updateEntities.bind(this));
 
     this.userService.active_user.subscribe((user: User) => {
+      if (user === null || user.id === 0) {
+        return
+      }
+
       this.active_entity.next(user.entity)
     });
   }

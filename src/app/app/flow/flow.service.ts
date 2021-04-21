@@ -32,50 +32,14 @@ export class FlowService {
     this.getAllFlow(this.entityService.active_entity.value.id);
   }
 
+  refreshFlows() {
+    this.getAllFlow(this.entityService.active_entity.value.id)
+  }
+
   saveProjectFlowFiles(variables: any) {
     const SAVE_PROJECT_FLOW_FILES = gql`
-    mutation newSavedProject(
-      $type_text: String!
-      $title: String!
-      $reference: String!
-      $letter_text: String!
-      $date_received: date!
-      $project_date: date!
-      $owner_id: Int!
-      $user_id: Int!
-      $numero: String!
-      $labels: String!
-      $content: String!
-      $project_owner_text: String!
-      $note: String
-      $project_owner_id: Int
-      $files: file_arr_rel_insert_input = {}
-    ) {
-      insert_project(
-        objects: {
-          date: $project_date
-          date_received: $date_received
-          reference: $reference
-          title: $title
-          type_text: $type_text
-          letter_text: $letter_text
-          numero: $numero
-          owner_text: $project_owner_text
-          owner_id: $project_owner_id
-          flows: {
-            data: {
-              action: 1
-              owner_id: $owner_id
-              user_id: $user_id
-              note: $note
-              content: $content
-              labels: $labels
-              files: $files
-              initiator_id: $owner_id
-            }
-          }
-        }
-      ) {
+    mutation newSavedProject($objects: [project_insert_input!] = {}) {
+        insert_project(objects: $objects){
         returning {
           id
           numero
@@ -92,7 +56,7 @@ export class FlowService {
   `;
     return this.apollo.mutate({
       mutation: SAVE_PROJECT_FLOW_FILES,
-      variables: variables,
+      variables: { objects: variables },
     });
   }
 
@@ -206,7 +170,7 @@ export class FlowService {
       ${Project.core_project_fields}
       ${Entity.core_entity_fields}
       ${Flow.core_flow_fields}
-      query all_recent_flows($entity_id: Int!) {
+      query get_all_recent_flows($entity_id: Int!) {
           flow(where: { owner_id: { _eq: $entity_id } }, order_by: {id: desc}) {
             ...CoreFlowFields
             initiator {
@@ -214,6 +178,9 @@ export class FlowService {
             }
             project {
               ...CoreProjectFields
+              owner {
+                ...CoreEntityFields
+              }
             }
             owner {
               ...CoreEntityFields
@@ -221,11 +188,13 @@ export class FlowService {
           }
         }
       `
+
     this.apollo
-      .query({
+      .watchQuery({
         query: GET_ALL_FLOWS,
         variables: { entity_id },
-      })
+        fetchPolicy: 'cache-and-network'
+      }).valueChanges
       .pipe(
         map((val: any) => {
           return val.data.flow.map((val: any) => {
@@ -235,8 +204,13 @@ export class FlowService {
       )
       .subscribe((flows: any) => {
         this.recent_flows.next(flows);
-      })
+      }, (error) => {
+        console.log('there was an error sending the query', error);
+      });
   }
+
+
+
 
   markFlowAsRead(flow_id: number) {
     const MARK_FLOW_AS_ANSWERED_MUTATION = gql`

@@ -137,6 +137,18 @@
   <flow class="mat-typography" *ngFor="let flow of flows" [flow]="flow"></flow>
 </div>
 
+<!-- <flows-loading
+  *ngIf="(flowService.recent_flows | async)?.length == 0"
+></flows-loading>
+
+<div *ngIf="(flowService.recent_flows | async)?.length" class="flow-list">
+  <flow
+    class="mat-typography"
+    *ngFor="let flow of flowService.recent_flows | async"
+    [flow]="flow"
+  ></flow>
+</div> -->
+
 <!-- loading -->
 <!-- <empty-flow></empty-flow> -->
 <!-- <search-flow-list></search-flow-list> -->

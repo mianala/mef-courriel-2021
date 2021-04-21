@@ -30,7 +30,11 @@ export class AppFile {
     }
   `
 
+  pdf() {
+    return this.type in [this.pdf_types]
+  }
+
   static image_types = []
-  static pdf_types = ['application/pdf']
+  pdf_types = ['application/pdf']
   static pdf = []
 }

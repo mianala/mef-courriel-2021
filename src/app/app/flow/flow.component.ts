@@ -30,7 +30,8 @@ export class FlowComponent implements OnInit {
 
   flowGroup = 0
 
-  constructor(private flowService: FlowService, private entityService: EntityService) {
+  constructor(public flowService: FlowService, private entityService: EntityService) {
+    this.flowService.refreshFlows()
     this.flowService.recent_flows.subscribe((data) => {
       this.flows = data;
     });

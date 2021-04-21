@@ -24,6 +24,7 @@ export class SearchResultComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   search() {
@@ -41,6 +42,9 @@ export class SearchResultComponent implements OnInit {
         this.loading = false
         console.log(flows)
       })
+  }
 
+  logout() {
+    this.userService.logout()
   }
 }

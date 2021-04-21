@@ -17,6 +17,7 @@ export class UserService {
   active_user: BehaviorSubject<User> = new BehaviorSubject(new User());
 
   users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  logged_in: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
   constructor(private apollo: Apollo, private notification: NotificationService, private router: Router) {
@@ -24,12 +25,21 @@ export class UserService {
       localStorage.getItem('user') !== null
         ? JSON.parse(localStorage.getItem('user') || '[]')
         : null; // redirect to login
+    const users =
+      localStorage.getItem('users') !== null
+        ? JSON.parse(localStorage.getItem('users') || '[]')
+        : null; // redirect to login
 
-    this.active_user.next(user);
+    users && this.users.next(users);
+    user && this.active_user.next(user);
+
+    this.active_user.subscribe(user => this.logged_in.next(user.id > 0))
+
     // code for testing
     // this.logIn({username: 'myusername', hashed:'mypassword'});
-
-    this.getUsers()
+    if (users === null) {
+      this.getUsers()
+    }
   }
 
   saveNewUser(variables: any) {
@@ -137,7 +147,9 @@ export class UserService {
       .subscribe(this.logInHandler.bind(this));
   }
 
-  logOut() {
+  logout() {
+    this.active_user.next(new User())
+    localStorage.removeItem('user')
     this.notification.open("Vous êtes déconnecté")
   }
 
@@ -156,7 +168,28 @@ export class UserService {
     this.apollo.mutate({
       mutation: UPDATE_LAST_LOGIN_QUERY,
       variables: { user_id: this.active_user.value.id }
-    }).subscribe(data => console.log(data))
+    }).subscribe(data => console.log('updated last login', data))
+  }
+
+  updateDefaultApp(default_app: string) {
+    const UPDATE_USER_DEFAULT_APP = gql`
+      mutation update_user_last_login($user_id: Int!, $settings_default_app: String!) {
+        update_user(where: {id: {_eq: $user_id}}, _set: {settings_default_app: $settings_default_app}) {
+          affected_rows
+          returning{
+            id
+          }
+        }
+      }
+    `
+
+    this.apollo.mutate({
+      mutation: UPDATE_USER_DEFAULT_APP,
+      variables: {
+        user_id: this.active_user.value.id,
+        settings_default_app: default_app
+      }
+    }).subscribe(data => this.notification.open('Application par Défaut Mise à jour'))
   }
 
   getUsers() {
@@ -184,6 +217,7 @@ export class UserService {
       })
     ).subscribe(data => {
       this.users.next(data)
+      localStorage.setItem('users', JSON.stringify(data))
     })
   }
 
@@ -194,9 +228,20 @@ export class UserService {
       return
     }
 
-    this.router.navigate(['/app/flow'])
+    const user = users[0]
 
-    this.active_user.next(users[0]);
+    console.log(user);
+
+
+    if (User.default_apps.includes(user.settings_default_app)) {
+      this.router.navigate([user.settings_default_app])
+    } else {
+      this.router.navigate(['/app/flow'])
+    }
+
+
+
+    this.active_user.next(user);
 
     this.updateUserLastLogin()
     localStorage.setItem('user', JSON.stringify(users[0]))
@@ -293,6 +338,8 @@ export class UserService {
       variables: { user_id: this.active_user.value.id, firstname: user.firstname, last: user.last, title: user.title }
     }).subscribe(data => console.log(data))
   }
+
+
 
   saveActiveUserInCookies() { }
 

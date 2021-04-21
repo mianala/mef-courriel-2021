@@ -5,27 +5,29 @@ import { AppFile } from './file';
 import { Project } from './project';
 
 export class Flow {
-  id: number;
-  action: number;
-  owner_id: number;
-  initiator_id: number;
-  user_id: number;
-  status: number;
-  project_id: number;
-  updated_at: Date;
-  created_at: Date;
-  receiver_text: string;
-  content: string;
-  labels: string;
-  note: string;
-  reference: string;
-  project: Project;
-  thread_id: number;
-  owner: Entity;
-  initiator: Entity;
-  files: AppFile[];
-  variable_files: { data: AppFile[] };
-  datepipe: DatePipe
+  id
+  action
+  owner_id
+  initiator_id
+  user_id
+  status
+  project_id
+  updated_at
+  created_at
+  receiver_text
+  content
+  labels
+  note
+  reference
+  initiator_text
+  project
+  thread_id
+  owner
+  initiator
+  files: AppFile[]
+  variable_files: { data: AppFile[] }
+  datepipe
+
   constructor(_flow: Partial<{}> = {}) {
     this.datepipe = new DatePipe("fr-FR")
     this.id = 0;
@@ -41,6 +43,7 @@ export class Flow {
     this.created_at = new Date();
     this.labels = '';
     this.reference = '';
+    this.initiator_text = '';
     this.note = '';
     this.project = new Project();
     this.thread_id = 0;
@@ -73,9 +76,7 @@ export class Flow {
   }
 
   senderText() {
-    return this.initiator !== null
-      ? this.initiator.short
-      : this.project.owner_text;
+    return this.project.owner_id ? this.project.owner.short : this.project.owner_text
   }
 
   // for received flow
@@ -105,6 +106,7 @@ export class Flow {
       reference
       status
       thread_id
+      initiator_text
       progress
       owner_id
       created_at  

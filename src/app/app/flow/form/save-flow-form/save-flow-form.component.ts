@@ -23,7 +23,6 @@ export class SaveFlowFormComponent implements OnInit {
     private notification: NotificationService,
   ) {
     this.user = this.userService.active_user.value;
-    console.log(this.user);
   }
 
   ngOnInit(): void {
@@ -81,33 +80,44 @@ export class SaveFlowFormComponent implements OnInit {
       });
     });
 
-    const variables = {
-      project_date: form.date,
+    const project_insert_input = {
+      date: form.date,
       date_received: form.date_received,
-      owner_id: this.user.entity_id, // flow owner id
-      project_owner_id: form.project_owner_id, //
+      reference: form.reference,
+      title: form.title,
       type_text: form.type_text,
       letter_text: form.letter_text,
-      title: form.title,
-      reference: form.reference,
       numero: form.numero.toString(),
-      user_id: this.user.id,
-      content: form.content,
-      note: form.note,
-      labels: this.labels.join(','),
-      project_owner_text: form.project_owner_text,
-      files: {
-        data: form_files,
-      },
+      owner_text: form.project_owner_text,
+      owner_id: form.project_owner_id,
+      flows: {
+        data: {
+          action: 1,
+          owner_id: this.user.entity_id,
+          user_id: this.user.id,
+          note: form.note,
+          initiator_text: form.project_owner_text,
+          content: form.content,
+          title: form.title,
+          reference: form.reference,
+          labels: this.labels.join(','),
+          initiator_id: form.project_owner_id,
+          files: {
+            data: form_files
+          },
+        }
+      }
     }
 
     this.flowService
-      .saveProjectFlowFiles(variables)
+      .saveProjectFlowFiles(project_insert_input)
       .subscribe(this.flowSaved.bind(this));
   }
 
   flowSaved(data: any) {
     this.notification.flowSaved(data.data.insert_project.returning[0])
+
+    this.flowService.refreshFlows()
   }
 
   save() { }

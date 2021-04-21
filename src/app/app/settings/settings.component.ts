@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../users/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  default_app = '/app/flow'
+  constructor(private userService: UserService) {
+    userService.active_user.subscribe(user => {
+      this.default_app = user.settings_default_app
+    })
+  }
 
   ngOnInit(): void {
+  }
+
+  updateDefaultApp(e: any) {
+    this.userService.updateDefaultApp(e.value)
   }
 
 }

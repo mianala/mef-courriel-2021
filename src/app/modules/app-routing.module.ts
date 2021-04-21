@@ -37,6 +37,7 @@ import { UserEntityPageComponent } from '../entity/user-entity-page/user-entity-
 import { RouteComponent } from '../app/flow/route/route.component';
 import { ReplyFormComponent } from '../app/flow/form/reply-form/reply-form.component';
 import { RouterComponent } from '../router/router.component';
+import { NotFoundComponent } from '../not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -220,6 +221,11 @@ const routes: Routes = [
         ],
       },
     ],
+  },
+  { path: '404', component: NotFoundComponent },
+
+  {
+    path: '**', redirectTo: '/404'
   },
 ];
 

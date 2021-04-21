@@ -5,11 +5,7 @@
         mat-card-avatar
         class="avatar"
         style="background-size: cover"
-        [style.background-image]="
-          'url(https://randomuser.me/api/portraits/med/women/' +
-          user.id +
-          '.jpg)'
-        "
+        [style.background-image]="'url(url(/assets/app-images/user.png))'"
       ></div>
       <mat-card-title>
         {{ user.firstname }}
@@ -55,7 +51,7 @@
       <a routerLink="/app/user/edit" mat-raised-button color="accent">
         <mat-icon>edit</mat-icon> Mettre à Jour
       </a>
-      <a routerLink="/" (click)="logOut()" mat-raised-button color="accent">
+      <a (click)="logout()" mat-raised-button color="accent">
         <mat-icon>logout</mat-icon> Deconnexion
       </a>
     </mat-card-actions>

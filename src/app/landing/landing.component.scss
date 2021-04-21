@@ -1,4 +1,3 @@
-@import "https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i";
 @import "~src/_variables";
 /*Reset*/
 /* colors 8a3aff, 6f79ff, 3a9fff black-> 1f4568  grey->8198ae*/
@@ -24,7 +23,6 @@ a {
     color: #fff;
   }
 }
-
 :host {
   margin: 0;
   padding: 0;
@@ -88,29 +86,6 @@ section {
   .site__box-link {
     .btn--revert {
       margin-left: 15px;
-    }
-  }
-}
-
-header {
-  padding: 30px 25px;
-
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    li {
-      padding: 0 25px;
-      display: inline-block;
-
-      a {
-        color: #1f4568;
-        font-size: 14px;
-        &:hover {
-          text-decoration: none;
-          color: #3a9fff;
-        }
-      }
     }
   }
 }

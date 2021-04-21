@@ -18,7 +18,7 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logOut() {
-    this.userService.logOut()
+  logout() {
+    this.userService.logout()
   }
 }

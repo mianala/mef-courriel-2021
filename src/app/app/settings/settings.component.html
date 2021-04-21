@@ -2,10 +2,13 @@
   <h3>Application</h3>
   <mat-form-field appearance="outline">
     <mat-label>Application par Défaut</mat-label>
-    <mat-select>
-      <mat-option value="volvo">Courriel</mat-option>
-      <mat-option value="saab">Search</mat-option>
-      <mat-option value="mercedes">Chat</mat-option>
+    <mat-select
+      (selectionChange)="updateDefaultApp($event)"
+      [(ngModel)]="default_app"
+    >
+      <mat-option value="/app/flow">Courriel</mat-option>
+      <mat-option value="/search">Recherche</mat-option>
+      <mat-option value="/app/chat">Chat</mat-option>
     </mat-select>
   </mat-form-field>
 </div>

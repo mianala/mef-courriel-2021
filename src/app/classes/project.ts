@@ -45,6 +45,8 @@ export class Project {
       reference
       numero
       date
+      owner_id 
+      owner_text
       date_received
     }
   `

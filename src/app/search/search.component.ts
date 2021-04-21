@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../app/users/user.service';
 
 @Component({
   selector: 'app-search',
@@ -9,8 +10,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SearchComponent implements OnInit {
   q: string = '';
 
-  constructor(private route: ActivatedRoute) { }
-
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
+    this.userService.logged_in.subscribe(logged_in => {
+      if (!logged_in) {
+        router.navigate(['/'])
+      }
+    })
+  }
   ngOnInit(): void {
     this.route.queryParams.subscribe({
       next: (queryParams: any) => {

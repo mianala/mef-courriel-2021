@@ -5,9 +5,9 @@
     style="cursor: pointer; outline: none"
     routerLink="/"
   >
-    <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" />
+    <!-- <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" /> -->
     <h1 class="header__title">
-      MEF <span class="header__light">COURRIEL</span>
+      RECHERCHE <span class="header__light">MEF</span>
     </h1>
   </div>
 
@@ -29,8 +29,16 @@
           <li>
             <a href="#">Contact us</a>
           </li> -->
-        <li>
+        <li *ngIf="!logged_in">
           <a routerLink="/auth/login" class="btn--white">Se connecter →</a>
+        </li>
+        <li *ngIf="logged_in">
+          <a routerLink="/search" class="btn--white">Recherche</a>
+        </li>
+        <li *ngIf="logged_in">
+          <a routerLink="/app/flow" style="margin-left: 1rem" class="btn--white"
+            >Courriels</a
+          >
         </li>
       </ul>
     </nav>

@@ -9503,6 +9503,11 @@
   dependencies:
     "tslib" "^2.1.0"
 
+"ts-md5@^1.2.7":
+  "integrity" "sha512-emODogvKGWi1KO1l9c6YxLMBn6CEH3VrH5mVPIyOtxBG52BvV4jP3GWz6bOZCz61nLgBc3ffQYE4+EHfCD+V7w=="
+  "resolved" "https://registry.npmjs.org/ts-md5/-/ts-md5-1.2.7.tgz"
+  "version" "1.2.7"
+
 "ts-node@~8.3.0":
   "integrity" "sha512-dyNS/RqyVTDcmNM4NIBAeDMpsAdaQ+ojdf0GOLqE6nwJOgzEkdRNzJywhDfwnuvB10oa6NLVG1rUJQCpRN7qoQ=="
   "resolved" "https://registry.npmjs.org/ts-node/-/ts-node-8.3.0.tgz"

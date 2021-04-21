@@ -1,15 +1,29 @@
 <app-header></app-header>
 <section>
   <div class="site">
-    <h1>MEF COURRIEL</h1>
+    <h1>RECHERCHE MEF</h1>
     <h2 class="site__subtitle">
       L'outil de communication au sein du Ministère de l'Économie et des
       Finances. Un pas vers la dématérialisation.
     </h2>
-    <div class="site__box-link">
+    <div class="site__box-link" [hidden]="logged_in">
       <a routerLink="/auth/signup">S'inscrire</a>
-      <a routerLink="/auth/login" class="btn--revert" routerLink="/auth/login"
+      <a
+        style="margin-left: 1rem"
+        routerLink="/auth/login"
+        class="btn--revert"
+        routerLink="/auth/login"
         >Se connecter</a
+      >
+    </div>
+    <div class="site__box-link" *ngIf="logged_in" fxLayoutAlign="center center">
+      <a
+        style="margin-left: 1rem"
+        routerLink="/auth/login"
+        routerLink="/search"
+        fxLayoutAlign="center center"
+      >
+        <mat-icon>search</mat-icon> RECHERCHER</a
       >
     </div>
     <img class="site__img" src="https://image.ibb.co/c7grYb/image3015.png" />
