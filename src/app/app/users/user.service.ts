@@ -33,6 +33,10 @@ export class UserService {
     users && this.users.next(users);
     user && this.active_user.next(user);
 
+    if (['/search'].includes(user.settings_default_app)) {
+      this.router.navigate([user.settings_default_app])
+    }
+
     this.active_user.subscribe(user => this.logged_in.next(user.id > 0))
 
     // code for testing
