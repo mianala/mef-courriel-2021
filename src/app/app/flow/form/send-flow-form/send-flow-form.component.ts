@@ -17,7 +17,7 @@ export class SendFlowFormComponent implements OnInit {
   files: AppFile[] = []
   labels: string[] = []
   receivers: Entity[] = []
-  project_flow: Flow = new Flow()
+  parent_flow: Flow = new Flow()
   flow = {
     content: 'Obs',
     note: 'Note',
@@ -31,7 +31,7 @@ export class SendFlowFormComponent implements OnInit {
 
       this.flowService
         .getFlow(flow_id)
-        .subscribe(data => this.project_flow = data);
+        .subscribe(data => this.parent_flow = data);
     })
   }
 
@@ -49,7 +49,8 @@ export class SendFlowFormComponent implements OnInit {
         user_id: user.id,
         initiator_id: active_entity.id,
         action: 2,
-        project_id: this.project_flow.project_id,
+        root_id: this.parent_flow.root_id,
+        parrent_id: this.parent_flow.id,
         content: this.flow.content,
         thread_id: active_entity.sent_count + 1,
         note: this.flow.note,

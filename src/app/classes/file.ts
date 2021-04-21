@@ -1,20 +1,15 @@
 import { gql } from "apollo-angular"
 
 export class AppFile {
-  id
-  name
-  size
-  type
-  src
-  lastModified
-  constructor(_file: Partial<{}> = {}) {
-    this.id = 0
-    this.name = ''
-    this.size = 0
-    this.type = ''
-    this.src = ''
-    this.lastModified = ''
 
+  id = 0
+  name = ''
+  size = 0
+  type = ''
+  src = ''
+  lastModified = ''
+
+  constructor(_file: Partial<{}> = {}) {
     Object.assign(this, _file)
   }
 
@@ -34,7 +29,9 @@ export class AppFile {
     return this.type in [this.pdf_types]
   }
 
-  static image_types = []
+  image_types = ['image/jpeg', 'image/png']
+  audio_types = ['audio/mpeg', 'audio/ogg']
   pdf_types = ['application/pdf']
+  doc_files = ['application/pdf', '']
   static pdf = []
 }

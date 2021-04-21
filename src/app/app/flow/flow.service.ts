@@ -36,10 +36,10 @@ export class FlowService {
     this.getAllFlow(this.entityService.active_entity.value.id)
   }
 
-  saveProjectFlowFiles(variables: any) {
+  saveFlowWithFiles(variables: any) {
     const SAVE_PROJECT_FLOW_FILES = gql`
-    mutation newSavedProject($objects: [project_insert_input!] = {}) {
-        insert_project(objects: $objects){
+    mutation saveFlow($objects: [flow_insert_input!] = {}) {
+        insert_flow(objects: $objects){
         returning {
           id
           numero
@@ -111,9 +111,8 @@ export class FlowService {
   getFlow(id: number) {
     const GET_FLOW_QUERY = gql`
 
-      ${Project.core_project_fields}
-      ${Entity.core_entity_fields}
       ${Flow.core_flow_fields}
+      ${Entity.core_entity_fields}
       ${AppFile.core_file_fields}
       query get_flow($id: Int!) {
         flow(where: { id: { _eq: $id } }) {
@@ -121,29 +120,23 @@ export class FlowService {
           initiator {
             ...CoreEntityFields
           }
+          parent{
+            ...CoreFlowFields
+          }
+          root{
+            ...CoreFlowFields
+          }
+          children{
+            ...CoreFlowFields
+          }
+          flows{
+            ...CoreFlowFields
+          }
           owner {
             ...CoreEntityFields
           }
           files {
             ...CoreFileFields
-          }
-          project {
-            ...CoreProjectFields
-            owner {
-              ...CoreEntityFields
-            }
-            flows {
-              id
-              initiator {
-                ...CoreEntityFields
-              }
-              owner {
-                ...CoreEntityFields
-              }
-              files {
-                id
-              }
-            }
           }
         }
       }
@@ -161,8 +154,30 @@ export class FlowService {
       }))
   }
 
-  deleteFlow(id: number) {
 
+  deleteFlow(flow_id: number, next: (data: any) => void) {
+    const DELETE_FLOW_MUTATION = gql`
+      mutation delete_flow_mutation($flow_id: Int!) {
+        delete_flow(where: {id: {_eq: $flow_id}}){
+          affected_rows
+          returning {
+            id
+          }
+        }
+      }
+
+    `
+    return this.apollo.mutate({
+      mutation: DELETE_FLOW_MUTATION,
+      variables: {
+        flow_id: flow_id
+      }
+    }).subscribe(data => {
+      this.notification.open('Courriel supprimé', 500)
+      next(data)
+    }, (error) => {
+      console.log(error);
+    })
   }
 
   getAllFlow(entity_id: number) {
@@ -176,11 +191,11 @@ export class FlowService {
             initiator {
               ...CoreEntityFields
             }
-            project {
-              ...CoreProjectFields
-              owner {
-                ...CoreEntityFields
-              }
+            parent{
+              ...CoreFlowFields
+            }
+            root{
+              ...CoreFlowFields
             }
             owner {
               ...CoreEntityFields
@@ -236,16 +251,19 @@ export class FlowService {
       ${Flow.core_flow_fields}
       query searchFlows($where: flow_bool_exp = {}) {
         flow(where: $where, order_by: {id: desc}) {
-          ...CoreFlowFields
-          initiator {
-            ...CoreEntityFields
-          }
-          project {
-            ...CoreProjectFields
-          }
-          owner {
-            ...CoreEntityFields
-          }
+            ...CoreFlowFields
+            initiator {
+              ...CoreEntityFields
+            }
+            parent{
+              ...CoreFlowFields
+            }
+            root{
+              ...CoreFlowFields
+            }
+            owner {
+              ...CoreEntityFields
+            }
         }
       }
       `

@@ -30,7 +30,7 @@ export class SearchResultComponent implements OnInit {
   search() {
     let searchFilters: any = {}
 
-    this.query.length ? searchFilters.project = { title: { _ilike: `%${this.query}%` } } : null
+    this.query.length ? searchFilters.title = { _ilike: `%${this.query}%` } : null
 
     // searchFilters.owner_id = { _eq: this.entityService.active_entity.value.id }
 

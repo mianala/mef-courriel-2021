@@ -1,1 +1,20 @@
-<pdf-viewer *ngIf="file" [src]="file.src"></pdf-viewer>
+<!-- <pdf-viewer
+  *ngIf="file && file.pdf_types.includes(file.type)"
+  [src]="file.src"
+></pdf-viewer> -->
+<div *ngIf="file && file.image_types.includes(file.type)" class="img-container">
+  <img [src]="file.src" alt="" />
+</div>
+<div *ngIf="file && file.audio_types.includes(file.type)" class="img-container">
+  <audio controls>
+    <source [src]="file.src" [type]="file.type" />
+    Votre navigateur ne supporte pas l'élément audio.
+  </audio>
+</div>
+<div *ngIf="file && file.doc_files.includes(file.type)" class="img-container">
+  <ngx-doc-viewer
+    [url]="file.src"
+    viewer="google"
+    style="width: 100%; height: clamp(800px, 90vh, 2048px)"
+  ></ngx-doc-viewer>
+</div>

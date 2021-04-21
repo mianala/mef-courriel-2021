@@ -1,5 +1,10 @@
 @import "~src/_variables";
 
+:host {
+  padding: 1rem;
+  display: block;
+}
+
 section.actions {
   margin-bottom: 1rem;
   flex-wrap: wrap;
@@ -49,6 +54,10 @@ section.actions {
     justify-content: center;
     flex-basis: 15rem;
     gap: 0.2rem;
+
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+    background-color: aliceblue;
   }
 }
 

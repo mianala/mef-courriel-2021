@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'back',
@@ -9,11 +9,15 @@ import { Router } from '@angular/router';
 })
 export class BackButtonComponent implements OnInit {
 
-  constructor(private location: Location, private router: Router) { }
+  constructor(private location: Location, private router: Router, private route: ActivatedRoute) { }
 
   back(): void {
-    this.location.back()
 
+    // this.location.back()
+
+    this.router.navigate([".."], {
+      relativeTo: this.route
+    })
     // this.router.navigate([".."]);
   }
   ngOnInit(): void {

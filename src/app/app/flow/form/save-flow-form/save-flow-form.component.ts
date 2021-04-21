@@ -80,43 +80,35 @@ export class SaveFlowFormComponent implements OnInit {
       });
     });
 
-    const project_insert_input = {
-      date: form.date,
-      date_received: form.date_received,
-      reference: form.reference,
+    const flow_variables = {
+
+      action: 1,
       title: form.title,
+      content: form.content,
+      note: form.note,
+      reference: form.reference,
+      labels: this.labels.join(','),
+      user_id: this.user.id,
+      date: form.date,
       type_text: form.type_text,
       letter_text: form.letter_text,
-      numero: form.numero.toString(),
-      owner_text: form.project_owner_text,
-      owner_id: form.project_owner_id,
-      flows: {
-        data: {
-          action: 1,
-          owner_id: this.user.entity_id,
-          user_id: this.user.id,
-          note: form.note,
-          initiator_text: form.project_owner_text,
-          content: form.content,
-          title: form.title,
-          reference: form.reference,
-          labels: this.labels.join(','),
-          initiator_id: form.project_owner_id,
-          files: {
-            data: form_files
-          },
-        }
-      }
+      numero: form.numero,
+      date_received: form.date_received,
+      owner_id: this.user.entity_id,
+      initiator_id: form.project_owner_id,
+      initiator_text: form.project_owner_text,
+      files: {
+        data: form_files
+      },
     }
 
     this.flowService
-      .saveProjectFlowFiles(project_insert_input)
+      .saveFlowWithFiles(flow_variables)
       .subscribe(this.flowSaved.bind(this));
   }
 
   flowSaved(data: any) {
-    this.notification.flowSaved(data.data.insert_project.returning[0])
-
+    this.notification.flowSaved(data.data.insert_flow.returning[0])
     this.flowService.refreshFlows()
   }
 

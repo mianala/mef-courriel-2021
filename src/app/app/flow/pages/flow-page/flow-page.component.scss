@@ -1,5 +1,4 @@
-@import "~@angular/material/theming";
-@include mat-core();
+@import "~src/_variables";
 
 :host {
   display: flex;
@@ -9,7 +8,6 @@
     padding: 1rem;
 
     .header-actions {
-      // background-color: mat-color($mat-pink, A100);
       display: flex;
       color: #666;
     }

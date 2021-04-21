@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Entity } from 'src/app/classes/entity';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { Project } from 'src/app/classes/project';
 import { FlowService } from '../../flow.service';
@@ -14,9 +14,13 @@ export class FlowPageComponent implements OnInit {
   flow = new Flow();
   flows: Flow[] = [];
   project = new Project();
+  activeFile = new AppFile()
   flow_id = 0;
+  app_page = false
 
-  constructor(private flowService: FlowService, private route: ActivatedRoute) {
+  constructor(private flowService: FlowService, private route: ActivatedRoute, private router: Router) {
+
+    this.app_page = this.router.url.includes('/app/flow')
 
     this.route.queryParams.subscribe(data => {
       this.flow_id = parseInt(data.flow_id);
@@ -29,11 +33,30 @@ export class FlowPageComponent implements OnInit {
 
   receivedflow(flows: any) {
     const flow = flows[0];
-    console.log(this.flow);
+    this.activeFile = flow.files[0]
     Object.assign(this.flow, flow);
-    Object.assign(this.project, flow.project);
-    Object.assign(this.flows, flow.project.flows);
+    Object.assign(this.flows, flow.flows);
   }
+
+  delete(id: number) {
+
+    if (!confirm("Voulez-vous vraiment supprimer ce courriel?")) {
+      return
+    }
+
+    this.flowService.deleteFlow(id, (data) => {
+      this.router.navigate([".."], {
+        relativeTo: this.route
+      })
+      this.flowService.refreshFlows()
+    })
+  }
+
+  viewFile(file: AppFile) {
+    this.activeFile = file
+    console.log(file);
+  }
+
 
   ngOnInit(): void { }
 }

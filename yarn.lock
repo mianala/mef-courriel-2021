@@ -173,7 +173,7 @@
     "universal-analytics" "0.4.23"
     "uuid" "8.3.2"
 
-"@angular/common@^11.0.0 || ^12.0.0-0", "@angular/common@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/common@>=11.0.0", "@angular/common@~11.2.6", "@angular/common@11.2.6":
+"@angular/common@^11.0.0 || ^12.0.0-0", "@angular/common@^11.2.0", "@angular/common@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/common@>=11.0.0", "@angular/common@~11.2.6", "@angular/common@11.2.6":
   "integrity" "sha512-q1yR6bktd5p987gLEKiFY4CrHcmBxks9R6GcdgzGneQsucDtGESzEKdcJ0uaMXE+9teS+fQy5GvXel6DlA/J+w=="
   "resolved" "https://registry.npmjs.org/@angular/common/-/common-11.2.6.tgz"
   "version" "11.2.6"
@@ -208,7 +208,7 @@
   dependencies:
     "tslib" "^2.0.0"
 
-"@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^6.1.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@>=11.0.0", "@angular/core@>=2.3.1 <12.0.0 || ^11.0.0-next || ^11.1.0-next || ^11.2.0-next", "@angular/core@~11.2.6", "@angular/core@11.2.6":
+"@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^11.2.0", "@angular/core@^6.1.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@>=11.0.0", "@angular/core@>=2.3.1 <12.0.0 || ^11.0.0-next || ^11.1.0-next || ^11.2.0-next", "@angular/core@~11.2.6", "@angular/core@11.2.6":
   "integrity" "sha512-lS5JOQ/Y9gbk5WiMnCp5Zyz2pRIoZ+IWLOXHU5rkQeXy0zE3eMJhw0FfpEK+X5CeSNl2EPVSPLT0MtDtbNPodg=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-11.2.6.tgz"
   "version" "11.2.6"
@@ -259,7 +259,7 @@
   dependencies:
     "tslib" "^2.0.0"
 
-"@angular/platform-browser@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/platform-browser@>=11.0.0", "@angular/platform-browser@~11.2.6", "@angular/platform-browser@11.2.6":
+"@angular/platform-browser@^11.2.0", "@angular/platform-browser@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/platform-browser@>=11.0.0", "@angular/platform-browser@~11.2.6", "@angular/platform-browser@11.2.6":
   "integrity" "sha512-xnYpfoqWyQOUngfbHefsZMyelCSAaxpopu/WYP0gpbYh9qJiVhsN9s6zRMqOIPueq9lmvlEuGBMgaJjeD6Ei7Q=="
   "resolved" "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-11.2.6.tgz"
   "version" "11.2.6"
@@ -6621,6 +6621,13 @@
     "@types/pdfjs-dist" "~2.1.7"
     "pdfjs-dist" "~2.5.207"
     "tslib" "^1.10.0"
+
+"ngx-doc-viewer@^2.0.2":
+  "integrity" "sha512-8QJ9L03+hJg6CBmvCXD6NmbnAYzBcBjCKWdL4xQsm0ai0hXenLcmYVMFUrJV5WrDz3eKcuyoPUwuPTxfH1kpCQ=="
+  "resolved" "https://registry.npmjs.org/ngx-doc-viewer/-/ngx-doc-viewer-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "tslib" "^2.0.0"
 
 "nice-try@^1.0.4":
   "integrity" "sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ=="

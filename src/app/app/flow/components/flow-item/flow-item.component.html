@@ -5,12 +5,12 @@
 </div>
 <div class="headers">
   <span class="numero">
-    {{ flow.project.numero }}
+    {{ flow.numero }}
   </span>
   <span class="sender">
     {{ flow.senderText() }}
   </span>
-  <div class="reference">{{ flow.project.reference }}</div>
+  <div class="reference">{{ flow.reference }}</div>
 </div>
 <div class="content">
   <a
@@ -18,7 +18,7 @@
     routerLink="/app/flow/project"
     [queryParams]="{ flow_id: flow.id }"
   >
-    {{ flow.project.title }}
+    {{ flow.title }}
   </a>
   <div class="observation">
     {{ flow.content }}

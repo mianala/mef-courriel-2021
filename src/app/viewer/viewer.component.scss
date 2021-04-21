@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+
+  img {
+    width: clamp(600px, 90vw, 1620px);
+  }
+}

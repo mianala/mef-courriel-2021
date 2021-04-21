@@ -33,7 +33,7 @@ export class UserService {
     users && this.users.next(users);
     user && this.active_user.next(user);
 
-    if (['/search'].includes(user.settings_default_app)) {
+    if (user && ['/search'].includes(user.settings_default_app)) {
       this.router.navigate([user.settings_default_app])
     }
 
@@ -236,14 +236,11 @@ export class UserService {
 
     console.log(user);
 
-
     if (User.default_apps.includes(user.settings_default_app)) {
       this.router.navigate([user.settings_default_app])
     } else {
       this.router.navigate(['/app/flow'])
     }
-
-
 
     this.active_user.next(user);
 

@@ -166,7 +166,7 @@ const routes: Routes = [
       },
       {
         path: 'flow',
-        component: FlowLandingPageComponent,
+        component: RouterComponent,
         children: [
           {
             path: '',

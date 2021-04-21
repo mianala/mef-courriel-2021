@@ -2,58 +2,44 @@ import { DatePipe } from '@angular/common'
 import { gql } from 'apollo-angular';
 import { Entity } from './entity';
 import { AppFile } from './file';
-import { Project } from './project';
 
 export class Flow {
-  id
-  action
-  owner_id
-  initiator_id
-  user_id
-  status
-  project_id
-  updated_at
-  created_at
-  receiver_text
-  content
-  labels
-  note
-  reference
-  initiator_text
-  project
-  thread_id
-  owner
-  initiator
-  files: AppFile[]
-  variable_files: { data: AppFile[] }
-  datepipe
+  date = new Date()
+  date_received = new Date();
+  datepipe = new DatePipe("fr-FR")
+  id = 0;
+  action = 0;
+  root_id = 0;
+  owner_id = 0;
+  initiator_id = 0;
+  numero = 0;
+  user_id = 0;
+  status = 0;
+  receiver_text = '';
+  type_text = '';
+  letter_text = '';
+  content = '';
+  updated_at = new Date();
+  created_at = new Date();
+  labels = '';
+  reference = '';
+  initiator_text = '';
+  note = '';
+  title = '';
+  thread_id = 0;
+  owner = new Entity();
+  initiator = new Entity();
+  root: Flow | undefined;
+  parent: Flow | undefined;
+  files: AppFile[] = [];
+  children = [];
+  flows = [];
 
   constructor(_flow: Partial<{}> = {}) {
-    this.datepipe = new DatePipe("fr-FR")
-    this.id = 0;
-    this.action = 0;
-    this.owner_id = 0;
-    this.initiator_id = 0;
-    this.user_id = 0;
-    this.status = 0;
-    this.project_id = 0;
-    this.receiver_text = '';
-    this.content = '';
-    this.updated_at = new Date();
-    this.created_at = new Date();
-    this.labels = '';
-    this.reference = '';
-    this.initiator_text = '';
-    this.note = '';
-    this.project = new Project();
-    this.thread_id = 0;
-    this.owner = new Entity();
-    this.initiator = new Entity();
-    this.files = [];
-    this.variable_files = { data: [] };
-
     Object.assign(this, _flow)
+    this.files = this.files.map(file => new AppFile(file))
   }
+
 
 
   hasFile() {
@@ -63,6 +49,7 @@ export class Flow {
   isSaved() {
     return this.action == 1;
   }
+
   isSent() {
     return this.action == 2;
   }
@@ -76,11 +63,8 @@ export class Flow {
   }
 
   senderText() {
-    return this.project.owner_id ? this.project.owner.short : this.project.owner_text
+    return this.initiator_id ? this.initiator.short : this.initiator_text
   }
-
-  // for received flow
-  numero() { }
 
   variableFiles() {
     return { data: this.files }
@@ -95,22 +79,37 @@ export class Flow {
     return this.datepipe.transform(this.created_at, 'd MMM');
   }
 
+  r =
+    {
+      title: () => { this.isSaved() ? this.title : this.root?.title },
+      reference: () => { this.isSaved() ? this.reference : this.root?.reference },
+      numero: () => { this.isSaved() ? this.numero : this.root?.numero },
+      date: () => { this.isSaved() ? this.date : this.root?.date },
+      date_received: () => { this.isSaved() ? this.date_received : this.root?.date },
+    }
 
   static core_flow_fields = gql`
     fragment CoreFlowFields on flow{
       id
       action
       content
-      project_id
       receiver_text
       reference
       status
+      title
       thread_id
+      parent_id
       initiator_text
+      type_text
+      letter_text
       progress
+      numero
       owner_id
-      created_at  
+      created_at
       updated_at
+      date
+      date_received
     }
   `
+
 }

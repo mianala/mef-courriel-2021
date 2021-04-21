@@ -46,7 +46,7 @@
   margin: auto;
 }
 #searchresultsarea {
-  max-width: 1200px;
+  width: clamp(600px, 80vw, 1200px);
   margin: auto;
   font-family: "Arial";
   mat-drawer-container {
