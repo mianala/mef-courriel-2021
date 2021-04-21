@@ -69,7 +69,6 @@ import { SaveFlowPageComponent } from './app/flow/save-flow-page/save-flow-page.
 import { FlowLandingPageComponent } from './app/flow/pages/flow-landing-page/flow-landing-page.component';
 import { SaveFlowFormComponent } from './app/flow/form/save-flow-form/save-flow-form.component';
 import { ViewComponent } from './app/users/view/view.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { UserPageComponent } from './app/user/user-page/user-page.component';
 import { UserResetPasswordComponent } from './app/user/user-reset-password/user-reset-password.component';
@@ -193,7 +192,6 @@ registerLocaleData(localeFr);
     ApolloModule,
     ReactiveFormsModule,
     FormsModule,
-    PdfViewerModule,
     NgxDocViewerModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],

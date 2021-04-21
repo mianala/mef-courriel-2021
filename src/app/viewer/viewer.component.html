@@ -1,7 +1,3 @@
-<!-- <pdf-viewer
-  *ngIf="file && file.pdf_types.includes(file.type)"
-  [src]="file.src"
-></pdf-viewer> -->
 <div *ngIf="file && file.image_types.includes(file.type)" class="img-container">
   <img [src]="file.src" alt="" />
 </div>
