@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
-import { Project } from 'src/app/classes/project';
 import { NotificationService } from 'src/app/services/notification.service';
 import { EntityService } from '../entities/service/entity.service';
 import { UserService } from '../users/user.service';
@@ -182,7 +181,6 @@ export class FlowService {
 
   getAllFlow(entity_id: number) {
     const GET_ALL_FLOWS = gql`
-      ${Project.core_project_fields}
       ${Entity.core_entity_fields}
       ${Flow.core_flow_fields}
       query get_all_recent_flows($entity_id: Int!) {
@@ -246,7 +244,6 @@ export class FlowService {
 
   search(searchFlowVariables: any) {
     const SEARCH_FLOWS = gql`
-      ${Project.core_project_fields}
       ${Entity.core_entity_fields}
       ${Flow.core_flow_fields}
       query searchFlows($where: flow_bool_exp = {}) {

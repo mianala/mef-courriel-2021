@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-flow-loading',
+  selector: 'flow-loading',
   templateUrl: './flow-loading.component.html',
-  styleUrls: ['./flow-loading.component.scss']
+  styleUrls: ['./../loading.style.scss']
 })
 export class FlowLoadingComponent implements OnInit {
 

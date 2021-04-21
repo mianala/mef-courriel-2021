@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
-import { Project } from 'src/app/classes/project';
 import { FlowService } from '../../flow.service';
 
 @Component({
@@ -13,10 +12,10 @@ import { FlowService } from '../../flow.service';
 export class FlowPageComponent implements OnInit {
   flow = new Flow();
   flows: Flow[] = [];
-  project = new Project();
   activeFile = new AppFile()
   flow_id = 0;
   app_page = false
+  loading = true
 
   constructor(private flowService: FlowService, private route: ActivatedRoute, private router: Router) {
 
@@ -36,6 +35,7 @@ export class FlowPageComponent implements OnInit {
     this.activeFile = flow.files[0]
     Object.assign(this.flow, flow);
     Object.assign(this.flows, flow.flows);
+    this.loading = false
   }
 
   delete(id: number) {
