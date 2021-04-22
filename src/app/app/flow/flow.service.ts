@@ -13,10 +13,6 @@ import { UserService } from '../users/user.service';
   providedIn: 'root',
 })
 export class FlowService {
-
-
-
-
   SUBSCRIBE_ALL_FLOWS = gql`
     subscription all_recent_flows($entity_id: Int!) {
       flow(where: { owner_id: { _eq: $entity_id } }) {
@@ -27,37 +23,42 @@ export class FlowService {
 
   recent_flows: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
-  constructor(private apollo: Apollo, private entityService: EntityService, private userService: UserService, private notification: NotificationService) {
-    this.entityService.active_entity.subscribe(entity => {
+  constructor(
+    private apollo: Apollo,
+    private entityService: EntityService,
+    private userService: UserService,
+    private notification: NotificationService
+  ) {
+    this.entityService.active_entity.subscribe((entity) => {
       if (entity.id) {
-        this.refreshFlows()
+        this.refreshFlows();
       }
-    })
+    });
   }
 
   refreshFlows() {
-
-    this.entityService.active_entity.value.id && this.getAllFlow(this.entityService.active_entity.value.id)
+    this.entityService.active_entity.value.id &&
+      this.getAllFlow(this.entityService.active_entity.value.id);
   }
 
   saveFlowWithFiles(variables: any) {
     const SAVE_PROJECT_FLOW_FILES = gql`
-    mutation saveFlow($objects: [flow_insert_input!] = {}) {
-        insert_flow(objects: $objects){
-        returning {
-          id
-          numero
-          title
-          flows {
+      mutation saveFlow($objects: [flow_insert_input!] = {}) {
+        insert_flow(objects: $objects) {
+          returning {
             id
-            files {
+            numero
+            title
+            flows {
               id
+              files {
+                id
+              }
             }
           }
         }
       }
-    }
-  `;
+    `;
     return this.apollo.mutate({
       mutation: SAVE_PROJECT_FLOW_FILES,
       variables: { objects: variables },
@@ -65,56 +66,73 @@ export class FlowService {
   }
 
   send(flows: any[]) {
-
     const SEND_PROJECT = gql`
       mutation send_project($objects: [flow_insert_input!]) {
         insert_flow(objects: $objects) {
           affected_rows
-          returning{
+          returning {
             id
             content
           }
         }
       }
-    `
+    `;
 
-    this.apollo.mutate({
-      mutation: SEND_PROJECT,
-      variables: flows
-    }).subscribe(data => console.log(data));
-
+    this.apollo
+      .mutate({
+        mutation: SEND_PROJECT,
+        variables: flows,
+      })
+      .subscribe((data) => console.log(data));
   }
 
-  assign() {
-
-  }
+  assign() {}
 
   reply(flow: Flow) {
     const REPLY_FLOW_MUTATION = gql`
-      mutation send_project( $status: Int, $user_id: Int!, $owner_id: Int!, $initiator_id: Int!, $content: String = "", $action: Int!, $files: file_arr_rel_insert_input = {data: {}}, $project_id: Int!) {
-        insert_flow(objects: {content: $content, user_id: $user_id, status: $status, owner_id: $owner_id, initiator_id: $initiator_id, action: $action, files: $files, project_id: $project_id}) {
+      mutation send_project(
+        $status: Int
+        $user_id: Int!
+        $owner_id: Int!
+        $initiator_id: Int!
+        $content: String = ""
+        $action: Int!
+        $files: file_arr_rel_insert_input = { data: {} }
+        $project_id: Int!
+      ) {
+        insert_flow(
+          objects: {
+            content: $content
+            user_id: $user_id
+            status: $status
+            owner_id: $owner_id
+            initiator_id: $initiator_id
+            action: $action
+            files: $files
+            project_id: $project_id
+          }
+        ) {
           affected_rows
         }
       }
-    `
+    `;
 
     this.apollo.mutate({
       mutation: REPLY_FLOW_MUTATION,
-      variables: flow
-    })
+      variables: flow,
+    });
 
-    console.log(flow)
+    console.log(flow);
 
-    return
+    return;
 
     this.apollo.mutate({
       mutation: REPLY_FLOW_MUTATION,
-      variables: flow
-    })
+      variables: flow,
+    });
   }
   getFlow(id: number) {
     const GET_FLOW_QUERY = gql`
-
       ${Flow.core_flow_fields}
       ${Entity.core_entity_fields}
       ${AppFile.core_file_fields}
@@ -124,16 +142,16 @@ export class FlowService {
           initiator {
             ...CoreEntityFields
           }
-          parent{
+          parent {
             ...CoreFlowFields
           }
-          root{
+          root {
             ...CoreFlowFields
           }
-          children{
+          children {
             ...CoreFlowFields
           }
-          flows{
+          flows {
             ...CoreFlowFields
           }
           owner {
@@ -144,44 +162,50 @@ export class FlowService {
           }
         }
       }
-    `
-    return this.apollo.query({
-      query: GET_FLOW_QUERY,
-      variables: {
-        id: id,
-      },
-    }).pipe(
-      map((val: any) => {
-        return val.data.flow.map((val: any) => {
-          return new Flow(val);
-        });
-      }))
+    `;
+    return this.apollo
+      .query({
+        query: GET_FLOW_QUERY,
+        variables: {
+          id: id,
+        },
+      })
+      .pipe(
+        map((val: any) => {
+          return val.data.flow.map((val: any) => {
+            return new Flow(val);
+          });
+        })
+      );
   }
-
 
   deleteFlow(flow_id: number, next: (data: any) => void) {
     const DELETE_FLOW_MUTATION = gql`
       mutation delete_flow_mutation($flow_id: Int!) {
-        delete_flow(where: {id: {_eq: $flow_id}}){
+        delete_flow(where: { id: { _eq: $flow_id } }) {
           affected_rows
           returning {
             id
           }
         }
       }
-
-    `
-    return this.apollo.mutate({
-      mutation: DELETE_FLOW_MUTATION,
-      variables: {
-        flow_id: flow_id
-      }
-    }).subscribe(data => {
-      this.notification.open('Courriel supprimé', 500)
-      next(data)
-    }, (error) => {
-      console.log(error);
-    })
+    `;
+    return this.apollo
+      .mutate({
+        mutation: DELETE_FLOW_MUTATION,
+        variables: {
+          flow_id: flow_id,
+        },
+      })
+      .subscribe(
+        (data) => {
+          this.notification.open('Courriel supprimé', 500);
+          next(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   getAllFlow(entity_id: number) {
@@ -189,62 +213,64 @@ export class FlowService {
       ${Entity.core_entity_fields}
       ${Flow.core_flow_fields}
       query get_all_recent_flows($entity_id: Int!) {
-          flow(where: { owner_id: { _eq: $entity_id } }, order_by: {id: desc}) {
+        flow(where: { owner_id: { _eq: $entity_id } }, order_by: { id: desc }) {
+          ...CoreFlowFields
+          initiator {
+            ...CoreEntityFields
+          }
+          parent {
             ...CoreFlowFields
-            initiator {
-              ...CoreEntityFields
-            }
-            parent{
-              ...CoreFlowFields
-            }
-            root{
-              ...CoreFlowFields
-            }
-            owner {
-              ...CoreEntityFields
-            }
+          }
+          root {
+            ...CoreFlowFields
+          }
+          owner {
+            ...CoreEntityFields
           }
         }
-      `
+      }
+    `;
 
     this.apollo
       .watchQuery({
         query: GET_ALL_FLOWS,
         variables: { entity_id },
-        fetchPolicy: 'cache-and-network'
-      }).valueChanges
-      .pipe(
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(
         map((val: any) => {
           return val.data.flow.map((val: any) => {
             return new Flow(val);
           });
         })
       )
-      .subscribe((flows: any) => {
-        this.recent_flows.next(flows);
-      }, (error) => {
-        console.log('there was an error sending the query', error);
-      });
+      .subscribe(
+        (flows: any) => {
+          this.recent_flows.next(flows);
+        },
+        (error) => {
+          console.log('there was an error sending the query', error);
+        }
+      );
   }
-
-
-
 
   markFlowAsRead(flow_id: number) {
     const MARK_FLOW_AS_ANSWERED_MUTATION = gql`
       mutation mark_flow_as_answered($flow_id: Int!) {
-        update_flow(where: {id: {_eq: $flow_id}}, _set: {progress: 1}) {
+        update_flow(where: { id: { _eq: $flow_id } }, _set: { progress: 1 }) {
           affected_rows
-          returning{
+          returning {
             id
           }
         }
       }
-    `
-    this.apollo.mutate({
-      mutation: MARK_FLOW_AS_ANSWERED_MUTATION,
-      variables: { flow_id: flow_id }
-    }).subscribe(data => this.notification.open("Marqué Comme Lu"))
+    `;
+    this.apollo
+      .mutate({
+        mutation: MARK_FLOW_AS_ANSWERED_MUTATION,
+        variables: { flow_id: flow_id },
+      })
+      .subscribe((data) => this.notification.open('Marqué Comme Lu'));
   }
 
   search(searchFlowVariables: any) {
@@ -252,33 +278,35 @@ export class FlowService {
       ${Entity.core_entity_fields}
       ${Flow.core_flow_fields}
       query searchFlows($where: flow_bool_exp = {}) {
-        flow(where: $where, order_by: {id: desc}) {
+        flow(where: $where, order_by: { id: desc }) {
+          ...CoreFlowFields
+          initiator {
+            ...CoreEntityFields
+          }
+          parent {
             ...CoreFlowFields
-            initiator {
-              ...CoreEntityFields
-            }
-            parent{
-              ...CoreFlowFields
-            }
-            root{
-              ...CoreFlowFields
-            }
-            owner {
-              ...CoreEntityFields
-            }
+          }
+          root {
+            ...CoreFlowFields
+          }
+          owner {
+            ...CoreEntityFields
+          }
         }
       }
-      `
+    `;
 
-    return this.apollo.query({
-      query: SEARCH_FLOWS,
-      variables: { where: searchFlowVariables }
-    }).pipe(
-      map((val: any) => {
-        return val.data.flow.map((val: any) => {
-          return new Flow(val);
-        });
-      }))
+    return this.apollo
+      .query({
+        query: SEARCH_FLOWS,
+        variables: { where: searchFlowVariables },
+      })
+      .pipe(
+        map((val: any) => {
+          return val.data.flow.map((val: any) => {
+            return new Flow(val);
+          });
+        })
+      );
   }
-
 }

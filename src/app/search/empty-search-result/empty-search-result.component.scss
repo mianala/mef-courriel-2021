@@ -1,0 +1,14 @@
+.msc-blank {
+  margin-top: 2rem;
+  text-align: center;
+  &-icon {
+    margin: 1rem;
+    color: gray;
+    font-size: 4rem;
+  }
+  &-desc {
+    margin: 1rem;
+    font-size: 1rem;
+    color: gray;
+  }
+}
