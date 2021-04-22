@@ -24,16 +24,17 @@ export class AddNewEntityComponent implements OnInit {
     private route: ActivatedRoute,
     private entityService: EntityService
   ) {
-    this.parent_entity_id = parseInt(this.route.snapshot.params.entity_id);
-    this.entityService.getEntity(this.parent_entity_id).subscribe(this.getEntity.bind(this));
+    this.route.queryParams.subscribe((data) => {
+      this.parent_entity_id = parseInt(data.entity_id);
+      this.entityService
+        .getEntity(this.parent_entity_id)
+        .subscribe(this.getEntity.bind(this));
+    });
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   getEntity(entities: Entity[]) {
-
     Object.assign(this.parent_entity, entities[0]);
 
     this.newNewEntityForm.patchValue({

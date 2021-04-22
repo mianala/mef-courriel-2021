@@ -57,8 +57,7 @@ const routes: Routes = [
         path: 'save',
         component: SaveFlowPageComponent,
       },
-
-    ]
+    ],
   },
   {
     path: 'dashboard',
@@ -134,7 +133,7 @@ const routes: Routes = [
             path: 'edit',
             component: EditUserComponent,
           },
-        ]
+        ],
       },
       {
         path: 'dashboard',
@@ -152,14 +151,14 @@ const routes: Routes = [
             component: EntityPageComponent,
           },
           {
-            path: 'add/:entity_id',
+            path: 'add',
             component: AddNewEntityComponent,
           },
           {
             path: 'edit',
             component: EditEntityComponent,
           },
-        ]
+        ],
       },
       {
         path: 'flow',
@@ -222,7 +221,8 @@ const routes: Routes = [
   { path: '404', component: NotFoundComponent },
 
   {
-    path: '**', redirectTo: '/404'
+    path: '**',
+    redirectTo: '/404',
   },
 ];
 
@@ -230,4 +230,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
