@@ -18,21 +18,37 @@ export class EntityService {
     private userService: UserService,
     private notification: NotificationService
   ) {
-    // const ets =
-    //   localStorage.getItem('entities') === null
-    //     ? this.getEntities().subscribe(this.updateEntities.bind(this))
-    //     : JSON.parse(localStorage.getItem('entities') || '[]');
+    const entities =
+      localStorage.getItem('entities') !== null
+        ? JSON.parse(localStorage.getItem('entities') || '[]')
+        : null;
 
-    // this.entities.next(ets);
+    if (entities === null) {
+      this.getEntities().subscribe(this.updateEntities.bind(this));
+    } else {
+      console.log('entities from localstorage');
 
-    this.getEntities().subscribe(this.updateEntities.bind(this));
+      this.entities.next(entities);
+    }
 
     this.userService.active_user.subscribe((user: User) => {
       if (user === null || user.id === 0) {
         return;
       }
 
-      this.getUserEntity(user.entity.id);
+      const active_entity =
+        localStorage.getItem('active_entity') !== null
+          ? JSON.parse(localStorage.getItem('active_entity') || '[]')
+          : null;
+
+      console.log(active_entity);
+
+      if (active_entity === null) {
+        this.getUserEntity(user.entity.id);
+      } else {
+        console.log('active_entity from localstorage');
+        this.active_entity.next(active_entity);
+      }
     });
   }
 
@@ -87,6 +103,7 @@ export class EntityService {
         });
 
         this.active_entity.next(entity);
+        localStorage.setItem('active_entity', JSON.stringify(entity));
       });
   }
 

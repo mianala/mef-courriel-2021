@@ -35,7 +35,7 @@ export class SearchResultComponent implements OnInit {
       this.search();
     });
 
-    this.entityService.active_entity.pipe(skip(1)).subscribe((entity: any) => {
+    this.entityService.active_entity.subscribe((entity: any) => {
       this.entity = entity;
       this.dataSource.data = entity.children;
       console.log(entity);

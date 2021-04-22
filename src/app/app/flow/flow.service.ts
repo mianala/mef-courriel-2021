@@ -296,12 +296,17 @@ export class FlowService {
       }
     `;
 
+    searchFlowVariables.owner_id = {
+      _eq: this.entityService.active_entity.value.id,
+    };
+
     return this.apollo
-      .query({
+      .watchQuery({
         query: SEARCH_FLOWS,
         variables: { where: searchFlowVariables },
+        fetchPolicy: 'cache-and-network',
       })
-      .pipe(
+      .valueChanges.pipe(
         map((val: any) => {
           return val.data.flow.map((val: any) => {
             return new Flow(val);

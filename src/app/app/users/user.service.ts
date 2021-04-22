@@ -3,7 +3,7 @@ import { _MatTabGroupBase } from '@angular/material/tabs';
 import { NavigationEnd, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -27,19 +27,27 @@ export class UserService {
       localStorage.getItem('user') !== null
         ? JSON.parse(localStorage.getItem('user') || '[]')
         : null; // redirect to login
+
     const users =
       localStorage.getItem('users') !== null
         ? JSON.parse(localStorage.getItem('users') || '[]')
         : null; // redirect to login
 
-    users && this.users.next(users);
-    user && this.active_user.next(user);
+    if (user !== null) {
+      console.log('user from localstorage', user);
+      this.active_user.next(user);
+    }
+    if (users !== null) {
+      this.users.next(users);
+    }
 
-    //
-    this.router.events
+    //redirect upon entering the page first and not on refresh
+    const refresh = this.router.events
       .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
-      .toPromise()
-      .then((event) => {
+      .pipe(first())
+      .subscribe((event) => {
+        console.log(event);
+
         if (event.id === 1 && event.url === event.urlAfterRedirects) {
           console.log('refreshed');
         } else {
@@ -162,6 +170,8 @@ export class UserService {
   logout() {
     this.active_user.next(new User());
     localStorage.removeItem('user');
+    localStorage.removeItem('active_entity');
+
     this.notification.open('Vous êtes déconnecté');
   }
 

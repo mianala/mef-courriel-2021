@@ -10,10 +10,12 @@
         <li class="mat-tree-node">
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
-          {{ node.short }}
-          <button mat-icon-button>
-            <mat-icon>search</mat-icon>
-          </button>
+          <span class="option">
+            {{ node.short }}
+            <button mat-icon-button>
+              <mat-icon>sort</mat-icon>
+            </button>
+          </span>
         </li>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
@@ -31,7 +33,12 @@
                 }}
               </mat-icon>
             </button>
-            {{ node.short }}
+            <span class="option">
+              {{ node.short }}
+              <button mat-icon-button>
+                <mat-icon>sort</mat-icon>
+              </button>
+            </span>
           </div>
           <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
             <ng-container matTreeNodeOutlet></ng-container>
@@ -81,14 +88,14 @@
             <mat-icon>person</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+            <a mat-menu-item routerLink="/app/user">
               <mat-icon>account_circle</mat-icon>
               <span>Modifier le profil</span>
-            </button>
-            <button mat-menu-item>
+            </a>
+            <!-- <button mat-menu-item>
               <mat-icon>list</mat-icon>
               <span>Afficher l'historique</span>
-            </button>
+            </button> -->
             <button (click)="logout()" mat-menu-item routerLink="/signup">
               <mat-icon>logout</mat-icon>
               <span>Se déconnecter</span>

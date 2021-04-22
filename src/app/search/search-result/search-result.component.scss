@@ -9,8 +9,10 @@
         display: none;
       }
       .mat-tree-node {
-        &:hover {
+        .option {
+          padding-left: 0.8rem;
           background-color: $grey;
+          border-radius: 0.5rem;
         }
       }
 
@@ -18,8 +20,11 @@
       li {
         margin-top: 0;
         margin-bottom: 0;
-        margin-right: 1rem;
         list-style-type: none;
+      }
+
+      mat-tree-node li {
+        margin-right: 1rem;
       }
     }
     div.mat-drawer-inner-container {
