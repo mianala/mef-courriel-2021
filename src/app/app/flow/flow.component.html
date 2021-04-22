@@ -130,11 +130,17 @@
     </mat-menu>
   </div>
 </section>
-<img
+<div
+  class="empty"
   *ngIf="!flows.length && !loading"
-  src="/assets/app-images/Empty-pana.svg"
-  alt=""
-/>
+  style="max-width: 100vw; max-height: 80vh; margin: auto"
+>
+  <img
+    style="max-height: 85vh"
+    src="/assets/app-images/empty-animate.svg"
+    alt=""
+  />
+</div>
 
 <flows-loading *ngIf="!flows.length && loading"></flows-loading>
 
