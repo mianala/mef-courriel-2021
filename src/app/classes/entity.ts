@@ -3,39 +3,25 @@ import { EntityService } from "../app/entities/service/entity.service";
 import { User } from "./user";
 
 export class Entity {
-  id: number;
-  id_text: string;
-  long: string;
-  short: string;
-  numero: number;
-  sent_count: number;
-  received_count: number;
-  active: boolean;
-  short_header: string;
-  long_header: string;
-  labels: string;
-  sub_entities_count: number;
-  level: number;
-  parent_entity_id: number;
-  users: User[]
+  id = 0;
+  id_text = '';
+  long = '';
+  short = '';
+  numero = 0;
+  sent_count = 0;
+  level = 0;
+  received_count = 0;
+  active = true;
+  short_header = '';
+  long_header = '';
+  labels = '';
+  sub_entities_count = 0;
+  parent: Entity | undefined;
+  children: Entity[] = [];
+  parent_id = 0;
+  users = []
 
   constructor(_entity: Partial<{}> = {}) {
-    this.id = 0;
-    this.id_text = '';
-    this.long = '';
-    this.short = '';
-    this.numero = 0;
-    this.sent_count = 0;
-    this.received_count = 0;
-    this.active = true;
-    this.short_header = '';
-    this.long_header = '';
-    this.labels = '';
-    this.sub_entities_count = 0;
-    this.level = 0;
-    this.parent_entity_id = 0;
-    this.users = []
-
     Object.assign(this, _entity)
   }
 
@@ -54,7 +40,7 @@ export class Entity {
       received_count
       active
       level
-      parent_entity_id
+      parent_id
       short_header
       long_header            
       labels

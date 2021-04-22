@@ -81,7 +81,7 @@ import { FlowsLoadingComponent } from './app/flows/components/flows-loading/flow
 import { ReplyFormComponent } from './app/flow/form/reply-form/reply-form.component';
 import { FlowLoadingComponent } from './app/flows/components/flow-loading/flow-loading.component';
 import { EmptyFlowsComponent } from './app/flows/components/empty-flows/empty-flows.component';
-import { LandingComponent } from './landing/landing.component';
+import { LandingComponent } from './home/landing/landing.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { HeaderComponent } from './home/header/header.component';

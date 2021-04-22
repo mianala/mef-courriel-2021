@@ -28,11 +28,16 @@ export class FlowService {
   recent_flows: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
   constructor(private apollo: Apollo, private entityService: EntityService, private userService: UserService, private notification: NotificationService) {
-    this.getAllFlow(this.entityService.active_entity.value.id);
+    this.entityService.active_entity.subscribe(entity => {
+      if (entity.id) {
+        this.refreshFlows()
+      }
+    })
   }
 
   refreshFlows() {
-    this.getAllFlow(this.entityService.active_entity.value.id)
+
+    this.entityService.active_entity.value.id && this.getAllFlow(this.entityService.active_entity.value.id)
   }
 
   saveFlowWithFiles(variables: any) {

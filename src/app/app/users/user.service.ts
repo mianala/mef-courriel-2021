@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -78,6 +79,7 @@ export class UserService {
       }
     }
   `;
+
     return this.apollo.mutate({
       mutation: SAVE_NEW_USER_MUTATION,
       variables: variables,
@@ -111,6 +113,7 @@ export class UserService {
   logIn(variables: { username: any; hashed: any }) {
     const USER_LOGIN_QUERY = gql`
       ${User.core_user_fields}
+      ${Entity.core_entity_fields}
       query login($username: String!, $hashed: String!) {
         user(where: { username: { _eq: $username }, hashed: { _eq: $hashed } }) {
           ...CoreUserFields
@@ -120,20 +123,7 @@ export class UserService {
           settings_default_app
           settings_default_flow_page
           entity {
-            id
-            id_text
-            long
-            short
-            numero
-            sent_count
-            received_count
-            active
-            short_header
-            long_header
-            labels
-            level
-            parent_entity_id
-            sub_entities_count
+            ...CoreEntityFields
           }
         }
       }
@@ -199,14 +189,14 @@ export class UserService {
   getUsers() {
     const GET_USERS_QUERY = gql`
     ${User.core_user_fields}
+    ${Entity.core_entity_fields}
     query get_users {
       user {
         ...CoreUserFields
         verified
         action_counter
         entity {
-          short
-          short_header
+          ...CoreEntityFields
         }
       }
     }

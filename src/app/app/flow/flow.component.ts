@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { skip } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { Flow } from 'src/app/classes/flow';
 import { EntityService } from '../entities/service/entity.service';
@@ -32,8 +33,10 @@ export class FlowComponent implements OnInit {
 
   constructor(public flowService: FlowService, private entityService: EntityService) {
     this.flowService.refreshFlows()
-    this.flowService.recent_flows.subscribe((data) => {
+    this.flowService.recent_flows.pipe(skip(1)).subscribe((data) => {
       this.flows = data;
+      this.loading = false;
+
     });
   }
 
@@ -42,6 +45,7 @@ export class FlowComponent implements OnInit {
   }
 
   search() {
+    this.loading = true;
     let searchFilters: any = {}
 
     this.filters.title.length ? searchFilters.project = { title: { _ilike: `%${this.filters.title}%` } } : null
@@ -63,6 +67,7 @@ export class FlowComponent implements OnInit {
     Object.keys(searchFilters).length && this.flowService.search(searchFilters)
       .subscribe(flows => {
         this.flows = flows
+        this.loading = false;
         console.log(flows)
       })
 

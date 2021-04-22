@@ -130,8 +130,13 @@
     </mat-menu>
   </div>
 </section>
+<img
+  *ngIf="!flows.length && !loading"
+  src="/assets/app-images/Empty-pana.svg"
+  alt=""
+/>
 
-<flows-loading *ngIf="!flows.length"></flows-loading>
+<flows-loading *ngIf="!flows.length && loading"></flows-loading>
 
 <div *ngIf="flows.length" class="flow-list">
   <flow class="mat-typography" *ngFor="let flow of flows" [flow]="flow"></flow>
@@ -153,5 +158,6 @@
 <!-- <empty-flow></empty-flow> -->
 <!-- <search-flow-list></search-flow-list> -->
 
-<mat-paginator [showFirstLastButtons]="true"> </mat-paginator>
+<mat-paginator *ngIf="flows.length" [showFirstLastButtons]="true">
+</mat-paginator>
 <router-outlet></router-outlet>

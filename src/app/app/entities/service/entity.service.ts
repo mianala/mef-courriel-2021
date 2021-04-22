@@ -13,6 +13,7 @@ import { UserService } from '../../users/user.service';
   providedIn: 'root',
 })
 export class EntityService {
+
   constructor(private apollo: Apollo, private userService: UserService, private notification: NotificationService) {
     // const ets =
     //   localStorage.getItem('entities') === null
@@ -28,8 +29,50 @@ export class EntityService {
         return
       }
 
-      this.active_entity.next(user.entity)
+      this.getUserEntity(user.entity.id)
+
     });
+  }
+
+  getUserEntity(entity_id: number) {
+    const get_relative_entities = gql`
+      ${Entity.core_entity_fields}
+      query getUserEntity($entity_id:Int!){
+        entity(where: { id: { _eq: $entity_id } }){
+          ...CoreEntityFields
+          parent{
+            ...CoreEntityFields
+          }
+          children{
+            ...CoreEntityFields
+            children{
+              ...CoreEntityFields
+            }
+          }
+        }
+      }
+    `
+
+    this.apollo.query({
+      query: get_relative_entities,
+      variables: { entity_id: entity_id }
+    }).subscribe((data: any) => {
+      let entity_query_result = data.data.entity[0]
+
+      let entity = new Entity(entity_query_result)
+      entity.parent = new Entity(entity_query_result.parent)
+      entity.children = entity_query_result.children.map((entity: any) => {
+        let e = new Entity(entity)
+        let c = entity.children.map((entity: any) => new Entity(entity))
+        e.children = c
+        return e
+      })
+
+      console.log(entity);
+
+      this.active_entity.next(entity)
+
+    })
   }
 
   updateEntitiesFromLocalStorage() { }
@@ -41,6 +84,9 @@ export class EntityService {
 
   // store in localstorage
   entities: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
+
+  // store in localstorage remove on logout
+  relative_entities: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
 
   // store in cookie
   active_entity: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
@@ -88,7 +134,6 @@ export class EntityService {
       })
     )
   }
-
 
   getEntityWithUsers(id: number) {
     const GET_ENTITY_QUERY_WITH_USERS = gql`
@@ -187,7 +232,6 @@ export class EntityService {
     }).subscribe(data => this.notification.open("Entité desactivé"))
   }
 
-
   activateEntity(entity_id: number) {
     const ACTIVATE_ENTITY_MUTATION = gql`
       mutation activate_entity($entity_id: Int!) {
@@ -224,12 +268,18 @@ export class EntityService {
       variables: {
         entity_id: this.active_entity.value.id
       }
-    }).subscribe(data => console.log(data))
+    })
+      .pipe()
+      .subscribe(data => console.log(data))
 
     const activeEntity = this.active_entity.value
     activeEntity.sent_count += 1
-
     this.active_entity.next(activeEntity)
+  }
+
+  relativeEntityPipe = (entity: Entity[]) => {
+    console.log(entity);
+
   }
 
   addNewEntity(variables: any) {
