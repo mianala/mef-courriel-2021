@@ -21,6 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTreeModule } from '@angular/material/tree';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
@@ -34,7 +35,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatAutocompleteModule,
     MatDialogModule,
     MatSelectModule,
-    MatSidenavModule,
     MatPaginatorModule,
     MatMenuModule,
     MatInputModule,
@@ -50,6 +50,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatCheckboxModule,
     MatBadgeModule,
     MatProgressBarModule,
+    MatSidenavModule,
+    MatTreeModule,
   ],
   exports: [
     MatIconModule,
@@ -60,7 +62,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogModule,
     MatIconModule,
     MatSelectModule,
-    MatSidenavModule,
     MatPaginatorModule,
     MatMenuModule,
     MatInputModule,
@@ -76,7 +77,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatCheckboxModule,
     MatBadgeModule,
     MatProgressBarModule,
+    MatSidenavModule,
+    MatTreeModule,
   ],
   providers: [MatDatepickerModule],
 })
-export class MaterialModule { }
+export class MaterialModule {}

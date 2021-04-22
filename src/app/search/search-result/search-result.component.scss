@@ -1,117 +1,126 @@
-#topbar {
-  display: flex;
-  height: 64px;
-  align-items: center;
-  justify-content: space-between;
-  // position: fixed;
-  background-color: white;
-  #searchbarimage {
-    height: 40px;
-    padding: 0px 28px 10px 30px;
-    cursor: pointer;
-    max-width: 1200px;
-  }
-}
-#searchbar {
-  flex: 1;
-}
-.actions {
-  padding-right: 50px;
-  .mat-icon-button {
-    border-radius: 50%;
-    margin-left: 5px;
-    background-color: #f3994e;
-  }
-}
+@import "~src/_variables";
+.container {
+  min-height: 100vh;
+  .sidenav {
+    padding: 20px;
 
-:host {
-  display: flex;
-  flex-direction: column;
-  place-content: center;
-}
-#optionsbar {
-  padding-left: 150px;
-  border-bottom: 1px solid gray;
-  .options {
-    margin-bottom: -1.34375em;
-  }
-}
-::ng-deep {
-  .textLayer {
-    border: 3px solid grey;
-  }
-}
-#optionsbar {
-  max-width: 1200px;
-  margin: auto;
-}
-#searchresultsarea {
-  width: clamp(600px, 80vw, 1200px);
-  margin: auto;
-  font-family: "Arial";
-  mat-drawer-container {
-    min-height: 75vh;
-  }
-}
-mat-drawer {
-  width: 50%;
-}
+    .tree {
+      .tree-invisible {
+        display: none;
+      }
+      .mat-tree-node {
+        &:hover {
+          background-color: $grey;
+        }
+      }
 
-mat-drawer-content {
-  padding-left: 2rem;
-}
-
-.pdf-container {
-  padding-left: 0.5rem;
-}
-
-#searchbar {
-  max-width: 625px;
-  height: 45px;
-  border-radius: 100px;
-  border-color: lightgray;
-  border-style: solid;
-  border-width: 1px;
-  font-size: 16px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  &:hover {
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  > input {
-    height: 45px;
-    border-style: none;
-    font-size: 16px;
-    line-height: 45px;
-    padding-left: 20px;
-    flex: 1;
-    &:focus {
-      outline: none;
+      ul,
+      li {
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 1rem;
+        list-style-type: none;
+      }
+    }
+    div.mat-drawer-inner-container {
+      overflow: visible;
     }
   }
-  button {
-    border: none;
-    cursor: pointer;
-    &:focus {
-      outline: none;
-    }
-  }
-}
 
-#searchbarbutton {
-  height: 45px;
-  width: 55px;
-  position: relative;
-  margin-right: -2px;
-  background-color: white;
-  svg {
-    height: 25px;
-    width: 35px;
-    position: relative;
-    left: -3px;
-    path {
-      fill: #4285f4;
+  .sidenav-content {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+
+    header {
+      #topbar {
+        display: flex;
+        height: 64px;
+        align-items: center;
+        justify-content: space-between;
+        // position: fixed;
+        background-color: white;
+        #searchbarimage {
+          height: 40px;
+          padding: 0px 28px 10px 30px;
+          cursor: pointer;
+          max-width: 1200px;
+        }
+        #searchbar {
+          flex: 1;
+          max-width: 625px;
+          height: 45px;
+          border-radius: 100px;
+          border-color: lightgray;
+          border-style: solid;
+          border-width: 1px;
+          font-size: 16px;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          transition: ease-in 0.2s;
+          &:hover {
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+          }
+          > input {
+            height: 45px;
+            border-style: none;
+            font-size: 16px;
+            line-height: 45px;
+            padding-left: 20px;
+            flex: 1;
+            &:focus {
+              outline: none;
+            }
+          }
+
+          #searchbarbutton {
+            height: 45px;
+            width: 55px;
+            position: relative;
+            margin-right: -2px;
+            background-color: white;
+
+            border: none;
+            cursor: pointer;
+            &:focus {
+              outline: none;
+            }
+            svg {
+              height: 25px;
+              width: 35px;
+              position: relative;
+              left: -3px;
+              path {
+                fill: #4285f4;
+              }
+            }
+          }
+        }
+
+        .actions {
+          padding-right: 50px;
+          .mat-icon-button {
+            border-radius: 50%;
+            margin-left: 5px;
+          }
+        }
+      }
+
+      #optionsbar {
+        max-width: 1200px;
+        margin: auto;
+        padding-left: 150px;
+        border-bottom: 1px solid gray;
+        .options {
+          margin-bottom: -1.34375em;
+        }
+      }
+    }
+    #searchresultsarea {
+      width: clamp(600px, 80vw, 1200px);
+      margin: auto;
+      font-family: "Arial";
     }
   }
 }
