@@ -41,13 +41,11 @@ export class EntityService {
           ? JSON.parse(localStorage.getItem('active_entity') || '[]')
           : null;
 
-      console.log(active_entity);
-
       if (active_entity === null) {
         this.getUserEntity(user.entity.id);
       } else {
         console.log('active_entity from localstorage');
-        this.active_entity.next(active_entity);
+        this.active_entity.next(new Entity(active_entity));
       }
     });
   }

@@ -34,20 +34,17 @@ export class UserService {
         : null; // redirect to login
 
     if (user !== null) {
-      console.log('user from localstorage', user);
-      this.active_user.next(user);
+      this.active_user.next(new User(user));
     }
     if (users !== null) {
       this.users.next(users);
     }
 
     //redirect upon entering the page first and not on refresh
-    const refresh = this.router.events
+    this.router.events
       .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
       .pipe(first())
       .subscribe((event) => {
-        console.log(event);
-
         if (event.id === 1 && event.url === event.urlAfterRedirects) {
           console.log('refreshed');
         } else {
@@ -60,8 +57,6 @@ export class UserService {
 
     this.active_user.subscribe((user) => this.logged_in.next(user.id > 0));
 
-    // code for testing
-    // this.logIn({username: 'myusername', hashed:'mypassword'});
     if (users === null) {
       this.getUsers();
     }

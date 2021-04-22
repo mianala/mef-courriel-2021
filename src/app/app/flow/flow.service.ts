@@ -26,7 +26,6 @@ export class FlowService {
   constructor(
     private apollo: Apollo,
     private entityService: EntityService,
-    private userService: UserService,
     private notification: NotificationService
   ) {
     this.entityService.active_entity.subscribe((entity) => {
