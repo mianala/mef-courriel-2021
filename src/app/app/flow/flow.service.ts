@@ -300,12 +300,11 @@ export class FlowService {
     };
 
     return this.apollo
-      .watchQuery({
+      .query({
         query: SEARCH_FLOWS,
         variables: { where: searchFlowVariables },
-        fetchPolicy: 'cache-and-network',
       })
-      .valueChanges.pipe(
+      .pipe(
         map((val: any) => {
           return val.data.flow.map((val: any) => {
             return new Flow(val);

@@ -200,8 +200,6 @@ export class EntityService {
       .pipe(
         map((val: any) => {
           return val.data.entity.map((val: any) => {
-            console.log(val);
-
             return new Entity(val);
           });
         })
