@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/app/users/user.service';
@@ -19,6 +14,7 @@ import { ValidatorService } from 'src/app/services/validator.service';
 export class SignupComponent implements OnInit {
   signUpForm: FormGroup = new FormGroup({});
 
+  loading = false;
   constructor(
     private router: Router,
     private titleService: Title,
@@ -54,10 +50,7 @@ export class SignupComponent implements OnInit {
         '+261',
         Validators.compose([Validators.required, Validators.minLength(9)]),
       ],
-      email: [
-        '',
-        Validators.compose([Validators.required, Validators.email]),
-      ],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
       username: [
         '',
         Validators.compose([
@@ -76,6 +69,8 @@ export class SignupComponent implements OnInit {
   }
 
   submit() {
+    this.loading = true;
+
     const form = this.signUpForm.value;
     const variables = {
       firstname: form.firstname,
@@ -93,9 +88,10 @@ export class SignupComponent implements OnInit {
   }
 
   signedUp(data: any) {
-    console.log(data)
+    this.loading = false;
 
-    data.data.insert_user.returning[0].id && this.router.navigate(['/auth/signed-up'])
+    data.data.insert_user.returning[0].id &&
+      this.router.navigate(['/auth/signed-up']);
   }
 
   entitySelected(entity: Entity) {

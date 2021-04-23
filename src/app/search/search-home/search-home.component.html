@@ -1,3 +1,30 @@
+<header fxLayoutAlign="end center">
+  <div class="actions" style="padding: 1rem 1rem 0 0">
+    <a mat-icon-button routerLink="/search/save">
+      <mat-icon>save</mat-icon>
+    </a>
+    <button routerLink="" mat-icon-button>
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="compte">
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item routerLink="/app/user">
+        <mat-icon>account_circle</mat-icon>
+        <span>Modifier le profil</span>
+      </a>
+      <!-- <button mat-menu-item>
+              <mat-icon>list</mat-icon>
+              <span>Afficher l'historique</span>
+            </button> -->
+      <button (click)="userService.logout()" mat-menu-item routerLink="/signup">
+        <mat-icon>logout</mat-icon>
+        <span>Se déconnecter</span>
+      </button>
+    </mat-menu>
+  </div>
+</header>
 <div style="text-align: center" class="container">
   <div class="logo">
     <img alt="MEF" src="/assets/flag.png" />

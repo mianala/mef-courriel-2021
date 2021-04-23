@@ -127,7 +127,7 @@ export class UserService {
       );
   }
 
-  logIn(variables: { username: any; hashed: any }) {
+  logIn(variables: { username: any; hashed: any }, next: () => void) {
     const USER_LOGIN_QUERY = gql`
       ${User.core_user_fields}
       ${Entity.core_entity_fields}
@@ -159,7 +159,36 @@ export class UserService {
           });
         })
       )
-      .subscribe(this.logInHandler.bind(this));
+      .subscribe((users) => {
+        this.logInHandler(users);
+        next();
+      });
+  }
+
+  logInHandler(users: User[]) {
+    if (users.length === 0) {
+      this.notification.open(
+        "Vous n'êtes pas encore inscrit, veuillez vous inscrire",
+        4000
+      );
+      return;
+    }
+
+    const user = users[0];
+
+    console.log(user);
+
+    if (User.default_apps.includes(user.settings_default_app)) {
+      this.router.navigate([user.settings_default_app]);
+    } else {
+      this.router.navigate(['/app/flow']);
+    }
+
+    this.active_user.next(user);
+
+    this.updateUserLastLogin();
+    localStorage.setItem('user', JSON.stringify(users[0]));
+    localStorage.setItem('logged_in', new Date().toString());
   }
 
   logout() {
@@ -254,32 +283,6 @@ export class UserService {
         this.users.next(data);
         localStorage.setItem('users', JSON.stringify(data));
       });
-  }
-
-  logInHandler(users: User[]) {
-    if (users.length === 0) {
-      this.notification.open(
-        "Vous n'êtes pas encore inscrit, veuillez vous inscrire",
-        4000
-      );
-      return;
-    }
-
-    const user = users[0];
-
-    console.log(user);
-
-    if (User.default_apps.includes(user.settings_default_app)) {
-      this.router.navigate([user.settings_default_app]);
-    } else {
-      this.router.navigate(['/app/flow']);
-    }
-
-    this.active_user.next(user);
-
-    this.updateUserLastLogin();
-    localStorage.setItem('user', JSON.stringify(users[0]));
-    localStorage.setItem('logged_in', new Date().toString());
   }
 
   resetPassword(hashed: string) {

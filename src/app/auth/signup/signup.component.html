@@ -118,6 +118,7 @@
           <div class="two-columns">
             <a routerLink="/auth/login">Se connecter</a>
             <button
+              *ngIf="!loading"
               mat-raised-button
               color="primary"
               type="submit"
@@ -128,6 +129,19 @@
               "
             >
               S'inscrire
+            </button>
+            <button
+              *ngIf="loading"
+              disabled
+              mat-raised-button
+              type="submit"
+              class="input-submit"
+            >
+              <mat-spinner
+                style="display: inline; margin-right: 1.5rem"
+                diameter="20"
+              ></mat-spinner>
+              <span> Inscription</span>
             </button>
           </div>
         </form>

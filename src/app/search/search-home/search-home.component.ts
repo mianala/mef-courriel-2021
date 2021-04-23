@@ -1,19 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/app/users/user.service';
 
 @Component({
   selector: 'search-home',
   templateUrl: './search-home.component.html',
-  styleUrls: ['./search-home.component.scss']
+  styleUrls: ['./search-home.component.scss'],
 })
 export class SearchHomeComponent implements OnInit {
-  @Input() query = ""
-  constructor(private router: Router) { }
+  @Input() query = '';
+  constructor(private router: Router, public userService: UserService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-
-  submit() {
-  }
+  submit() {}
 }

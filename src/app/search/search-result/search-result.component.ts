@@ -20,7 +20,7 @@ import { Flow } from 'src/app/classes/flow';
   styleUrls: ['./search-result.component.scss'],
 })
 export class SearchResultComponent implements OnInit {
-  loading = true;
+  loading: boolean;
   entity: Entity = new Entity();
   @Input() query: string = '';
   activeEntityFilter: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -30,9 +30,11 @@ export class SearchResultComponent implements OnInit {
   constructor(
     private flowService: FlowService,
     private entityService: EntityService,
-    private userService: UserService,
+    public userService: UserService,
     route: ActivatedRoute
   ) {
+    this.loading = true;
+
     route.queryParams.subscribe((data) => {
       this.query = data.q;
       this.search();
@@ -52,6 +54,8 @@ export class SearchResultComponent implements OnInit {
   }
 
   search() {
+    this.loading = true;
+    this.results = [];
     let searchFilters: any = {};
 
     this.query.length
@@ -73,10 +77,6 @@ export class SearchResultComponent implements OnInit {
     this.filteredResult = this.results.filter(
       (flow) => flow.initiator_id == this.activeEntityFilter.value
     );
-  }
-
-  logout() {
-    this.userService.logout();
   }
 
   setActiveEntityFilter(entity_id: number) {

@@ -22,12 +22,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    MatProgressSpinnerModule,
     MatButtonModule,
     MatSnackBarModule,
     MatIconModule,
@@ -67,6 +69,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatInputModule,
     MatTooltipModule,
     MatTabsModule,
+    MatProgressSpinnerModule,
     MatDatepickerModule,
     MatCardModule,
     MatAutocompleteModule,

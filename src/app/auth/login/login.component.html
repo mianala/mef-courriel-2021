@@ -41,12 +41,26 @@
           <div class="actions">
             <a routerLink="" class="linktext">Mot de passe oublié?</a>
             <button
+              *ngIf="!loading"
               mat-raised-button
               color="primary"
               type="submit"
               class="input-submit"
             >
               Se connecter
+            </button>
+            <button
+              *ngIf="loading"
+              disabled
+              mat-raised-button
+              type="submit"
+              class="input-submit"
+            >
+              <mat-spinner
+                style="display: inline; margin-right: 1.5rem"
+                diameter="20"
+              ></mat-spinner>
+              <span> Connextion</span>
             </button>
           </div>
         </form>

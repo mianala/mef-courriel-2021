@@ -12,6 +12,8 @@ import { ValidatorService } from 'src/app/services/validator.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  loading = false;
+
   loginForm = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -23,21 +25,27 @@ export class LoginComponent implements OnInit {
     ]),
   });
 
-  constructor(private titleService: Title, private userService: UserService, private router: Router) {
+  constructor(
+    private titleService: Title,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.titleService.setTitle('Login');
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   submit() {
-
     const form = this.loginForm.value;
     const variables = {
       username: form.username,
       hashed: form.password,
     };
 
-    this.userService.logIn(variables);
+    this.loading = true;
 
+    this.userService.logIn(variables, () => {
+      this.loading = false;
+    });
   }
 }

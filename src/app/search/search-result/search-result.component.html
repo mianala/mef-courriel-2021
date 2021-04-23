@@ -73,9 +73,9 @@
             </svg>
           </button>
         </form>
-        <div class="actions">
+        <div class="actions" style="padding: 1rem">
           <a mat-icon-button routerLink="/search/save">
-            <mat-icon>add</mat-icon>
+            <mat-icon>save</mat-icon>
           </a>
           <button routerLink="" mat-icon-button>
             <mat-icon>home</mat-icon>
@@ -96,7 +96,11 @@
               <mat-icon>list</mat-icon>
               <span>Afficher l'historique</span>
             </button> -->
-            <button (click)="logout()" mat-menu-item routerLink="/signup">
+            <button
+              (click)="userService.logout()"
+              mat-menu-item
+              routerLink="/signup"
+            >
               <mat-icon>logout</mat-icon>
               <span>Se déconnecter</span>
             </button>
@@ -118,10 +122,13 @@
       </div>
     </header>
 
+    <flows-loading *ngIf="!results.length && loading"></flows-loading>
+
     <div id="searchresultsarea">
       <empty-search-result
         [hidden]="results.length || loading"
       ></empty-search-result>
+
       <div class="result-list">
         <result-item
           *ngFor="let item of filteredResult"
