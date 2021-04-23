@@ -1,12 +1,12 @@
 <header class="header" fxLayoutAlign="space-between center">
   <div
     class="header__logo"
-    fxLayoutAlign="space-between center"
+    fxLayoutAlign="center center"
     style="cursor: pointer; outline: none"
     routerLink="/"
   >
-    <!-- <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" /> -->
-    <h1 class="header__title">
+    <img class="header__img" style="width: 4rem" src="/assets/flag.png" />
+    <h1 class="header__title" style="margin: 0" fxLayoutAlign="center center">
       RECHERCHE <span class="header__light">MEF</span>
     </h1>
   </div>
@@ -29,10 +29,10 @@
           <li>
             <a href="#">Contact us</a>
           </li> -->
-        <li *ngIf="!logged_in">
+        <li *ngIf="!(userService.logged_in | async)">
           <a routerLink="/auth/login" class="btn--white">Se connecter →</a>
         </li>
-        <li *ngIf="logged_in">
+        <li *ngIf="userService.logged_in | async">
           <a routerLink="/app/flow" style="margin-left: 1rem" class="btn--white"
             >Enregistrement</a
           >

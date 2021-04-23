@@ -6,7 +6,7 @@
       L'outil de communication au sein du Ministère de l'Économie et des
       Finances. Un pas vers la dématérialisation.
     </h2>
-    <div class="site__box-link" [hidden]="logged_in">
+    <div class="site__box-link" [hidden]="userService.logged_in | async">
       <a routerLink="/auth/signup">S'inscrire</a>
       <a
         style="margin-left: 1rem"
@@ -16,7 +16,11 @@
         >Se connecter</a
       >
     </div>
-    <div class="site__box-link" *ngIf="logged_in" fxLayoutAlign="center center">
+    <div
+      class="site__box-link"
+      *ngIf="userService.logged_in | async"
+      fxLayoutAlign="center center"
+    >
       <a
         style="margin-left: 1rem"
         routerLink="/auth/login"

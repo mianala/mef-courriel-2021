@@ -7,12 +7,7 @@ import { UserService } from 'src/app/app/users/user.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  logged_in = false;
-  constructor(private userService: UserService) {
-    this.userService.active_user.subscribe((user) => {
-      this.logged_in = user.id > 0;
-    });
-  }
+  constructor(public userService: UserService) {}
 
   ngOnInit(): void {}
 }

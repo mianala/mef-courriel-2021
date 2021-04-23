@@ -6,19 +6,18 @@ import { UserService } from '../../users/user.service';
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
-  styleUrls: ['./user-page.component.scss']
+  styleUrls: ['./user-page.component.scss'],
 })
 export class UserPageComponent implements OnInit {
+  user: User = new User();
 
-  user: User = new User()
   constructor(private userService: UserService, private route: ActivatedRoute) {
-    userService.active_user.subscribe(user => this.user = user)
+    userService.active_user.subscribe((user) => (this.user = user));
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   logout() {
-    this.userService.logout()
+    this.userService.logout();
   }
 }

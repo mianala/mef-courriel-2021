@@ -6,6 +6,7 @@ import {
   MatTreeNestedDataSource,
 } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { FlowService } from 'src/app/app/flow/flow.service';
@@ -22,8 +23,10 @@ export class SearchResultComponent implements OnInit {
   loading = true;
   entity: Entity = new Entity();
   @Input() query: string = '';
+  activeEntityFilter: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   results: Flow[] = [];
+  filteredResult: Flow[] = [];
   constructor(
     private flowService: FlowService,
     private entityService: EntityService,
@@ -42,7 +45,11 @@ export class SearchResultComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activeEntityFilter.pipe(skip(1)).subscribe(() => {
+      this.filter();
+    });
+  }
 
   search() {
     let searchFilters: any = {};
@@ -57,13 +64,27 @@ export class SearchResultComponent implements OnInit {
 
     Object.keys(searchFilters).length &&
       this.flowService.search(searchFilters).subscribe((flows) => {
-        this.results = flows;
+        this.filteredResult = this.results = flows;
         this.loading = false;
       });
   }
 
+  filter() {
+    this.filteredResult = this.results.filter(
+      (flow) => flow.initiator_id == this.activeEntityFilter.value
+    );
+  }
+
   logout() {
     this.userService.logout();
+  }
+
+  setActiveEntityFilter(entity_id: number) {
+    this.activeEntityFilter.next(entity_id);
+  }
+
+  resetActiveEntityFilter() {
+    this.activeEntityFilter.next(0);
   }
 
   treeControl = new NestedTreeControl<Entity>((node) => node.children);

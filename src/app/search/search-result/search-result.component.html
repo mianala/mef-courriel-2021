@@ -123,7 +123,10 @@
         [hidden]="results.length || loading"
       ></empty-search-result>
       <div class="result-list">
-        <result-item *ngFor="let item of results" [flow]="item"></result-item>
+        <result-item
+          *ngFor="let item of filteredResult"
+          [flow]="item"
+        ></result-item>
       </div>
     </div>
   </div>
