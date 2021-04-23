@@ -12,7 +12,7 @@
           <button mat-icon-button disabled></button>
           <span class="option">
             {{ node.short }}
-            <button mat-icon-button>
+            <button mat-icon-button (click)="setActiveEntityFilter(node.id)">
               <mat-icon>sort</mat-icon>
             </button>
           </span>
@@ -35,7 +35,7 @@
             </button>
             <span class="option">
               {{ node.short }}
-              <button mat-icon-button>
+              <button mat-icon-button (click)="setActiveEntityFilter(node.id)">
                 <mat-icon>sort</mat-icon>
               </button>
             </span>

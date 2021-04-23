@@ -113,11 +113,19 @@
       <button
         [disabled]="!saveFlowForm.valid"
         (click)="submit()"
+        *ngIf="!loading"
         mat-raised-button
         color="primary"
         cdkFocusInitial
       >
         ENREGISTRER
+      </button>
+      <button *ngIf="loading" disabled mat-raised-button>
+        <mat-spinner
+          style="display: inline; margin-right: 1.5rem"
+          diameter="20"
+        ></mat-spinner>
+        <span> En cours ...</span>
       </button>
       <!-- <button mat-raised-button="">VOIR CORRIER ENREGISTRE</button> -->
     </div>

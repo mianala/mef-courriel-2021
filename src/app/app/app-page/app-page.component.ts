@@ -5,19 +5,16 @@ import { UserService } from '../users/user.service';
 @Component({
   selector: 'app-app-page',
   templateUrl: './app-page.component.html',
-  styleUrls: ['./app-page.component.scss']
+  styleUrls: ['./app-page.component.scss'],
 })
 export class AppPageComponent implements OnInit {
-
-  constructor(private userService: UserService, private router: Router) {
-    this.userService.logged_in.subscribe(logged_in => {
+  constructor(public userService: UserService, private router: Router) {
+    this.userService.logged_in.subscribe((logged_in) => {
       if (!logged_in) {
-        router.navigate(['/'])
+        router.navigate(['/']);
       }
-    })
+    });
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

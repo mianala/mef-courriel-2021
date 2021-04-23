@@ -15,20 +15,20 @@ export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
   user = new User();
   labels: string[] = [];
+  loading = false;
 
   constructor(
     private flowService: FlowService,
     private fb: FormBuilder,
     private userService: UserService,
-    private notification: NotificationService,
+    private notification: NotificationService
   ) {
     this.user = this.userService.active_user.value;
   }
 
   ngOnInit(): void {
     this.saveFlowForm = this.fb.group({
-      content: [
-        ''],
+      content: [''],
       title: [
         '',
         Validators.compose([Validators.required, Validators.minLength(4)]),
@@ -62,13 +62,18 @@ export class SaveFlowFormComponent implements OnInit {
 
   files: any[] = [];
 
-
-
-  preview() { }
+  preview() {}
 
   submit() {
+    this.loading = true;
     const form = this.saveFlowForm.value;
-    const form_files: { name: string; size: number; type: string; src: string, lastModified: number }[] = [];
+    const form_files: {
+      name: string;
+      size: number;
+      type: string;
+      src: string;
+      lastModified: number;
+    }[] = [];
 
     this.files.forEach((file) => {
       form_files.push({
@@ -81,7 +86,6 @@ export class SaveFlowFormComponent implements OnInit {
     });
 
     const flow_variables = {
-
       action: 1,
       title: form.title,
       content: form.content,
@@ -98,9 +102,9 @@ export class SaveFlowFormComponent implements OnInit {
       initiator_id: form.project_owner_id,
       initiator_text: form.project_owner_text,
       files: {
-        data: form_files
+        data: form_files,
       },
-    }
+    };
 
     this.flowService
       .saveFlowWithFiles(flow_variables)
@@ -108,11 +112,12 @@ export class SaveFlowFormComponent implements OnInit {
   }
 
   flowSaved(data: any) {
-    this.notification.flowSaved(data.data.insert_flow.returning[0])
-    this.flowService.refreshFlows()
+    this.notification.flowSaved(data.data.insert_flow.returning[0]);
+    this.flowService.refreshFlows();
+    this.loading = false;
   }
 
-  save() { }
+  save() {}
 
   entitySelected(entity: Entity) {
     this.saveFlowForm.patchValue({
@@ -133,11 +138,11 @@ export class SaveFlowFormComponent implements OnInit {
   }
 
   reset() {
-    this.saveFlowForm.reset()
-    this.files = []
+    this.saveFlowForm.reset();
+    this.files = [];
     this.saveFlowForm.patchValue({
       date: new Date(),
       date_received: new Date(),
-    })
+    });
   }
 }

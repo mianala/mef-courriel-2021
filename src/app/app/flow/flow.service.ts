@@ -29,6 +29,8 @@ export class FlowService {
     private notification: NotificationService
   ) {
     this.entityService.active_entity.subscribe((entity) => {
+      // console.log('refreshing flows');
+
       if (entity.id) {
         this.refreshFlows();
       }

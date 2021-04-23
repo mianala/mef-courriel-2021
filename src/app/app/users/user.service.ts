@@ -40,21 +40,6 @@ export class UserService {
       this.users.next(users);
     }
 
-    //redirect upon entering the page first and not on refresh
-    this.router.events
-      .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
-      .pipe(first())
-      .subscribe((event) => {
-        if (event.id === 1 && event.url === event.urlAfterRedirects) {
-          console.log('refreshed');
-        } else {
-          console.log('navigation initiated');
-          if (user && ['/search'].includes(user.settings_default_app)) {
-            this.router.navigate([user.settings_default_app]);
-          }
-        }
-      });
-
     this.active_user.subscribe((user) => this.logged_in.next(user.id > 0));
 
     if (users === null) {
@@ -171,6 +156,7 @@ export class UserService {
         "Vous n'êtes pas encore inscrit, veuillez vous inscrire",
         4000
       );
+
       return;
     }
 
@@ -178,17 +164,17 @@ export class UserService {
 
     console.log(user);
 
-    if (User.default_apps.includes(user.settings_default_app)) {
-      this.router.navigate([user.settings_default_app]);
-    } else {
-      this.router.navigate(['/app/flow']);
-    }
-
     this.active_user.next(user);
 
     this.updateUserLastLogin();
     localStorage.setItem('user', JSON.stringify(users[0]));
     localStorage.setItem('logged_in', new Date().toString());
+
+    if (User.default_apps.includes(user.settings_default_app)) {
+      this.router.navigate([user.settings_default_app]);
+    } else {
+      this.router.navigate(['/app/flow']);
+    }
   }
 
   logout() {

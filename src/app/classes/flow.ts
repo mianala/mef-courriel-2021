@@ -1,12 +1,12 @@
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import { gql } from 'apollo-angular';
 import { Entity } from './entity';
 import { AppFile } from './file';
 
 export class Flow {
-  date = new Date()
+  date = new Date();
   date_received = new Date();
-  datepipe = new DatePipe("fr-FR")
+  datepipe = new DatePipe('fr-FR');
   id = 0;
   action = 0;
   root_id = 0;
@@ -36,11 +36,9 @@ export class Flow {
   flows = [];
 
   constructor(_flow: Partial<{}> = {}) {
-    Object.assign(this, _flow)
-    this.files = this.files.map(file => new AppFile(file))
+    Object.assign(this, _flow);
+    this.files = this.files.map((file) => new AppFile(file));
   }
-
-
 
   hasFile() {
     return this.files.length;
@@ -63,33 +61,42 @@ export class Flow {
   }
 
   senderText() {
-    return this.initiator_id ? this.initiator.short : this.initiator_text
+    return this.initiator_id ? this.initiator.short : this.initiator_text;
   }
 
   variableFiles() {
-    return { data: this.files }
+    return { data: this.files };
   }
 
   icon() {
-    console.log(this.action == 1 ? 'description' : 'inbox')
-    return this.action == 1 ? 'description' : 'inbox'
+    console.log(this.action == 1 ? 'description' : 'inbox');
+    return this.action == 1 ? 'description' : 'inbox';
   }
 
   shortTime() {
     return this.datepipe.transform(this.created_at, 'd MMM');
   }
 
-  r =
-    {
-      title: () => { this.isSaved() ? this.title : this.root?.title },
-      reference: () => { this.isSaved() ? this.reference : this.root?.reference },
-      numero: () => { this.isSaved() ? this.numero : this.root?.numero },
-      date: () => { this.isSaved() ? this.date : this.root?.date },
-      date_received: () => { this.isSaved() ? this.date_received : this.root?.date },
-    }
+  r = {
+    title: () => {
+      this.isSaved() ? this.title : this.root?.title;
+    },
+    reference: () => {
+      this.isSaved() ? this.reference : this.root?.reference;
+    },
+    numero: () => {
+      this.isSaved() ? this.numero : this.root?.numero;
+    },
+    date: () => {
+      this.isSaved() ? this.date : this.root?.date;
+    },
+    date_received: () => {
+      this.isSaved() ? this.date_received : this.root?.date;
+    },
+  };
 
   static core_flow_fields = gql`
-    fragment CoreFlowFields on flow{
+    fragment CoreFlowFields on flow {
       id
       action
       content
@@ -100,6 +107,7 @@ export class Flow {
       thread_id
       parent_id
       initiator_text
+      initiator_id
       type_text
       letter_text
       progress
@@ -110,6 +118,5 @@ export class Flow {
       date
       date_received
     }
-  `
-
+  `;
 }
