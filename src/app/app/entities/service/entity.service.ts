@@ -56,6 +56,9 @@ export class EntityService {
       query getUserEntity($entity_id: Int!) {
         entity(where: { id: { _eq: $entity_id } }) {
           ...CoreEntityFields
+          labels
+          observations
+          letter_texts
           parent {
             ...CoreEntityFields
             children {
@@ -137,13 +140,7 @@ export class EntityService {
       .query({
         query: GET_ENTITIES_QUERY,
       })
-      .pipe(
-        map((val: any) => {
-          return val.data.entity.map((val: any) => {
-            return new Entity(val);
-          });
-        })
-      );
+      .pipe(this.mapEntity);
   }
 
   getEntity(id: number) {
@@ -162,14 +159,14 @@ export class EntityService {
           id: id,
         },
       })
-      .pipe(
-        map((val: any) => {
-          return val.data.entity.map((val: any) => {
-            return new Entity(val);
-          });
-        })
-      );
+      .pipe(this.mapEntity);
   }
+
+  mapEntity = map((val: any) => {
+    return val.data.entity.map((val: any) => {
+      return new Entity(val);
+    });
+  });
 
   getEntityWithUsers(id: number) {
     const GET_ENTITY_QUERY_WITH_USERS = gql`
@@ -197,32 +194,20 @@ export class EntityService {
           id: id,
         },
       })
-      .pipe(
-        map((val: any) => {
-          return val.data.entity.map((val: any) => {
-            return new Entity(val);
-          });
-        })
-      );
+      .pipe(this.mapEntity);
   }
 
-  updateEntityInfo(entity: any) {
-    const UDPATE_ENTITY_INFO = gql`
-      mutation UDPATE_ENTITY_INFO(
-        $id: Int!
-        $short: String!
-        $long: String!
-        $short_header: String!
-        $level: Int!
+  updateEntity(entity_id: number, set: any = {}, inc: any = {}) {
+    const UPDATE_ENTITY_MUTATION = gql`
+      mutation update_entity_mutation(
+        $entity_id: Int!
+        $_set: entity_set_input = {}
+        $_inc: entity_inc_input = {}
       ) {
         update_entity(
-          where: { id: { _eq: $id } }
-          _set: {
-            short: $short
-            long: $long
-            level: $level
-            short_header: $short_header
-          }
+          where: { id: { _eq: $entity_id } }
+          _set: $_set
+          _inc: $_inc
         ) {
           affected_rows
           returning {
@@ -232,105 +217,40 @@ export class EntityService {
       }
     `;
 
-    this.apollo
-      .mutate({
-        mutation: UDPATE_ENTITY_INFO,
-        variables: entity,
-      })
-      .subscribe((data) => {
-        this.notification.open('Mis à Jour Enregistré');
-      });
-  }
-
-  updateEntityLabels(entity: Entity) {
-    const UPDATE_ENTITY_LABELS_MUTATION = gql`
-      mutation update_entity_labels($id: Int!, $labels: String!) {
-        update_entity(where: { id: { _eq: $id } }, _set: { labels: $labels }) {
-          affected_rows
-          returning {
-            id
-          }
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: UPDATE_ENTITY_LABELS_MUTATION,
-        variables: entity,
-      })
-      .subscribe((data) => console.log(data));
+    return this.apollo.mutate({
+      mutation: UPDATE_ENTITY_MUTATION,
+      variables: {
+        entity_id: entity_id,
+        set: set,
+        inc: inc,
+      },
+    });
   }
 
   desactivateEntity(entity_id: number) {
-    const DESACTIVATE_ENTITY_MUTATION = gql`
-      mutation desactivate_entity($entity_id: Int!) {
-        update_entity(
-          where: { id: { _eq: $entity_id } }
-          _set: { active: false }
-        ) {
-          affected_rows
-          returning {
-            id
-          }
-        }
-      }
-    `;
-    this.apollo
-      .mutate({
-        mutation: DESACTIVATE_ENTITY_MUTATION,
-        variables: { entity_id: entity_id },
-      })
-      .subscribe((data) => this.notification.open('Entité desactivé'));
+    const set = { active: false };
+    this.updateEntity(entity_id, set).subscribe((data: any) => {
+      console.log('desactivated entity', data);
+      this.notification.open('Entité desactivé');
+    });
   }
 
   activateEntity(entity_id: number) {
-    const ACTIVATE_ENTITY_MUTATION = gql`
-      mutation activate_entity($entity_id: Int!) {
-        update_entity(
-          where: { id: { _eq: $entity_id } }
-          _set: { active: true }
-        ) {
-          affected_rows
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: ACTIVATE_ENTITY_MUTATION,
-        variables: { entity_id: entity_id },
-      })
-      .subscribe((data) => console.log(data));
+    const set = { active: true };
+    this.updateEntity(entity_id, set).subscribe((data: any) => {
+      console.log('activated entity', data);
+      this.notification.open('Entité activé');
+    });
   }
 
   incrementEntitySentCount() {
-    const INC_SENT_COUNT = gql`
-      mutation increment_sent_count($entity_id: Int!) {
-        update_entity(
-          where: { id: { _eq: $entity_id } }
-          _inc: { sent_count: 1 }
-        ) {
-          returning {
-            id
-            short
-            sent_count
-          }
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: INC_SENT_COUNT,
-        variables: {
-          entity_id: this.active_entity.value.id,
-        },
-      })
-      .pipe()
-      .subscribe((data) => console.log(data));
-
+    const inc = { sent_count: 1 };
     const activeEntity = this.active_entity.value;
+
+    this.updateEntity(activeEntity.id, {}, inc).subscribe((data) =>
+      console.log(data)
+    );
+
     activeEntity.sent_count += 1;
     this.active_entity.next(activeEntity);
   }

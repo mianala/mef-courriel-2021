@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Entity } from 'src/app/classes/entity';
+import { NotificationService } from 'src/app/services/notification.service';
 import { EntityService } from '../service/entity.service';
 
 @Component({
   selector: 'app-edit-entity',
   templateUrl: './edit-entity.component.html',
-  styleUrls: ['./edit-entity.component.scss']
+  styleUrls: ['./edit-entity.component.scss'],
 })
 export class EditEntityComponent implements OnInit {
   entity_id: number = 0;
@@ -22,21 +23,20 @@ export class EditEntityComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private entityService: EntityService
+    private entityService: EntityService,
+    private notification: NotificationService
   ) {
-
-    this.route.queryParams.subscribe(data => {
+    this.route.queryParams.subscribe((data) => {
       this.entity_id = parseInt(data.entity_id);
-      this.entityService.getEntity(this.entity_id).subscribe(this.getEntity.bind(this));
-    })
+      this.entityService
+        .getEntity(this.entity_id)
+        .subscribe(this.getEntity.bind(this));
+    });
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   getEntity(data: any) {
-
     Object.assign(this.entity, data[0]);
 
     this.editEntityForm.patchValue({
@@ -49,10 +49,10 @@ export class EditEntityComponent implements OnInit {
 
   submit() {
     const form = this.editEntityForm.value;
+    const set = { form };
 
-    const updatedEntity = { ...{ id: this.entity.id }, ...form }
-
-    this.entityService.updateEntityInfo(updatedEntity)
+    this.entityService.updateEntity(this.entity_id, set).subscribe(() => {
+      this.notification.open('Mis à Jour Enregistré');
+    });
   }
-
 }

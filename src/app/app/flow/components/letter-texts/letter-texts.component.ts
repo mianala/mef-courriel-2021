@@ -20,46 +20,46 @@ import { map, startWith } from 'rxjs/operators';
 import { UserService } from 'src/app/app/users/user.service';
 
 @Component({
-  selector: 'labels',
-  templateUrl: './labels.component.html',
-  styleUrls: ['./labels.component.scss'],
+  selector: 'app-letter-texts',
+  templateUrl: './letter-texts.component.html',
+  styleUrls: ['./letter-texts.component.scss'],
 })
-export class LabelsComponent implements OnInit {
+export class LetterTextsComponent implements OnInit {
   visible = true;
   selectable = true;
   @Input() removable = true;
   @Input() appearance: MatFormFieldAppearance = 'fill';
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  labelCtrl = new FormControl();
-  filteredLabels: Observable<string[]>;
+  letterCtrl = new FormControl();
+  filteredLetters: Observable<string[]>;
 
   // return value
-  @Input() labels: string[] = ['Lemon'];
-  @Output() labelsChange = new EventEmitter<string[]>();
-  allLabels: string[] = ['JIRAMA', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-  labelInput = '';
-  @Input() InputLabels = '';
+  @Input() letters: string[] = ['Lemon'];
+  @Output() lettersChange = new EventEmitter<string[]>();
+  allLetters: string[] = ['JIRAMA', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  letterInput = '';
+  @Input() InputLetters = '';
 
   constructor(private userService: UserService) {
-    this.filteredLabels = this.labelCtrl.valueChanges.pipe(
+    this.filteredLetters = this.letterCtrl.valueChanges.pipe(
       startWith(null),
-      map((label: string | null) =>
-        label ? this._filter(label) : this.allLabels.slice()
+      map((letter: string | null) =>
+        letter ? this._filter(letter) : this.allLetters.slice()
       )
     );
   }
 
   ngOnInit() {
-    // this.allLabels = this.userService.active_user.value.entity.labels.split(',')
+    // this.allLetters = this.userService.active_user.value.entity.letters.split(',')
   }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
-    // Add our label
+    // Add our letter
     if ((value || '').trim()) {
-      this.labels.push(value.trim());
+      this.letters.push(value.trim());
     }
 
     console.log('added', value);
@@ -69,28 +69,28 @@ export class LabelsComponent implements OnInit {
       input.value = '';
     }
 
-    this.labelCtrl.setValue(null);
+    this.letterCtrl.setValue(null);
   }
 
-  remove(label: string): void {
-    const index = this.labels.indexOf(label);
+  remove(letter: string): void {
+    const index = this.letters.indexOf(letter);
 
     if (index >= 0) {
-      this.labels.splice(index, 1);
+      this.letters.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.labels.push(event.option.viewValue);
-    this.labelInput = '';
-    this.labelCtrl.setValue('');
+    this.letters.push(event.option.viewValue);
+    this.letterInput = '';
+    this.letterCtrl.setValue('');
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allLabels.filter(
-      (label) => label.toLowerCase().indexOf(filterValue) === 0
+    return this.allLetters.filter(
+      (letter) => letter.toLowerCase().indexOf(filterValue) === 0
     );
   }
 }

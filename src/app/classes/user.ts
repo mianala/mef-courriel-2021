@@ -3,39 +3,24 @@ import { Entity } from './entity';
 import { Md5 } from 'ts-md5/dist/md5';
 
 export class User {
-  id;
-  lastname;
-  firstname;
-  email;
-  phone;
-  im;
-  title;
-  rights;
-  entity_id;
-  profile_picture;
-  active;
-  settings_default_app;
-  settings_default_flow_page;
-  verified;
-  entity;
+  id = 0;
+  lastname = '';
+  firstname = '';
+  email = '';
+  phone = 0;
+  im = 0;
+  title = '';
+  rights = 0;
+  entity_id = 0;
+  profile_picture = '';
+  active = true;
+  settings_default_app = '';
+  settings_default_letter_text = '';
+  settings_default_flow_page = 0;
+  verified = true;
+  entity = new Entity();
 
   constructor(_user: Partial<{}> = {}) {
-    this.id = 0;
-    this.lastname = '';
-    this.firstname = '';
-    this.email = '';
-    this.phone = 0;
-    this.im = 0;
-    this.title = '';
-    this.rights = 0;
-    this.entity_id = 0;
-    this.profile_picture = '';
-    this.active = true;
-    this.settings_default_app = '';
-    this.settings_default_flow_page = 0;
-    this.verified = true;
-    this.entity = new Entity();
-
     Object.assign(this, _user);
   }
 
@@ -55,6 +40,8 @@ export class User {
   emailMD5() {
     return new Md5().appendStr(this.email).end();
   }
+
+  static SETTINGS_DEFAULT_LETTER_TEXT = 'Lecture';
 
   // omitted , default which is flow, to test user settings in user services
   static default_apps = ['/search', '/app/chat', '/app/flow'];

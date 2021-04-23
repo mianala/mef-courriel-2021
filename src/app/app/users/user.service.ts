@@ -103,14 +103,14 @@ export class UserService {
           entity_id: entity_id,
         },
       })
-      .pipe(
-        map((val: any) => {
-          return val.data.user.map((val: any) => {
-            return new User(val);
-          });
-        })
-      );
+      .pipe(this.mapUser);
   }
+
+  mapUser = map((val: any) => {
+    return val.data.user.map((val: any) => {
+      return new User(val);
+    });
+  });
 
   logIn(variables: { username: any; hashed: any }, next: () => void) {
     const USER_LOGIN_QUERY = gql`
@@ -125,6 +125,7 @@ export class UserService {
           rights
           phone
           settings_default_app
+          settings_default_letter_text
           settings_default_flow_page
           entity {
             ...CoreEntityFields
@@ -137,13 +138,7 @@ export class UserService {
         query: USER_LOGIN_QUERY,
         variables: variables,
       })
-      .pipe(
-        map((val: any) => {
-          return val.data.user.map((val: any) => {
-            return new User(val);
-          });
-        })
-      )
+      .pipe(this.mapUser)
       .subscribe((users) => {
         this.logInHandler(users);
         next();
@@ -186,57 +181,17 @@ export class UserService {
   }
 
   updateUserLastLogin() {
-    const UPDATE_LAST_LOGIN_QUERY = gql`
-      mutation update_user_last_login($user_id: Int!, $last_login: date = now) {
-        update_user(
-          where: { id: { _eq: $user_id } }
-          _set: { last_login: $last_login }
-        ) {
-          affected_rows
-          returning {
-            id
-          }
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: UPDATE_LAST_LOGIN_QUERY,
-        variables: { user_id: this.active_user.value.id },
-      })
-      .subscribe((data) => console.log('updated last login', data));
+    const set = { last_login: new Date() };
+    this.updateUser(this.active_user.value.id, set).subscribe((data) =>
+      console.log('updated last login', data)
+    );
   }
 
   updateDefaultApp(default_app: string) {
-    const UPDATE_USER_DEFAULT_APP = gql`
-      mutation update_user_last_login(
-        $user_id: Int!
-        $settings_default_app: String!
-      ) {
-        update_user(
-          where: { id: { _eq: $user_id } }
-          _set: { settings_default_app: $settings_default_app }
-        ) {
-          affected_rows
-          returning {
-            id
-          }
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: UPDATE_USER_DEFAULT_APP,
-        variables: {
-          user_id: this.active_user.value.id,
-          settings_default_app: default_app,
-        },
-      })
-      .subscribe((data) =>
-        this.notification.open('Application par Défaut Mise à jour')
-      );
+    const set = { settings_default_app: default_app };
+    this.updateUser(this.active_user.value.id, set).subscribe((data) =>
+      this.notification.open('Application par Défaut Mise à jour')
+    );
   }
 
   getUsers() {
@@ -272,99 +227,44 @@ export class UserService {
   }
 
   resetPassword(hashed: string) {
-    const RESET_USER_PASSWORD = gql`
-      mutation update_user_reset_password($user_id: Int!, $hashed: String!) {
-        update_user(
-          where: { id: { _eq: $user_id } }
-          _set: { hashed: $hashed }
-        ) {
-          affected_rows
-          returning {
-            id
-          }
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: RESET_USER_PASSWORD,
-        variables: { user_id: this.active_user.value.id, hashed: hashed },
-      })
-      .subscribe((data) => console.log(data));
+    const set = { hashed: hashed };
+    this.updateUser(this.active_user.value.id, set).subscribe((data) =>
+      console.log(data)
+    );
   }
 
   transfer(user_id: number, entity_id: number) {
-    const TRANSFER_USER_MUTATION = gql`
-      mutation transfer_user($user_id: Int!, $entity_id: Int!) {
-        update_user(
-          where: { id: { _eq: $user_id } }
-          _set: { entity_id: $entity_id, verified: false }
-        ) {
-          affected_rows
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: TRANSFER_USER_MUTATION,
-        variables: { user_id: user_id, entity_id: entity_id },
-      })
-      .subscribe((data) => console.log(data));
+    const set = { entity_id: entity_id, verified: false };
+    this.updateUser(user_id, set).subscribe((data) =>
+      console.log('transfered user', data)
+    );
   }
 
   verifyUser(user_id: number) {
-    const VERIFY_USER_MUTATION = gql`
-      mutation transfer_user($user_id: Int!) {
-        update_user(
-          where: { id: { _eq: $user_id } }
-          _set: { verified: true }
-        ) {
-          affected_rows
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: VERIFY_USER_MUTATION,
-        variables: { user_id: user_id },
-      })
-      .subscribe((data) => this.notification.open('Utilisateur verifié'));
+    const set = { verified: true };
+    this.updateUser(user_id, set).subscribe((data) =>
+      this.notification.open('Utilisateur verifié')
+    );
   }
 
   desactivateUser(user: User) {
-    const DESACTIVATE_USER_MUTATION = gql`
-      mutation desactivate_user($id: Int!) {
-        update_user(where: { id: { _eq: $id } }, _set: { active: false }) {
-          affected_rows
-          returning {
-            id
-          }
-        }
-      }
-    `;
-
-    this.apollo
-      .mutate({
-        mutation: DESACTIVATE_USER_MUTATION,
-        variables: { id: user.id },
-      })
-      .subscribe((data) => this.notification.open('Utilisateur désactivé'));
+    const set = { active: false };
+    this.updateUser(user.id, set).subscribe((data) =>
+      this.notification.open('Utilisateur désactivé')
+    );
   }
 
-  updateUserInfo(user: any) {
-    const UDPATE_USER_INFO = gql`
-      mutation update_user(
+  updateUser(user_id: number, set: any = {}, inc: any = {}) {
+    const UPDATE_ENTITY_MUTATION = gql`
+      mutation update_user_mutation(
         $user_id: Int!
-        $firstname: String!
-        $last: String!
-        $title: String!
+        $_set: user_set_input = {}
+        $_inc: user_inc_input = {}
       ) {
         update_user(
           where: { id: { _eq: $user_id } }
-          _set: { firstname: $firstname, lastname: $lastname, title: $title }
+          _set: $_set
+          _inc: $_inc
         ) {
           affected_rows
           returning {
@@ -374,17 +274,14 @@ export class UserService {
       }
     `;
 
-    this.apollo
-      .mutate({
-        mutation: UDPATE_USER_INFO,
-        variables: {
-          user_id: this.active_user.value.id,
-          firstname: user.firstname,
-          last: user.last,
-          title: user.title,
-        },
-      })
-      .subscribe((data) => console.log(data));
+    return this.apollo.mutate({
+      mutation: UPDATE_ENTITY_MUTATION,
+      variables: {
+        user_id: user_id,
+        set: set,
+        inc: inc,
+      },
+    });
   }
 
   saveActiveUserInCookies() {}
