@@ -1,5 +1,13 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -14,43 +22,38 @@ import { EntityService } from '../../service/entity.service';
 @Component({
   selector: 'entities-chip-autocomplete',
   templateUrl: './entities-chip-autocomplete.component.html',
-  styleUrls: ['./entities-chip-autocomplete.component.scss']
+  styleUrls: ['./entities-chip-autocomplete.component.scss'],
 })
 export class EntitiesChipAutocompleteComponent implements OnInit {
-  visible = true
-  selectable = true
-  removable = true
-  selected_entity_short_header = ''
-  separatorKeysCodes: number[] = [ENTER, COMMA]
-  entityCtrl = new FormControl()
-  filteredEntities: Entity[] = []
-  entities_text: string[] = []
+  visible = true;
+  selectable = true;
+  removable = true;
+  selected_entity_short_header = '';
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  entityCtrl = new FormControl();
+  filteredEntities: Entity[] = [];
+  entities_text: string[] = [];
 
-  @Input() entities: Entity[] = []
+  @Input() entities: Entity[] = [];
   @Output() entitiesChange: EventEmitter<Entity[]> = new EventEmitter();
 
-  allEntities!: Entity[]
+  allEntities!: Entity[];
 
-  @ViewChild('entityInput') entityInput!: ElementRef<HTMLInputElement>
-  @ViewChild('auto') matAutocomplete!: MatAutocomplete
+  @ViewChild('entityInput') entityInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(private entityService: EntityService) {
-    this.entityService.entities.subscribe(e => {
+    this.entityService.entities$.subscribe((e) => {
       this.allEntities = e;
-      this.filteredEntities = e
-    })
+      this.filteredEntities = e;
+    });
 
-
-    this.entityCtrl.valueChanges.subscribe(e => {
-      this._filter(e)
-    })
-
+    this.entityCtrl.valueChanges.subscribe((e) => {
+      this._filter(e);
+    });
   }
 
-
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -58,9 +61,9 @@ export class EntitiesChipAutocompleteComponent implements OnInit {
 
     // Add our entity
     if ((value || '').trim()) {
-      const newEntity = new Entity()
-      newEntity.short = value.trim()
-      this.entities.push(newEntity)
+      const newEntity = new Entity();
+      newEntity.short = value.trim();
+      this.entities.push(newEntity);
     }
 
     // Reset the input value
@@ -87,6 +90,8 @@ export class EntitiesChipAutocompleteComponent implements OnInit {
 
   private _filter(value: string) {
     const filterValue = value.toLowerCase();
-    this.filteredEntities = this.allEntities.filter(entity => entity.short_header.toLowerCase().includes(filterValue));
+    this.filteredEntities = this.allEntities.filter((entity) =>
+      entity.short_header.toLowerCase().includes(filterValue)
+    );
   }
 }

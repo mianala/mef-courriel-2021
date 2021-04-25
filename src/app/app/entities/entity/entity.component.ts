@@ -8,15 +8,15 @@ import { EntityService } from '../service/entity.service';
   styleUrls: ['./entity.component.scss'],
 })
 export class EntityComponent implements OnInit {
-  @Input() entity: Entity = new Entity()
-  constructor(private entityService: EntityService) { }
+  @Input() entity: Entity = new Entity();
+  constructor(private entityService: EntityService) {}
 
   remove() {
-    const short = prompt(`Entrez '${this.entity.short}' pour valider`)
-    short == this.entity.short ? this.entityService.desactivateEntity(this.entity.id) : null
+    const short = prompt(`Entrez '${this.entity.short}' pour valider`);
+    short == this.entity.short
+      ? this.entityService.desactivateEntity(this.entity.id)
+      : null;
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 }

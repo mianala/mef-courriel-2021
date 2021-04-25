@@ -6,10 +6,9 @@ import { EntityService } from '../service/entity.service';
 @Component({
   selector: 'app-entity-users',
   templateUrl: './entity-users.component.html',
-  styleUrls: ['./entity-users.component.scss']
+  styleUrls: ['./entity-users.component.scss'],
 })
 export class EntityUsersComponent implements OnInit {
-
   entity_id: number = 0;
   entity: Entity = new Entity();
   constructor(
@@ -17,10 +16,10 @@ export class EntityUsersComponent implements OnInit {
     private entityService: EntityService
   ) {
     this.entity_id = parseInt(this.route.snapshot.params.entity_id);
-    this.entityService.getEntity(this.entity_id).subscribe(data => this.entity = data[0]);
+    this.entityService
+      .getEntity(this.entity_id)
+      .subscribe((data) => (this.entity = data[0]));
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

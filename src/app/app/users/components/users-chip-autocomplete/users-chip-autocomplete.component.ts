@@ -1,5 +1,13 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -13,42 +21,37 @@ import { UserService } from '../../user.service';
 @Component({
   selector: 'app-users-chip-autocomplete',
   templateUrl: './users-chip-autocomplete.component.html',
-  styleUrls: ['./users-chip-autocomplete.component.scss']
+  styleUrls: ['./users-chip-autocomplete.component.scss'],
 })
 export class UsersChipAutocompleteComponent implements OnInit {
-  visible = true
-  selectable = true
-  removable = true
-  separatorKeysCodes: number[] = [ENTER, COMMA]
-  userCtrl = new FormControl()
-  filteredEntities: User[] = []
-  users_text: string[] = []
+  visible = true;
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  userCtrl = new FormControl();
+  filteredEntities: User[] = [];
+  users_text: string[] = [];
 
-  @Input() users: User[] = []
+  @Input() users: User[] = [];
   @Output() usersChange: EventEmitter<User[]> = new EventEmitter();
 
-  allUsers!: User[]
+  allUsers!: User[];
 
-  @ViewChild('userInput') userInput!: ElementRef<HTMLInputElement>
-  @ViewChild('auto') matAutocomplete!: MatAutocomplete
+  @ViewChild('userInput') userInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(private userService: UserService) {
-    this.userService.users.subscribe(e => {
+    this.userService.users$.subscribe((e) => {
       this.allUsers = e;
-      this.filteredEntities = e
-    })
+      this.filteredEntities = e;
+    });
 
-
-    this.userCtrl.valueChanges.subscribe(e => {
-      this._filter(e)
-    })
-
+    this.userCtrl.valueChanges.subscribe((e) => {
+      this._filter(e);
+    });
   }
 
-
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   remove(user: User): void {
     const index = this.users.indexOf(user);
@@ -66,6 +69,9 @@ export class UsersChipAutocompleteComponent implements OnInit {
 
   private _filter(value: string) {
     const filterValue = value.toLowerCase();
-    this.filteredEntities = this.allUsers.filter(user => { user.lastname.toLowerCase().includes(filterValue) || user.firstname.toLowerCase().includes(filterValue) });
+    this.filteredEntities = this.allUsers.filter((user) => {
+      user.lastname.toLowerCase().includes(filterValue) ||
+        user.firstname.toLowerCase().includes(filterValue);
+    });
   }
 }

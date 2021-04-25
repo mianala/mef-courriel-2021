@@ -28,31 +28,31 @@ export class EntityService {
     } else {
       console.log('entities from localstorage');
 
-      this.entities.next(entities);
+      this.entities$.next(entities);
     }
 
-    this.userService.active_user.subscribe((user: User) => {
+    this.userService.activeUser$.subscribe((user: User) => {
       if (user === null || user.id === 0) {
         return;
       }
 
-      const active_entity =
+      const activeEntity =
         localStorage.getItem('active_entity') !== null
           ? JSON.parse(localStorage.getItem('active_entity') || '[]')
           : null;
 
-      if (active_entity === null) {
+      if (activeEntity === null) {
         this.getUserEntity(user.entity.id);
       } else {
         console.log('active_entity from localstorage');
-        this.active_entity.next(new Entity(active_entity));
+        this.activeEntity$.next(new Entity(activeEntity));
       }
     });
   }
 
   getUserEntity(entity_id: number) {
     const get_relative_entities = gql`
-      ${Entity.core_entity_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
       query getUserEntity($entity_id: Int!) {
         entity(where: { id: { _eq: $entity_id } }) {
           ...CoreEntityFields
@@ -103,7 +103,7 @@ export class EntityService {
           return newChild;
         });
 
-        this.active_entity.next(entity);
+        this.activeEntity$.next(entity);
         localStorage.setItem('active_entity', JSON.stringify(entity));
       });
   }
@@ -111,24 +111,24 @@ export class EntityService {
   updateEntitiesFromLocalStorage() {}
 
   updateEntities(entities: Entity[]) {
-    this.entities.next(entities);
+    this.entities$.next(entities);
     localStorage.setItem('entities', JSON.stringify(entities));
   }
 
   // store in localstorage
-  entities: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
+  entities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
 
   // store in localstorage remove on logout
-  relative_entities: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>(
+  relativeEntities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>(
     []
   );
 
   // store in cookie
-  active_entity: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
+  activeEntity$: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
 
   getEntities() {
     const GET_ENTITIES_QUERY = gql`
-      ${Entity.core_entity_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
       query get_entities {
         entity(order_by: { id: asc }) {
           ...CoreEntityFields
@@ -145,7 +145,7 @@ export class EntityService {
 
   getEntity(id: number) {
     const GET_ENTITY_QUERY = gql`
-      ${Entity.core_entity_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
       query get_entity($id: Int!) {
         entity(where: { id: { _eq: $id } }) {
           ...CoreEntityFields
@@ -170,7 +170,7 @@ export class EntityService {
 
   getEntityWithUsers(id: number) {
     const GET_ENTITY_QUERY_WITH_USERS = gql`
-      ${Entity.core_entity_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
       query get_entity($id: Int!) {
         entity(where: { id: { _eq: $id } }) {
           ...CoreEntityFields
@@ -245,14 +245,14 @@ export class EntityService {
 
   incrementEntitySentCount() {
     const inc = { sent_count: 1 };
-    const activeEntity = this.active_entity.value;
+    const activeEntity = this.activeEntity$.value;
 
     this.updateEntity(activeEntity.id, {}, inc).subscribe((data) =>
       console.log(data)
     );
 
     activeEntity.sent_count += 1;
-    this.active_entity.next(activeEntity);
+    this.activeEntity$.next(activeEntity);
   }
 
   relativeEntityPipe = (entity: Entity[]) => {
@@ -261,7 +261,7 @@ export class EntityService {
 
   addNewEntity(variables: any) {
     const add_new_entity_mutation = gql`
-      ${Entity.core_entity_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
       mutation add_new_entity(
         $short: String!
         $long: String!

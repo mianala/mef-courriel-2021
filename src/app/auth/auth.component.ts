@@ -9,7 +9,7 @@ import { UserService } from '../app/users/user.service';
 })
 export class AuthComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
-    this.userService.active_user.subscribe((user) => {
+    this.userService.activeUser$.subscribe((user) => {
       const logged_in = user.id > 0;
       if (logged_in) {
         this.router.navigate(['/']);

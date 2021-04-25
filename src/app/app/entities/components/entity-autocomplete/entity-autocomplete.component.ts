@@ -21,7 +21,7 @@ export class EntityAutocompleteComponent implements OnInit {
   @Output() entityChange: EventEmitter<Entity> = new EventEmitter();
 
   @Input() must_select_entity: Boolean = false;
-  @Input() label = "Département";
+  @Input() label = 'Département';
 
   @Output() entitySelected: EventEmitter<Entity> = new EventEmitter();
   @Output() _keypress: EventEmitter<any> = new EventEmitter();
@@ -29,14 +29,14 @@ export class EntityAutocompleteComponent implements OnInit {
   @Output() _keyup: EventEmitter<any> = new EventEmitter();
 
   constructor(private entityService: EntityService) {
-    this.entityService.entities.subscribe(this.getEntities.bind(this));
+    this.entityService.entities$.subscribe(this.getEntities.bind(this));
   }
 
   getEntities(entities: any) {
     this.filteredOptions = this.entities = entities;
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   _filter(e: any) {
     this.filteredOptions = this.entities.filter((entity) =>
@@ -46,8 +46,8 @@ export class EntityAutocompleteComponent implements OnInit {
   }
 
   select(e: Entity) {
-    this.entity = e
-    this.entitySelected.emit(e)
+    this.entity = e;
+    this.entitySelected.emit(e);
   }
 
   resetSelection(e: any) {

@@ -18,6 +18,13 @@
       >
         <mat-icon>add_task</mat-icon> Observations
       </button>
+      <button
+        mat-button
+        [color]="letterTextsToggle ? 'warn' : ''"
+        (click)="letterTextsToggle = !letterTextsToggle"
+      >
+        <mat-icon>description</mat-icon> Documents
+      </button>
       <a
         mat-button
         routerLink="/app/entities/edit"
@@ -29,6 +36,7 @@
   <div>
     <labels *ngIf="labelsToggle"></labels>
     <observations *ngIf="observationsToggle"></observations>
+    <app-letter-texts *ngIf="letterTextsToggle"></app-letter-texts>
   </div>
 </header>
 

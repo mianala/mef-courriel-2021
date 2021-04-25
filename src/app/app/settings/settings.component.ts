@@ -4,22 +4,19 @@ import { UserService } from '../users/user.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-
-  default_app = '/app/flow'
+  default_app = '/app/flow';
   constructor(private userService: UserService) {
-    userService.active_user.subscribe(user => {
-      this.default_app = user.settings_default_app
-    })
+    userService.activeUser$.subscribe((user) => {
+      this.default_app = user.settings_default_app;
+    });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   updateDefaultApp(e: any) {
-    this.userService.updateDefaultApp(e.value)
+    this.userService.updateDefaultApp(e.value);
   }
-
 }

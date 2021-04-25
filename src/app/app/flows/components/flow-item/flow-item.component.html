@@ -1,0 +1,73 @@
+<div class="labels">
+  <a mat-icon-button>
+    <mat-icon class="mat-18">label_important_outline</mat-icon>
+  </a>
+</div>
+<div class="headers">
+  <span class="numero">
+    {{ flow.numero }}
+  </span>
+  <span class="sender">
+    {{ flow.senderText() }}
+  </span>
+  <div class="reference">{{ flow.reference }}</div>
+</div>
+<div class="content">
+  <a
+    class="title"
+    routerLink="/app/flow/project"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    {{ flow.title }}
+  </a>
+  <div class="observation">
+    {{ flow.content }}
+  </div>
+</div>
+<div class="info">
+  <mat-icon color="warn" title="Urgent!" *ngIf="flow.is.urgent()"
+    >error_outline</mat-icon
+  ><span class="date">
+    {{ flow.shortTime() }}
+  </span>
+</div>
+<div class="actions">
+  <a
+    mat-icon-button
+    routerLink="/app/flow/project"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    <mat-icon class="mat-18">folder_open</mat-icon>
+  </a>
+  <a mat-icon-button (click)="markAsRead(flow.id)">
+    <mat-icon class="mat-18">mark_email_read</mat-icon>
+  </a>
+  <a
+    mat-icon-button
+    routerLink="/app/flow/reply"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    <mat-icon class="mat-18">reply</mat-icon>
+  </a>
+  <a
+    mat-icon-button
+    routerLink="/app/flow/assign"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    <mat-icon class="mat-18">person_add_alt</mat-icon>
+  </a>
+  <a
+    mat-icon-button
+    routerLink="/app/flow/route"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    <mat-icon class="mat-18">alt_route</mat-icon>
+  </a>
+  <a
+    mat-icon-button
+    routerLink="/app/flow/send"
+    [queryParams]="{ flow_id: flow.id }"
+  >
+    <mat-icon class="mat-18">send</mat-icon>
+  </a>
+</div>

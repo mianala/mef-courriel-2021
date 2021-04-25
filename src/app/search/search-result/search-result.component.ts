@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
-import { FlowService } from 'src/app/app/flow/flow.service';
+import { FlowService } from 'src/app/app/flows/flow.service';
 import { UserService } from 'src/app/app/users/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { Flow } from 'src/app/classes/flow';
@@ -40,7 +40,7 @@ export class SearchResultComponent implements OnInit {
       this.search();
     });
 
-    this.entityService.active_entity.subscribe((entity: any) => {
+    this.entityService.activeEntity$.subscribe((entity: any) => {
       this.entity = entity;
       this.dataSource.data = entity.children;
       console.log(entity);

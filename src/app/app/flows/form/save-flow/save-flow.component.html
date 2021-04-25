@@ -1,0 +1,130 @@
+<div class="wrapper">
+  <div class="header">
+    <h1><mat-icon>add</mat-icon>Enregistrer un nouveau courrier</h1>
+    <p>
+      Veuillez saisir toutes les informations sur le courrier dans le formulaire
+      ci-dessous
+    </p>
+  </div>
+  <form [formGroup]="saveFlowForm">
+    <div class="columns">
+      <mat-form-field appearance="outline">
+        <mat-label>N° du courrier</mat-label>
+        <input
+          type="number"
+          appearance="outline"
+          name="numero"
+          formControlName="numero"
+          matInput
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Référence / CR</mat-label>
+        <input name="ref" formControlName="reference" matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="letter_text" name="lettre">
+          <mat-option value="Lettre">Lettre</mat-option>
+          <mat-option value="BE">BE</mat-option>
+          <mat-option value="Notes">Notes</mat-option>
+          <mat-option value="Fiche">Fiche</mat-option>
+          <mat-option value="Communication  Verbal"
+            >Communication Verbal</mat-option
+          >
+          <mat-option value="Instruction">Instruction</mat-option>
+          <mat-option value="Circulaire">Circulaire</mat-option>
+          <mat-option value="Facture">Facture</mat-option>
+          <mat-option value="Décision">Décision</mat-option>
+          <mat-option value="Decret">Decret</mat-option>
+          <mat-option value="Magazine">Magazine</mat-option>
+          <mat-option value="Note de Service">Note de Service</mat-option>
+          <mat-option value="Mensuel">Mensuel</mat-option>
+          <mat-option value="Autre">Autre</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Document</mat-label>
+        <mat-select name="type" formControlName="type_text">
+          <mat-option value="Originale">Originale</mat-option>
+          <mat-option value="Media">Media</mat-option>
+          <mat-option value="Copie">Copie</mat-option>
+          <mat-option value="Confidentiel">Confidentiel</mat-option>
+          <mat-option value="Enveloppe">Enveloppe</mat-option>
+          <mat-option value="Lecture">Lecture</mat-option>
+          <mat-option value="signature">signature</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-datepicker disabled="false" #picker></mat-datepicker>
+    <mat-datepicker disabled="false" #recieved_picker></mat-datepicker>
+
+    <entity-autocomplete
+      label="Provenance / Prep"
+      [entity]="entity"
+    ></entity-autocomplete>
+    <div class="columns">
+      <mat-form-field appearance="outline">
+        <mat-label>Date du courrier</mat-label>
+        <input
+          name="date"
+          formControlName="date"
+          matInput
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      </mat-form-field>
+      <!-- date de reception -->
+      <mat-form-field appearance="outline">
+        <mat-label>Reçu le</mat-label>
+        <input
+          matInput
+          name="received_date"
+          formControlName="date_received"
+          [matDatepicker]="recieved_picker"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="recieved_picker"
+        ></mat-datepicker-toggle>
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Objet</mat-label>
+      <textarea name="title" formControlName="title" matInput></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Observations / Instructions</mat-label>
+      <textarea name="content" formControlName="content" matInput></textarea>
+    </mat-form-field>
+    <!-- <mat-form-field appearance="outline">
+      <mat-label>Note</mat-label>
+      <textarea name="content" formControlName="note" matInput></textarea>
+    </mat-form-field> -->
+    <labels [(labels)]="labels"></labels>
+
+    <files [(files)]="files"></files>
+    <div class="columns">
+      <button
+        [disabled]="!saveFlowForm.valid"
+        (click)="submit()"
+        *ngIf="!loading"
+        mat-raised-button
+        color="primary"
+        cdkFocusInitial
+      >
+        ENREGISTRER
+      </button>
+      <button *ngIf="loading" disabled mat-raised-button>
+        <mat-spinner
+          style="display: inline; margin-right: 1.5rem"
+          diameter="20"
+        ></mat-spinner>
+        <span> En cours ...</span>
+      </button>
+      <!-- <button mat-raised-button="">VOIR CORRIER ENREGISTRE</button> -->
+    </div>
+  </form>
+</div>

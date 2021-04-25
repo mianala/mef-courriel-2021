@@ -44,21 +44,23 @@ export class Flow {
     return this.files.length;
   }
 
-  isSaved() {
-    return this.action == 1;
-  }
-
-  isSent() {
-    return this.action == 2;
-  }
-
-  isUrgent() {
-    return this.status == 1;
-  }
-
-  isRead() {
-    return this.status == 2;
-  }
+  is = {
+    saved: () => {
+      return this.action == 1;
+    },
+    sent: () => {
+      return this.action == 2;
+    },
+    reply: () => {
+      return this.action == 3;
+    },
+    urgent: () => {
+      return this.status == 1;
+    },
+    read: () => {
+      return this.status == 2;
+    },
+  };
 
   senderText() {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
@@ -77,25 +79,29 @@ export class Flow {
     return this.datepipe.transform(this.created_at, 'd MMM');
   }
 
-  r = {
+  project = {
     title: () => {
-      this.isSaved() ? this.title : this.root?.title;
+      return this.is.saved() ? this.title : this.root?.title;
     },
     reference: () => {
-      this.isSaved() ? this.reference : this.root?.reference;
+      return this.is.saved() ? this.reference : this.root?.reference;
     },
     numero: () => {
-      this.isSaved() ? this.numero : this.root?.numero;
+      return this.is.saved() ? this.numero : this.root?.numero;
     },
     date: () => {
-      this.isSaved() ? this.date : this.root?.date;
+      return this.is.saved() ? this.date : this.root?.date;
     },
     date_received: () => {
-      this.isSaved() ? this.date_received : this.root?.date;
+      return this.is.saved() ? this.date_received : this.root?.date;
     },
   };
 
-  static core_flow_fields = gql`
+  rootId(): number {
+    return this.is.saved() ? this.id : this.root_id;
+  }
+
+  static CORE_FLOW_FIELDS = gql`
     fragment CoreFlowFields on flow {
       id
       action

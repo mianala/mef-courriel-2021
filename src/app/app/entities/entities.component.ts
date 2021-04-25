@@ -8,10 +8,7 @@ import { EntityService } from './service/entity.service';
   styleUrls: ['./entities.component.scss'],
 })
 export class EntitiesComponent implements OnInit {
-
-  constructor(public entityService: EntityService) {
-  }
+  constructor(public entityService: EntityService) {}
 
   ngOnInit(): void {}
-
 }

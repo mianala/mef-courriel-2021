@@ -13,10 +13,10 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class UserService {
   // save in cookie no sensitive data
-  active_user: BehaviorSubject<User> = new BehaviorSubject(new User());
+  activeUser$: BehaviorSubject<User> = new BehaviorSubject(new User());
 
-  users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  logged_in: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  loggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private apollo: Apollo,
@@ -34,13 +34,15 @@ export class UserService {
         : null; // redirect to login
 
     if (user !== null) {
-      this.active_user.next(new User(user));
+      console.log('active user from localstorage');
+
+      this.activeUser$.next(new User(user));
     }
     if (users !== null) {
-      this.users.next(users);
+      this.users$.next(users);
     }
 
-    this.active_user.subscribe((user) => this.logged_in.next(user.id > 0));
+    this.activeUser$.subscribe((user) => this.loggedIn$.next(user.id > 0));
 
     if (users === null) {
       this.getUsers();
@@ -115,7 +117,7 @@ export class UserService {
   logIn(variables: { username: any; hashed: any }, next: () => void) {
     const USER_LOGIN_QUERY = gql`
       ${User.core_user_fields}
-      ${Entity.core_entity_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
       query login($username: String!, $hashed: String!) {
         user(
           where: { username: { _eq: $username }, hashed: { _eq: $hashed } }
@@ -159,7 +161,7 @@ export class UserService {
 
     console.log(user);
 
-    this.active_user.next(user);
+    this.activeUser$.next(user);
 
     this.updateUserLastLogin();
     localStorage.setItem('user', JSON.stringify(users[0]));
@@ -173,7 +175,7 @@ export class UserService {
   }
 
   logout() {
-    this.active_user.next(new User());
+    this.activeUser$.next(new User());
     localStorage.removeItem('user');
     localStorage.removeItem('active_entity');
 
@@ -182,14 +184,14 @@ export class UserService {
 
   updateUserLastLogin() {
     const set = { last_login: new Date() };
-    this.updateUser(this.active_user.value.id, set).subscribe((data) =>
+    this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
       console.log('updated last login', data)
     );
   }
 
   updateDefaultApp(default_app: string) {
     const set = { settings_default_app: default_app };
-    this.updateUser(this.active_user.value.id, set).subscribe((data) =>
+    this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
       this.notification.open('Application par Défaut Mise à jour')
     );
   }
@@ -197,7 +199,7 @@ export class UserService {
   getUsers() {
     const GET_USERS_QUERY = gql`
       ${User.core_user_fields}
-      ${Entity.core_entity_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
       query get_users {
         user {
           ...CoreUserFields
@@ -221,14 +223,14 @@ export class UserService {
         })
       )
       .subscribe((data) => {
-        this.users.next(data);
+        this.users$.next(data);
         localStorage.setItem('users', JSON.stringify(data));
       });
   }
 
   resetPassword(hashed: string) {
     const set = { hashed: hashed };
-    this.updateUser(this.active_user.value.id, set).subscribe((data) =>
+    this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
       console.log(data)
     );
   }

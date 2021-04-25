@@ -49,7 +49,7 @@ export class Entity {
     'Enveloppe',
   ];
 
-  static core_entity_fields = gql`
+  static CORE_ENTITY_FIELDS = gql`
     fragment CoreEntityFields on entity {
       id
       id_text

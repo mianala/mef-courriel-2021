@@ -9,7 +9,7 @@ import { UserService } from '../users/user.service';
 })
 export class AppPageComponent implements OnInit {
   constructor(public userService: UserService, private router: Router) {
-    this.userService.logged_in.subscribe((logged_in) => {
+    this.userService.loggedIn$.subscribe((logged_in) => {
       if (!logged_in) {
         router.navigate(['/']);
       }
