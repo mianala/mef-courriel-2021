@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { yearsPerRow } from '@angular/material/datepicker';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { BehaviorSubject, Subject } from 'rxjs';
+
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
+
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from '../../users/user.service';
 
@@ -51,7 +53,7 @@ export class EntityService {
   }
 
   getUserEntity(entity_id: number) {
-    const get_relative_entities = gql`
+    const GET_USER_ENTITY_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       query getUserEntity($entity_id: Int!) {
         entity(where: { id: { _eq: $entity_id } }) {
@@ -77,7 +79,7 @@ export class EntityService {
 
     this.apollo
       .query({
-        query: get_relative_entities,
+        query: GET_USER_ENTITY_QUERY,
         variables: { entity_id: entity_id },
       })
       .subscribe((data: any) => {
@@ -260,7 +262,7 @@ export class EntityService {
   };
 
   addNewEntity(variables: any) {
-    const add_new_entity_mutation = gql`
+    const ADD_NEW_ENTITY_MUTATION = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       mutation add_new_entity(
         $short: String!
@@ -298,7 +300,7 @@ export class EntityService {
       }
     `;
     return this.apollo.mutate({
-      mutation: add_new_entity_mutation,
+      mutation: ADD_NEW_ENTITY_MUTATION,
       variables: variables,
     });
   }

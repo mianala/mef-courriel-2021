@@ -43,7 +43,7 @@ export class FlowService {
   }
 
   insertFlows(flows: any) {
-    const INSERT_FLOWS = gql`
+    const INSERT_FLOWS_QUERY = gql`
       mutation send_project($objects: [flow_insert_input!]!) {
         insert_flow(objects: $objects) {
           affected_rows
@@ -59,7 +59,7 @@ export class FlowService {
     `;
 
     return this.apollo.mutate({
-      mutation: INSERT_FLOWS,
+      mutation: INSERT_FLOWS_QUERY,
       variables: { objects: flows },
     });
   }
@@ -144,7 +144,7 @@ export class FlowService {
   }
 
   getAllFlow(entity_id: number) {
-    const GET_ALL_FLOWS = gql`
+    const GET_ALL_FLOWS_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       ${Flow.CORE_FLOW_FIELDS}
       query get_all_recent_flows($entity_id: Int!) {
@@ -168,7 +168,7 @@ export class FlowService {
 
     this.apollo
       .watchQuery({
-        query: GET_ALL_FLOWS,
+        query: GET_ALL_FLOWS_QUERY,
         variables: { entity_id },
         fetchPolicy: 'cache-and-network',
       })
@@ -224,7 +224,7 @@ export class FlowService {
   }
 
   search(searchFlowVariables: any) {
-    const SEARCH_FLOWS = gql`
+    const SEARCH_FLOWS_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       ${Flow.CORE_FLOW_FIELDS}
       query searchFlows($where: flow_bool_exp = {}) {
@@ -252,7 +252,7 @@ export class FlowService {
 
     return this.apollo
       .query({
-        query: SEARCH_FLOWS,
+        query: SEARCH_FLOWS_QUERY,
         variables: { where: searchFlowVariables },
       })
       .pipe(this.flowMap);

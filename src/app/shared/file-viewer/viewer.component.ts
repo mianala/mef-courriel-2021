@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AppFile } from '../classes/file.class';
+import { AppFile } from '../../classes/file';
 
 @Component({
   selector: 'viewer',

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppPageComponent } from './app-page.component';
+import { AppPageComponent } from './app-root.component';
 
 describe('AppPageComponent', () => {
   let component: AppPageComponent;
@@ -8,9 +8,8 @@ describe('AppPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppPageComponent ]
-    })
-    .compileComponents();
+      declarations: [AppPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

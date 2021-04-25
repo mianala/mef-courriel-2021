@@ -4,8 +4,8 @@ import { UserService } from '../users/user.service';
 
 @Component({
   selector: 'app-app-page',
-  templateUrl: './app-page.component.html',
-  styleUrls: ['./app-page.component.scss'],
+  templateUrl: './app-root.component.html',
+  styleUrls: ['./app-root.component.scss'],
 })
 export class AppPageComponent implements OnInit {
   constructor(public userService: UserService, private router: Router) {
