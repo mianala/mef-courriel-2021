@@ -29,10 +29,10 @@
           <li>
             <a href="#">Contact us</a>
           </li> -->
-        <li *ngIf="!(userService.logged_in | async)">
+        <li *ngIf="!(userService.loggedIn$ | async)">
           <a routerLink="/auth/login" class="btn--white">Se connecter →</a>
         </li>
-        <li *ngIf="userService.logged_in | async">
+        <li *ngIf="userService.loggedIn$ | async">
           <a routerLink="/app/flow" style="margin-left: 1rem" class="btn--white"
             >Enregistrement</a
           >

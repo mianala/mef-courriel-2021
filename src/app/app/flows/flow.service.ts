@@ -7,7 +7,7 @@ import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { NotificationService } from 'src/app/services/notification.service';
 import { EntityService } from '../entities/service/entity.service';
-import { UserService } from '../users/user.service';
+import { UserService } from '../../services/user.service';
 
 @Injectable({
   providedIn: 'root',

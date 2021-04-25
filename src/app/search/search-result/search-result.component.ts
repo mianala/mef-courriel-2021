@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { FlowService } from 'src/app/app/flows/flow.service';
-import { UserService } from 'src/app/app/users/user.service';
+import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { Flow } from 'src/app/classes/flow';
 

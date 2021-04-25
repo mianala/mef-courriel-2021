@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { AppFile } from 'src/app/classes/file.class.class';
+import { AppFile } from 'src/app/classes/file';
 
 @Component({
   selector: 'files',

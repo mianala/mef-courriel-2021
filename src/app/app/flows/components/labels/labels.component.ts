@@ -17,7 +17,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { UserService } from 'src/app/app/users/user.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'labels',

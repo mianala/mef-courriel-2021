@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
-import { UserService } from 'src/app/app/users/user.service';
+import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
-import { AppFile } from 'src/app/classes/file.class.class';
+import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { FlowService } from '../../flow.service';
 

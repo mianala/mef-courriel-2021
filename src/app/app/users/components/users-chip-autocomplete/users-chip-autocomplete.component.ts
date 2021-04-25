@@ -13,7 +13,7 @@ import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/classes/user';
-import { UserService } from '../../user.service';
+import { UserService } from '../../../../services/user.service';
 
 /**
  * @title Users Chip Autocomplete

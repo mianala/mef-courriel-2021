@@ -1,5 +1,13 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   MatAutocompleteSelectedEvent,
@@ -9,13 +17,12 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { UserService } from 'src/app/app/users/user.service';
-
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'observations',
   templateUrl: './observations.component.html',
-  styleUrls: ['./observations.component.scss']
+  styleUrls: ['./observations.component.scss'],
 })
 export class ObservationsComponent implements OnInit {
   visible = true;
@@ -40,7 +47,6 @@ export class ObservationsComponent implements OnInit {
         observation ? this._filter(observation) : this.allLabels.slice()
       )
     );
-
   }
 
   ngOnInit() {
@@ -56,7 +62,7 @@ export class ObservationsComponent implements OnInit {
       this.observations.push(value.trim());
     }
 
-    console.log("added", value)
+    console.log('added', value);
 
     // Reset the input value
     if (input) {

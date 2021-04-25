@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/app/users/user.service';
+import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { ValidatorService } from 'src/app/services/validator.service';
 
@@ -13,7 +13,7 @@ import { ValidatorService } from 'src/app/services/validator.service';
 })
 export class SignupComponent implements OnInit {
   signUpForm: FormGroup = new FormGroup({});
-
+  entity: Entity = new Entity();
   loading = false;
   constructor(
     private router: Router,
@@ -92,17 +92,5 @@ export class SignupComponent implements OnInit {
 
     data.data.insert_user.returning[0].id &&
       this.router.navigate(['/auth/signed-up']);
-  }
-
-  entitySelected(entity: Entity) {
-    this.signUpForm.patchValue({
-      entity_id: entity.id,
-    });
-  }
-
-  typingEntity(e: Event) {
-    this.signUpForm.patchValue({
-      entity_id: 0,
-    });
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { User } from 'src/app/classes/user';
-import { UserService } from './user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'users',
@@ -9,11 +9,9 @@ import { UserService } from './user.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
-
-  constructor(public userService: UserService) {
-  }
+  constructor(public userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.getUsers()
+    this.userService.getUsers();
   }
 }

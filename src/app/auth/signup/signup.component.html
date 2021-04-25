@@ -34,11 +34,7 @@
           </div>
 
           <div class="two-columns">
-            <entity-autocomplete
-              [must_select_entity]="true"
-              (_keypress)="typingEntity($event)"
-              (entitySelected)="entitySelected($event)"
-            ></entity-autocomplete>
+            <entity-autocomplete [(entity)]="entity"></entity-autocomplete>
             <mat-form-field appearance="outline">
               <mat-label>Fonction - Ex: Chef de Service</mat-label>
               <input
