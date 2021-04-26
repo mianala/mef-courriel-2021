@@ -62,7 +62,9 @@ export class SaveFlowFormComponent implements OnInit {
 
   submit() {
     this.loading = true;
+
     const form = this.saveFlowForm.value;
+
     const form_files: {
       name: string;
       size: number;
@@ -101,7 +103,6 @@ export class SaveFlowFormComponent implements OnInit {
         data: form_files,
       },
     };
-    console.log(flow_variables);
 
     this.flowService
       .insertFlows([flow_variables])

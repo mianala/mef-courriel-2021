@@ -20,6 +20,11 @@ export class EntityAutocompleteComponent implements OnInit {
   @Input() must_select_entity: Boolean = false;
   @Input() label = 'Département';
 
+  @Output() entitySelected: EventEmitter<Entity> = new EventEmitter();
+  @Output() _keypress: EventEmitter<any> = new EventEmitter();
+  @Output() _blur: EventEmitter<any> = new EventEmitter();
+  @Output() _keyup: EventEmitter<any> = new EventEmitter();
+
   constructor(private entityService: EntityService) {
     this.entityService.entities$.subscribe(this.getEntities.bind(this));
   }
@@ -36,13 +41,18 @@ export class EntityAutocompleteComponent implements OnInit {
         .toLowerCase()
         .includes(this.entity.short.toLowerCase())
     );
+    this._keyup.emit(e.target.value);
   }
 
   select(e: Entity) {
-    this.entity = e;
+    this.entity = new Entity(e);
+    this.entityChange.emit(this.entity);
   }
 
   resetSelection(e: any) {
+    console.log(e);
+
     this.entity = new Entity({ short: this.entity.short });
+    this.entityChange.emit(this.entity);
   }
 }
