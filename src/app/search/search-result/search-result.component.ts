@@ -6,8 +6,8 @@ import {
   MatTreeNestedDataSource,
 } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { BehaviorSubject, from } from 'rxjs';
+import { filter, mergeMap, skip, switchMap } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { FlowService } from 'src/app/app/flows/flow.service';
 import { UserService } from 'src/app/services/user.service';
@@ -23,12 +23,23 @@ export class SearchResultComponent implements OnInit {
   loading: boolean;
   entity: Entity = new Entity();
   @Input() query: string = '';
-  activeEntityFilter: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  results: Flow[] = [];
-  filteredResult: Flow[] = [];
+  activeEntityFilter$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+  results$ = this.flowService.searchAppResult$;
+
+  filteredResult$ = this.activeEntityFilter$.pipe(
+    switchMap((activeEntityFilter) =>
+      this.results$.pipe(
+        filter((flow: any) =>
+          activeEntityFilter ? flow.initiator_id == activeEntityFilter : true
+        )
+      )
+    )
+  );
+
   constructor(
-    private flowService: FlowService,
+    public flowService: FlowService,
     private entityService: EntityService,
     public userService: UserService,
     route: ActivatedRoute
@@ -47,18 +58,15 @@ export class SearchResultComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.activeEntityFilter.pipe(skip(1)).subscribe(() => {
-      this.filter();
-    });
-  }
+  ngOnInit(): void {}
 
   search() {
     this.loading = true;
-    this.results = [];
+    this.results$.next([]);
+
     let searchFilters: any = {};
 
-    this.query.length
+    this.query?.length
       ? (searchFilters.title = { _ilike: `%${this.query}%` })
       : null;
 
@@ -67,24 +75,19 @@ export class SearchResultComponent implements OnInit {
     console.log('searching', searchFilters);
 
     Object.keys(searchFilters).length &&
-      this.flowService.search(searchFilters).subscribe((flows) => {
-        this.filteredResult = this.results = flows;
+      this.flowService.searchApp(searchFilters, () => {
         this.loading = false;
       });
   }
 
-  filter() {
-    this.filteredResult = this.results.filter(
-      (flow) => flow.initiator_id == this.activeEntityFilter.value
-    );
-  }
+  filterEntity() {}
 
   setActiveEntityFilter(entity_id: number) {
-    this.activeEntityFilter.next(entity_id);
+    this.activeEntityFilter$.next(entity_id);
   }
 
   resetActiveEntityFilter() {
-    this.activeEntityFilter.next(0);
+    this.activeEntityFilter$.next(0);
   }
 
   treeControl = new NestedTreeControl<Entity>((node) => node.children);

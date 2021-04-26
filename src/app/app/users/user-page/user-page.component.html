@@ -1,5 +1,5 @@
 <div style fxLayoutAlign="center center">
-  <mat-card>
+  <mat-card *ngIf="userService.activeUser$ | async as user">
     <mat-card-header fxLayoutAlign="center">
       <div
         mat-card-avatar

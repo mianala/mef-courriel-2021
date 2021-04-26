@@ -9,11 +9,7 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./user-page.component.scss'],
 })
 export class UserPageComponent implements OnInit {
-  user: User = new User();
-
-  constructor(private userService: UserService, private route: ActivatedRoute) {
-    userService.activeUser$.subscribe((user) => (this.user = user));
-  }
+  constructor(public userService: UserService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {}
 

@@ -21,7 +21,11 @@ export class FlowService {
     }
   `;
 
-  recentFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+  allRecentFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+  flowSearchResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+  searchAppResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+
+  searchFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
   constructor(
     private apollo: Apollo,
@@ -175,7 +179,7 @@ export class FlowService {
       .valueChanges.pipe(this.flowMap)
       .subscribe(
         (flows: any) => {
-          this.recentFlows$.next(flows);
+          this.allRecentFlows$.next(flows);
         },
         (error) => {
           console.log('there was an error sending the query', error);
@@ -223,7 +227,14 @@ export class FlowService {
     });
   }
 
-  search(searchFlowVariables: any) {
+  searchApp(searchFilters: any, next: () => void) {
+    this.searchQuery(searchFilters).subscribe((flows) => {
+      this.searchAppResult$.next(flows);
+      next();
+    });
+  }
+
+  searchQuery(searchFlowVariables: any) {
     const SEARCH_FLOWS_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       ${Flow.CORE_FLOW_FIELDS}

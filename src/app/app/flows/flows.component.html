@@ -130,23 +130,33 @@
     </mat-menu>
   </div>
 </section>
-<div
-  class="empty"
-  *ngIf="!flows.length && !loading"
-  style="max-width: 100vw; max-height: 80vh; margin: auto"
->
-  <img
-    style="max-height: 85vh"
-    src="/assets/app-images/empty-animate.svg"
-    alt=""
-  />
-</div>
 
-<flows-loading *ngIf="!flows.length && loading"></flows-loading>
+<section #recentFlows *ngIf="allRecentFlows | async as flows">
+  <div
+    class="empty"
+    *ngIf="!flows.length && !loading"
+    style="max-width: 100vw; max-height: 80vh; margin: auto"
+  >
+    <img
+      style="max-height: 85vh"
+      src="/assets/app-images/empty-animate.svg"
+      alt=""
+    />
+  </div>
 
-<div *ngIf="flows.length" class="flow-list">
-  <flow class="mat-typography" *ngFor="let flow of flows" [flow]="flow"></flow>
-</div>
+  <flows-loading *ngIf="!flows.length && loading"></flows-loading>
+
+  <div *ngIf="flows.length" class="flow-list">
+    <flow
+      class="mat-typography"
+      *ngFor="let flow of flows"
+      [flow]="flow"
+    ></flow>
+  </div>
+
+  <mat-paginator *ngIf="flows.length" [showFirstLastButtons]="true">
+  </mat-paginator>
+</section>
 
 <!--
 <div *ngIf="(flowService.recent_flows | async)?.length" class="flow-list">
@@ -158,7 +168,4 @@
 </div>
 
 <search-flow-list></search-flow-list> -->
-
-<mat-paginator *ngIf="flows.length" [showFirstLastButtons]="true">
-</mat-paginator>
 <router-outlet></router-outlet>

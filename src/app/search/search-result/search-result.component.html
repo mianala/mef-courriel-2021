@@ -54,7 +54,12 @@
         <button mat-icon-button (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <img routerLink="" id="searchbarimage" src="/assets/flag.png" />
+        <img
+          style="outline: 0"
+          routerLink="/search"
+          id="searchbarimage"
+          src="/assets/flag.png"
+        />
         <form id="searchbar">
           <input id="searchbartext" type="text" name="q" [(ngModel)]="query" />
           <button
@@ -122,16 +127,18 @@
       </div>
     </header>
 
-    <flows-loading *ngIf="!results.length && loading"></flows-loading>
+    <flows-loading
+      *ngIf="!(filteredResult$ | async)?.length && loading"
+    ></flows-loading>
 
     <div id="searchresultsarea">
       <empty-search-result
-        [hidden]="results.length || loading"
+        [hidden]="(filteredResult$ | async)?.length || loading"
       ></empty-search-result>
 
       <div class="result-list">
         <result-item
-          *ngFor="let item of filteredResult"
+          *ngFor="let item of filteredResult$ | async"
           [flow]="item"
         ></result-item>
       </div>

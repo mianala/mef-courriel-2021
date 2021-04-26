@@ -8,24 +8,14 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  q: string = '';
+  queryParams$ = this.route.queryParams;
 
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.userService.loggedIn$.subscribe((logged_in) => {
-      if (!logged_in) {
-        router.navigate(['/']);
-      }
-    });
+    this.userService.loggedIn$.value ? null : this.router.navigate(['/']);
   }
-  ngOnInit(): void {
-    this.route.queryParams.subscribe({
-      next: (queryParams: any) => {
-        this.q = queryParams.q;
-      },
-    });
-  }
+  ngOnInit(): void {}
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { skip } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { skip, take } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { Flow } from 'src/app/classes/flow';
 import { EntityService } from '../entities/service/entity.service';
@@ -27,31 +28,39 @@ export class FlowsComponent implements OnInit {
     entity: new Entity(),
   };
 
-  flows: Flow[] = [];
-  loading = true;
+  allRecentFlows = this.flowService.allRecentFlows$;
+  appSearchFlows = this.flowService.flowSearchResult$;
 
+  loading = true;
   searchToggle: boolean = false;
+
+  textSearchToggle: boolean = false;
   dateRangeToggle: boolean = false;
   labelsToggle: boolean = false;
   entityToggle: boolean = false;
+
+  queryParams = this.route.queryParams;
 
   flowGroup = 0;
 
   constructor(
     public flowService: FlowService,
+
+    private route: ActivatedRoute,
+    private router: Router,
     private entityService: EntityService
   ) {
-    this.flowService.refreshFlows();
-    this.flowService.recentFlows$.pipe(skip(1)).subscribe((data) => {
-      this.flows = data;
-      this.loading = false;
+    this.route.queryParams.subscribe((data) => {
+      console.log(data);
     });
+
+    this.flowService.refreshFlows();
   }
 
   ngOnInit(): void {}
 
   search() {
-    this.loading = true;
+    // this.loading = true;
     let searchFilters: any = {};
 
     this.filters.title.length
@@ -80,10 +89,6 @@ export class FlowsComponent implements OnInit {
     console.log('searching', searchFilters);
 
     Object.keys(searchFilters).length &&
-      this.flowService.search(searchFilters).subscribe((flows) => {
-        this.flows = flows;
-        this.loading = false;
-        console.log(flows);
-      });
+      this.flowService.searchQuery(searchFilters);
   }
 }
