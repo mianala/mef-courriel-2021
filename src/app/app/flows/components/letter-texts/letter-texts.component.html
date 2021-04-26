@@ -1,17 +1,17 @@
 <mat-form-field [appearance]="appearance">
-  <mat-label> <mat-icon>label_outline</mat-icon> Letters</mat-label>
+  <mat-label> <mat-icon>label_outline</mat-icon> Documents</mat-label>
   <mat-chip-list #chipList aria-label="label selection">
     <mat-chip
       *ngFor="let letter of letters"
       [selectable]="selectable"
-      [removable]="removable"
+      [removable]="true"
       (removed)="remove(letter)"
     >
       {{ letter }}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
     <input
-      placeholder="Nouveau letter..."
+      placeholder="Nouveau document..."
       [(ngModel)]="letterInput"
       [formControl]="letterCtrl"
       [matAutocomplete]="auto"
