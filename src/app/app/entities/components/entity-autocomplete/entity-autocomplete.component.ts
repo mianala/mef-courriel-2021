@@ -9,9 +9,6 @@ import { EntityService } from '../../service/entity.service';
   styleUrls: ['./entity-autocomplete.component.scss'],
 })
 export class EntityAutocompleteComponent implements OnInit {
-  @Input() entityText = '';
-  @Output() entityTextChange: EventEmitter<String> = new EventEmitter();
-
   @Input() appearance: MatFormFieldAppearance = 'outline';
 
   entities: Entity[] = [];
@@ -22,11 +19,6 @@ export class EntityAutocompleteComponent implements OnInit {
 
   @Input() must_select_entity: Boolean = false;
   @Input() label = 'Département';
-
-  @Output() entitySelected: EventEmitter<Entity> = new EventEmitter();
-  @Output() _keypress: EventEmitter<any> = new EventEmitter();
-  @Output() _blur: EventEmitter<any> = new EventEmitter();
-  @Output() _keyup: EventEmitter<any> = new EventEmitter();
 
   constructor(private entityService: EntityService) {
     this.entityService.entities$.subscribe(this.getEntities.bind(this));
@@ -40,18 +32,17 @@ export class EntityAutocompleteComponent implements OnInit {
 
   _filter(e: any) {
     this.filteredOptions = this.entities.filter((entity) =>
-      entity.short_header.toLowerCase().includes(this.entityText.toLowerCase())
+      entity.short_header
+        .toLowerCase()
+        .includes(this.entity.short.toLowerCase())
     );
-    this._keyup.emit(e.target.value);
   }
 
   select(e: Entity) {
     this.entity = e;
-    this.entitySelected.emit(e);
   }
 
   resetSelection(e: any) {
-    this.entity = new Entity();
-    this._keypress.emit(e.target.value);
+    this.entity = new Entity({ short: this.entity.short });
   }
 }

@@ -8,5 +8,5 @@
   </mat-form-field>
 </div>
 <div class="users">
-  <user *ngFor="let user of userService.users | async" [user]="user"></user>
+  <user *ngFor="let user of userService.users$ | async" [user]="user"></user>
 </div>

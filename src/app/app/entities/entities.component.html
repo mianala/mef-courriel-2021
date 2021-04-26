@@ -15,7 +15,7 @@
 
 <div class="entities">
   <entity
-    *ngFor="let entity of entityService.entities | async"
+    *ngFor="let entity of entityService.entities$ | async"
     [entity]="entity"
   ></entity>
 </div>

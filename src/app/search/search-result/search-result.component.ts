@@ -7,7 +7,7 @@ import {
 } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, from } from 'rxjs';
-import { filter, mergeMap, skip, switchMap } from 'rxjs/operators';
+import { filter, map, mergeMap, skip, switchMap } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { FlowService } from 'src/app/app/flows/flow.service';
 import { UserService } from 'src/app/services/user.service';
@@ -31,9 +31,13 @@ export class SearchResultComponent implements OnInit {
   filteredResult$ = this.activeEntityFilter$.pipe(
     switchMap((activeEntityFilter) =>
       this.results$.pipe(
-        filter((flow: any) =>
-          activeEntityFilter ? flow.initiator_id == activeEntityFilter : true
-        )
+        map((flows) => {
+          return flows.filter((flow: any) => {
+            return activeEntityFilter
+              ? flow.initiator_id == activeEntityFilter
+              : true;
+          });
+        })
       )
     )
   );
@@ -47,8 +51,27 @@ export class SearchResultComponent implements OnInit {
     this.loading = true;
 
     route.queryParams.subscribe((data) => {
-      this.query = data.q;
-      this.search();
+      const query = data.q;
+
+      this.loading = true;
+
+      this.activeEntityFilter$.next(0);
+      this.results$.next([]);
+
+      let searchFilters: any = {};
+
+      searchFilters._or = [
+        { title: { _ilike: `%${query}%` } },
+        { content: { _ilike: `%${query}%` } },
+        { labels: { _ilike: `%${query}%` } },
+        { reference: { _ilike: `%${query}%` } },
+      ];
+
+      console.log('searching', searchFilters);
+
+      this.flowService.searchApp(searchFilters, () => {
+        this.loading = false;
+      });
     });
 
     this.entityService.activeEntity$.subscribe((entity: any) => {
@@ -59,26 +82,6 @@ export class SearchResultComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-
-  search() {
-    this.loading = true;
-    this.results$.next([]);
-
-    let searchFilters: any = {};
-
-    this.query?.length
-      ? (searchFilters.title = { _ilike: `%${this.query}%` })
-      : null;
-
-    // searchFilters.owner_id = { _eq: this.entityService.active_entity.value.id }
-
-    console.log('searching', searchFilters);
-
-    Object.keys(searchFilters).length &&
-      this.flowService.searchApp(searchFilters, () => {
-        this.loading = false;
-      });
-  }
 
   filterEntity() {}
 

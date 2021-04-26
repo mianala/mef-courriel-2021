@@ -54,6 +54,8 @@ export class FlowService {
           returning {
             id
             content
+            title
+            numero
             files {
               id
             }

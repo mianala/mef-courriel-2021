@@ -95,7 +95,7 @@ export class SaveFlowFormComponent implements OnInit {
       numero: form.numero,
       date_received: form.date_received,
       owner_id: this.user.entity_id,
-      initiator_id: this.entity.id,
+      initiator_id: this.entity.id ? this.entity.id : null,
       initiator_text: this.entity.short,
       files: {
         data: form_files,
