@@ -5,7 +5,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -14,6 +15,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./labels.component.scss'],
 })
 export class LabelsComponent implements OnInit {
+  updateEntity = true;
+
   visible = true;
   selectable = true;
 
@@ -22,45 +25,71 @@ export class LabelsComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   labelCtrl = new FormControl();
-  filteredLabels: Observable<string[]>;
+
+  filteredLabels = this.labelCtrl.valueChanges.pipe(
+    startWith(''),
+    switchMap((query: string) =>
+      this.allLabels$.pipe(
+        map((labels: string[]) => {
+          return labels.filter((label: string) => {
+            return label.toLowerCase().indexOf(query.toLowerCase()) === 0;
+          });
+        })
+      )
+    )
+  );
 
   // return value
-  @Input() labels: string[] = ['Lemon'];
+  @Input() labels: string[] = [];
   @Output() labelsChange = new EventEmitter<string[]>();
-  allLabels: string[] = ['JIRAMA', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  allLabels$ = this.entityService.activeEntityLabels$;
+
   labelInput = '';
+
   @Input() InputLabels = '';
 
-  constructor(private userService: UserService) {
-    this.filteredLabels = this.labelCtrl.valueChanges.pipe(
-      startWith(null),
-      map((label: string | null) =>
-        label ? this._filter(label) : this.allLabels.slice()
-      )
-    );
-  }
+  constructor(
+    private userService: UserService,
+    private entityService: EntityService
+  ) {}
 
   ngOnInit() {
-    // this.allLabels = this.userService.active_user.value.entity.labels.split(',')
+    if (this.updateEntity) {
+      console.log(this.entityService.activeEntity$.value);
+      const active_entity = this.entityService.activeEntity$.value;
+      this.labels = active_entity.labels ? active_entity.labels.split(',') : [];
+    }
   }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
-    // Add our label
-    if ((value || '').trim()) {
-      this.labels.push(value.trim());
+    // if nothing in
+    if (!(value || '').trim()) {
+      return;
     }
 
-    console.log('added', value);
+    this.labels.push(value.trim());
 
-    // Reset the input value
-    if (input) {
-      input.value = '';
+    input.value = '';
+
+    this.labelCtrl.setValue('');
+
+    const active_entity = this.entityService.activeEntity$.value;
+
+    if (this.updateEntity) {
+      if (!active_entity.labels?.includes(value)) {
+        this.entityService
+          .updateEntity(active_entity.id, {
+            labels: `${active_entity.labels},${value}`,
+          })
+          .subscribe((data) => {
+            console.log(data);
+          });
+      }
     }
-
-    this.labelCtrl.setValue(null);
   }
 
   remove(label: string): void {
@@ -75,13 +104,5 @@ export class LabelsComponent implements OnInit {
     this.labels.push(event.option.viewValue);
     this.labelInput = '';
     this.labelCtrl.setValue('');
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allLabels.filter(
-      (label) => label.toLowerCase().indexOf(filterValue) === 0
-    );
   }
 }

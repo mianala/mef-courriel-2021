@@ -15,6 +15,20 @@ import { UserService } from '../../../services/user.service';
   providedIn: 'root',
 })
 export class EntityService {
+  // store in localstorage
+  entities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
+
+  // store in localstorage remove on logout
+  relativeEntities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>(
+    []
+  );
+  // store in cookie
+  activeEntity$: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
+
+  activeEntityLabels$ = this.activeEntity$.pipe(
+    map((entity) => (entity.labels ? entity.labels.split(',') : ['']))
+  );
+
   constructor(
     private apollo: Apollo,
     private userService: UserService,
@@ -117,17 +131,6 @@ export class EntityService {
     localStorage.setItem('entities', JSON.stringify(entities));
   }
 
-  // store in localstorage
-  entities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
-
-  // store in localstorage remove on logout
-  relativeEntities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>(
-    []
-  );
-
-  // store in cookie
-  activeEntity$: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
-
   getEntities() {
     const GET_ENTITIES_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
@@ -214,6 +217,7 @@ export class EntityService {
           affected_rows
           returning {
             id
+            labels
           }
         }
       }
