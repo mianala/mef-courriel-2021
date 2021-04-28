@@ -15,6 +15,10 @@ import { UserService } from '../../../services/user.service';
   providedIn: 'root',
 })
 export class EntityService {
+  nextActiveEntity(updatedEntity: Entity) {
+    this.activeEntity$.next(updatedEntity);
+    localStorage.setItem('active_entity', JSON.stringify(updatedEntity));
+  }
   // store in localstorage
   entities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
 
@@ -22,12 +26,14 @@ export class EntityService {
   relativeEntities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>(
     []
   );
+
   // store in cookie
   activeEntity$: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
 
-  activeEntityLabels$ = this.activeEntity$.pipe(
-    map((entity) => (entity.labels ? entity.labels.split(',') : ['']))
-  );
+  // why not just combinelatest with user.entity.id?
+  activeEntityLabels$: BehaviorSubject<string[]> = new BehaviorSubject<
+    string[]
+  >([]);
 
   constructor(
     private apollo: Apollo,
@@ -62,8 +68,37 @@ export class EntityService {
       } else {
         console.log('active_entity from localstorage');
         this.activeEntity$.next(new Entity(activeEntity));
+        this.refreshUserEntityLabels(activeEntity.id);
       }
     });
+  }
+
+  getUserEntityInfo(entity_id: number) {
+    const GET_ENTITY_LABEL_QUERY = gql`
+      query get_entity($entity_id: Int!) {
+        entity(where: { id: { _eq: $entity_id } }) {
+          labels
+          observations
+          letter_texts
+          type_texts
+        }
+      }
+    `;
+    return this.apollo.watchQuery({
+      query: GET_ENTITY_LABEL_QUERY,
+      variables: { entity_id: entity_id },
+      fetchPolicy: 'cache-and-network',
+    }).valueChanges;
+  }
+
+  getUserEntityLabel(entity_id: number) {
+    return this.getUserEntityInfo(entity_id).pipe(this.mapEntityLabels);
+  }
+
+  refreshUserEntityLabels(entity_id: number) {
+    this.getUserEntityLabel(entity_id).subscribe((labels) =>
+      this.activeEntityLabels$.next(labels)
+    );
   }
 
   getUserEntity(entity_id: number) {
@@ -92,11 +127,12 @@ export class EntityService {
     `;
 
     this.apollo
-      .query({
+      .watchQuery({
         query: GET_USER_ENTITY_QUERY,
         variables: { entity_id: entity_id },
+        fetchPolicy: 'cache-and-network',
       })
-      .subscribe((data: any) => {
+      .valueChanges.subscribe((data: any) => {
         let entity_query_result = data.data.entity[0];
 
         let entity = new Entity(entity_query_result);
@@ -119,8 +155,7 @@ export class EntityService {
           return newChild;
         });
 
-        this.activeEntity$.next(entity);
-        localStorage.setItem('active_entity', JSON.stringify(entity));
+        this.nextActiveEntity(entity);
       });
   }
 
@@ -173,6 +208,58 @@ export class EntityService {
     });
   });
 
+  mapEntityLabels = map((val: any) => {
+    console.log(
+      'latest labels',
+      val.data.entity[0].labels.length
+        ? val.data.entity[0].labels.split(',')
+        : []
+    );
+
+    return val.data.entity[0].labels.length
+      ? val.data.entity[0].labels.split(',')
+      : [];
+  });
+
+  mapEntityObservations = map((val: any) => {
+    console.log(
+      'latest labels',
+      val.data.entity[0].labels.length
+        ? val.data.entity[0].observations.split(',')
+        : []
+    );
+
+    return val.data.entity[0].observations.length
+      ? val.data.entity[0].observations.split(',')
+      : [];
+  });
+
+  mapEntityLetterTexts = map((val: any) => {
+    console.log(
+      'latest labels',
+      val.data.entity[0].letter_texts.length
+        ? val.data.entity[0].letter_texts.split(',')
+        : []
+    );
+
+    return val.data.entity[0].letter_texts.length
+      ? val.data.entity[0].letter_texts.split(',')
+      : [];
+  });
+
+  mapEntityTypeTexts = map((val: any) => {
+    console.log(
+      'latest labels',
+      val.data.entity[0].letter_texts.length
+        ? val.data.entity[0].letter_texts.split(',')
+        : []
+    );
+
+    return val.data.entity[0].type_texts.length
+      ? val.data.entity[0].type_texts.split(',')
+      : [];
+  });
+
   getEntityWithUsers(id: number) {
     const GET_ENTITY_QUERY_WITH_USERS = gql`
       ${Entity.CORE_ENTITY_FIELDS}
@@ -223,12 +310,14 @@ export class EntityService {
       }
     `;
 
+    console.log(set);
+
     return this.apollo.mutate({
       mutation: UPDATE_ENTITY_MUTATION,
       variables: {
         entity_id: entity_id,
-        set: set,
-        inc: inc,
+        _set: set,
+        _inc: inc,
       },
     });
   }

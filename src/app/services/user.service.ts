@@ -257,7 +257,7 @@ export class UserService {
   }
 
   updateUser(user_id: number, set: any = {}, inc: any = {}) {
-    const UPDATE_ENTITY_MUTATION = gql`
+    const UPDATE_USER_MUTATION = gql`
       mutation update_user_mutation(
         $user_id: Int!
         $_set: user_set_input = {}
@@ -277,11 +277,11 @@ export class UserService {
     `;
 
     return this.apollo.mutate({
-      mutation: UPDATE_ENTITY_MUTATION,
+      mutation: UPDATE_USER_MUTATION,
       variables: {
         user_id: user_id,
-        set: set,
-        inc: inc,
+        _set: set,
+        _inc: inc,
       },
     });
   }

@@ -7,7 +7,6 @@ import { AdminComponent } from './admin/admin.component';
 import { LogsComponent } from './admin/logs/logs.component';
 import { FeedbacksComponent } from './admin/feedbacks/feedbacks.component';
 import { DocsComponent } from './docs/docs.component';
-import { SearchComponent } from './search/search.component';
 import { HelpComponent } from './help/help.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewerComponent } from './shared/file-viewer/viewer.component';
@@ -23,7 +22,7 @@ import { FirebaseModule } from './modules/firebase.module';
 import { MaterialModule } from './modules/material.module';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { EmptySearchResultComponent } from './search/empty-search-result/empty-search-result.component';
-import { SearchResultComponent } from './search/search-result/search-result.component';
+import { SearchResultComponent } from './search/search/search.component';
 import { SearchHomeComponent } from './search/search-home/search-home.component';
 import { ResultListComponent } from './search/components/result-list/result-list.component';
 import { ResultItemComponent } from './search/components/result-item/result-item.component';
@@ -78,6 +77,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { UsersComponent } from './app/users/users.component';
 import { ChatComponent } from './chat/chat.component';
+import { SearchPageComponent } from './search/search-page/search-page.component';
 
 registerLocaleData(localeFr);
 
@@ -88,7 +88,7 @@ registerLocaleData(localeFr);
     LogsComponent,
     FeedbacksComponent,
     DocsComponent,
-    SearchComponent,
+    SearchPageComponent,
     HelpComponent,
     DashboardComponent,
     ViewerComponent,

@@ -1,7 +1,7 @@
 <!-- ?query => search query -->
 <search-home *ngIf="!(queryParams$ | async)?.q"></search-home>
 
-<search-results
+<search
   *ngIf="(queryParams$ | async)?.q"
   [query]="(queryParams$ | async)?.q"
-></search-results>
+></search>

@@ -5,7 +5,7 @@ import { FlowsComponent } from '../app/flows/flows.component';
 import { AuthComponent } from '../auth/auth.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HelpComponent } from '../help/help.component';
-import { SearchComponent } from '../search/search.component';
+
 import { ViewerComponent } from '../shared/file-viewer/viewer.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
@@ -31,6 +31,7 @@ import { ReplyFormComponent } from '../app/flows/form/reply-form/reply-form.comp
 import { RouterOutletComponent } from '../shared/router-outlet/router-outlet.component';
 import { NotFoundPageComponent } from '../shared/not-found-page/not-found-page.component';
 import { UserPageComponent } from '../app/users/user-page/user-page.component';
+import { SearchPageComponent } from '../search/search-page/search-page.component';
 
 const routes: Routes = [
   {
@@ -43,7 +44,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: SearchComponent,
+        component: SearchPageComponent,
       },
       {
         path: 'flow',

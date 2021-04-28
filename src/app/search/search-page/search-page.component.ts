@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './search-page.component.html',
   styleUrls: ['./search-page.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchPageComponent implements OnInit {
   queryParams$ = this.route.queryParams;
 
   constructor(

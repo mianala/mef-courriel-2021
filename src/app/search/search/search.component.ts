@@ -1,23 +1,18 @@
 import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  MatTreeFlatDataSource,
-  MatTreeFlattener,
-  MatTreeNestedDataSource,
-} from '@angular/material/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, from } from 'rxjs';
-import { filter, map, mergeMap, skip, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { FlowService } from 'src/app/app/flows/flow.service';
 import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
-import { Flow } from 'src/app/classes/flow';
 
 @Component({
-  selector: 'search-results',
-  templateUrl: './search-result.component.html',
-  styleUrls: ['./search-result.component.scss'],
+  selector: 'search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchResultComponent implements OnInit {
   loading: boolean;
@@ -28,18 +23,17 @@ export class SearchResultComponent implements OnInit {
 
   results$ = this.flowService.searchAppResult$;
 
-  filteredResult$ = this.activeEntityFilter$.pipe(
-    switchMap((activeEntityFilter) =>
-      this.results$.pipe(
-        map((flows) => {
-          return flows.filter((flow: any) => {
-            return activeEntityFilter
-              ? flow.initiator_id == activeEntityFilter
-              : true;
-          });
-        })
-      )
-    )
+  filteredResult$ = combineLatest([
+    this.activeEntityFilter$,
+    this.results$,
+  ]).pipe(
+    map(([activeEntityFilter, results]) => {
+      return results.filter((result: any) => {
+        return activeEntityFilter
+          ? result.initiator_id == activeEntityFilter
+          : true;
+      });
+    })
   );
 
   constructor(

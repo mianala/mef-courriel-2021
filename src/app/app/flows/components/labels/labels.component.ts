@@ -4,8 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
-import { Observable } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { delay, map, skip, startWith, switchMap } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -15,7 +14,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./labels.component.scss'],
 })
 export class LabelsComponent implements OnInit {
-  updateEntity = true;
+  updateEntityLabels = true;
+  @Input() removeEntityLabels = false;
 
   visible = true;
   selectable = true;
@@ -25,6 +25,9 @@ export class LabelsComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   labelCtrl = new FormControl();
+
+  allLabels$ = this.entityService.activeEntityLabels$;
+  allLabels: string[] = [];
 
   filteredLabels = this.labelCtrl.valueChanges.pipe(
     startWith(''),
@@ -43,8 +46,8 @@ export class LabelsComponent implements OnInit {
   @Input() labels: string[] = [];
   @Output() labelsChange = new EventEmitter<string[]>();
 
-  allLabels$ = this.entityService.activeEntityLabels$;
-
+  activeEntity$ = this.entityService.activeEntity$;
+  activeEntityLabels$ = this.entityService.activeEntityLabels$;
   labelInput = '';
 
   @Input() InputLabels = '';
@@ -52,20 +55,26 @@ export class LabelsComponent implements OnInit {
   constructor(
     private userService: UserService,
     private entityService: EntityService
-  ) {}
-
-  ngOnInit() {
-    if (this.updateEntity) {
-      console.log(this.entityService.activeEntity$.value);
-      const active_entity = this.entityService.activeEntity$.value;
-      this.labels = active_entity.labels ? active_entity.labels.split(',') : [];
-    }
+  ) {
+    this.allLabels$.pipe().subscribe((labelsData) => {
+      // why not = data? because, it would link all the variables
+      this.allLabels = [...labelsData];
+      if (this.removeEntityLabels) {
+        this.labels = [...labelsData];
+      }
+    });
   }
+
+  ngOnInit() {}
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
+    const index = this.labels.indexOf(value);
 
+    if (index >= 0) {
+      return;
+    }
     // if nothing in
     if (!(value || '').trim()) {
       return;
@@ -77,27 +86,49 @@ export class LabelsComponent implements OnInit {
 
     this.labelCtrl.setValue('');
 
-    const active_entity = this.entityService.activeEntity$.value;
+    const active_entity = this.activeEntity$.value;
 
-    if (this.updateEntity) {
-      if (!active_entity.labels?.includes(value)) {
-        this.entityService
-          .updateEntity(active_entity.id, {
-            labels: `${active_entity.labels},${value}`,
-          })
-          .subscribe((data) => {
-            console.log(data);
-          });
-      }
+    console.log('alllabels plus value', [...this.allLabels, ...[value]]);
+    console.log(this.labels);
+
+    if (this.updateEntityLabels && !this.allLabels.includes(value)) {
+      console.log([...this.allLabels, ...[value]]);
+
+      this.entityService
+        .updateEntity(active_entity.id, {
+          labels: [...this.allLabels, ...[value]].join(','),
+        })
+        .subscribe((data) => {
+          this.allLabels = [...this.allLabels, ...[value]];
+          console.log('added label', data);
+        });
     }
   }
 
   remove(label: string): void {
     const index = this.labels.indexOf(label);
+    const active_entity = this.activeEntity$.value;
 
-    if (index >= 0) {
-      this.labels.splice(index, 1);
+    if (index < 0) {
+      return;
     }
+
+    this.labels.splice(index, 1);
+
+    // remove label from entities
+    if (!this.removeEntityLabels) {
+      return;
+    }
+
+    this.allLabels = this.labels;
+
+    this.entityService
+      .updateEntity(active_entity.id, {
+        labels: this.labels.join(','),
+      })
+      .subscribe((data) => {
+        console.log('removed label', data);
+      });
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
