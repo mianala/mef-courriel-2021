@@ -79,10 +79,6 @@ export class SearchResultComponent implements OnInit {
 
   filterEntity() {}
 
-  setActiveEntityFilter(entity_id: number) {
-    this.activeEntityFilter$.next(entity_id);
-  }
-
   resetActiveEntityFilter() {
     this.activeEntityFilter$.next(0);
   }

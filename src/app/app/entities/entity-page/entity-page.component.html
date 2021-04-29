@@ -34,7 +34,7 @@
     </div>
   </div>
   <div>
-    <labels *ngIf="labelsToggle"></labels>
+    <labels [removeEntityLabels]="true" *ngIf="labelsToggle"></labels>
     <observations *ngIf="observationsToggle"></observations>
     <app-letter-texts *ngIf="letterTextsToggle"></app-letter-texts>
   </div>

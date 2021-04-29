@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { combineLatest } from 'rxjs';
 import { delay, map, skip, startWith, switchMap } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { UserService } from 'src/app/services/user.service';
@@ -26,42 +27,34 @@ export class LabelsComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   labelCtrl = new FormControl();
 
-  allLabels$ = this.entityService.activeEntityLabels$;
-  allLabels: string[] = [];
-
-  filteredLabels = this.labelCtrl.valueChanges.pipe(
-    startWith(''),
-    switchMap((query: string) =>
-      this.allLabels$.pipe(
-        map((labels: string[]) => {
-          return labels.filter((label: string) => {
-            return label.toLowerCase().indexOf(query.toLowerCase()) === 0;
-          });
-        })
-      )
-    )
-  );
-
   // return value
   @Input() labels: string[] = [];
   @Output() labelsChange = new EventEmitter<string[]>();
 
   activeEntity$ = this.entityService.activeEntity$;
-  activeEntityLabels$ = this.entityService.activeEntityLabels$;
   labelInput = '';
 
+  allLabels$ = this.entityService.activeEntityLabels$;
+  allLabels: string[] = [];
   @Input() InputLabels = '';
 
-  constructor(
-    private userService: UserService,
-    private entityService: EntityService
-  ) {
-    this.allLabels$.pipe().subscribe((labelsData) => {
+  filteredLabels = combineLatest([
+    this.allLabels$,
+    this.labelCtrl.valueChanges.pipe(startWith('')),
+  ]).pipe(
+    map(([labels, query]) => {
+      return labels?.filter((label: string) => {
+        return label.toLowerCase().indexOf(query.toLowerCase()) === 0;
+      });
+    })
+  );
+
+  constructor(private entityService: EntityService) {
+    this.allLabels$.subscribe((labelsData) => {
       // why not = data? because, it would link all the variables
-      this.allLabels = [...labelsData];
-      if (this.removeEntityLabels) {
-        this.labels = [...labelsData];
-      }
+      this.allLabels = labelsData ? [...labelsData] : [];
+      this.removeEntityLabels &&
+        (this.labels = labelsData ? [...labelsData] : []);
     });
   }
 
@@ -89,11 +82,8 @@ export class LabelsComponent implements OnInit {
     const active_entity = this.activeEntity$.value;
 
     console.log('alllabels plus value', [...this.allLabels, ...[value]]);
-    console.log(this.labels);
 
     if (this.updateEntityLabels && !this.allLabels.includes(value)) {
-      console.log([...this.allLabels, ...[value]]);
-
       this.entityService
         .updateEntity(active_entity.id, {
           labels: [...this.allLabels, ...[value]].join(','),
@@ -120,7 +110,8 @@ export class LabelsComponent implements OnInit {
       return;
     }
 
-    this.allLabels = this.labels;
+    // clone/copy current array
+    this.allLabels = this.labels.slice();
 
     this.entityService
       .updateEntity(active_entity.id, {

@@ -3,13 +3,21 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, skip, switchMap } from 'rxjs/operators';
 
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 
 import { NotificationService } from 'src/app/services/notification.service';
+import Observable from 'zen-observable';
 import { UserService } from '../../../services/user.service';
+
+interface IEntityInfo {
+  labels: string[] | null;
+  observations: string[] | null;
+  letter_texts: string[] | null;
+  type_texts: string[] | null;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +38,38 @@ export class EntityService {
   // store in cookie
   activeEntity$: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
 
+  activeEntityInfo$ = this.activeEntity$.pipe(
+    switchMap((entity: Entity) => {
+      return this.getUserEntityInfo(entity.id).pipe(
+        map(
+          (info: Entity): IEntityInfo => {
+            return {
+              labels: info.labels ? info.labels.split(',') : null,
+              letter_texts: info.letter_texts
+                ? info.letter_texts.split(',')
+                : null,
+              type_texts: info.type_texts ? info.type_texts.split(',') : null,
+              observations: info.observations
+                ? info.observations.split(',')
+                : null,
+            };
+          }
+        )
+      );
+    })
+  );
+
   // why not just combinelatest with user.entity.id?
-  activeEntityLabels$: BehaviorSubject<string[]> = new BehaviorSubject<
+  activeEntityLabels$ = this.activeEntityInfo$.pipe(
+    map((info: IEntityInfo) => info.labels)
+  );
+  activeEntityObservations$: BehaviorSubject<string[]> = new BehaviorSubject<
+    string[]
+  >([]);
+  activeEntityTypeTexts$: BehaviorSubject<string[]> = new BehaviorSubject<
+    string[]
+  >([]);
+  activeEntityLetterTexts$: BehaviorSubject<string[]> = new BehaviorSubject<
     string[]
   >([]);
 
@@ -68,7 +106,6 @@ export class EntityService {
       } else {
         console.log('active_entity from localstorage');
         this.activeEntity$.next(new Entity(activeEntity));
-        this.refreshUserEntityLabels(activeEntity.id);
       }
     });
   }
@@ -84,21 +121,13 @@ export class EntityService {
         }
       }
     `;
-    return this.apollo.watchQuery({
-      query: GET_ENTITY_LABEL_QUERY,
-      variables: { entity_id: entity_id },
-      fetchPolicy: 'cache-and-network',
-    }).valueChanges;
-  }
-
-  getUserEntityLabel(entity_id: number) {
-    return this.getUserEntityInfo(entity_id).pipe(this.mapEntityLabels);
-  }
-
-  refreshUserEntityLabels(entity_id: number) {
-    this.getUserEntityLabel(entity_id).subscribe((labels) =>
-      this.activeEntityLabels$.next(labels)
-    );
+    return this.apollo
+      .watchQuery({
+        query: GET_ENTITY_LABEL_QUERY,
+        variables: { entity_id: entity_id },
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(map((data: any) => data.data.entity[0]));
   }
 
   getUserEntity(entity_id: number) {
@@ -206,58 +235,6 @@ export class EntityService {
     return val.data.entity.map((val: any) => {
       return new Entity(val);
     });
-  });
-
-  mapEntityLabels = map((val: any) => {
-    console.log(
-      'latest labels',
-      val.data.entity[0].labels.length
-        ? val.data.entity[0].labels.split(',')
-        : []
-    );
-
-    return val.data.entity[0].labels.length
-      ? val.data.entity[0].labels.split(',')
-      : [];
-  });
-
-  mapEntityObservations = map((val: any) => {
-    console.log(
-      'latest labels',
-      val.data.entity[0].labels.length
-        ? val.data.entity[0].observations.split(',')
-        : []
-    );
-
-    return val.data.entity[0].observations.length
-      ? val.data.entity[0].observations.split(',')
-      : [];
-  });
-
-  mapEntityLetterTexts = map((val: any) => {
-    console.log(
-      'latest labels',
-      val.data.entity[0].letter_texts.length
-        ? val.data.entity[0].letter_texts.split(',')
-        : []
-    );
-
-    return val.data.entity[0].letter_texts.length
-      ? val.data.entity[0].letter_texts.split(',')
-      : [];
-  });
-
-  mapEntityTypeTexts = map((val: any) => {
-    console.log(
-      'latest labels',
-      val.data.entity[0].letter_texts.length
-        ? val.data.entity[0].letter_texts.split(',')
-        : []
-    );
-
-    return val.data.entity[0].type_texts.length
-      ? val.data.entity[0].type_texts.split(',')
-      : [];
   });
 
   getEntityWithUsers(id: number) {

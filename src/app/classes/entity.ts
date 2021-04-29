@@ -16,6 +16,7 @@ export class Entity {
   long_header = '';
   labels = '';
   letter_texts = '';
+  type_texts = '';
   observations = '';
   sub_entities_count = 0;
   parent: Entity | undefined;
