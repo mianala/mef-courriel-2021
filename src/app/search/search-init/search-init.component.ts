@@ -4,8 +4,8 @@ import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'search-home',
-  templateUrl: './search-home.component.html',
-  styleUrls: ['./search-home.component.scss'],
+  templateUrl: './search-init.component.html',
+  styleUrls: ['./search-init.component.scss'],
 })
 export class SearchHomeComponent implements OnInit {
   @Input() query = '';

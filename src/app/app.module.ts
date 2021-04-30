@@ -23,7 +23,7 @@ import { MaterialModule } from './modules/material.module';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { EmptySearchResultComponent } from './search/empty-search-result/empty-search-result.component';
 import { SearchResultComponent } from './search/search/search.component';
-import { SearchHomeComponent } from './search/search-home/search-home.component';
+import { SearchHomeComponent } from './search/search-init/search-init.component';
 import { ResultListComponent } from './search/components/result-list/result-list.component';
 import { ResultItemComponent } from './search/components/result-item/result-item.component';
 import { FileUploadButtonComponent } from './app/flows/components/file-upload-button/file-upload-button.component';
@@ -77,7 +77,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { UsersComponent } from './app/users/users.component';
 import { ChatComponent } from './chat/chat.component';
-import { SearchPageComponent } from './search/search-page/search-page.component';
+import { SearchPageComponent } from './search/search-root/search-root.component';
+import { SearchHeaderComponent } from './search/search-header/search-header.component';
 
 registerLocaleData(localeFr);
 
@@ -157,6 +158,8 @@ registerLocaleData(localeFr);
     LetterTextsComponent,
 
     ChatComponent,
+
+    SearchHeaderComponent,
   ],
   imports: [
     BrowserModule,

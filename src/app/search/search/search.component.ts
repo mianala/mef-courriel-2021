@@ -4,10 +4,10 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EntityService } from 'src/app/app/entities/service/entity.service';
 import { FlowService } from 'src/app/app/flows/flow.service';
 import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'search',
@@ -19,18 +19,34 @@ export class SearchResultComponent implements OnInit {
   entity: Entity = new Entity();
   @Input() query: string = '';
 
-  activeEntityFilter$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  activeEntityFilter$ = this.searchService.activeEntityFilter$;
+  activeLabelFilter$ = this.searchService.activeLabelFilter$;
 
   results$ = this.flowService.searchAppResult$;
 
   filteredResult$ = combineLatest([
     this.activeEntityFilter$,
     this.results$,
+    this.activeLabelFilter$,
   ]).pipe(
-    map(([activeEntityFilter, results]) => {
-      return results.filter((result: any) => {
-        return activeEntityFilter
-          ? result.initiator_id == activeEntityFilter
+    map(([entityFilter, results, labelFilter]) => {
+      return results.filter((flow: any) => {
+        console.log(
+          'label',
+          labelFilter,
+          'entity',
+          entityFilter,
+          'results',
+          results
+        );
+
+        return entityFilter
+          ? labelFilter
+            ? flow.labels.includes(labelFilter) &&
+              flow.initiator_id == entityFilter
+            : flow.initiator_id == entityFilter
+          : labelFilter
+          ? flow.labels.includes(labelFilter)
           : true;
       });
     })
@@ -38,54 +54,42 @@ export class SearchResultComponent implements OnInit {
 
   constructor(
     public flowService: FlowService,
-    private entityService: EntityService,
+    private searchService: SearchService,
     public userService: UserService,
     route: ActivatedRoute
   ) {
     this.loading = true;
 
     route.queryParams.subscribe((data) => {
-      const query = data.q;
-
       this.loading = true;
-
-      this.activeEntityFilter$.next(0);
       this.results$.next([]);
 
-      let searchFilters: any = {};
+      let searchFilters: any = { _and: {} };
 
-      searchFilters._or = [
-        { title: { _ilike: `%${query}%` } },
-        { content: { _ilike: `%${query}%` } },
-        { labels: { _ilike: `%${query}%` } },
-        { reference: { _ilike: `%${query}%` } },
-      ];
+      const entityFilter = parseInt(data.e) ? parseInt(data.e) : 0;
+      const labelFilter = data.l ? data.l : '';
+      const query = data.q ? data.q : '';
 
-      console.log('searching', searchFilters);
+      query &&
+        (searchFilters._and._or = [
+          { title: { _ilike: `%${query}%` } },
+          { content: { _ilike: `%${query}%` } },
+          { labels: { _ilike: `%${query}%` } },
+          { reference: { _ilike: `%${query}%` } },
+        ]);
+
+      entityFilter && (searchFilters._and.initiator_id = { _eq: entityFilter });
+      labelFilter && (searchFilters._and.labels = { _eq: labelFilter });
+
+      console.log('searchFilters', searchFilters);
 
       this.flowService.searchApp(searchFilters, () => {
         this.loading = false;
       });
-    });
-
-    this.entityService.activeEntity$.subscribe((entity: any) => {
-      this.entity = entity;
-      this.dataSource.data = entity.children;
-      console.log(entity);
     });
   }
 
   ngOnInit(): void {}
 
   filterEntity() {}
-
-  resetActiveEntityFilter() {
-    this.activeEntityFilter$.next(0);
-  }
-
-  treeControl = new NestedTreeControl<Entity>((node) => node.children);
-  dataSource = new MatTreeNestedDataSource<Entity>();
-
-  hasChild = (_: number, node: Entity) =>
-    !!node.children && node.children.length > 0;
 }

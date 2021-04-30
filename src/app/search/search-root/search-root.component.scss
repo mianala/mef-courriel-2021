@@ -1,0 +1,58 @@
+@import "~src/_variables";
+.container {
+  min-height: 100vh;
+  .sidenav {
+    padding: 20px;
+
+    .tree {
+      .tree-invisible {
+        display: none;
+      }
+      .mat-tree-node {
+        .option {
+          padding-left: 0.8rem;
+          background-color: $grey;
+          border-radius: 0.5rem;
+        }
+      }
+
+      ul,
+      li {
+        margin-top: 0;
+        margin-bottom: 0;
+        list-style-type: none;
+      }
+
+      mat-tree-node li {
+        margin-right: 1rem;
+      }
+    }
+
+    .labels {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      gap: 0.5rem;
+      .label {
+        width: fit-content;
+        list-style: none;
+        margin-right: 1rem;
+        padding-left: 0.8rem;
+        background-color: #f4f6fb;
+        border-radius: 0.5rem;
+      }
+    }
+    div.mat-drawer-inner-container {
+      overflow: visible;
+    }
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+  }
+  .mat-drawer-content {
+    overflow: inherit;
+  }
+}

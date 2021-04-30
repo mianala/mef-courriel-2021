@@ -81,8 +81,6 @@ export class LabelsComponent implements OnInit {
 
     const active_entity = this.activeEntity$.value;
 
-    console.log('alllabels plus value', [...this.allLabels, ...[value]]);
-
     if (this.updateEntityLabels && !this.allLabels.includes(value)) {
       this.entityService
         .updateEntity(active_entity.id, {

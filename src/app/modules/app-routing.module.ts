@@ -31,7 +31,7 @@ import { ReplyFormComponent } from '../app/flows/form/reply-form/reply-form.comp
 import { RouterOutletComponent } from '../shared/router-outlet/router-outlet.component';
 import { NotFoundPageComponent } from '../shared/not-found-page/not-found-page.component';
 import { UserPageComponent } from '../app/users/user-page/user-page.component';
-import { SearchPageComponent } from '../search/search-page/search-page.component';
+import { SearchPageComponent } from '../search/search-root/search-root.component';
 
 const routes: Routes = [
   {

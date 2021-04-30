@@ -111,6 +111,7 @@ export class Flow {
       status
       title
       thread_id
+      labels
       parent_id
       initiator_text
       initiator_id
