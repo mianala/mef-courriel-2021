@@ -3,7 +3,7 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 import { BehaviorSubject } from 'rxjs';
-import { map, skip, switchMap } from 'rxjs/operators';
+import { catchError, map, skip, skipWhile, switchMap } from 'rxjs/operators';
 
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
@@ -23,10 +23,6 @@ interface IEntityInfo {
   providedIn: 'root',
 })
 export class EntityService {
-  nextActiveEntity(updatedEntity: Entity) {
-    this.activeEntity$.next(updatedEntity);
-    localStorage.setItem('active_entity', JSON.stringify(updatedEntity));
-  }
   // store in localstorage
   entities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
 
@@ -44,25 +40,27 @@ export class EntityService {
         map(
           (info: Entity): IEntityInfo => {
             return {
-              labels: info.labels ? info.labels.split(',') : null,
-              letter_texts: info.letter_texts
-                ? info.letter_texts.split(',')
+              labels: info?.labels ? info?.labels.split(',') : null,
+              letter_texts: info?.letter_texts
+                ? info?.letter_texts.split(',')
                 : null,
-              type_texts: info.type_texts ? info.type_texts.split(',') : null,
-              observations: info.observations
-                ? info.observations.split(',')
+              type_texts: info?.type_texts ? info?.type_texts.split(',') : null,
+              observations: info?.observations
+                ? info?.observations.split(',')
                 : null,
             };
           }
         )
       );
-    })
+    }),
+    catchError(async () => null)
   );
 
   // why not just combinelatest with user.entity.id?
   activeEntityLabels$ = this.activeEntityInfo$.pipe(
-    map((info: IEntityInfo) => info.labels)
+    map((info: IEntityInfo | null) => info?.labels)
   );
+
   activeEntityObservations$: BehaviorSubject<string[]> = new BehaviorSubject<
     string[]
   >([]);
@@ -78,6 +76,10 @@ export class EntityService {
     private userService: UserService,
     private notification: NotificationService
   ) {
+    this.activeEntity$.subscribe((entity) => {
+      console.log('active entity', entity);
+    });
+
     const entities =
       localStorage.getItem('entities') !== null
         ? JSON.parse(localStorage.getItem('entities') || '[]')
@@ -93,6 +95,7 @@ export class EntityService {
 
     this.userService.activeUser$.subscribe((user: User) => {
       if (user === null || user.id === 0) {
+        this.logout();
         return;
       }
 
@@ -108,6 +111,11 @@ export class EntityService {
         this.activeEntity$.next(new Entity(activeEntity));
       }
     });
+  }
+
+  logout() {
+    this.activeEntity$.next(new Entity());
+    localStorage.removeItem('active_entity');
   }
 
   getUserEntityInfo(entity_id: number) {
@@ -184,7 +192,8 @@ export class EntityService {
           return newChild;
         });
 
-        this.nextActiveEntity(entity);
+        this.activeEntity$.next(entity);
+        localStorage.setItem('active_entity', JSON.stringify(entity));
       });
   }
 

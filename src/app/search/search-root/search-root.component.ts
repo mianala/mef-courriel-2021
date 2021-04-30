@@ -33,7 +33,9 @@ export class SearchPageComponent implements OnInit {
       this.dataSource.data = entity.children;
     });
 
-    this.userService.loggedIn$.value ? null : this.router.navigate(['']);
+    this.userService.loggedIn$.value
+      ? null
+      : this.router.navigate(['/auth/login']);
   }
 
   treeControl = new NestedTreeControl<Entity>((node) => node.children);

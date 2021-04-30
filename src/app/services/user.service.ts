@@ -23,6 +23,8 @@ export class UserService {
     private notification: NotificationService,
     private router: Router
   ) {
+    this.activeUser$.subscribe((user) => console.log('active user', user));
+
     const user =
       localStorage.getItem('user') !== null
         ? JSON.parse(localStorage.getItem('user') || '[]')
@@ -177,7 +179,6 @@ export class UserService {
   logout() {
     this.activeUser$.next(new User());
     localStorage.removeItem('user');
-    localStorage.removeItem('active_entity');
 
     this.notification.open('Vous êtes déconnecté');
   }

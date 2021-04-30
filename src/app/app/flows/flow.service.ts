@@ -33,10 +33,8 @@ export class FlowService {
     private notification: NotificationService
   ) {
     this.entityService.activeEntity$.subscribe((entity) => {
-      // console.log('refreshing flows');
-
       if (entity.id) {
-        this.refreshFlows();
+        this.getAllFlow(entity.id);
       }
     });
   }

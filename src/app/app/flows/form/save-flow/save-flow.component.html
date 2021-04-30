@@ -103,6 +103,9 @@
       <mat-label>Note</mat-label>
       <textarea name="content" formControlName="note" matInput></textarea>
     </mat-form-field> -->
+    <mat-checkbox formControlName="urgent" name="urgent"
+      >Urgent <mat-icon color="warn">error_outline</mat-icon></mat-checkbox
+    >
     <labels [(labels)]="labels"></labels>
 
     <files [(files)]="files"></files>

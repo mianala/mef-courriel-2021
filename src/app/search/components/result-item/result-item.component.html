@@ -1,5 +1,6 @@
 <div class="searchresult">
-  <span class="reference">{{ flow.reference }}</span> <button>▼</button>
+  <span class="reference">{{ flow.senderText() }} > {{ flow.reference }}</span>
+  <button>▼</button>
   <h2 class="title">
     <a
       routerLink="/search/flow/"

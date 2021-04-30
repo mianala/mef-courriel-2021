@@ -68,7 +68,7 @@
       </mat-menu>
     </div>
   </div>
-  <div id="optionsbar" *ngIf="searchKeys$ | async">
+  <div id="optionsbar" *ngIf="searchKeys$ | async" fxLayout="row">
     <mat-form-field class="options" appearance="fill">
       <mat-label>Résultats </mat-label>
       <mat-select value="Tout">
@@ -80,5 +80,10 @@
         <mat-option value="Vidéos">Vidéos</mat-option>
       </mat-select>
     </mat-form-field>
+    <div style="padding: 0.5rem">
+      <a mat-button routerLink="/search">
+        <mat-icon>refresh</mat-icon> Réinitialiser
+      </a>
+    </div>
   </div>
 </header>

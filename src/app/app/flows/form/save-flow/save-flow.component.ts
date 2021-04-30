@@ -53,6 +53,10 @@ export class SaveFlowFormComponent implements OnInit {
         new Date(),
         Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
+      urgent: [
+        false,
+        Validators.compose([Validators.required, Validators.minLength(1)]),
+      ],
     });
   }
 
@@ -92,6 +96,7 @@ export class SaveFlowFormComponent implements OnInit {
       labels: this.labels.join(','),
       user_id: this.user.id,
       date: form.date,
+      status: form.urgent ? 1 : 0,
       type_text: form.type_text,
       letter_text: form.letter_text,
       numero: form.numero,
