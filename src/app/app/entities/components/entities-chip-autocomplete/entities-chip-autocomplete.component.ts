@@ -34,7 +34,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
   styleUrls: ['./entities-chip-autocomplete.component.scss'],
 })
-export class EntitiesChipAutocompleteComponent implements OnInit {
+export class EntitiesChipAutocompleteComponent
+  implements OnInit, ControlValueAccessor {
   visible = true;
   selectable = true;
   removable = true;
@@ -64,6 +65,17 @@ export class EntitiesChipAutocompleteComponent implements OnInit {
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(private entityService: EntityService) {}
+
+  writeValue(obj: any): void {
+    this.entities = obj;
+    // throw new Error('Method not implemented.');
+  }
+  registerOnChange(fn: any): void {
+    throw new Error('Method not implemented.');
+  }
+  registerOnTouched(fn: any): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {}
 
