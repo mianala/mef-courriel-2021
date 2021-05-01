@@ -1,20 +1,37 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { combineLatest } from 'rxjs';
-import { delay, map, skip, startWith, switchMap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { EntityService } from 'src/app/app/entities/service/entity.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'labels',
   templateUrl: './labels.component.html',
   styleUrls: ['./labels.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => LabelsComponent),
+      multi: true,
+    },
+  ],
 })
-export class LabelsComponent implements OnInit {
+export class LabelsComponent implements OnInit, ControlValueAccessor {
   updateEntityLabels = true;
   @Input() removeEntityLabels = false;
 
@@ -28,8 +45,8 @@ export class LabelsComponent implements OnInit {
   labelCtrl = new FormControl();
 
   // return value
-  @Input() labels: string[] = [];
-  @Output() labelsChange = new EventEmitter<string[]>();
+  labels: string[] = [];
+  // @Output() labelsChange = new EventEmitter<string[]>();
 
   activeEntity$ = this.entityService.activeEntity$;
   labelInput = '';
@@ -58,6 +75,19 @@ export class LabelsComponent implements OnInit {
     });
   }
 
+  onChange!: (labels: string[]) => void;
+  onTouched!: () => void;
+
+  writeValue(obj: string[]): void {
+    this.labels = obj;
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
   ngOnInit() {}
 
   add(event: MatChipInputEvent): void {
@@ -73,7 +103,7 @@ export class LabelsComponent implements OnInit {
       return;
     }
 
-    this.labels.push(value.trim());
+    this.setValue([...this.labels, ...[value.trim()]]);
 
     input.value = '';
 
@@ -101,8 +131,7 @@ export class LabelsComponent implements OnInit {
       return;
     }
 
-    this.labels.splice(index, 1);
-
+    this.setValue(this.labels.splice(index, 1));
     // remove label from entities
     if (!this.removeEntityLabels) {
       return;
@@ -121,8 +150,14 @@ export class LabelsComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.labels.push(event.option.viewValue);
+    this.setValue([...this.labels, ...[event.option.viewValue]]);
     this.labelInput = '';
     this.labelCtrl.setValue('');
+  }
+
+  setValue(labels: string[]) {
+    this.labels = labels;
+    this.onChange(labels);
+    this.onTouched();
   }
 }

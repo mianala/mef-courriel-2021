@@ -19,18 +19,13 @@
         <mat-icon>search</mat-icon>
       </button> -->
     </mat-form-field>
-    <entity-autocomplete
+    <!-- <entity-autocomplete
       #entityComponent
-      [(entity)]="filters.entity"
+      form="filters.entity"
       *ngIf="entityToggle"
       appearance="outline"
-    ></entity-autocomplete>
-    <labels
-      appearance="outline"
-      *ngIf="labelsToggle"
-      #labelsComponent
-      [(labels)]="filters.labels"
-    ></labels>
+    ></entity-autocomplete> -->
+    <labels appearance="outline" *ngIf="labelsToggle" #labelsComponent></labels>
 
     <mat-form-field
       *ngIf="dateRangeToggle"

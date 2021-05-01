@@ -5,6 +5,7 @@ import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FlowService } from '../../flow.service';
+import { AppFile } from 'src/app/classes/file';
 
 @Component({
   selector: 'save-flow-form',
@@ -41,6 +42,9 @@ export class SaveFlowFormComponent implements OnInit {
       type_text: ['Originale'],
       letter_text: ['Lettre'],
       note: [''],
+      labels: [[]],
+      files: [[]],
+      entity: [new Entity()],
       numero: [
         ,
         Validators.compose([Validators.required, Validators.minLength(1)]),
@@ -60,14 +64,14 @@ export class SaveFlowFormComponent implements OnInit {
     });
   }
 
-  files: any[] = [];
-
   preview() {}
 
   submit() {
-    this.loading = true;
-
     const form = this.saveFlowForm.value;
+
+    console.log(form);
+    return;
+    this.loading = true;
 
     const form_files: {
       name: string;
@@ -77,7 +81,7 @@ export class SaveFlowFormComponent implements OnInit {
       lastModified: number;
     }[] = [];
 
-    this.files.forEach((file) => {
+    form.files.forEach((file: any) => {
       form_files.push({
         name: file.name,
         size: file.size,
@@ -135,7 +139,6 @@ export class SaveFlowFormComponent implements OnInit {
 
   reset() {
     this.saveFlowForm.reset();
-    this.files = [];
     this.saveFlowForm.patchValue({
       date: new Date(),
       date_received: new Date(),

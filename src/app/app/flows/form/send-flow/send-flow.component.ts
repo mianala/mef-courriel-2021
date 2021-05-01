@@ -6,6 +6,7 @@ import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { FlowService } from '../../flow.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'send-flow-form',
@@ -27,6 +28,7 @@ export class SendFlowFormComponent implements OnInit {
     private route: ActivatedRoute,
     private flowService: FlowService,
     private userService: UserService,
+    private fb: FormBuilder,
     private entityService: EntityService
   ) {
     this.route.queryParams.subscribe((data) => {

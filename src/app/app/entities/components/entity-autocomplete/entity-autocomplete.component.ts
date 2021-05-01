@@ -1,5 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { EntityService } from '../../service/entity.service';
 
@@ -7,16 +21,37 @@ import { EntityService } from '../../service/entity.service';
   selector: 'entity-autocomplete',
   templateUrl: './entity-autocomplete.component.html',
   styleUrls: ['./entity-autocomplete.component.scss'],
+
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => EntityAutocompleteComponent),
+      multi: true,
+    },
+  ],
 })
-export class EntityAutocompleteComponent implements OnInit {
+export class EntityAutocompleteComponent
+  implements OnInit, ControlValueAccessor {
   @Input() appearance: MatFormFieldAppearance = 'outline';
 
   entities: Entity[] = [];
   filteredOptions: Entity[] = [];
 
-  @Input() entity = new Entity();
-  @Output() entityChange: EventEmitter<Entity> = new EventEmitter();
+  entity = new Entity();
+  allEntities$ = this.entityService.entities$;
 
+  entityCtrl = new FormControl('');
+  filteredEntities$ = combineLatest([
+    this.allEntities$,
+    this.entityCtrl.valueChanges,
+  ]).pipe(
+    map(([entities, query]) => {
+      const filterValue = query.toLowerCase();
+      return entities.filter((entity) =>
+        entity.short_header.toLowerCase().includes(filterValue)
+      );
+    })
+  );
   @Input() must_select_entity: Boolean = false;
   @Input() label = 'Département';
 
@@ -29,30 +64,36 @@ export class EntityAutocompleteComponent implements OnInit {
     this.entityService.entities$.subscribe(this.getEntities.bind(this));
   }
 
+  setValue(entity: Entity) {
+    this.entity = entity;
+    this.onChange(entity);
+    this.onTouched();
+  }
+
+  onChange!: (entity: Entity) => void;
+  onTouched!: () => void;
+
+  writeValue(obj: Entity): void {
+    this.entity = obj;
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
   getEntities(entities: any) {
     this.filteredOptions = this.entities = entities;
   }
 
   ngOnInit(): void {}
 
-  _filter(e: any) {
-    this.filteredOptions = this.entities.filter((entity) =>
-      entity.short_header
-        .toLowerCase()
-        .includes(this.entity.short.toLowerCase())
-    );
-    this._keyup.emit(e.target.value);
-  }
-
   select(e: Entity) {
-    this.entity = new Entity(e);
-    this.entityChange.emit(this.entity);
+    this.setValue(new Entity(e));
   }
 
   resetSelection(e: any) {
-    console.log(e);
-
-    this.entity = new Entity({ short: this.entity.short });
-    this.entityChange.emit(this.entity);
+    this.setValue(new Entity({ short: this.entity.short }));
   }
 }

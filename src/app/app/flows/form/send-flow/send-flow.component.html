@@ -6,10 +6,7 @@
   </p>
 </div>
 <form #form="ngForm">
-  <entities-chip-autocomplete
-    required
-    [(entities)]="receivers"
-  ></entities-chip-autocomplete>
+  <entities-chip-autocomplete required></entities-chip-autocomplete>
 
   <mat-form-field appearance="outline">
     <mat-label>Observations / Instructions</mat-label>
@@ -31,7 +28,7 @@
       <mat-label>Note</mat-label>
       <textarea name="content" formControlName="note" matInput></textarea>
     </mat-form-field> -->
-  <labels [(labels)]="labels"></labels>
+  <labels></labels>
   <files ([files])="(files)"></files>
   <div class="columns">
     <button

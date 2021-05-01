@@ -62,7 +62,7 @@
 
     <entity-autocomplete
       label="Provenance / Prep"
-      [(entity)]="entity"
+      formControlName="entity"
     ></entity-autocomplete>
     <div class="columns">
       <mat-form-field appearance="outline">
@@ -99,16 +99,12 @@
       <mat-label>Observations / Instructions</mat-label>
       <textarea name="content" formControlName="content" matInput></textarea>
     </mat-form-field>
-    <!-- <mat-form-field appearance="outline">
-      <mat-label>Note</mat-label>
-      <textarea name="content" formControlName="note" matInput></textarea>
-    </mat-form-field> -->
     <mat-checkbox formControlName="urgent" name="urgent"
       >Urgent <mat-icon color="warn">error_outline</mat-icon></mat-checkbox
     >
-    <labels [(labels)]="labels"></labels>
+    <labels formControlName="labels"></labels>
 
-    <files [(files)]="files"></files>
+    <files formControlName="files"></files>
     <div class="columns">
       <button
         [disabled]="!saveFlowForm.valid"

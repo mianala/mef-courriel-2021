@@ -44,8 +44,8 @@ export class EntitiesChipAutocompleteComponent
   entityCtrl = new FormControl('');
   entities_text: string[] = [];
 
-  @Input() entities: Entity[] = [];
-  @Output() entitiesChange: EventEmitter<Entity[]> = new EventEmitter();
+  entities: Entity[] = [];
+  // @Output() entitiesChange: EventEmitter<Entity[]> = new EventEmitter();
 
   allEntities$ = this.entityService.entities$;
 
@@ -66,13 +66,17 @@ export class EntitiesChipAutocompleteComponent
 
   constructor(private entityService: EntityService) {}
 
+  onChange!: (entities: Entity[]) => void;
+  onTouched!: () => void;
+
   writeValue(obj: any): void {
     this.entities = obj;
     // throw new Error('Method not implemented.');
   }
   registerOnChange(fn: any): void {
-    throw new Error('Method not implemented.');
+    this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     throw new Error('Method not implemented.');
   }
@@ -87,7 +91,7 @@ export class EntitiesChipAutocompleteComponent
     if ((value || '').trim()) {
       const newEntity = new Entity();
       newEntity.short = value.trim();
-      this.entities.push(newEntity);
+      this.setValue([...this.entities, ...[newEntity]]);
     }
 
     // Reset the input value
@@ -102,13 +106,19 @@ export class EntitiesChipAutocompleteComponent
     const index = this.entities.indexOf(entity);
 
     if (index >= 0) {
-      this.entities.splice(index, 1);
+      this.setValue(this.entities.splice(index, 1));
     }
   }
 
   selected(e: Entity): void {
-    this.entities.push(new Entity(e));
+    this.setValue([...this.entities, ...[new Entity(e)]]);
     this.entityInput.nativeElement.value = '';
     this.entityCtrl.setValue('');
+  }
+
+  setValue(entities: Entity[]) {
+    this.entities = entities;
+    this.onChange(entities);
+    this.onTouched();
   }
 }
