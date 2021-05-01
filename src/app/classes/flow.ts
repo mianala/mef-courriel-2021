@@ -15,7 +15,7 @@ export class Flow {
   numero = 0;
   user_id = 0;
   status = 0;
-  receiver_text = '';
+  owner_text = '';
   type_text = '';
   letter_text = '';
   content = '';
@@ -106,20 +106,20 @@ export class Flow {
       id
       action
       content
-      receiver_text
+      owner_id
+      owner_text
       reference
       status
       title
       thread_id
       labels
       parent_id
-      initiator_text
       initiator_id
+      initiator_text
       type_text
       letter_text
       progress
       numero
-      owner_id
       created_at
       updated_at
       date

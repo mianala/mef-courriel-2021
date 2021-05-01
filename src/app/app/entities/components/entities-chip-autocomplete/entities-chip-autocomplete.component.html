@@ -24,7 +24,7 @@
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option
-      *ngFor="let entity of filteredEntities"
+      *ngFor="let entity of filteredEntities$ | async"
       (click)="selected(entity)"
       [value]="entity.short"
     >

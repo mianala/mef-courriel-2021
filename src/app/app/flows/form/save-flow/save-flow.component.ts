@@ -96,7 +96,7 @@ export class SaveFlowFormComponent implements OnInit {
       labels: this.labels.join(','),
       user_id: this.user.id,
       date: form.date,
-      status: form.urgent ? 1 : 0,
+      status: form.urgent ? 1 : null,
       type_text: form.type_text,
       letter_text: form.letter_text,
       numero: form.numero,

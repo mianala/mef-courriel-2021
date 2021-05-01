@@ -16,7 +16,7 @@ export class SendFlowFormComponent implements OnInit {
   files: AppFile[] = [];
   labels: string[] = [];
   receivers: Entity[] = [];
-  parent_flow: Flow = new Flow();
+  parentFlow: Flow = new Flow();
   flow = {
     content: 'Obs',
     note: 'Note',
@@ -34,13 +34,15 @@ export class SendFlowFormComponent implements OnInit {
 
       this.flowService
         .getFlow(flow_id)
-        .subscribe((data) => (this.parent_flow = data));
+        .subscribe((data) => (this.parentFlow = data));
     });
   }
 
   ngOnInit(): void {}
 
   submit() {
+    return console.log(this.receivers);
+
     const flowsVariable: any[] = [];
     const active_entity = this.entityService.activeEntity$.value;
     const user = this.userService.activeUser$.value;
@@ -50,8 +52,8 @@ export class SendFlowFormComponent implements OnInit {
         user_id: user.id,
         initiator_id: active_entity.id,
         action: 2,
-        root_id: this.parent_flow.rootId(),
-        parent_id: this.parent_flow.id,
+        root_id: this.parentFlow.rootId(),
+        parent_id: this.parentFlow.id,
         content: this.flow.content,
         note: this.flow.note,
         labels: this.labels.join(','),
@@ -61,7 +63,7 @@ export class SendFlowFormComponent implements OnInit {
 
       flow = entity.id
         ? { ...flow, ...{ owner_id: entity.id } }
-        : { ...flow, ...{ receiver_text: entity.short } };
+        : { ...flow, ...{ owner_text: entity.short } };
 
       flowsVariable.push(flow);
     });
