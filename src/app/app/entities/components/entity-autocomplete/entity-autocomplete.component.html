@@ -3,17 +3,16 @@
   <input
     type="text"
     (keypress)="resetSelection($event)"
-    (keyup)="_filter($event)"
     aria-label="entity"
     matInput
     minlength="2"
     required
-    [(ngModel)]="entity.short"
+    [formControl]="entityCtrl"
     [matAutocomplete]="auto"
   />
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option
-      *ngFor="let e of filteredOptions"
+      *ngFor="let e of filteredEntities$ | async"
       (click)="select(e)"
       [value]="e.short"
     >

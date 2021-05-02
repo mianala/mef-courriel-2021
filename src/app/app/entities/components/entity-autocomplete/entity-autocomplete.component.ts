@@ -46,9 +46,8 @@ export class EntityAutocompleteComponent
     this.entityCtrl.valueChanges,
   ]).pipe(
     map(([entities, query]) => {
-      const filterValue = query.toLowerCase();
       return entities.filter((entity) =>
-        entity.short_header.toLowerCase().includes(filterValue)
+        entity.short_header.toLowerCase().includes(query.toLowerCase())
       );
     })
   );
