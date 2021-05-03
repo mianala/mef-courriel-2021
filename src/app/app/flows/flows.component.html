@@ -25,7 +25,7 @@
       *ngIf="entityToggle"
       appearance="outline"
     ></entity-autocomplete> -->
-    <labels appearance="outline" *ngIf="labelsToggle" #labelsComponent></labels>
+    <!-- <labels appearance="outline" *ngIf="labelsToggle" #labelsComponent></labels> -->
 
     <mat-form-field
       *ngIf="dateRangeToggle"
@@ -57,7 +57,7 @@
         >Invalid end date</mat-error
       > -->
     </mat-form-field>
-    <a
+    <!-- <a
       routerLink="/app/flow"
       [queryParams]="filters"
       *ngIf="dateRangeToggle || searchToggle || entityToggle || labelsToggle"
@@ -66,7 +66,7 @@
       (click)="search()"
     >
       <mat-icon>search</mat-icon>
-    </a>
+    </a> -->
   </div>
   <div class="toggles">
     <button

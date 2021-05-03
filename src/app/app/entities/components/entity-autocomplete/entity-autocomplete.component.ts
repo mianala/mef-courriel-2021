@@ -11,6 +11,7 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -34,11 +35,10 @@ export class EntityAutocompleteComponent
   implements OnInit, ControlValueAccessor {
   @Input() appearance: MatFormFieldAppearance = 'outline';
 
-  entities: Entity[] = [];
-  filteredOptions: Entity[] = [];
-
   entity = new Entity();
   allEntities$ = this.entityService.entities$;
+
+  displayEntity = (value: Entity) => (value ? value.short : '');
 
   entityCtrl = new FormControl('');
   filteredEntities$ = combineLatest([
@@ -46,6 +46,8 @@ export class EntityAutocompleteComponent
     this.entityCtrl.valueChanges,
   ]).pipe(
     map(([entities, query]) => {
+      query = query.id ? query.short : query;
+
       return entities.filter((entity) =>
         entity.short_header.toLowerCase().includes(query.toLowerCase())
       );
@@ -60,13 +62,19 @@ export class EntityAutocompleteComponent
   @Output() _keyup: EventEmitter<any> = new EventEmitter();
 
   constructor(private entityService: EntityService) {
-    this.entityService.entities$.subscribe(this.getEntities.bind(this));
+    this.entityCtrl.valueChanges.subscribe((value) =>
+      this.setValue(new Entity({ short: value }))
+    );
   }
 
   setValue(entity: Entity) {
     this.entity = entity;
     this.onChange(entity);
     this.onTouched();
+  }
+
+  optionSelected(e: MatAutocompleteSelectedEvent) {
+    this.setValue(e.option.value);
   }
 
   onChange!: (entity: Entity) => void;
@@ -80,10 +88,6 @@ export class EntityAutocompleteComponent
   }
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
-  }
-
-  getEntities(entities: any) {
-    this.filteredOptions = this.entities = entities;
   }
 
   ngOnInit(): void {}

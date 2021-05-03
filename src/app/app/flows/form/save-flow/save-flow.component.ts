@@ -15,9 +15,7 @@ import { AppFile } from 'src/app/classes/file';
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
   user = new User();
-  labels: string[] = [];
   loading = false;
-  entity = new Entity();
 
   constructor(
     private flowService: FlowService,
@@ -68,9 +66,8 @@ export class SaveFlowFormComponent implements OnInit {
 
   submit() {
     const form = this.saveFlowForm.value;
-
     console.log(form);
-    return;
+
     this.loading = true;
 
     const form_files: {
@@ -97,7 +94,7 @@ export class SaveFlowFormComponent implements OnInit {
       content: form.content,
       note: form.note,
       reference: form.reference,
-      labels: this.labels.join(','),
+      labels: form.labels.join(','),
       user_id: this.user.id,
       date: form.date,
       status: form.urgent ? 1 : null,
@@ -106,8 +103,8 @@ export class SaveFlowFormComponent implements OnInit {
       numero: form.numero,
       date_received: form.date_received,
       owner_id: this.user.entity_id,
-      initiator_id: this.entity.id ? this.entity.id : null,
-      initiator_text: this.entity.short,
+      initiator_id: form.entity.id ? form.entity.id : null,
+      initiator_text: form.entity.short,
       files: {
         data: form_files,
       },
