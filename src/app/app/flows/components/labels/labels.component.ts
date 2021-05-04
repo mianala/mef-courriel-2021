@@ -139,6 +139,7 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
 
     // clone/copy current array
     this.allLabels = this.labels.slice();
+    console.log(this.allLabels);
 
     this.entityService
       .updateEntity(active_entity.id, {
