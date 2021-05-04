@@ -51,7 +51,8 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {}
 
   remove(file: any) {
-    this.setValue(this.files.splice(this.files.indexOf(file), 1));
+    this.files.splice(this.files.indexOf(file), 1);
+    this.setValue(this.files);
   }
 
   getFiles(files: File[]) {

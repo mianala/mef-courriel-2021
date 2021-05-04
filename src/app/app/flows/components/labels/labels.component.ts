@@ -130,8 +130,8 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
     if (index < 0) {
       return;
     }
-
-    this.setValue(this.labels.splice(index, 1));
+    this.labels.splice(index, 1);
+    this.setValue(this.labels);
     // remove label from entities
     if (!this.removeEntityLabels) {
       return;
@@ -157,6 +157,9 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
 
   setValue(labels: string[]) {
     this.labels = labels;
+    if (this.removeEntityLabels) {
+      return;
+    }
     this.onChange(labels);
     this.onTouched();
   }
