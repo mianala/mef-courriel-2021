@@ -3,7 +3,7 @@ import { _MatTabGroupBase } from '@angular/material/tabs';
 import { NavigationEnd, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -16,7 +16,12 @@ export class UserService {
   activeUser$: BehaviorSubject<User> = new BehaviorSubject(new User());
 
   users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  loggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loggedIn$ = this.activeUser$.pipe(map((user) => user.id > 0));
+
+  loggedOut$ = this.loggedIn$.pipe(
+    distinctUntilChanged(),
+    map((current) => !current)
+  );
 
   constructor(
     private apollo: Apollo,
@@ -43,8 +48,6 @@ export class UserService {
     if (users !== null) {
       this.users$.next(users);
     }
-
-    this.activeUser$.subscribe((user) => this.loggedIn$.next(user.id > 0));
 
     if (users === null) {
       this.getUsers();

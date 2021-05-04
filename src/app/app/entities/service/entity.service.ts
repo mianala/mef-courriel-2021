@@ -3,7 +3,14 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 import { BehaviorSubject } from 'rxjs';
-import { catchError, map, skip, skipWhile, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  scan,
+  skip,
+  skipWhile,
+  switchMap,
+} from 'rxjs/operators';
 
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
@@ -78,6 +85,12 @@ export class EntityService {
   ) {
     this.activeEntity$.subscribe((entity) => {
       console.log('active entity', entity);
+    });
+
+    this.userService.loggedOut$.subscribe((loggedOut) => {
+      if (loggedOut) {
+        this.activeEntity$.next(new Entity());
+      }
     });
 
     const entities =

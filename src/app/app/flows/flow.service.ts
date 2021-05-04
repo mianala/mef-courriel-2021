@@ -30,11 +30,18 @@ export class FlowService {
   constructor(
     private apollo: Apollo,
     private entityService: EntityService,
+    private userService: UserService,
     private notification: NotificationService
   ) {
     this.entityService.activeEntity$.subscribe((entity) => {
       if (entity.id) {
         this.getAllFlow(entity.id);
+      }
+    });
+
+    this.userService.loggedOut$.subscribe((loggedOut) => {
+      if (loggedOut) {
+        this.allRecentFlows$.next([]);
       }
     });
   }
