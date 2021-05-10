@@ -39,11 +39,13 @@ export class EntityService {
   );
 
   // store in cookie
-  activeEntity$: BehaviorSubject<Entity> = new BehaviorSubject(new Entity());
+  activeEntity$: BehaviorSubject<Entity | null> = new BehaviorSubject<Entity | null>(
+    null
+  );
 
   activeEntityInfo$ = this.activeEntity$.pipe(
-    switchMap((entity: Entity) => {
-      return this.getUserEntityInfo(entity.id).pipe(
+    switchMap((entity: Entity | null) => {
+      return this.getUserEntityInfo(entity ? entity.id : null).pipe(
         map(
           (info: Entity): IEntityInfo => {
             return {
@@ -89,7 +91,7 @@ export class EntityService {
 
     this.userService.loggedOut$.subscribe((loggedOut) => {
       if (loggedOut) {
-        this.activeEntity$.next(new Entity());
+        this.logout();
       }
     });
 
@@ -106,9 +108,8 @@ export class EntityService {
       this.entities$.next(entities);
     }
 
-    this.userService.activeUser$.subscribe((user: User) => {
-      if (user === null || user.id === 0) {
-        this.logout();
+    this.userService.activeUser$.subscribe((user: User | null) => {
+      if (!user) {
         return;
       }
 
@@ -131,7 +132,7 @@ export class EntityService {
     localStorage.removeItem('active_entity');
   }
 
-  getUserEntityInfo(entity_id: number) {
+  getUserEntityInfo(entity_id: number | null) {
     const GET_ENTITY_LABEL_QUERY = gql`
       query get_entity($entity_id: Int!) {
         entity(where: { id: { _eq: $entity_id } }) {
@@ -152,6 +153,9 @@ export class EntityService {
   }
 
   getUserEntity(entity_id: number) {
+    if (entity_id == 0) {
+      return;
+    }
     const GET_USER_ENTITY_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       query getUserEntity($entity_id: Int!) {

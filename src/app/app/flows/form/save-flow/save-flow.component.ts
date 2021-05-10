@@ -14,7 +14,7 @@ import { AppFile } from 'src/app/classes/file';
 })
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
-  user = new User();
+  user: User | null;
   loading = false;
 
   constructor(
@@ -23,7 +23,9 @@ export class SaveFlowFormComponent implements OnInit {
     private userService: UserService,
     private notification: NotificationService
   ) {
-    this.user = this.userService.activeUser$.value;
+    this.user = this.userService.activeUser$
+      ? this.userService.activeUser$.value
+      : null;
   }
 
   ngOnInit(): void {
@@ -95,14 +97,14 @@ export class SaveFlowFormComponent implements OnInit {
       note: form.note,
       reference: form.reference,
       labels: form.labels.join(','),
-      user_id: this.user.id,
+      user_id: this.user?.id,
       date: form.date,
       status: form.urgent ? 1 : null,
       type_text: form.type_text,
       letter_text: form.letter_text,
       numero: form.numero,
       date_received: form.date_received,
-      owner_id: this.user.entity_id,
+      owner_id: this.user?.entity_id,
       initiator_id: form.entity.id ? form.entity.id : null,
       initiator_text: form.entity.short,
       files: {

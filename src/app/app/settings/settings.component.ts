@@ -10,7 +10,7 @@ export class SettingsComponent implements OnInit {
   default_app = '/app/flow';
   constructor(private userService: UserService) {
     userService.activeUser$.subscribe((user) => {
-      this.default_app = user.settings_default_app;
+      this.default_app = user ? user.settings_default_app : this.default_app;
     });
   }
 

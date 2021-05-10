@@ -43,15 +43,13 @@ export class SendFlowFormComponent implements OnInit {
   ngOnInit(): void {}
 
   submit() {
-    return console.log(this.receivers);
-
     const flowsVariable: any[] = [];
     const active_entity = this.entityService.activeEntity$.value;
     const user = this.userService.activeUser$.value;
 
     this.receivers.forEach((entity) => {
       let flow = {
-        user_id: user.id,
+        user_id: user?.id,
         initiator_id: active_entity.id,
         action: 2,
         root_id: this.parentFlow.rootId(),

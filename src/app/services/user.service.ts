@@ -13,10 +13,12 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class UserService {
   // save in cookie no sensitive data
-  activeUser$: BehaviorSubject<User> = new BehaviorSubject(new User());
+  activeUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
+    null
+  );
 
   users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  loggedIn$ = this.activeUser$.pipe(map((user) => user.id > 0));
+  loggedIn$ = this.activeUser$.pipe(map((user) => (user ? true : false)));
 
   loggedOut$ = this.loggedIn$.pipe(
     distinctUntilChanged(),
@@ -180,13 +182,16 @@ export class UserService {
   }
 
   logout() {
-    this.activeUser$.next(new User());
+    this.activeUser$.next(null);
     localStorage.removeItem('user');
 
     this.notification.open('Vous êtes déconnecté');
   }
 
   updateUserLastLogin() {
+    if (!this.activeUser$.value) {
+      return;
+    }
     const set = { last_login: new Date() };
     this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
       console.log('updated last login', data)
@@ -194,6 +199,9 @@ export class UserService {
   }
 
   updateDefaultApp(default_app: string) {
+    if (!this.activeUser$.value) {
+      return;
+    }
     const set = { settings_default_app: default_app };
     this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
       this.notification.open('Application par Défaut Mise à jour')
@@ -233,6 +241,10 @@ export class UserService {
   }
 
   resetPassword(hashed: string) {
+    if (!this.activeUser$.value) {
+      return;
+    }
+
     const set = { hashed: hashed };
     this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
       console.log(data)
