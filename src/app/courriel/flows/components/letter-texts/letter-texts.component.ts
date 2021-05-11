@@ -17,7 +17,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { EntityService } from 'src/app/app/entities/service/entity.service';
+import { EntityService } from 'src/app/courriel/entities/service/entity.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({

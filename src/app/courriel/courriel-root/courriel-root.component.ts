@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'app-app-page',
-  templateUrl: './app-root.component.html',
-  styleUrls: ['./app-root.component.scss'],
+  selector: 'app-courriel-page',
+  templateUrl: './courriel-root.component.html',
+  styleUrls: ['./courriel-root.component.scss'],
 })
-export class AppPageComponent implements OnInit {
+export class CourrielRootComponent implements OnInit {
   constructor(public userService: UserService, public router: Router) {
     this.userService.loggedIn$.subscribe((logged_in) => {
       if (!logged_in) {

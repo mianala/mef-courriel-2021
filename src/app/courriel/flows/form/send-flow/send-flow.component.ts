@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EntityService } from 'src/app/app/entities/service/entity.service';
+import { EntityService } from 'src/app/courriel/entities/service/entity.service';
 import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';
@@ -25,7 +25,8 @@ export class SendFlowFormComponent implements OnInit {
   parentFlow$ = this.flowId$.pipe(
     switchMap((id: number) => {
       return this.flowService.getFlow(id);
-    })
+    }),
+    map((flows: Flow[]) => flows[0])
   );
 
   constructor(
@@ -40,7 +41,7 @@ export class SendFlowFormComponent implements OnInit {
     });
 
     this.sendFlowForm = this.fb.group({
-      labels: [[]],
+      labels: [],
       content: ['', Validators.compose([Validators.required])],
       note: [],
       urgent: [],
@@ -59,11 +60,12 @@ export class SendFlowFormComponent implements OnInit {
     const activeUser = this.activeUser$.value;
 
     if (!activeEntity || !activeUser) return;
+    console.log(form);
 
     form.receivers.forEach((entity: Entity) => {
       let flow = {
-        user_id: activeUser?.id,
-        initiator_id: activeEntity?.id,
+        user_id: activeUser.id,
+        initiator_id: activeEntity.id,
         action: 2,
         root_id: this.parentFlow.rootId(),
         parent_id: this.parentFlow.id,
@@ -81,9 +83,7 @@ export class SendFlowFormComponent implements OnInit {
       flows.push(flow);
     });
 
-    console.log(flows);
-
-    // this.entityService.incrementEntitySentCount();
-    // this.flowService.insertFlows(flows);
+    this.entityService.incrementEntitySentCount();
+    this.flowService.insertFlows(flows);
   }
 }

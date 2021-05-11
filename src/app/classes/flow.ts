@@ -126,4 +126,29 @@ export class Flow {
       date_received
     }
   `;
+
+  static ITEM_FLOW_FIELDS = gql`
+    ${Entity.CORE_ENTITY_FIELDS}
+    ${Flow.CORE_FLOW_FIELDS}
+    ${AppFile.core_file_fields}
+
+    fragment ItemFlowFields on flow {
+      ...CoreFlowFields
+      initiator {
+        ...CoreEntityFields
+      }
+      parent {
+        ...CoreFlowFields
+      }
+      root {
+        ...CoreFlowFields
+      }
+      owner {
+        ...CoreEntityFields
+      }
+      files {
+        ...CoreFileFields
+      }
+    }
+  `;
 }

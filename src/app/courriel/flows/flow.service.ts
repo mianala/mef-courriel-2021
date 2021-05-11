@@ -26,7 +26,7 @@ export class FlowService {
   searchAppResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
   searchFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
-  activeEntity$ = this.entityService.activeEntity$
+  activeEntity$ = this.entityService.activeEntity$;
 
   constructor(
     private apollo: Apollo,
@@ -48,8 +48,7 @@ export class FlowService {
   }
 
   refreshFlows() {
-    this.activeEntity$.value &&
-      this.getAllFlow(this.activeEntity$.value.id);
+    this.activeEntity$.value && this.getAllFlow(this.activeEntity$.value.id);
   }
 
   insertFlows(flows: any) {
@@ -82,30 +81,14 @@ export class FlowService {
     const GET_FLOW_QUERY = gql`
       ${Flow.CORE_FLOW_FIELDS}
       ${Entity.CORE_ENTITY_FIELDS}
-      ${AppFile.core_file_fields}
       query get_flow($id: Int!) {
         flow(where: { id: { _eq: $id } }) {
-          ...CoreFlowFields
-          initiator {
-            ...CoreEntityFields
-          }
-          parent {
-            ...CoreFlowFields
-          }
-          root {
-            ...CoreFlowFields
-          }
+          ...ItemFlowFields
           children {
             ...CoreFlowFields
           }
           flows {
             ...CoreFlowFields
-          }
-          owner {
-            ...CoreEntityFields
-          }
-          files {
-            ...CoreFileFields
           }
         }
       }
@@ -157,23 +140,11 @@ export class FlowService {
 
   getAllFlow(entity_id: number) {
     const GET_ALL_FLOWS_QUERY = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      ${Flow.CORE_FLOW_FIELDS}
+      ${Flow.ITEM_FLOW_FIELDS}
+
       query get_all_recent_flows($entity_id: Int!) {
         flow(where: { owner_id: { _eq: $entity_id } }, order_by: { id: desc }) {
-          ...CoreFlowFields
-          initiator {
-            ...CoreEntityFields
-          }
-          parent {
-            ...CoreFlowFields
-          }
-          root {
-            ...CoreFlowFields
-          }
-          owner {
-            ...CoreEntityFields
-          }
+          ...ItemFlowFields
         }
       }
     `;
@@ -193,6 +164,47 @@ export class FlowService {
           console.log('there was an error sending the query', error);
         }
       );
+  }
+  allFlows(entity_id: number) {
+    const GET_ALL_FLOWS_QUERY = gql`
+      ${Flow.ITEM_FLOW_FIELDS}
+      query get_all_flows($entity_id: Int!) {
+        flow(where: { owner_id: { _eq: $entity_id } }, order_by: { id: desc }) {
+          ...ItemFlowFields
+        }
+      }
+    `;
+
+    this.apollo
+      .watchQuery({
+        query: GET_ALL_FLOWS_QUERY,
+        variables: { entity_id },
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(this.flowMap);
+  }
+
+  sentFlows(entity_id: number) {
+    const GET_SENT_FLOWS_QUERY = gql`
+      ${Flow.ITEM_FLOW_FIELDS}
+
+      query get_sent_flows($entity_id: Int!) {
+        flow(
+          where: { initiator_id: { _eq: $entity_id } }
+          order_by: { id: desc }
+        ) {
+          ...ItemFlowFields
+        }
+      }
+    `;
+
+    return this.apollo
+      .watchQuery({
+        query: GET_SENT_FLOWS_QUERY,
+        variables: { entity_id },
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(this.flowMap);
   }
 
   markFlowAsRead(flow_id: number) {

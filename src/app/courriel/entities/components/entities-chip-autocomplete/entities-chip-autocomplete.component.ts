@@ -2,18 +2,14 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
   OnInit,
-  Output,
   ViewChild,
   forwardRef,
-  HostBinding,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { EntityService } from '../../service/entity.service';
@@ -35,7 +31,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   styleUrls: ['./entities-chip-autocomplete.component.scss'],
 })
 export class EntitiesChipAutocompleteComponent
-  implements OnInit, ControlValueAccessor {
+  implements OnInit, ControlValueAccessor
+{
   visible = true;
   selectable = true;
   removable = true;
@@ -51,7 +48,7 @@ export class EntitiesChipAutocompleteComponent
 
   filteredEntities$ = combineLatest([
     this.allEntities$,
-    this.entityCtrl.valueChanges,
+    this.entityCtrl.valueChanges.pipe(startWith('')),
   ]).pipe(
     map(([entities, query]) => {
       const filterValue = query.toLowerCase();

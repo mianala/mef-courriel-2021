@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { EntityService } from 'src/app/app/entities/service/entity.service';
-import { FlowService } from 'src/app/app/flows/flow.service';
+import { EntityService } from 'src/app/courriel/entities/service/entity.service';
+import { FlowService } from 'src/app/courriel/flows/flow.service';
 import { UserService } from 'src/app/services/user.service';
 import { SearchService } from '../search.service';
 

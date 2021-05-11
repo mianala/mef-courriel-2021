@@ -1,12 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -17,7 +10,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { EntityService } from 'src/app/app/entities/service/entity.service';
+import { EntityService } from 'src/app/courriel/entities/service/entity.service';
 
 @Component({
   selector: 'labels',
@@ -75,8 +68,8 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
     });
   }
 
-  onChange = (labels: string[] | null) => {};
-  onTouched = () => {};
+  onChange!: (labels: string[] | null) => void;
+  onTouched!: () => void;
 
   writeValue(obj: string[]): void {
     if (!obj) {
@@ -85,9 +78,11 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
     }
     this.labels = obj;
   }
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
