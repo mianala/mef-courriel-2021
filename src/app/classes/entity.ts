@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { EntityService } from '../app/entities/service/entity.service';
+import { EntityService } from '../courriel/entities/service/entity.service';
 import { User } from './user';
 
 export class Entity {

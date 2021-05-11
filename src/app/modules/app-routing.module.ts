@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatComponent } from '../chat/chat.component';
-import { FlowsComponent } from '../app/flows/flows.component';
+import { FlowsComponent } from '../courriel/flows/flows.component';
 import { AuthComponent } from '../auth/auth.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HelpComponent } from '../help/help.component';
@@ -11,26 +11,26 @@ import { LoginComponent } from '../auth/login/login.component';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { SignupComponent } from '../auth/signup/signup.component';
 import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
-import { AppPageComponent } from '../app/app-root/app-root.component';
-import { EntitiesComponent } from '../app/entities/entities.component';
-import { UsersComponent } from '../app/users/users.component';
-import { AddNewEntityComponent } from '../app/entities/add-new-entity/add-new-entity.component';
-import { EditEntityComponent } from '../app/entities/edit-entity/edit-entity.component';
+import { CourrielRootComponent } from '../courriel/courriel-root/courriel-root.component';
+import { EntitiesComponent } from '../courriel/entities/entities.component';
+import { UsersComponent } from '../courriel/users/users.component';
+import { AddNewEntityComponent } from '../courriel/entities/add-new-entity/add-new-entity.component';
+import { EditEntityComponent } from '../courriel/entities/edit-entity/edit-entity.component';
 import { TestingGroundComponent } from '../shared/testing-ground/testing-ground.component';
-import { SaveFlowPageComponent } from '../app/flows/save-flow-page/save-flow-page.component';
-import { ViewFlowPageComponent } from '../app/flows/view-flow-page/view-flow-page.component';
-import { SettingsComponent } from '../app/settings/settings.component';
-import { SendFlowFormComponent } from '../app/flows/form/send-flow/send-flow.component';
-import { AssignFlowComponent } from '../app/flows/assign-flow/assign-flow.component';
+import { SaveFlowPageComponent } from '../courriel/flows/save-flow-page/save-flow-page.component';
+import { ViewFlowPageComponent } from '../courriel/flows/view-flow-page/view-flow-page.component';
+import { SettingsComponent } from '../courriel/settings/settings.component';
+import { SendFlowFormComponent } from '../courriel/flows/form/send-flow/send-flow.component';
+import { AssignFlowComponent } from '../courriel/flows/assign-flow/assign-flow.component';
 import { LandingComponent } from '../home/landing-page/landing.component';
 import { SignedUpComponent } from '../auth/signed-up/signed-up.component';
-import { EditUserComponent } from '../app/users/edit-user/edit-user.component';
-import { EntityPageComponent } from '../app/entities/entity-page/entity-page.component';
-import { FlowRouteComponent } from '../app/flows/flow-route/flow-route.component';
-import { ReplyFormComponent } from '../app/flows/form/reply-form/reply-form.component';
+import { EditUserComponent } from '../courriel/users/edit-user/edit-user.component';
+import { EntityPageComponent } from '../courriel/entities/entity-page/entity-page.component';
+import { FlowRouteComponent } from '../courriel/flows/flow-route/flow-route.component';
+import { ReplyFormComponent } from '../courriel/flows/form/reply-form/reply-form.component';
 import { RouterOutletComponent } from '../shared/router-outlet/router-outlet.component';
 import { NotFoundPageComponent } from '../shared/not-found-page/not-found-page.component';
-import { UserPageComponent } from '../app/users/user-page/user-page.component';
+import { UserPageComponent } from '../courriel/users/user-page/user-page.component';
 import { SearchPageComponent } from '../search/search-root/search-root.component';
 
 const routes: Routes = [
@@ -99,8 +99,8 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'app',
-    component: AppPageComponent,
+    path: 'courriel',
+    component: CourrielRootComponent,
     children: [
       {
         path: 'chat',

@@ -18,7 +18,11 @@
           <a routerLink="/auth/login" mat-raised-button>Se connecter →</a>
         </li>
         <li *ngIf="userService.loggedIn$ | async">
-          <a routerLink="/app/flow" style="margin-left: 1rem" mat-icon-button>
+          <a
+            routerLink="/courriel/flow"
+            style="margin-left: 1rem"
+            mat-icon-button
+          >
             <mat-icon>apps</mat-icon>
           </a>
         </li>
