@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  place-content: center;
+  place-items: center;
+  min-height: 60vh;
+  width: 100%;
+  .box {
+    padding: 1rem;
+    margin-top: 2rem;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
+}

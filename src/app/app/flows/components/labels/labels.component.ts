@@ -75,10 +75,14 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
     });
   }
 
-  onChange!: (labels: string[]) => void;
-  onTouched!: () => void;
+  onChange = (labels: string[] | null) => {};
+  onTouched = () => {};
 
   writeValue(obj: string[]): void {
+    if (!obj) {
+      this.labels = [];
+      return;
+    }
     this.labels = obj;
   }
   registerOnChange(fn: any): void {
@@ -111,6 +115,10 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
 
     const active_entity = this.activeEntity$.value;
 
+    if (!active_entity) {
+      return;
+    }
+
     if (this.updateEntityLabels && !this.allLabels.includes(value)) {
       this.entityService
         .updateEntity(active_entity.id, {
@@ -140,6 +148,10 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
     // clone/copy current array
     this.allLabels = this.labels.slice();
     console.log(this.allLabels);
+
+    if (!active_entity) {
+      return;
+    }
 
     this.entityService
       .updateEntity(active_entity.id, {

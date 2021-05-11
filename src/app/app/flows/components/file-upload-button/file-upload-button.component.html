@@ -1,2 +1,4 @@
-<button mat-button (click)="file.click()"> <mat-icon>attach_file</mat-icon> AJOUTER FICHIER(S)</button>
-<input multiple (change)="selectFile($event)" hidden type="file" #file/>
+<button type="button" mat-button (click)="file.click()">
+  <mat-icon>attach_file</mat-icon> AJOUTER FICHIER(S)
+</button>
+<input multiple (change)="selectFile($event)" hidden type="file" #file />

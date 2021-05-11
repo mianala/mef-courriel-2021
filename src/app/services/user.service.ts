@@ -30,28 +30,24 @@ export class UserService {
     private notification: NotificationService,
     private router: Router
   ) {
-    this.activeUser$.subscribe((user) => console.log('active user', user));
-
-    const user =
+    const localStorageUser =
       localStorage.getItem('user') !== null
-        ? JSON.parse(localStorage.getItem('user') || '[]')
+        ? new User(JSON.parse(localStorage.getItem('user') || '[]'))
         : null; // redirect to login
 
-    const users =
+    const localStorageUsers =
       localStorage.getItem('users') !== null
         ? JSON.parse(localStorage.getItem('users') || '[]')
         : null; // redirect to login
 
-    if (user !== null) {
+    if (localStorageUser !== null) {
       console.log('active user from localstorage');
-
-      this.activeUser$.next(new User(user));
-    }
-    if (users !== null) {
-      this.users$.next(users);
+      this.activeUser$.next(localStorageUser);
     }
 
-    if (users === null) {
+    if (localStorageUsers) {
+      this.users$.next(localStorageUsers);
+    } else {
       this.getUsers();
     }
   }

@@ -70,6 +70,10 @@ export class EntitiesChipAutocompleteComponent
   onTouched!: () => void;
 
   writeValue(obj: any): void {
+    if (!obj) {
+      this.entities = [];
+      return;
+    }
     this.entities = obj;
     // throw new Error('Method not implemented.');
   }
@@ -78,7 +82,7 @@ export class EntitiesChipAutocompleteComponent
   }
 
   registerOnTouched(fn: any): void {
-    throw new Error('Method not implemented.');
+    this.onTouched = fn;
   }
 
   ngOnInit(): void {}

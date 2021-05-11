@@ -26,6 +26,7 @@ export class FlowService {
   searchAppResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
   searchFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+  activeEntity$ = this.entityService.activeEntity$
 
   constructor(
     private apollo: Apollo,
@@ -33,8 +34,8 @@ export class FlowService {
     private userService: UserService,
     private notification: NotificationService
   ) {
-    this.entityService.activeEntity$.subscribe((entity) => {
-      if (entity.id) {
+    this.activeEntity$.subscribe((entity) => {
+      if (entity) {
         this.getAllFlow(entity.id);
       }
     });
@@ -47,8 +48,8 @@ export class FlowService {
   }
 
   refreshFlows() {
-    this.entityService.activeEntity$.value.id &&
-      this.getAllFlow(this.entityService.activeEntity$.value.id);
+    this.activeEntity$.value &&
+      this.getAllFlow(this.activeEntity$.value.id);
   }
 
   insertFlows(flows: any) {
@@ -265,7 +266,7 @@ export class FlowService {
     `;
 
     searchFlowVariables.owner_id = {
-      _eq: this.entityService.activeEntity$.value.id,
+      _eq: this.activeEntity$.value?.id,
     };
 
     return this.apollo

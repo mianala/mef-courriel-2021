@@ -14,28 +14,13 @@
   <div class="header__menu">
     <nav id="navbar" class="header__nav collapse">
       <ul>
-        <!-- <li>
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">Pricing</a>
-          </li>
-          <li>
-            <a href="#">Success stories</a>
-          </li>
-          <li>
-            <a href="#">Blog</a>
-          </li>
-          <li>
-            <a href="#">Contact us</a>
-          </li> -->
         <li *ngIf="!(userService.loggedIn$ | async)">
-          <a routerLink="/auth/login" class="btn--white">Se connecter →</a>
+          <a routerLink="/auth/login" mat-raised-button>Se connecter →</a>
         </li>
         <li *ngIf="userService.loggedIn$ | async">
-          <a routerLink="/app/flow" style="margin-left: 1rem" class="btn--white"
-            >Enregistrement</a
-          >
+          <a routerLink="/app/flow" style="margin-left: 1rem" mat-icon-button>
+            <mat-icon>apps</mat-icon>
+          </a>
         </li>
       </ul>
     </nav>

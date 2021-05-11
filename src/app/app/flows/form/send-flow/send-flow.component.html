@@ -1,39 +1,38 @@
-<div class="header">
-  <h1><mat-icon>call_split</mat-icon> Envoyer</h1>
-  <p>
-    Veuillez saisir toutes les informations sur le courrier dans le formulaire
-    ci-dessous
-  </p>
-</div>
-<form #form="ngForm">
-  <entities-chip-autocomplete required></entities-chip-autocomplete>
+<form
+  #form="ngForm"
+  (ngSubmit)="submit()"
+  [formGroup]="sendFlowForm"
+  class="box"
+>
+  <div class="header">
+    <h1><mat-icon>call_split</mat-icon> Envoyer</h1>
+    <p>
+      Veuillez saisir toutes les informations sur le courrier dans le formulaire
+      ci-dessous
+    </p>
+  </div>
+  <entities-chip-autocomplete
+    formControlName="receivers"
+    nome="receivers"
+    required
+  ></entities-chip-autocomplete>
 
   <mat-form-field appearance="outline">
     <mat-label>Observations / Instructions</mat-label>
-    <textarea
-      required
-      name="content"
-      [(ngModel)]="flow.content"
-      matInput
-    ></textarea>
+    <textarea required formControlName="content" matInput></textarea>
   </mat-form-field>
-  <mat-checkbox [(ngModel)]="flow.urgent" name="urgent"
+  <mat-checkbox formControlName="urgent" name="urgent" name="urgent"
     >Urgent <mat-icon color="warn">error_outline</mat-icon></mat-checkbox
   >
   <mat-form-field appearance="outline">
     <mat-label>Note</mat-label>
-    <textarea name="note" [(ngModel)]="flow.note" matInput></textarea>
+    <textarea formControlName="note" matInput></textarea>
   </mat-form-field>
-  <!-- <mat-form-field appearance="outline">
-      <mat-label>Note</mat-label>
-      <textarea name="content" formControlName="note" matInput></textarea>
-    </mat-form-field> -->
   <labels></labels>
-  <files ([files])="(files)"></files>
+  <files formControlName="files"></files>
   <div class="columns">
     <button
-      (click)="submit()"
-      [disabled]="!valid()"
+      [disabled]="!sendFlowForm.valid"
       mat-raised-button
       color="primary"
       cdkFocusInitial

@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, forwardRef, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { AppFile } from 'src/app/classes/file';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -29,10 +22,14 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
 
   constructor(private firebaseService: FirebaseService) {}
 
-  onChange!: (files: AppFile[]) => void;
+  onChange!: (files: AppFile[] | null) => void;
   onTouched!: () => void;
 
   writeValue(obj: any): void {
+    if (!obj) {
+      this.files = [];
+      return;
+    }
     this.files = obj;
   }
   registerOnChange(fn: any): void {
@@ -43,6 +40,11 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
   }
 
   setValue(files: AppFile[]) {
+    if (!files.length) {
+      this.onChange(null);
+      return;
+    }
+
     this.files = files;
     this.onChange(files);
     this.onTouched();

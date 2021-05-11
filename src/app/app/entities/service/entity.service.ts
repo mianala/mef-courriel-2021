@@ -67,7 +67,7 @@ export class EntityService {
 
   // why not just combinelatest with user.entity.id?
   activeEntityLabels$ = this.activeEntityInfo$.pipe(
-    map((info: IEntityInfo | null) => info?.labels)
+    map((info: IEntityInfo | null) => (info ? info.labels : null))
   );
 
   activeEntityObservations$: BehaviorSubject<string[]> = new BehaviorSubject<
@@ -85,13 +85,10 @@ export class EntityService {
     private userService: UserService,
     private notification: NotificationService
   ) {
-    this.activeEntity$.subscribe((entity) => {
-      console.log('active entity', entity);
-    });
-
     this.userService.loggedOut$.subscribe((loggedOut) => {
       if (loggedOut) {
-        this.logout();
+        this.activeEntity$.next(null);
+        localStorage.removeItem('active_entity');
       }
     });
 
@@ -125,11 +122,6 @@ export class EntityService {
         this.activeEntity$.next(new Entity(activeEntity));
       }
     });
-  }
-
-  logout() {
-    this.activeEntity$.next(new Entity());
-    localStorage.removeItem('active_entity');
   }
 
   getUserEntityInfo(entity_id: number | null) {
@@ -342,6 +334,9 @@ export class EntityService {
   }
 
   incrementEntitySentCount() {
+    if (!this.activeEntity$.value) {
+      return;
+    }
     const inc = { sent_count: 1 };
     const activeEntity = this.activeEntity$.value;
 

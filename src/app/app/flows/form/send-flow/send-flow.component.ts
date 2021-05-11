@@ -6,7 +6,8 @@ import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { FlowService } from '../../flow.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'send-flow-form',
@@ -14,15 +15,18 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./send-flow.component.scss'],
 })
 export class SendFlowFormComponent implements OnInit {
-  files: AppFile[] = [];
-  labels: string[] = [];
-  receivers: Entity[] = [];
+  sendFlowForm: FormGroup;
   parentFlow: Flow = new Flow();
-  flow = {
-    content: 'Obs',
-    note: 'Note',
-    urgent: false,
-  };
+
+  queryParams$ = this.route.queryParams;
+  activeEntity$ = this.entityService.activeEntity$;
+  activeUser$ = this.userService.activeUser$;
+  flowId$ = this.queryParams$.pipe(map((params) => parseInt(params.flow_id)));
+  parentFlow$ = this.flowId$.pipe(
+    switchMap((id: number) => {
+      return this.flowService.getFlow(id);
+    })
+  );
 
   constructor(
     private route: ActivatedRoute,
@@ -31,48 +35,55 @@ export class SendFlowFormComponent implements OnInit {
     private fb: FormBuilder,
     private entityService: EntityService
   ) {
-    this.route.queryParams.subscribe((data) => {
-      const flow_id = parseInt(data.flow_id);
+    this.parentFlow$.subscribe((data) => {
+      this.parentFlow = new Flow(data);
+    });
 
-      this.flowService
-        .getFlow(flow_id)
-        .subscribe((data) => (this.parentFlow = data));
+    this.sendFlowForm = this.fb.group({
+      labels: [[]],
+      content: ['', Validators.compose([Validators.required])],
+      note: [],
+      urgent: [],
+      receivers: [[], Validators.compose([Validators.required])],
+      files: [],
     });
   }
 
   ngOnInit(): void {}
 
   submit() {
-    const flowsVariable: any[] = [];
-    const active_entity = this.entityService.activeEntity$.value;
-    const user = this.userService.activeUser$.value;
+    const form = this.sendFlowForm.value;
+    const flows: any[] = [];
 
-    this.receivers.forEach((entity) => {
+    const activeEntity = this.activeEntity$.value;
+    const activeUser = this.activeUser$.value;
+
+    if (!activeEntity || !activeUser) return;
+
+    form.receivers.forEach((entity: Entity) => {
       let flow = {
-        user_id: user?.id,
-        initiator_id: active_entity.id,
+        user_id: activeUser?.id,
+        initiator_id: activeEntity?.id,
         action: 2,
         root_id: this.parentFlow.rootId(),
         parent_id: this.parentFlow.id,
-        content: this.flow.content,
-        note: this.flow.note,
-        labels: this.labels.join(','),
-        files: this.files,
-        status: this.flow.urgent ? 1 : null,
+        content: form.content,
+        note: form.note,
+        labels: form.labels ? form.labels.join(',') : null,
+        files: form.files,
+        status: form.urgent ? 1 : null,
       };
 
       flow = entity.id
-        ? { ...flow, ...{ owner_id: entity.id } }
+        ? { ...flow, ...{ owner_id: entity.id, owner_text: entity.short } }
         : { ...flow, ...{ owner_text: entity.short } };
 
-      flowsVariable.push(flow);
+      flows.push(flow);
     });
 
-    this.entityService.incrementEntitySentCount();
-    this.flowService.insertFlows(flowsVariable);
-  }
+    console.log(flows);
 
-  valid() {
-    return this.receivers.length && this.flow.content.length;
+    // this.entityService.incrementEntitySentCount();
+    // this.flowService.insertFlows(flows);
   }
 }

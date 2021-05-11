@@ -24,9 +24,13 @@ export class EntityPageComponent implements OnInit {
     this.route.queryParams.subscribe(this.getEntity.bind(this));
   }
 
+  // FIXME: refactor to pipe
   getEntity(data: any) {
     if (!data.entity_id) {
       this.entityService.activeEntity$.subscribe((entity) => {
+        if (!entity) {
+          return;
+        }
         this.entityService.getEntityWithUsers(entity.id).subscribe((e) => {
           this.entity = e[0];
         });
