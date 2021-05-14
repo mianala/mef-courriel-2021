@@ -15,7 +15,6 @@ import { SearchService } from '../search.service';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchResultComponent implements OnInit {
-  loading: boolean;
   entity: Entity = new Entity();
   @Input() query: string = '';
 
@@ -30,16 +29,8 @@ export class SearchResultComponent implements OnInit {
     this.activeLabelFilter$,
   ]).pipe(
     map(([entityFilter, results, labelFilter]) => {
+      console.log('results of ', [entityFilter, results, labelFilter]);
       return results.filter((flow: any) => {
-        console.log(
-          'label',
-          labelFilter,
-          'entity',
-          entityFilter,
-          'results',
-          results
-        );
-
         return entityFilter
           ? labelFilter
             ? flow.labels.includes(labelFilter) &&
@@ -58,10 +49,7 @@ export class SearchResultComponent implements OnInit {
     public userService: UserService,
     route: ActivatedRoute
   ) {
-    this.loading = true;
-
     route.queryParams.subscribe((data) => {
-      this.loading = true;
       this.results$.next([]);
 
       let searchFilters: any = { _and: {} };
@@ -84,9 +72,7 @@ export class SearchResultComponent implements OnInit {
 
       console.log('searchFilters', searchFilters);
 
-      this.flowService.searchApp(searchFilters, () => {
-        this.loading = false;
-      });
+      this.flowService.searchApp(searchFilters);
     });
   }
 

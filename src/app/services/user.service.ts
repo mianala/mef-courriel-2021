@@ -7,6 +7,7 @@ import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Link } from '../classes/link';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,9 @@ export class UserService {
     null
   );
 
-  users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  activeUser: User | null = null;
+
+  users$ = this.getUsers();
   loggedIn$ = this.activeUser$.pipe(map((user) => (user ? true : false)));
 
   loggedOut$ = this.loggedIn$.pipe(
@@ -35,21 +38,12 @@ export class UserService {
         ? new User(JSON.parse(localStorage.getItem('user') || '[]'))
         : null; // redirect to login
 
-    const localStorageUsers =
-      localStorage.getItem('users') !== null
-        ? JSON.parse(localStorage.getItem('users') || '[]')
-        : null; // redirect to login
-
     if (localStorageUser !== null) {
       console.log('active user from localstorage');
       this.activeUser$.next(localStorageUser);
     }
 
-    if (localStorageUsers) {
-      this.users$.next(localStorageUsers);
-    } else {
-      this.getUsers();
-    }
+    this.activeUser$.subscribe((user) => (this.activeUser = user));
   }
 
   saveNewUser(variables: any) {
@@ -89,6 +83,34 @@ export class UserService {
       mutation: SAVE_NEW_USER_MUTATION,
       variables: variables,
     });
+  }
+
+  getUsers() {
+    const GET_USERS_QUERY = gql`
+      ${User.core_user_fields}
+      ${Entity.CORE_ENTITY_FIELDS}
+      query get_users {
+        user {
+          ...CoreUserFields
+          verified
+          action_counter
+          entity {
+            ...CoreEntityFields
+          }
+        }
+      }
+    `;
+    return this.apollo
+      .query({
+        query: GET_USERS_QUERY,
+      })
+      .pipe(
+        map((val: any) => {
+          return val.data.user.map((val: any) => {
+            return new User(val);
+          });
+        })
+      );
   }
 
   getEntityUsers(entity_id: number) {
@@ -162,8 +184,6 @@ export class UserService {
 
     const user = users[0];
 
-    console.log(user);
-
     this.activeUser$.next(user);
 
     this.updateUserLastLogin();
@@ -173,7 +193,7 @@ export class UserService {
     if (User.default_apps.includes(user.settings_default_app)) {
       this.router.navigate([user.settings_default_app]);
     } else {
-      this.router.navigate(['/app/flow']);
+      this.router.navigate([Link.FLOWS_INBOX]);
     }
   }
 
@@ -185,64 +205,32 @@ export class UserService {
   }
 
   updateUserLastLogin() {
-    if (!this.activeUser$.value) {
+    if (!this.activeUser) {
       return;
     }
     const set = { last_login: new Date() };
-    this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
+    this.updateUser(this.activeUser.id, set).subscribe((data) =>
       console.log('updated last login', data)
     );
   }
 
   updateDefaultApp(default_app: string) {
-    if (!this.activeUser$.value) {
+    if (!this.activeUser) {
       return;
     }
     const set = { settings_default_app: default_app };
-    this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
+    this.updateUser(this.activeUser.id, set).subscribe((data) =>
       this.notification.open('Application par Défaut Mise à jour')
     );
   }
 
-  getUsers() {
-    const GET_USERS_QUERY = gql`
-      ${User.core_user_fields}
-      ${Entity.CORE_ENTITY_FIELDS}
-      query get_users {
-        user {
-          ...CoreUserFields
-          verified
-          action_counter
-          entity {
-            ...CoreEntityFields
-          }
-        }
-      }
-    `;
-    this.apollo
-      .query({
-        query: GET_USERS_QUERY,
-      })
-      .pipe(
-        map((val: any) => {
-          return val.data.user.map((val: any) => {
-            return new User(val);
-          });
-        })
-      )
-      .subscribe((data) => {
-        this.users$.next(data);
-        localStorage.setItem('users', JSON.stringify(data));
-      });
-  }
-
   resetPassword(hashed: string) {
-    if (!this.activeUser$.value) {
+    if (!this.activeUser) {
       return;
     }
 
     const set = { hashed: hashed };
-    this.updateUser(this.activeUser$.value.id, set).subscribe((data) =>
+    this.updateUser(this.activeUser.id, set).subscribe((data) =>
       console.log(data)
     );
   }

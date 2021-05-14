@@ -1,6 +1,7 @@
 import { gql } from 'apollo-angular';
 import { Entity } from './entity';
 import { Md5 } from 'ts-md5/dist/md5';
+import { Link } from './link';
 
 export class User {
   id = 0;
@@ -44,5 +45,5 @@ export class User {
   static SETTINGS_DEFAULT_LETTER_TEXT = 'Lecture';
 
   // omitted , default which is flow, to test user settings in user services
-  static default_apps = ['/search', '/app/chat', '/app/flow'];
+  static default_apps = [Link.SEARCH_APP, Link.CHAT_APP, Link.FLOWS_INBOX];
 }

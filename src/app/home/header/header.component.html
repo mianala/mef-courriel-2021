@@ -15,11 +15,11 @@
     <nav id="navbar" class="header__nav collapse">
       <ul>
         <li *ngIf="!(userService.loggedIn$ | async)">
-          <a routerLink="/auth/login" mat-raised-button>Se connecter →</a>
+          <a [routerLink]="Link.AUTH_LOGIN" mat-raised-button>Se connecter →</a>
         </li>
         <li *ngIf="userService.loggedIn$ | async">
           <a
-            routerLink="/courriel/flow"
+            [routerLink]="Link.FLOWS_INBOX"
             style="margin-left: 1rem"
             mat-icon-button
           >

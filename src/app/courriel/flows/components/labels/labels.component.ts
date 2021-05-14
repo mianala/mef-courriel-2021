@@ -108,7 +108,7 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
 
     this.labelCtrl.setValue('');
 
-    const active_entity = this.activeEntity$.value;
+    const active_entity = this.entityService.activeEntity;
 
     if (!active_entity) {
       return;
@@ -128,7 +128,7 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
 
   remove(label: string): void {
     const index = this.labels.indexOf(label);
-    const active_entity = this.activeEntity$.value;
+    const active_entity = this.entityService.activeEntity;
 
     if (index < 0) {
       return;

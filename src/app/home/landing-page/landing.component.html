@@ -6,12 +6,13 @@
       Finances. Un pas vers la dématérialisation.
     </h2>
     <div class="site__box-link" [hidden]="userService.loggedIn$ | async">
-      <a routerLink="/auth/signup">S'inscrire</a>
+      <a [routerLink]="Link.AUTH_SIGNUP" mat-raised-button color="primary"
+        >S'inscrire</a
+      >
       <a
         style="margin-left: 1rem"
-        routerLink="/auth/login"
-        class="btn--revert"
-        routerLink="/auth/login"
+        mat-raised-button
+        [routerLink]="Link.AUTH_LOGIN"
         >Se connecter</a
       >
     </div>
@@ -22,9 +23,9 @@
     >
       <a
         style="margin-left: 1rem"
-        routerLink="/auth/login"
-        routerLink="/search"
-        fxLayoutAlign="center center"
+        [routerLink]="Link.SEARCH_APP"
+        mat-raised-button
+        color="primary"
       >
         <mat-icon>search</mat-icon> RECHERCHER</a
       >

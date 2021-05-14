@@ -32,6 +32,7 @@ import { RouterOutletComponent } from '../shared/router-outlet/router-outlet.com
 import { NotFoundPageComponent } from '../shared/not-found-page/not-found-page.component';
 import { UserPageComponent } from '../courriel/users/user-page/user-page.component';
 import { SearchPageComponent } from '../search/search-root/search-root.component';
+import { SentFlowsComponent } from '../courriel/sent-flows/sent-flows.component';
 
 const routes: Routes = [
   {
@@ -162,8 +163,12 @@ const routes: Routes = [
         component: RouterOutletComponent,
         children: [
           {
-            path: '',
+            path: 'inbox',
             component: FlowsComponent,
+          },
+          {
+            path: 'sent',
+            component: SentFlowsComponent,
           },
           {
             path: 'save',

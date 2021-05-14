@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Flow } from 'src/app/classes/flow';
+import { Link } from 'src/app/classes/link';
 import { FlowService } from '../../flow.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { FlowService } from '../../flow.service';
   styleUrls: ['./flow-item.component.scss'],
 })
 export class FlowItemComponent implements OnInit {
+  Link = Link;
   @Input() flow: Flow = new Flow();
   constructor(private flowService: FlowService) {}
 

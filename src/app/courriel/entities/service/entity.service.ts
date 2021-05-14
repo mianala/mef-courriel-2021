@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { BehaviorSubject } from 'rxjs';
 import {
   catchError,
+  filter,
   map,
   scan,
   skip,
@@ -31,35 +32,29 @@ interface IEntityInfo {
 })
 export class EntityService {
   // store in localstorage
-  entities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
+  allEntities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
+  allEntities: Entity[] = [];
 
-  // store in localstorage remove on logout
-  relativeEntities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>(
-    []
-  );
-
+  activeUser$ = this.userService.activeUser$;
   // store in cookie
-  activeEntity$: BehaviorSubject<Entity | null> = new BehaviorSubject<Entity | null>(
-    null
-  );
+  activeEntity$: BehaviorSubject<Entity | null> =
+    new BehaviorSubject<Entity | null>(null);
 
-  activeEntityInfo$ = this.activeEntity$.pipe(
-    switchMap((entity: Entity | null) => {
-      return this.getUserEntityInfo(entity ? entity.id : null).pipe(
-        map(
-          (info: Entity): IEntityInfo => {
-            return {
-              labels: info?.labels ? info?.labels.split(',') : null,
-              letter_texts: info?.letter_texts
-                ? info?.letter_texts.split(',')
-                : null,
-              type_texts: info?.type_texts ? info?.type_texts.split(',') : null,
-              observations: info?.observations
-                ? info?.observations.split(',')
-                : null,
-            };
-          }
-        )
+  activeEntityInfo$ = this.activeUser$.pipe(
+    switchMap((user: User | null) => {
+      return this.getUserEntityInfo(user ? user.entity.id : null).pipe(
+        map((info: Entity): IEntityInfo => {
+          return {
+            labels: info?.labels ? info?.labels.split(',') : null,
+            letter_texts: info?.letter_texts
+              ? info?.letter_texts.split(',')
+              : null,
+            type_texts: info?.type_texts ? info?.type_texts.split(',') : null,
+            observations: info?.observations
+              ? info?.observations.split(',')
+              : null,
+          };
+        })
       );
     }),
     catchError(async () => null)
@@ -80,48 +75,28 @@ export class EntityService {
     string[]
   >([]);
 
+  activeEntity: Entity | null = null;
+
   constructor(
     private apollo: Apollo,
     private userService: UserService,
     private notification: NotificationService
   ) {
-    this.userService.loggedOut$.subscribe((loggedOut) => {
-      if (loggedOut) {
-        this.activeEntity$.next(null);
-        localStorage.removeItem('active_entity');
-      }
+    this.activeEntity$.subscribe((entity) => {
+      this.activeEntity = entity;
     });
 
-    const entities =
-      localStorage.getItem('entities') !== null
-        ? JSON.parse(localStorage.getItem('entities') || '[]')
-        : null;
+    this.activeUser$
+      .pipe(filter((user) => !!user))
+      .subscribe((user: User | null) => {
+        this.getUserEntity(user!.entity.id);
+      });
 
-    if (entities === null) {
-      this.getEntities().subscribe(this.updateEntities.bind(this));
-    } else {
-      console.log('entities from localstorage');
+    this.getEntities().subscribe((entities) =>
+      this.allEntities$.next(entities)
+    );
 
-      this.entities$.next(entities);
-    }
-
-    this.userService.activeUser$.subscribe((user: User | null) => {
-      if (!user) {
-        return;
-      }
-
-      const activeEntity =
-        localStorage.getItem('active_entity') !== null
-          ? JSON.parse(localStorage.getItem('active_entity') || '[]')
-          : null;
-
-      if (activeEntity === null) {
-        this.getUserEntity(user.entity.id);
-      } else {
-        console.log('active_entity from localstorage');
-        this.activeEntity$.next(new Entity(activeEntity));
-      }
-    });
+    this.allEntities$.subscribe((entities) => (this.allEntities = entities));
   }
 
   getUserEntityInfo(entity_id: number | null) {
@@ -145,9 +120,6 @@ export class EntityService {
   }
 
   getUserEntity(entity_id: number) {
-    if (entity_id == 0) {
-      return;
-    }
     const GET_USER_ENTITY_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       query getUserEntity($entity_id: Int!) {
@@ -172,48 +144,24 @@ export class EntityService {
       }
     `;
 
-    this.apollo
+    return this.apollo
       .watchQuery({
         query: GET_USER_ENTITY_QUERY,
         variables: { entity_id: entity_id },
         fetchPolicy: 'cache-and-network',
       })
-      .valueChanges.subscribe((data: any) => {
-        let entity_query_result = data.data.entity[0];
-
-        let entity = new Entity(entity_query_result);
-        if (!entity.parent === null) {
-          entity.parent = new Entity(entity_query_result.parent);
-          entity.parent.children = entity_query_result.parent.children.map(
-            (entity: any) => new Entity(entity)
-          );
-        }
-
-        entity.children = entity_query_result.children.map((child: any) => {
-          let newChild = new Entity(child);
-          let c = child.children.map(
-            (grandchild: any) => new Entity(grandchild)
-          );
-          newChild.children = c.filter((e: any) => {
-            return e.level < entity.level + 3;
-          });
-
-          return newChild;
-        });
-
-        this.activeEntity$.next(entity);
-        localStorage.setItem('active_entity', JSON.stringify(entity));
-      });
+      .valueChanges.pipe(this.mapUserEntity)
+      .subscribe((entity) => this.activeEntity$.next(entity));
   }
 
   updateEntitiesFromLocalStorage() {}
 
   updateEntities(entities: Entity[]) {
-    this.entities$.next(entities);
+    this.allEntities$.next(entities);
     localStorage.setItem('entities', JSON.stringify(entities));
   }
 
-  getEntities() {
+  getEntities = () => {
     const GET_ENTITIES_QUERY = gql`
       ${Entity.CORE_ENTITY_FIELDS}
       query get_entities {
@@ -227,8 +175,8 @@ export class EntityService {
       .query({
         query: GET_ENTITIES_QUERY,
       })
-      .pipe(this.mapEntity);
-  }
+      .pipe(this.mapEntities);
+  };
 
   getEntity(id: number) {
     const GET_ENTITY_QUERY = gql`
@@ -246,13 +194,42 @@ export class EntityService {
           id: id,
         },
       })
-      .pipe(this.mapEntity);
+      .pipe(this.mapEntities);
   }
 
-  mapEntity = map((val: any) => {
+  mapEntities = map((val: any): Entity[] => {
     return val.data.entity.map((val: any) => {
       return new Entity(val);
     });
+  });
+
+  mapEntity = map((val: any) => {
+    val.data.entity;
+  });
+
+  mapUserEntity = map((val: any): Entity => {
+    const entity_query_result = val.data.entity[0];
+
+    let entity = new Entity(entity_query_result);
+
+    if (!entity.parent === null) {
+      entity.parent = new Entity(entity_query_result.parent);
+      entity.parent.children = entity_query_result.parent.children.map(
+        (entity: any) => new Entity(entity)
+      );
+    }
+
+    entity.children = entity_query_result.children.map((child: any) => {
+      let newChild = new Entity(child);
+      let c = child.children.map((grandchild: any) => new Entity(grandchild));
+      newChild.children = c.filter((e: any) => {
+        return e.level < entity.level + 3;
+      });
+
+      return newChild;
+    });
+
+    return entity;
   });
 
   getEntityWithUsers(id: number) {
@@ -281,8 +258,10 @@ export class EntityService {
           id: id,
         },
       })
-      .pipe(this.mapEntity);
+      .pipe(this.mapEntities);
   }
+
+  // CREATIONS AND UPDATES
 
   updateEntity(entity_id: number, set: any = {}, inc: any = {}) {
     const UPDATE_ENTITY_MUTATION = gql`
@@ -304,8 +283,6 @@ export class EntityService {
         }
       }
     `;
-
-    console.log(set);
 
     return this.apollo.mutate({
       mutation: UPDATE_ENTITY_MUTATION,
@@ -334,23 +311,16 @@ export class EntityService {
   }
 
   incrementEntitySentCount() {
-    if (!this.activeEntity$.value) {
-      return;
-    }
-    const inc = { sent_count: 1 };
-    const activeEntity = this.activeEntity$.value;
+    if (!this.activeEntity) return;
 
-    this.updateEntity(activeEntity.id, {}, inc).subscribe((data) =>
+    const inc = { sent_count: 1 };
+
+    this.updateEntity(this.activeEntity.id, {}, inc).subscribe((data) =>
       console.log(data)
     );
 
-    activeEntity.sent_count += 1;
-    this.activeEntity$.next(activeEntity);
+    this.activeEntity.sent_count += 1;
   }
-
-  relativeEntityPipe = (entity: Entity[]) => {
-    console.log(entity);
-  };
 
   addNewEntity(variables: any) {
     const ADD_NEW_ENTITY_MUTATION = gql`

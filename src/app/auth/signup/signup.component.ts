@@ -34,10 +34,7 @@ export class SignupComponent implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
-      entity: [
-        ,
-        Validators.compose([Validators.required, Validators.min(1)]),
-      ],
+      entity: [, Validators.compose([Validators.required, Validators.min(1)])],
       im: [
         0,
         Validators.compose([Validators.required, Validators.minLength(3)]),
@@ -77,7 +74,7 @@ export class SignupComponent implements OnInit {
       lastname: form.lastname,
       im: form.im,
       title: form.title,
-      entity_id: form.entity_id,
+      entity_id: form.entity.id,
       email: form.email,
       username: form.username,
       hashed: form.password,

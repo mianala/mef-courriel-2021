@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { NotificationService } from 'src/app/services/notification.service';
 import { EntityService } from '../entities/service/entity.service';
 import { UserService } from '../../services/user.service';
+import { User } from 'src/app/classes/user';
 
 @Injectable({
   providedIn: 'root',
@@ -21,35 +22,26 @@ export class FlowService {
     }
   `;
 
-  allRecentFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
   flowSearchResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
   searchAppResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
   searchFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
   activeEntity$ = this.entityService.activeEntity$;
+  activeUser$ = this.userService.activeUser$;
+
+  allFlows$ = this.activeUser$.pipe(
+    filter((user) => !!user), // filter null
+    switchMap((user: User | null) => {
+      return this.getAllFlows(user!.entity.id);
+    })
+  );
 
   constructor(
     private apollo: Apollo,
     private entityService: EntityService,
     private userService: UserService,
     private notification: NotificationService
-  ) {
-    this.activeEntity$.subscribe((entity) => {
-      if (entity) {
-        this.getAllFlow(entity.id);
-      }
-    });
-
-    this.userService.loggedOut$.subscribe((loggedOut) => {
-      if (loggedOut) {
-        this.allRecentFlows$.next([]);
-      }
-    });
-  }
-
-  refreshFlows() {
-    this.activeEntity$.value && this.getAllFlow(this.activeEntity$.value.id);
-  }
+  ) {}
 
   insertFlows(flows: any) {
     const INSERT_FLOWS_QUERY = gql`
@@ -79,8 +71,8 @@ export class FlowService {
 
   getFlow(id: number) {
     const GET_FLOW_QUERY = gql`
-      ${Flow.CORE_FLOW_FIELDS}
-      ${Entity.CORE_ENTITY_FIELDS}
+      ${Flow.ITEM_FLOW_FIELDS}
+
       query get_flow($id: Int!) {
         flow(where: { id: { _eq: $id } }) {
           ...ItemFlowFields
@@ -138,34 +130,7 @@ export class FlowService {
       );
   }
 
-  getAllFlow(entity_id: number) {
-    const GET_ALL_FLOWS_QUERY = gql`
-      ${Flow.ITEM_FLOW_FIELDS}
-
-      query get_all_recent_flows($entity_id: Int!) {
-        flow(where: { owner_id: { _eq: $entity_id } }, order_by: { id: desc }) {
-          ...ItemFlowFields
-        }
-      }
-    `;
-
-    this.apollo
-      .watchQuery({
-        query: GET_ALL_FLOWS_QUERY,
-        variables: { entity_id },
-        fetchPolicy: 'cache-and-network',
-      })
-      .valueChanges.pipe(this.flowMap)
-      .subscribe(
-        (flows: any) => {
-          this.allRecentFlows$.next(flows);
-        },
-        (error) => {
-          console.log('there was an error sending the query', error);
-        }
-      );
-  }
-  allFlows(entity_id: number) {
+  getAllFlows(entity_id: number) {
     const GET_ALL_FLOWS_QUERY = gql`
       ${Flow.ITEM_FLOW_FIELDS}
       query get_all_flows($entity_id: Int!) {
@@ -175,10 +140,10 @@ export class FlowService {
       }
     `;
 
-    this.apollo
+    return this.apollo
       .watchQuery({
         query: GET_ALL_FLOWS_QUERY,
-        variables: { entity_id },
+        variables: { entity_id: entity_id },
         fetchPolicy: 'cache-and-network',
       })
       .valueChanges.pipe(this.flowMap);
@@ -247,10 +212,9 @@ export class FlowService {
     });
   }
 
-  searchApp(searchFilters: any, next: () => void) {
+  searchApp(searchFilters: any) {
     this.searchQuery(searchFilters).subscribe((flows) => {
       this.searchAppResult$.next(flows);
-      next();
     });
   }
 
@@ -278,7 +242,7 @@ export class FlowService {
     `;
 
     searchFlowVariables.owner_id = {
-      _eq: this.activeEntity$.value?.id,
+      _eq: this.entityService.activeEntity?.id,
     };
 
     return this.apollo

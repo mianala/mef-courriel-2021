@@ -80,6 +80,7 @@ import { ChatComponent } from './chat/chat.component';
 import { SearchPageComponent } from './search/search-root/search-root.component';
 import { SearchHeaderComponent } from './search/search-header/search-header.component';
 import { SentFlowsComponent } from './courriel/sent-flows/sent-flows.component';
+import { WithLoadingPipe } from './pipes/with-loading.pipe';
 
 registerLocaleData(localeFr);
 
@@ -163,6 +164,8 @@ registerLocaleData(localeFr);
     SearchHeaderComponent,
 
     SentFlowsComponent,
+
+    WithLoadingPipe,
   ],
   imports: [
     BrowserModule,

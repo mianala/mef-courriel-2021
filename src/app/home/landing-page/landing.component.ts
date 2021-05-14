@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Link } from 'src/app/classes/link';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -7,6 +8,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit {
+  Link = Link;
   constructor(public userService: UserService) {}
 
   ngOnInit(): void {}

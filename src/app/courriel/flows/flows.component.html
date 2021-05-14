@@ -5,114 +5,14 @@
       Enregistrer
     </button>
   </div>
-  <div class="filters">
-    <mat-form-field #searchComponent *ngIf="searchToggle" appearance="outline">
-      <mat-label>Rechercher</mat-label>
-      <input name="title" [(ngModel)]="filters.title" matInput />
-      <!-- <button
-        (click)="search()"
-        mat-button
-        matSuffix
-        mat-icon-button
-        aria-label="send"
-      >
-        <mat-icon>search</mat-icon>
-      </button> -->
-    </mat-form-field>
-    <!-- <entity-autocomplete
-      #entityComponent
-      form="filters.entity"
-      *ngIf="entityToggle"
-      appearance="outline"
-    ></entity-autocomplete> -->
-    <!-- <labels appearance="outline" *ngIf="labelsToggle" #labelsComponent></labels> -->
-
-    <mat-form-field
-      *ngIf="dateRangeToggle"
-      #dateRangeComponent
-      appearance="outline"
-    >
-      <mat-label>Plage de Dates</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input
-          matStartDate
-          [max]="today"
-          [(ngModel)]="filters.date_start"
-          placeholder="Depuis"
-        />
-        <input
-          [max]="today"
-          matEndDate
-          [(ngModel)]="filters.date_end"
-          placeholder="Vers"
-        />
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-  </div>
-  <div class="toggles">
-    <button
-      mat-icon-button
-      [color]="searchToggle ? 'warn' : ''"
-      (click)="searchToggle = !searchToggle"
-    >
-      <mat-icon>manage_search</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      [color]="labelsToggle ? 'warn' : ''"
-      (click)="labelsToggle = !labelsToggle"
-    >
-      <mat-icon>label_outline</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      [color]="entityToggle ? 'warn' : ''"
-      (click)="entityToggle = !entityToggle"
-    >
-      <mat-icon>domain</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      [color]="dateRangeToggle ? 'warn' : ''"
-      (click)="dateRangeToggle = !dateRangeToggle"
-    >
-      <mat-icon>date_range</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      [matMenuTriggerFor]="mainFilters"
-      aria-label="main filters"
-    >
-      <mat-icon>view_list</mat-icon>
-    </button>
-    <mat-menu #mainFilters="matMenu">
-      <button mat-menu-item>
-        <mat-icon>reorder</mat-icon>
-        <span>Tout</span>
-      </button>
-
-      <button mat-menu-item>
-        <mat-icon>save</mat-icon>
-        <span>Enregistrés</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>inbox</mat-icon>
-        <span>Reçu</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>send</mat-icon>
-        <span>Envoyés</span>
-      </button>
-    </mat-menu>
-  </div>
+  <div class="filters"></div>
+  <div class="toggles"></div>
 </section>
 
-<section #recentFlows *ngIf="allRecentFlows | async as flows">
+<section #recentFlows *ngIf="allFlows$ | async as flows; else loading">
   <div
     class="empty"
-    *ngIf="!flows.length && !loading"
+    *ngIf="!flows.length"
     style="max-width: 100vw; max-height: 80vh; margin: auto"
   >
     <img
@@ -121,8 +21,6 @@
       alt=""
     />
   </div>
-
-  <flows-loading *ngIf="!flows.length && loading"></flows-loading>
 
   <div *ngIf="flows.length" class="flow-list">
     <flow
@@ -135,6 +33,9 @@
   <mat-paginator *ngIf="flows.length" [showFirstLastButtons]="true">
   </mat-paginator>
 </section>
+<ng-template #loading>
+  <flows-loading></flows-loading>
+</ng-template>
 
 <!--
 <div *ngIf="(flowService.recent_flows | async)?.length" class="flow-list">

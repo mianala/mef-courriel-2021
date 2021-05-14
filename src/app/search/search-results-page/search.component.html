@@ -1,16 +1,12 @@
-<flows-loading
-  *ngIf="!(filteredResult$ | async)?.length && loading"
-></flows-loading>
-
-<div id="searchresultsarea">
-  <empty-search-result
-    [hidden]="(filteredResult$ | async)?.length || loading"
-  ></empty-search-result>
-
-  <div class="result-list">
-    <result-item
-      *ngFor="let item of results$ | async"
-      [flow]="item"
-    ></result-item>
+<div
+  id="searchresultsarea"
+  *ngIf="filteredResult$ | async as results; else loading"
+>
+  <empty-search-result [hidden]="results.length"></empty-search-result>
+  <div class="result-list" *ngIf="results.length">
+    <result-item *ngFor="let item of results" [flow]="item"></result-item>
   </div>
 </div>
+<ng-template #loading>
+  <flows-loading></flows-loading>
+</ng-template>

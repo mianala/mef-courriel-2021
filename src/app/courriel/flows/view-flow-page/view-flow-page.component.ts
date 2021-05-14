@@ -22,7 +22,7 @@ export class ViewFlowPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.app_page = this.router.url.includes('/app/flow');
+    this.app_page = this.router.url.includes('/courriel/flow');
 
     this.route.queryParams.subscribe((data) => {
       this.flow_id = parseInt(data.flow_id);
@@ -50,7 +50,6 @@ export class ViewFlowPageComponent implements OnInit {
       this.router.navigate(['..'], {
         relativeTo: this.route,
       });
-      this.flowService.refreshFlows();
     });
   }
 

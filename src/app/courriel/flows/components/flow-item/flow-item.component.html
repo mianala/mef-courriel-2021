@@ -15,7 +15,7 @@
 <div class="content">
   <a
     class="title"
-    routerLink="/courriel/flow/project"
+    [routerLink]="Link.FLOW_PAGE"
     [queryParams]="{ flow_id: flow.id }"
   >
     {{ flow.title }}
@@ -34,7 +34,7 @@
 <div class="actions">
   <a
     mat-icon-button
-    routerLink="/courriel/flow/project"
+    [routerLink]="Link.FLOW_PAGE"
     [queryParams]="{ flow_id: flow.id }"
   >
     <mat-icon class="mat-18">folder_open</mat-icon>
@@ -44,28 +44,28 @@
   </a>
   <a
     mat-icon-button
-    routerLink="/courriel/flow/reply"
+    [routerLink]="Link.FLOW_ASSIGN"
     [queryParams]="{ flow_id: flow.id }"
   >
     <mat-icon class="mat-18">reply</mat-icon>
   </a>
   <a
     mat-icon-button
-    routerLink="/courriel/flow/assign"
+    [routerLink]="Link.FLOW_ASSIGN"
     [queryParams]="{ flow_id: flow.id }"
   >
     <mat-icon class="mat-18">person_add_alt</mat-icon>
   </a>
   <a
     mat-icon-button
-    routerLink="/courriel/flow/route"
+    [routerLink]="Link.FLOW_ROUTE"
     [queryParams]="{ flow_id: flow.id }"
   >
     <mat-icon class="mat-18">alt_route</mat-icon>
   </a>
   <a
     mat-icon-button
-    routerLink="/courriel/flow/send"
+    [routerLink]="Link.FLOW_SEND"
     [queryParams]="{ flow_id: flow.id }"
   >
     <mat-icon class="mat-18">send</mat-icon>

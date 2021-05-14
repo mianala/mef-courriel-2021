@@ -2,7 +2,6 @@
   <mat-label><mat-icon>domain</mat-icon> {{ label }} </mat-label>
   <input
     type="text"
-    (keypress)="resetSelection($event)"
     aria-label="entity"
     matInput
     minlength="2"
@@ -16,13 +15,13 @@
     [displayWith]="displayEntity"
   >
     <mat-option *ngFor="let e of filteredEntities$ | async" [value]="e">
-      {{ e.short_header }}
+      {{ e?.short_header }}
     </mat-option>
   </mat-autocomplete>
 
-  <mat-hint align="end">{{ entity.short_header }}</mat-hint>
+  <mat-hint align="end">{{ entity?.short_header }}</mat-hint>
   <mat-hint
-    *ngIf="!entity.id && must_select_entity"
+    *ngIf="!entity?.id && must_select_entity"
     align="start"
     style="color: #f44336"
   >

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Link } from '../classes/link';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class NotificationService {
       })
       .onAction()
       .subscribe(() => {
-        this.router.navigate([`/app/flow/project/`], {
+        this.router.navigate([Link.FLOW_PAGE], {
           queryParams: { flow_id: returning.id },
         });
       });

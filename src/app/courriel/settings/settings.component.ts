@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Link } from 'src/app/classes/link';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -7,7 +8,9 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  default_app = '/app/flow';
+  Link = Link;
+
+  default_app = Link.FLOW_APP;
   constructor(private userService: UserService) {
     userService.activeUser$.subscribe((user) => {
       this.default_app = user ? user.settings_default_app : this.default_app;

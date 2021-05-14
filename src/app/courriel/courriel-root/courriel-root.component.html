@@ -3,45 +3,54 @@
     <div style="outline: 0; cursor: pointer" routerLink="/">
       <img id="searchbarimage" src="/assets/flag.png" />
     </div>
-    <a class="nav-link" routerLink="/courriel/flow" routerLinkActive="active">
-      <div matTooltip="Courriers" matTooltipPosition="right">
+    <a
+      class="nav-link"
+      [routerLink]="Link.FLOWS_INBOX"
+      routerLinkActive="active"
+    >
+      <div matTooltip="Boite de Réception" matTooltipPosition="right">
         <mat-icon>inbox</mat-icon>
+      </div>
+    </a>
+    <a
+      class="nav-link"
+      [routerLink]="Link.FLOWS_SENT"
+      routerLinkActive="active"
+    >
+      <div matTooltip="Envoyés" matTooltipPosition="right">
+        <mat-icon>send</mat-icon>
       </div>
     </a>
 
     <a
       class="nav-link small-height-hidden"
-      routerLink="/courriel/users"
+      [routerLink]="Link.USERS"
       routerLinkActive="active"
     >
       <div>
         <mat-icon>people_outline</mat-icon>
       </div>
     </a>
-    <a
-      class="nav-link"
-      routerLink="/courriel/entities"
-      routerLinkActive="active"
-    >
+    <a class="nav-link" [routerLink]="Link.ENTITIES" routerLinkActive="active">
       <div>
         <mat-icon>domain</mat-icon>
       </div>
     </a>
-    <a class="nav-link" routerLink="/courriel/entity" routerLinkActive="active">
+    <a class="nav-link" [routerLink]="Link.ENTITY" routerLinkActive="active">
       <div>
         <mat-icon>work_outline</mat-icon>
       </div>
     </a>
     <a
       class="nav-link"
-      routerLink="/courriel/dashboard"
+      [routerLink]="Link.DASHBOARD_APP"
       routerLinkActive="active"
     >
       <div>
         <mat-icon>bar_chart</mat-icon>
       </div>
     </a>
-    <a class="nav-link" routerLink="/search">
+    <a class="nav-link" [routerLink]="Link.SEARCH_APP">
       <div>
         <mat-icon>manage_search</mat-icon>
       </div>
@@ -54,20 +63,16 @@
         <mat-icon>info_outline</mat-icon>
       </div>
     </a>
-    <a class="nav-link" routerLink="/courriel/chat" routerLinkActive="active">
+    <a class="nav-link" [routerLink]="Link.CHAT_APP" routerLinkActive="active">
       <div>
         <mat-icon>chat_bubble_outline</mat-icon>
       </div> </a
-    ><a class="nav-link" routerLink="/courriel/user" routerLinkActive="active">
+    ><a class="nav-link" [routerLink]="Link.USER" routerLinkActive="active">
       <div>
         <mat-icon>account_circle_outline</mat-icon>
       </div>
     </a>
-    <a
-      class="nav-link"
-      routerLink="/courriel/settings"
-      routerLinkActive="active"
-    >
+    <a class="nav-link" [routerLink]="Link.SETTINGS" routerLinkActive="active">
       <div>
         <mat-icon>settings_outlined</mat-icon>
       </div>

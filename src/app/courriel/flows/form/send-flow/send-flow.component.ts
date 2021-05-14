@@ -17,7 +17,7 @@ import { map, switchMap } from 'rxjs/operators';
 export class SendFlowFormComponent implements OnInit {
   sendFlowForm: FormGroup;
   parentFlow: Flow = new Flow();
-
+  activeUser = this.userService.activeUser;
   queryParams$ = this.route.queryParams;
   activeEntity$ = this.entityService.activeEntity$;
   activeUser$ = this.userService.activeUser$;
@@ -56,8 +56,8 @@ export class SendFlowFormComponent implements OnInit {
     const form = this.sendFlowForm.value;
     const flows: any[] = [];
 
-    const activeEntity = this.activeEntity$.value;
-    const activeUser = this.activeUser$.value;
+    const activeEntity = this.entityService.activeEntity;
+    const activeUser = this.activeUser;
 
     if (!activeEntity || !activeUser) return;
     console.log(form);

@@ -44,7 +44,7 @@ export class EntitiesChipAutocompleteComponent
   entities: Entity[] = [];
   // @Output() entitiesChange: EventEmitter<Entity[]> = new EventEmitter();
 
-  allEntities$ = this.entityService.entities$;
+  allEntities$ = this.entityService.allEntities$;
 
   filteredEntities$ = combineLatest([
     this.allEntities$,

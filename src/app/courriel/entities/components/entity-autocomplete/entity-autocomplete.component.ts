@@ -14,7 +14,7 @@ import {
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { EntityService } from '../../service/entity.service';
 
@@ -32,18 +32,19 @@ import { EntityService } from '../../service/entity.service';
   ],
 })
 export class EntityAutocompleteComponent
-  implements OnInit, ControlValueAccessor {
+  implements OnInit, ControlValueAccessor
+{
   @Input() appearance: MatFormFieldAppearance = 'outline';
 
   entity = new Entity();
-  allEntities$ = this.entityService.entities$;
+  allEntities$ = this.entityService.allEntities$;
 
   displayEntity = (value: Entity) => (value ? value.short : '');
 
   entityCtrl = new FormControl('');
   filteredEntities$ = combineLatest([
     this.allEntities$,
-    this.entityCtrl.valueChanges,
+    this.entityCtrl.valueChanges.pipe(startWith('')),
   ]).pipe(
     map(([entities, query]) => {
       query = query.id ? query.short : query;
@@ -94,9 +95,5 @@ export class EntityAutocompleteComponent
 
   select(e: Entity) {
     this.setValue(new Entity(e));
-  }
-
-  resetSelection(e: any) {
-    this.setValue(new Entity({ short: this.entity.short }));
   }
 }

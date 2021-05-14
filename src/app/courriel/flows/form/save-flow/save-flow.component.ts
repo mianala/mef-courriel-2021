@@ -14,19 +14,15 @@ import { AppFile } from 'src/app/classes/file';
 })
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
-  user: User | null;
   loading = false;
+  user = this.userService.activeUser;
 
   constructor(
     private flowService: FlowService,
     private fb: FormBuilder,
     private userService: UserService,
     private notification: NotificationService
-  ) {
-    this.user = this.userService.activeUser$
-      ? this.userService.activeUser$.value
-      : null;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.saveFlowForm = this.fb.group({
@@ -119,7 +115,6 @@ export class SaveFlowFormComponent implements OnInit {
 
   flowSaved(data: any) {
     this.notification.flowSaved(data.data.insert_flow.returning[0]);
-    this.flowService.refreshFlows();
     this.loading = false;
   }
 
