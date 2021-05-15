@@ -24,7 +24,7 @@ export class NotificationService {
       });
   }
 
-  open(message: string, duration = 2000) {
+  notify(message: string, duration = 2000) {
     this._snackBar.open(message, '', {
       duration: duration,
     });

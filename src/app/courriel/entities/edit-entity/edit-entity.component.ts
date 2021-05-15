@@ -52,7 +52,7 @@ export class EditEntityComponent implements OnInit {
     const set = { form };
 
     this.entityService.updateEntity(this.entity_id, set).subscribe(() => {
-      this.notification.open('Mis à Jour Enregistré');
+      this.notification.notify('Mis à Jour Enregistré');
     });
   }
 }

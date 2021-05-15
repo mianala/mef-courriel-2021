@@ -8,7 +8,7 @@
     {{ flow.numero }}
   </span>
   <span class="sender">
-    {{ flow.senderText() }}
+    {{ flow.sender() }}
   </span>
   <div class="reference">{{ flow.reference }}</div>
 </div>
@@ -18,7 +18,7 @@
     [routerLink]="Link.FLOW_PAGE"
     [queryParams]="{ flow_id: flow.id }"
   >
-    {{ flow.title }}
+    {{ flow.r.title() }}
   </a>
   <div class="observation">
     {{ flow.content }}

@@ -35,6 +35,12 @@ export class FlowService {
       return this.getAllFlows(user!.entity.id);
     })
   );
+  sentFlows$ = this.activeUser$.pipe(
+    filter((user) => !!user), // filter null
+    switchMap((user: User | null) => {
+      return this.sentFlows(user!.entity.id);
+    })
+  );
 
   constructor(
     private apollo: Apollo,
@@ -121,7 +127,7 @@ export class FlowService {
       })
       .subscribe(
         (data) => {
-          this.notification.open('Courriel supprimé', 500);
+          this.notification.notify('Courriel supprimé', 500);
           next(data);
         },
         (error) => {
@@ -175,7 +181,7 @@ export class FlowService {
   markFlowAsRead(flow_id: number) {
     const set = { progress: 1 };
     this.updateFlow(flow_id, set).subscribe(
-      (data) => this.notification.open('Marqué Comme Lu'),
+      (data) => this.notification.notify('Marqué Comme Lu'),
       (error) => {
         console.log(error);
       }

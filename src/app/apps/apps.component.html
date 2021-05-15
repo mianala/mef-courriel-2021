@@ -1,6 +1,29 @@
-<a routerLink="">Accueil</a>
-<a [routerLink]="Link.FLOWS_INBOX">Courriel</a>
-<a [routerLink]="Link.CHAT_APP">Chat</a>
-<a [routerLink]="Link.SEARCH_APP">Search</a>
-<a [routerLink]="Link.SEARCH_APP">Admin</a>
-<a [routerLink]="Link.SEARCH_APP">Paramettres</a>
+<div class="apps">
+  <a routerLink=""
+    ><img src="/assets/app-images/home.svg" alt="" /> <span>Accueil</span>
+  </a>
+  <a [routerLink]="Link.SEARCH_APP"
+    ><img src="/assets/app-images/search.svg" alt="" /> <span>Recherche</span>
+  </a>
+  <a [routerLink]="Link.FLOWS_INBOX"
+    ><img src="/assets/app-images/inbox.svg" alt="" /> <span>Courriel</span>
+  </a>
+  <a [routerLink]="Link.CHAT_APP"
+    ><img src="/assets/app-images/chat.svg" alt="" /> <span>Chat</span>
+  </a>
+  <a [routerLink]="Link.DASHBOARD_ROOT"
+    ><img src="/assets/app-images/dashboard.svg" alt="" />
+    <span>Tableau de Bord</span>
+  </a>
+
+  <a [routerLink]="Link.SEARCH_APP"
+    ><img src="/assets/app-images/setting.svg" alt="" />
+    <span>Paramettres</span>
+  </a>
+  <a [routerLink]="Link.SEARCH_APP"
+    ><img src="/assets/app-images/admin.svg" alt="" /> <span>Admin</span>
+  </a>
+  <a [routerLink]="Link.SEARCH_APP"
+    ><img src="/assets/app-images/help.svg" alt="" /> <span>Aide</span>
+  </a>
+</div>

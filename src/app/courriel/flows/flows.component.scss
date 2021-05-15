@@ -1,9 +1,6 @@
 @import "~src/_variables";
-
-:host {
-  padding: 1rem;
-  display: block;
-}
+@import "~src/styles/flow-list";
+@import "~src/styles/padding";
 
 section.actions {
   margin-bottom: 1rem;
@@ -57,11 +54,5 @@ section.actions {
 
     border-radius: 0.5rem;
     padding: 0.3rem;
-    background-color: aliceblue;
   }
-}
-
-.flow-list {
-  display: flex;
-  flex-direction: column;
 }

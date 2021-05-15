@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'back',
@@ -10,11 +9,7 @@ import { filter } from 'rxjs/operators';
 })
 export class BackButtonComponent implements OnInit {
   refreshed: boolean = true;
-  constructor(
-    private location: Location,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private location: Location) {}
 
   back(): void {
     // this.router.navigate([document.referrer], {

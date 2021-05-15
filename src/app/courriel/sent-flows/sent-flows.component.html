@@ -1,1 +1,28 @@
-<p>sent-flows works!</p>
+<section #recentFlows *ngIf="sentFlows$ | async as flows; else loading">
+  <div
+    class="empty"
+    *ngIf="!flows.length"
+    style="max-width: 100vw; max-height: 80vh; margin: auto"
+  >
+    <img
+      style="max-height: 85vh"
+      src="/assets/app-images/empty-animate.svg"
+      alt=""
+    />
+  </div>
+
+  <div *ngIf="flows.length" class="flow-list">
+    <flow
+      class="mat-typography"
+      *ngFor="let flow of flows"
+      [flow]="flow"
+    ></flow>
+  </div>
+
+  <mat-paginator *ngIf="flows.length" [showFirstLastButtons]="true">
+  </mat-paginator>
+</section>
+
+<ng-template #loading>
+  <flows-loading></flows-loading>
+</ng-template>

@@ -1,6 +1,9 @@
 export class Link {
   static NOT_FOUND = '/404'; // Link.NOT_FOUND
 
+  // APPS
+  static APPS_ROOT = '/apps'; // Link.APPS_ROOT
+
   // AUTH
   static AUTH_ROOT = '/auth'; // Link.AUTH_ROOT
   static AUTH_LOGIN = `${Link.AUTH_ROOT}/login`; // Link.AUTH_LOGIN
@@ -13,6 +16,7 @@ export class Link {
   static FLOWS_SENT = `${Link.FLOW_APP}/sent`; // Link.FLOWS
   static FLOW_PAGE = `${Link.FLOW_APP}/project`; // Link.FLOW_PAGE
   static FLOW_ASSIGN = `${Link.FLOW_APP}/assign`; // Link.FLOW_ASSIGN
+  static FLOW_SAVE = `${Link.FLOW_APP}/save`; // Link.FLOW_SAVE
   static FLOW_REPLY = `${Link.FLOW_APP}/reply`; // Link.FLOW_REPLY
   static FLOW_ROUTE = `${Link.FLOW_APP}/route`; // Link.FLOW_ROUTE
   static FLOW_SEND = `${Link.FLOW_APP}/send`; // Link.FLOW_SEND
@@ -29,6 +33,7 @@ export class Link {
   static SETTINGS = `${Link.FLOW_ROOT}/settings`; // Link.SETTINGS
 
   // DASHBOARD
+  static DASHBOARD_ROOT = `/dashboard`; // Link.DASHBOARD_ROOT
   static DASHBOARD_APP = `${Link.FLOW_ROOT}/dashboard`; // Link.DASHBOARD_APP
 
   // CHAT APP

@@ -298,7 +298,7 @@ export class EntityService {
     const set = { active: false };
     this.updateEntity(entity_id, set).subscribe((data: any) => {
       console.log('desactivated entity', data);
-      this.notification.open('Entité desactivé');
+      this.notification.notify('Entité desactivé');
     });
   }
 
@@ -306,7 +306,7 @@ export class EntityService {
     const set = { active: true };
     this.updateEntity(entity_id, set).subscribe((data: any) => {
       console.log('activated entity', data);
-      this.notification.open('Entité activé');
+      this.notification.notify('Entité activé');
     });
   }
 

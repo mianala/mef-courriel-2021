@@ -1,0 +1,39 @@
+@import "~src/_variables";
+
+:host {
+  display: flex;
+  place-content: center;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+}
+.apps {
+  padding: 5rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 80vw;
+  gap: 1rem;
+
+  place-content: center;
+  place-items: center;
+  a {
+    padding: 1rem;
+    color: $primary;
+
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+
+    place-content: center;
+    place-items: center;
+    img {
+      width: 5rem;
+    }
+    span {
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+}

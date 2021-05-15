@@ -174,7 +174,7 @@ export class UserService {
 
   logInHandler(users: User[]) {
     if (users.length === 0) {
-      this.notification.open(
+      this.notification.notify(
         "Vous n'êtes pas encore inscrit, veuillez vous inscrire",
         4000
       );
@@ -201,7 +201,7 @@ export class UserService {
     this.activeUser$.next(null);
     localStorage.removeItem('user');
 
-    this.notification.open('Vous êtes déconnecté');
+    this.notification.notify('Vous êtes déconnecté');
   }
 
   updateUserLastLogin() {
@@ -220,7 +220,7 @@ export class UserService {
     }
     const set = { settings_default_app: default_app };
     this.updateUser(this.activeUser.id, set).subscribe((data) =>
-      this.notification.open('Application par Défaut Mise à jour')
+      this.notification.notify('Application par Défaut Mise à jour')
     );
   }
 
@@ -245,14 +245,14 @@ export class UserService {
   verifyUser(user_id: number) {
     const set = { verified: true };
     this.updateUser(user_id, set).subscribe((data) =>
-      this.notification.open('Utilisateur verifié')
+      this.notification.notify('Utilisateur verifié')
     );
   }
 
   desactivateUser(user: User) {
     const set = { active: false };
     this.updateUser(user.id, set).subscribe((data) =>
-      this.notification.open('Utilisateur désactivé')
+      this.notification.notify('Utilisateur désactivé')
     );
   }
 

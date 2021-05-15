@@ -8,6 +8,7 @@ import { Flow } from 'src/app/classes/flow';
 import { FlowService } from '../../flow.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, switchMap } from 'rxjs/operators';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'send-flow-form',
@@ -20,6 +21,7 @@ export class SendFlowFormComponent implements OnInit {
   activeUser = this.userService.activeUser;
   queryParams$ = this.route.queryParams;
   activeEntity$ = this.entityService.activeEntity$;
+  activeEntity = this.entityService.activeEntity;
   activeUser$ = this.userService.activeUser$;
   flowId$ = this.queryParams$.pipe(map((params) => parseInt(params.flow_id)));
   parentFlow$ = this.flowId$.pipe(
@@ -33,6 +35,7 @@ export class SendFlowFormComponent implements OnInit {
     private route: ActivatedRoute,
     private flowService: FlowService,
     private userService: UserService,
+    private notification: NotificationService,
     private fb: FormBuilder,
     private entityService: EntityService
   ) {
@@ -56,10 +59,11 @@ export class SendFlowFormComponent implements OnInit {
     const form = this.sendFlowForm.value;
     const flows: any[] = [];
 
-    const activeEntity = this.entityService.activeEntity;
+    const activeEntity = this.activeEntity;
     const activeUser = this.activeUser;
 
     if (!activeEntity || !activeUser) return;
+
     console.log(form);
 
     form.receivers.forEach((entity: Entity) => {
@@ -84,6 +88,9 @@ export class SendFlowFormComponent implements OnInit {
     });
 
     this.entityService.incrementEntitySentCount();
-    this.flowService.insertFlows(flows);
+    this.flowService.insertFlows(flows).subscribe((data) => {
+      console.log(data);
+      this.notification.notify('Envoyé');
+    });
   }
 }

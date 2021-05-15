@@ -33,11 +33,17 @@ import { NotFoundPageComponent } from '../shared/not-found-page/not-found-page.c
 import { UserPageComponent } from '../courriel/users/user-page/user-page.component';
 import { SearchPageComponent } from '../search/search-root/search-root.component';
 import { SentFlowsComponent } from '../courriel/sent-flows/sent-flows.component';
+import { AdminComponent } from '../admin/admin.component';
+import { AppsComponent } from '../apps/apps.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
+  },
+  {
+    path: 'apps',
+    component: AppsComponent,
   },
   {
     path: 'search',
@@ -60,6 +66,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
   },
   {
     path: 'viewer',

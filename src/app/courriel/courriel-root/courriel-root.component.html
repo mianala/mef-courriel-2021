@@ -1,8 +1,11 @@
 <nav>
   <section>
-    <div style="outline: 0; cursor: pointer" routerLink="/">
-      <img id="searchbarimage" src="/assets/flag.png" />
-    </div>
+    <a class="nav-link" [routerLink]="Link.APPS_ROOT" routerLinkActive="active">
+      <div matTooltip="Boite de Réception" matTooltipPosition="right">
+        <mat-icon>apps</mat-icon>
+      </div>
+    </a>
+
     <a
       class="nav-link"
       [routerLink]="Link.FLOWS_INBOX"

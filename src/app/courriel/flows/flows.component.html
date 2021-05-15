@@ -1,12 +1,12 @@
 <section class="actions">
-  <div>
-    <button mat-raised-button color="primary" routerLink="/courriel/flow/save">
-      <mat-icon> add </mat-icon>
-      Enregistrer
-    </button>
-  </div>
-  <div class="filters"></div>
-  <div class="toggles"></div>
+  <button mat-raised-button color="primary" [routerLink]="Link.FLOW_SAVE">
+    <mat-icon> description </mat-icon>
+    Enregistrer
+  </button>
+  <a mat-button color="primary" [routerLink]="Link.SEARCH_APP">
+    <mat-icon> search </mat-icon>
+    Rechercher
+  </a>
 </section>
 
 <section #recentFlows *ngIf="allFlows$ | async as flows; else loading">

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { FlowService } from '../flow.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'flow-page',
@@ -20,6 +21,7 @@ export class ViewFlowPageComponent implements OnInit {
   constructor(
     private flowService: FlowService,
     private route: ActivatedRoute,
+    private location: Location,
     private router: Router
   ) {
     this.app_page = this.router.url.includes('/courriel/flow');
@@ -47,9 +49,7 @@ export class ViewFlowPageComponent implements OnInit {
     }
 
     this.flowService.deleteFlow(id, (data) => {
-      this.router.navigate(['..'], {
-        relativeTo: this.route,
-      });
+      this.location.back();
     });
   }
 

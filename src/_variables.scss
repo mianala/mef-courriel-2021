@@ -2,6 +2,12 @@
 @include mat-core();
 
 $primary: mat-color($mat-indigo, A400);
+$primary_gradient: linear-gradient(
+  90deg,
+  rgba(0, 113, 240, 1) 14%,
+  rgba(64, 147, 244, 1) 34%,
+  rgba(43, 229, 243, 1) 100%
+);
 $red-ryb: mat-color($mat-pink, A200);
 $accent: mat-color($mat-pink, A200);
 $nav-width: 2.8rem;

@@ -62,7 +62,7 @@ export class Flow {
     },
   };
 
-  senderText() {
+  sender() {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
   }
 
@@ -79,9 +79,9 @@ export class Flow {
     return this.datepipe.transform(this.created_at, 'd MMM');
   }
 
-  project = {
+  r = {
     title: () => {
-      return this.is.saved() ? this.title : this.root?.title;
+      return this.is.saved() ? this.title : `${this.root?.title}`;
     },
     reference: () => {
       return this.is.saved() ? this.reference : this.root?.reference;
