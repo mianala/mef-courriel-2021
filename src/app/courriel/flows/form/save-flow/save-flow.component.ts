@@ -15,7 +15,7 @@ import { AppFile } from 'src/app/classes/file';
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
   loading = false;
-  user = this.userService.activeUser;
+  user = this.userService._activeUser;
 
   constructor(
     private flowService: FlowService,

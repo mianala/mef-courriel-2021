@@ -3,14 +3,35 @@
     <mat-icon class="mat-18">label_important_outline</mat-icon>
   </a>
 </div>
-<div class="headers">
-  <span class="numero">
-    {{ flow.numero }}
-  </span>
-  <span class="sender">
-    {{ flow.sender() }}
-  </span>
-  <div class="reference">{{ flow.reference }}</div>
+<div class="headers" [ngSwitch]="layout">
+  <!-- inbox -->
+  <ng-container *ngSwitchCase="'inbox'">
+    <span class="numero">
+      {{ flow.numero }}
+    </span>
+    <span class="sender">
+      {{ flow.sender() }}
+    </span>
+    <div class="reference">{{ flow.reference }}</div>
+  </ng-container>
+
+  <!-- sent -->
+  <ng-container *ngSwitchCase="'sent'">
+    <span class="receiver">
+      <span class="to"> À: </span> {{ flow.receiver() }}
+    </span>
+  </ng-container>
+
+  <!-- default-->
+  <ng-container *ngSwitchDefault>
+    <span class="numero">
+      {{ flow.numero }}
+    </span>
+    <span class="sender">
+      {{ flow.sender() }}
+    </span>
+    <div class="reference">{{ flow.reference }}</div>
+  </ng-container>
 </div>
 <div class="content">
   <a

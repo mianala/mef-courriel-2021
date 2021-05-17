@@ -9,7 +9,7 @@
   </a>
 </section>
 
-<section #recentFlows *ngIf="allFlows$ | async as flows; else loading">
+<section #recentFlows *ngIf="inboxFlows$ | async as flows; else loading">
   <div
     class="empty"
     *ngIf="!flows.length"
@@ -25,6 +25,7 @@
   <div *ngIf="flows.length" class="flow-list">
     <flow
       class="mat-typography"
+      layout="inbox"
       *ngFor="let flow of flows"
       [flow]="flow"
     ></flow>

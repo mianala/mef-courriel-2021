@@ -4,6 +4,8 @@ import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { FlowService } from '../flow.service';
 import { Location } from '@angular/common';
+import { map, switchMap } from 'rxjs/operators';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'flow-page',
@@ -11,36 +13,26 @@ import { Location } from '@angular/common';
   styleUrls: ['./view-flow-page.component.scss'],
 })
 export class ViewFlowPageComponent implements OnInit {
-  flow = new Flow();
-  flows: Flow[] = [];
   activeFile = new AppFile();
   flow_id = 0;
   app_page = false;
   loading = true;
 
+  flow$ = this.route.queryParams.pipe(
+    switchMap((routeData) => {
+      const flow_id = parseInt(routeData.flow_id);
+      return this.flowService.getFlow(flow_id).pipe(map((flows) => flows[0]));
+    })
+  );
+
   constructor(
     private flowService: FlowService,
     private route: ActivatedRoute,
     private location: Location,
+    private notification: NotificationService,
     private router: Router
   ) {
     this.app_page = this.router.url.includes('/courriel/flow');
-
-    this.route.queryParams.subscribe((data) => {
-      this.flow_id = parseInt(data.flow_id);
-
-      this.flowService
-        .getFlow(this.flow_id)
-        .subscribe(this.receivedflow.bind(this));
-    });
-  }
-
-  receivedflow(flows: any) {
-    const flow = flows[0];
-    this.activeFile = flow.files[0];
-    Object.assign(this.flow, flow);
-    Object.assign(this.flows, flow.flows);
-    this.loading = false;
   }
 
   delete(id: number) {
@@ -48,9 +40,17 @@ export class ViewFlowPageComponent implements OnInit {
       return;
     }
 
-    this.flowService.deleteFlow(id, (data) => {
-      this.location.back();
-    });
+    this.flowService.deleteFlow(id).subscribe(
+      (data) => {
+        console.log('delted flow ', id, data);
+
+        this.notification.notify('Courriel supprimé', 500);
+        this.location.back();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   viewFile(file: AppFile) {

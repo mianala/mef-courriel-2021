@@ -12,7 +12,7 @@ export class FlowsComponent implements OnInit {
   today = new Date();
   Link = Link;
 
-  allFlows$ = this.flowService.allFlows$;
+  inboxFlows$ = this.flowService.inboxFlows$;
   appSearchFlows$ = this.flowService.flowSearchResult$;
   queryParams$ = this.route.queryParams;
 

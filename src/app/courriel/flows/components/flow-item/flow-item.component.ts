@@ -11,6 +11,12 @@ import { FlowService } from '../../flow.service';
 export class FlowItemComponent implements OnInit {
   Link = Link;
   @Input() flow: Flow = new Flow();
+  @Input() layout = '';
+
+  sent() {
+    return this.layout == 'sent';
+  }
+
   constructor(private flowService: FlowService) {}
 
   ngOnInit(): void {}

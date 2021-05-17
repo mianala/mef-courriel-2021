@@ -18,10 +18,10 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class SendFlowFormComponent implements OnInit {
   sendFlowForm: FormGroup;
   parentFlow: Flow = new Flow();
-  activeUser = this.userService.activeUser;
+  activeUser = this.userService._activeUser;
   queryParams$ = this.route.queryParams;
-  activeEntity$ = this.entityService.activeEntity$;
-  activeEntity = this.entityService.activeEntity;
+  userEntity$ = this.entityService.userEntity$;
+  userEntity = this.entityService._userEntity;
   activeUser$ = this.userService.activeUser$;
   flowId$ = this.queryParams$.pipe(map((params) => parseInt(params.flow_id)));
   parentFlow$ = this.flowId$.pipe(
@@ -59,17 +59,17 @@ export class SendFlowFormComponent implements OnInit {
     const form = this.sendFlowForm.value;
     const flows: any[] = [];
 
-    const activeEntity = this.activeEntity;
+    const userEntity = this.userEntity;
     const activeUser = this.activeUser;
 
-    if (!activeEntity || !activeUser) return;
+    if (!userEntity || !activeUser) return;
 
     console.log(form);
 
     form.receivers.forEach((entity: Entity) => {
       let flow = {
         user_id: activeUser.id,
-        initiator_id: activeEntity.id,
+        initiator_id: userEntity.id,
         action: 2,
         root_id: this.parentFlow.rootId(),
         parent_id: this.parentFlow.id,

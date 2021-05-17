@@ -41,10 +41,10 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
   labels: string[] = [];
   // @Output() labelsChange = new EventEmitter<string[]>();
 
-  activeEntity$ = this.entityService.activeEntity$;
+  userEntity$ = this.entityService.userEntity$;
   labelInput = '';
 
-  allLabels$ = this.entityService.activeEntityLabels$;
+  allLabels$ = this.entityService.userEntityLabels$;
   allLabels: string[] = [];
   @Input() InputLabels = '';
 
@@ -108,7 +108,7 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
 
     this.labelCtrl.setValue('');
 
-    const active_entity = this.entityService.activeEntity;
+    const active_entity = this.entityService._userEntity;
 
     if (!active_entity) {
       return;
@@ -128,7 +128,7 @@ export class LabelsComponent implements OnInit, ControlValueAccessor {
 
   remove(label: string): void {
     const index = this.labels.indexOf(label);
-    const active_entity = this.entityService.activeEntity;
+    const active_entity = this.entityService._userEntity;
 
     if (index < 0) {
       return;

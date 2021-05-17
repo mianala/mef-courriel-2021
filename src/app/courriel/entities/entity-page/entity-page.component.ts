@@ -27,7 +27,7 @@ export class EntityPageComponent implements OnInit {
   // FIXME: refactor to pipe
   getEntity(data: any) {
     if (!data.entity_id) {
-      this.entityService.activeEntity$.subscribe((entity) => {
+      this.entityService.userEntity$.subscribe((entity) => {
         if (!entity) {
           return;
         }

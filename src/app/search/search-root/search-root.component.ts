@@ -17,7 +17,7 @@ import { SearchService } from '../search.service';
 export class SearchPageComponent implements OnInit {
   queryParams$ = this.route.queryParams;
   openedSidenav$ = this.searchService.openSideNav$;
-  allLabels$ = this.entityService.activeEntityLabels$;
+  allLabels$ = this.entityService.userEntityLabels$;
 
   searchKeys$ = this.queryParams$.pipe(map((keys) => Object.keys(keys).length));
 
@@ -29,7 +29,7 @@ export class SearchPageComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router
   ) {
-    this.entityService.activeEntity$.subscribe((entity: any) => {
+    this.entityService.userEntity$.subscribe((entity: any) => {
       this.dataSource.data = entity.children;
     });
 

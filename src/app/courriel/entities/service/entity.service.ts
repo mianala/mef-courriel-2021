@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { Observable } from 'rxjs';
 
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -17,7 +18,6 @@ import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 
 import { NotificationService } from 'src/app/services/notification.service';
-import Observable from 'zen-observable';
 import { UserService } from '../../../services/user.service';
 
 interface IEntityInfo {
@@ -31,172 +31,6 @@ interface IEntityInfo {
   providedIn: 'root',
 })
 export class EntityService {
-  // store in localstorage
-  allEntities$: BehaviorSubject<Entity[]> = new BehaviorSubject<Entity[]>([]);
-  allEntities: Entity[] = [];
-
-  activeUser$ = this.userService.activeUser$;
-  // store in cookie
-  activeEntity$: BehaviorSubject<Entity | null> =
-    new BehaviorSubject<Entity | null>(null);
-
-  activeEntityInfo$ = this.activeUser$.pipe(
-    switchMap((user: User | null) => {
-      return this.getUserEntityInfo(user ? user.entity.id : null).pipe(
-        map((info: Entity): IEntityInfo => {
-          return {
-            labels: info?.labels ? info?.labels.split(',') : null,
-            letter_texts: info?.letter_texts
-              ? info?.letter_texts.split(',')
-              : null,
-            type_texts: info?.type_texts ? info?.type_texts.split(',') : null,
-            observations: info?.observations
-              ? info?.observations.split(',')
-              : null,
-          };
-        })
-      );
-    }),
-    catchError(async () => null)
-  );
-
-  // why not just combinelatest with user.entity.id?
-  activeEntityLabels$ = this.activeEntityInfo$.pipe(
-    map((info: IEntityInfo | null) => (info ? info.labels : null))
-  );
-
-  activeEntityObservations$: BehaviorSubject<string[]> = new BehaviorSubject<
-    string[]
-  >([]);
-  activeEntityTypeTexts$: BehaviorSubject<string[]> = new BehaviorSubject<
-    string[]
-  >([]);
-  activeEntityLetterTexts$: BehaviorSubject<string[]> = new BehaviorSubject<
-    string[]
-  >([]);
-
-  activeEntity: Entity | null = null;
-
-  constructor(
-    private apollo: Apollo,
-    private userService: UserService,
-    private notification: NotificationService
-  ) {
-    this.activeEntity$.subscribe((entity) => {
-      this.activeEntity = entity;
-    });
-
-    this.activeUser$
-      .pipe(filter((user) => !!user))
-      .subscribe((user: User | null) => {
-        this.getUserEntity(user!.entity.id);
-      });
-
-    this.getEntities().subscribe((entities) =>
-      this.allEntities$.next(entities)
-    );
-
-    this.allEntities$.subscribe((entities) => (this.allEntities = entities));
-  }
-
-  getUserEntityInfo(entity_id: number | null) {
-    const GET_ENTITY_LABEL_QUERY = gql`
-      query get_entity($entity_id: Int!) {
-        entity(where: { id: { _eq: $entity_id } }) {
-          labels
-          observations
-          letter_texts
-          type_texts
-        }
-      }
-    `;
-    return this.apollo
-      .watchQuery({
-        query: GET_ENTITY_LABEL_QUERY,
-        variables: { entity_id: entity_id },
-        fetchPolicy: 'cache-and-network',
-      })
-      .valueChanges.pipe(map((data: any) => data.data.entity[0]));
-  }
-
-  getUserEntity(entity_id: number) {
-    const GET_USER_ENTITY_QUERY = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      query getUserEntity($entity_id: Int!) {
-        entity(where: { id: { _eq: $entity_id } }) {
-          ...CoreEntityFields
-          labels
-          observations
-          letter_texts
-          parent {
-            ...CoreEntityFields
-            children {
-              ...CoreEntityFields
-            }
-          }
-          children {
-            ...CoreEntityFields
-            children {
-              ...CoreEntityFields
-            }
-          }
-        }
-      }
-    `;
-
-    return this.apollo
-      .watchQuery({
-        query: GET_USER_ENTITY_QUERY,
-        variables: { entity_id: entity_id },
-        fetchPolicy: 'cache-and-network',
-      })
-      .valueChanges.pipe(this.mapUserEntity)
-      .subscribe((entity) => this.activeEntity$.next(entity));
-  }
-
-  updateEntitiesFromLocalStorage() {}
-
-  updateEntities(entities: Entity[]) {
-    this.allEntities$.next(entities);
-    localStorage.setItem('entities', JSON.stringify(entities));
-  }
-
-  getEntities = () => {
-    const GET_ENTITIES_QUERY = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      query get_entities {
-        entity(order_by: { id: asc }) {
-          ...CoreEntityFields
-        }
-      }
-    `;
-
-    return this.apollo
-      .query({
-        query: GET_ENTITIES_QUERY,
-      })
-      .pipe(this.mapEntities);
-  };
-
-  getEntity(id: number) {
-    const GET_ENTITY_QUERY = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      query get_entity($id: Int!) {
-        entity(where: { id: { _eq: $id } }) {
-          ...CoreEntityFields
-        }
-      }
-    `;
-    return this.apollo
-      .query({
-        query: GET_ENTITY_QUERY,
-        variables: {
-          id: id,
-        },
-      })
-      .pipe(this.mapEntities);
-  }
-
   mapEntities = map((val: any): Entity[] => {
     return val.data.entity.map((val: any) => {
       return new Entity(val);
@@ -206,6 +40,19 @@ export class EntityService {
   mapEntity = map((val: any) => {
     val.data.entity;
   });
+
+  mapEntityInfo = map((info: any): IEntityInfo => {
+    return {
+      labels: info?.labels ? info?.labels.split(',') : null,
+      letter_texts: info?.letter_texts ? info?.letter_texts.split(',') : null,
+      type_texts: info?.type_texts ? info?.type_texts.split(',') : null,
+      observations: info?.observations ? info?.observations.split(',') : null,
+    };
+  });
+
+  mapEntityLabelsInfo = map((info: IEntityInfo | null) =>
+    info ? info.labels : null
+  );
 
   mapUserEntity = map((val: any): Entity => {
     const entity_query_result = val.data.entity[0];
@@ -231,6 +78,158 @@ export class EntityService {
 
     return entity;
   });
+
+  _userEntity: Entity | undefined;
+
+  userEntityInfoQuery:
+    | QueryRef<
+        unknown,
+        {
+          entity_id: number;
+        }
+      >
+    | undefined;
+  activeUserIdEntityInfoQuery:
+    | QueryRef<
+        unknown,
+        {
+          entity_id: number;
+        }
+      >
+    | undefined;
+  userEntityQuery:
+    | QueryRef<
+        unknown,
+        {
+          entity_id: number;
+        }
+      >
+    | undefined;
+  allEntitiesQuery = this.allEntities();
+
+  allEntities$ = this.allEntitiesQuery.valueChanges.pipe(this.mapEntities);
+
+  activeUserEntityId$ = this.userService.activeUserEntityId$;
+
+  userEntity$ = new BehaviorSubject<Entity | null>(null);
+  userEntityInfo$ = new BehaviorSubject<IEntityInfo | null>(null);
+
+  userEntityLabels$ = this.userEntityInfo$.pipe(this.mapEntityLabelsInfo);
+  userEntityObservations$: Observable<any> | undefined;
+  userEntityTypeTexts$: Observable<any> | undefined;
+  userEntityLetterTexts$: Observable<any> | undefined;
+
+  constructor(
+    private apollo: Apollo,
+    private userService: UserService,
+    private notification: NotificationService
+  ) {
+    this.activeUserEntityId$.subscribe((userEntityId) => {
+      this.userEntityInfoQuery = this.userEntityInfo(userEntityId);
+      this.userEntityQuery = this.userEntity(userEntityId);
+
+      this.userEntityInfoQuery.valueChanges
+        .pipe(this.mapEntityInfo)
+        .subscribe((info) => this.userEntityInfo$.next(info));
+
+      this.userEntityQuery.valueChanges
+        .pipe(this.mapUserEntity)
+        .subscribe((entity) => {
+          this.userEntity$.next(entity);
+          this._userEntity = entity;
+        });
+    });
+  }
+
+  logout() {
+    this.userEntity$.next(null);
+  }
+
+  userEntityInfo(entity_id: number) {
+    const GET_ENTITY_LABEL_QUERY = gql`
+      query get_entity($entity_id: Int!) {
+        entity(where: { id: { _eq: $entity_id } }) {
+          labels
+          observations
+          letter_texts
+          type_texts
+        }
+      }
+    `;
+    return this.apollo.watchQuery({
+      query: GET_ENTITY_LABEL_QUERY,
+      variables: { entity_id: entity_id },
+      fetchPolicy: 'cache-and-network',
+    });
+  }
+
+  userEntity(entity_id: number) {
+    const GET_USER_ENTITY_QUERY = gql`
+      ${Entity.CORE_ENTITY_FIELDS}
+
+      query getUserEntity($entity_id: Int!) {
+        entity(where: { id: { _eq: $entity_id } }) {
+          ...CoreEntityFields
+          labels
+          observations
+          letter_texts
+          parent {
+            ...CoreEntityFields
+            children {
+              ...CoreEntityFields
+            }
+          }
+          children {
+            ...CoreEntityFields
+            children {
+              ...CoreEntityFields
+            }
+          }
+        }
+      }
+    `;
+
+    return this.apollo.watchQuery({
+      query: GET_USER_ENTITY_QUERY,
+      variables: { entity_id: entity_id },
+      fetchPolicy: 'cache-and-network',
+    });
+  }
+
+  allEntities() {
+    const GET_ENTITIES_QUERY = gql`
+      ${Entity.CORE_ENTITY_FIELDS}
+      query get_entities {
+        entity(order_by: { id: asc }) {
+          ...CoreEntityFields
+        }
+      }
+    `;
+
+    return this.apollo.watchQuery({
+      query: GET_ENTITIES_QUERY,
+      fetchPolicy: 'cache-and-network',
+    });
+  }
+
+  getEntity(id: number) {
+    const GET_ENTITY_QUERY = gql`
+      ${Entity.CORE_ENTITY_FIELDS}
+      query get_entity($id: Int!) {
+        entity(where: { id: { _eq: $id } }) {
+          ...CoreEntityFields
+        }
+      }
+    `;
+    return this.apollo
+      .query({
+        query: GET_ENTITY_QUERY,
+        variables: {
+          id: id,
+        },
+      })
+      .pipe(this.mapEntities);
+  }
 
   getEntityWithUsers(id: number) {
     const GET_ENTITY_QUERY_WITH_USERS = gql`
@@ -311,15 +310,13 @@ export class EntityService {
   }
 
   incrementEntitySentCount() {
-    if (!this.activeEntity) return;
-
     const inc = { sent_count: 1 };
 
-    this.updateEntity(this.activeEntity.id, {}, inc).subscribe((data) =>
-      console.log(data)
+    this.updateEntity(this._userEntity!.id, {}, inc).subscribe((data) =>
+      console.log('incremented entity sent count', data)
     );
 
-    this.activeEntity.sent_count += 1;
+    this._userEntity!.sent_count += 1;
   }
 
   addNewEntity(variables: any) {

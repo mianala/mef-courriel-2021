@@ -18,7 +18,13 @@ export class UserService {
     null
   );
 
-  activeUser: User | null = null;
+  activeUserEntityId$ = this.activeUser$.pipe(
+    filter((user) => !!user),
+    map((user) => user!.entity.id),
+    distinctUntilChanged()
+  );
+
+  _activeUser: User | null = null;
 
   users$ = this.getUsers();
   loggedIn$ = this.activeUser$.pipe(map((user) => (user ? true : false)));
@@ -43,7 +49,7 @@ export class UserService {
       this.activeUser$.next(localStorageUser);
     }
 
-    this.activeUser$.subscribe((user) => (this.activeUser = user));
+    this.activeUser$.subscribe((user) => (this._activeUser = user));
   }
 
   saveNewUser(variables: any) {
@@ -205,32 +211,32 @@ export class UserService {
   }
 
   updateUserLastLogin() {
-    if (!this.activeUser) {
+    if (!this._activeUser) {
       return;
     }
     const set = { last_login: new Date() };
-    this.updateUser(this.activeUser.id, set).subscribe((data) =>
+    this.updateUser(this._activeUser.id, set).subscribe((data) =>
       console.log('updated last login', data)
     );
   }
 
   updateDefaultApp(default_app: string) {
-    if (!this.activeUser) {
+    if (!this._activeUser) {
       return;
     }
     const set = { settings_default_app: default_app };
-    this.updateUser(this.activeUser.id, set).subscribe((data) =>
+    this.updateUser(this._activeUser.id, set).subscribe((data) =>
       this.notification.notify('Application par Défaut Mise à jour')
     );
   }
 
   resetPassword(hashed: string) {
-    if (!this.activeUser) {
+    if (!this._activeUser) {
       return;
     }
 
     const set = { hashed: hashed };
-    this.updateUser(this.activeUser.id, set).subscribe((data) =>
+    this.updateUser(this._activeUser.id, set).subscribe((data) =>
       console.log(data)
     );
   }

@@ -15,13 +15,6 @@ export class FileUploadButtonComponent implements OnInit {
 
   selectFile(e: any) {
     const files = e.target.files;
-
-    this.uploadService.upload(files).subscribe((data) => {
-      console.log(data);
-    });
-
-    return;
-
     const fileArray = [];
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
@@ -34,5 +27,13 @@ export class FileUploadButtonComponent implements OnInit {
     }
 
     this.fileSelected.emit(fileArray);
+  }
+
+  upload(e: any) {
+    const files = e.target.files;
+
+    this.uploadService.upload(files).subscribe((data) => {
+      console.log(data);
+    });
   }
 }

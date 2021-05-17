@@ -64,3 +64,9 @@
   margin: 4px 0;
   @extend .animated-background;
 }
+
+.block {
+  display: flex;
+  margin-bottom: 30px;
+  @extend .animated-background;
+}

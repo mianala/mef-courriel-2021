@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';
@@ -26,28 +26,41 @@ export class FlowService {
   searchAppResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
 
   searchFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
-  activeEntity$ = this.entityService.activeEntity$;
-  activeUser$ = this.userService.activeUser$;
+  activeUser$ = this.userService.activeUser$.pipe(filter((user) => !!user));
 
-  allFlows$ = this.activeUser$.pipe(
-    filter((user) => !!user), // filter null
-    switchMap((user: User | null) => {
-      return this.getAllFlows(user!.entity.id);
-    })
-  );
-  sentFlows$ = this.activeUser$.pipe(
-    filter((user) => !!user), // filter null
-    switchMap((user: User | null) => {
-      return this.sentFlows(user!.entity.id);
-    })
-  );
+  inboxFlows$: Observable<Flow[]> | undefined;
+  inboxFlowsQuery:
+    | QueryRef<
+        unknown,
+        {
+          entity_id: number;
+        }
+      >
+    | undefined;
+  sentFlows$: Observable<Flow[]> | undefined;
+  sentFlowsQuery:
+    | QueryRef<
+        unknown,
+        {
+          entity_id: number;
+        }
+      >
+    | undefined;
 
   constructor(
     private apollo: Apollo,
     private entityService: EntityService,
     private userService: UserService,
     private notification: NotificationService
-  ) {}
+  ) {
+    this.activeUser$.subscribe((user: User | null) => {
+      this.inboxFlowsQuery = this.inboxFlows(user!.entity.id);
+      this.sentFlowsQuery = this.sentFlows(user!.entity.id);
+
+      this.inboxFlows$ = this.inboxFlowsQuery.valueChanges.pipe(this.flowMap);
+      this.sentFlows$ = this.sentFlowsQuery.valueChanges.pipe(this.flowMap);
+    });
+  }
 
   insertFlows(flows: any) {
     const INSERT_FLOWS_QUERY = gql`
@@ -107,7 +120,7 @@ export class FlowService {
     });
   });
 
-  deleteFlow(flow_id: number, next: (data: any) => void) {
+  deleteFlow(flow_id: number) {
     const DELETE_FLOW_MUTATION = gql`
       mutation delete_flow_mutation($flow_id: Int!) {
         delete_flow(where: { id: { _eq: $flow_id } }) {
@@ -118,42 +131,30 @@ export class FlowService {
         }
       }
     `;
-    return this.apollo
-      .mutate({
-        mutation: DELETE_FLOW_MUTATION,
-        variables: {
-          flow_id: flow_id,
-        },
-      })
-      .subscribe(
-        (data) => {
-          this.notification.notify('Courriel supprimé', 500);
-          next(data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    return this.apollo.mutate({
+      mutation: DELETE_FLOW_MUTATION,
+      variables: {
+        flow_id: flow_id,
+      },
+    });
   }
 
-  getAllFlows(entity_id: number) {
-    const GET_ALL_FLOWS_QUERY = gql`
+  inboxFlows = (entity_id: number) => {
+    const GET_INBOX_FLOWS_QUERY = gql`
       ${Flow.ITEM_FLOW_FIELDS}
-      query get_all_flows($entity_id: Int!) {
+      query get_inbox_flows($entity_id: Int!) {
         flow(where: { owner_id: { _eq: $entity_id } }, order_by: { id: desc }) {
           ...ItemFlowFields
         }
       }
     `;
 
-    return this.apollo
-      .watchQuery({
-        query: GET_ALL_FLOWS_QUERY,
-        variables: { entity_id: entity_id },
-        fetchPolicy: 'cache-and-network',
-      })
-      .valueChanges.pipe(this.flowMap);
-  }
+    return this.apollo.watchQuery({
+      query: GET_INBOX_FLOWS_QUERY,
+      variables: { entity_id: entity_id },
+      fetchPolicy: 'cache-and-network',
+    });
+  };
 
   sentFlows(entity_id: number) {
     const GET_SENT_FLOWS_QUERY = gql`
@@ -169,13 +170,11 @@ export class FlowService {
       }
     `;
 
-    return this.apollo
-      .watchQuery({
-        query: GET_SENT_FLOWS_QUERY,
-        variables: { entity_id },
-        fetchPolicy: 'cache-and-network',
-      })
-      .valueChanges.pipe(this.flowMap);
+    return this.apollo.watchQuery({
+      query: GET_SENT_FLOWS_QUERY,
+      variables: { entity_id },
+      fetchPolicy: 'cache-and-network',
+    });
   }
 
   markFlowAsRead(flow_id: number) {
@@ -248,7 +247,7 @@ export class FlowService {
     `;
 
     searchFlowVariables.owner_id = {
-      _eq: this.entityService.activeEntity?.id,
+      _eq: this.entityService._userEntity!.id,
     };
 
     return this.apollo

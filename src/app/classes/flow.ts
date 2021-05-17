@@ -66,6 +66,10 @@ export class Flow {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
   }
 
+  receiver() {
+    return this.owner_id ? this.owner.short : this.owner_text;
+  }
+
   variableFiles() {
     return { data: this.files };
   }

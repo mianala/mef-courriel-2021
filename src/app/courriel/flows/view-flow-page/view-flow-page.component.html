@@ -1,8 +1,9 @@
-<main>
+<main *ngIf="flow$ | async as flow; else loading">
   <div class="header-actions">
     <span class="start">
       <back></back>
     </span>
+
     <span class="end" *ngIf="app_page">
       <button mat-icon-button><mat-icon>send</mat-icon></button>
       <button mat-icon-button><mat-icon>mark_email_read</mat-icon></button>
@@ -20,13 +21,13 @@
   <section class="flow">
     <div class="mat-caption" style="color: #444; margin-bottom: 1em">
       <b class="flow-header-entity">{{ flow.sender() }}</b> à
-      <b class="flow-header-entity">{{ flow.owner.short }}</b>
+      <b class="flow-header-entity">{{ flow.receiver() }}</b>
       (Réf: {{ flow.reference }})
     </div>
   </section>
   <article>
     <h1 style="font-weight: 300; margin-bottom: 1rem" class="mat-display-1">
-      {{ flow.title }}
+      {{ flow.r.title() }}
     </h1>
   </article>
 
@@ -35,8 +36,10 @@
       file.name
     }}</mat-chip>
   </mat-chip-list>
-
   <!-- <flow-list></flow-list> -->
+  <viewer [file]="activeFile"></viewer>
 </main>
-<flow-loading *ngIf="loading"></flow-loading>
-<viewer [file]="activeFile"></viewer>
+
+<ng-template #loading>
+  <flow-loading></flow-loading>
+</ng-template>
