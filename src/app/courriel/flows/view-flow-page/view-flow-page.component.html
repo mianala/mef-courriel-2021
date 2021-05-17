@@ -50,8 +50,9 @@
     </div>
   </div>
   <!-- <flow-list></flow-list> -->
-  <viewer *ngIf="activeFile" [file]="activeFile"></viewer>
 </main>
+
+<viewer *ngIf="activeFile" [file]="activeFile"></viewer>
 
 <ng-template #loading>
   <flow-loading></flow-loading>

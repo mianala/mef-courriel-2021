@@ -3,9 +3,9 @@
 :host {
   display: flex;
   flex-direction: column;
-  background-color: $grey;
   main {
     padding: 1rem;
+    background-color: $grey;
 
     .header-actions {
       display: flex;
