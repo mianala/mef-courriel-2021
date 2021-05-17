@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Entity } from 'src/app/classes/entity';
+import { Link } from 'src/app/classes/link';
 import { EntityService } from './service/entity.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { EntityService } from './service/entity.service';
   styleUrls: ['./entities.component.scss'],
 })
 export class EntitiesComponent implements OnInit {
+  Link = Link;
   constructor(public entityService: EntityService) {}
 
   ngOnInit(): void {}

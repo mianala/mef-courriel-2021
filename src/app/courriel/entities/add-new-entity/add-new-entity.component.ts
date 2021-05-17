@@ -13,6 +13,8 @@ export class AddNewEntityComponent implements OnInit {
   parent_entity_id: number = 0;
   parent_entity: Entity = new Entity();
 
+  parentEntity = new FormControl();
+
   newNewEntityForm = new FormGroup({
     short: new FormControl('', [Validators.required]),
     long: new FormControl('', [Validators.required]),

@@ -1,10 +1,14 @@
-<button mat-mini-fab routerLink="/courriel/entities">
-  <mat-icon>arrow_back</mat-icon>
-</button>
-<div class="container">
+<div class="container box">
+  <button mat-mini-fab routerLink="/courriel/entities">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
   <header>
     <h1>New Entity [{{ parent_entity?.short }} > {{ short.value }}]</h1>
   </header>
+  <entity-autocomplete
+    label="Parent"
+    [formControl]="parentEntity"
+  ></entity-autocomplete>
   <form [formGroup]="newNewEntityForm" (ngSubmit)="submit()">
     <mat-form-field appearance="outline">
       <mat-label>Nom (Ex: Cellule Informatique ...) </mat-label>

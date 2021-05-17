@@ -70,6 +70,33 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    children: [
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'entities',
+        children: [
+          {
+            path: '',
+            component: EntitiesComponent,
+          },
+          {
+            path: 'entity',
+            component: EntityPageComponent,
+          },
+          {
+            path: 'add',
+            component: AddNewEntityComponent,
+          },
+          {
+            path: 'edit',
+            component: EditEntityComponent,
+          },
+        ],
+      },
+    ],
   },
   {
     path: 'viewer',
@@ -118,10 +145,6 @@ const routes: Routes = [
         component: ChatComponent,
       },
       {
-        path: 'users',
-        component: UsersComponent,
-      },
-      {
         path: 'entity',
         component: EntityPageComponent,
       },
@@ -146,27 +169,6 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-      },
-      {
-        path: 'entities',
-        children: [
-          {
-            path: '',
-            component: EntitiesComponent,
-          },
-          {
-            path: 'entity',
-            component: EntityPageComponent,
-          },
-          {
-            path: 'add',
-            component: AddNewEntityComponent,
-          },
-          {
-            path: 'edit',
-            component: EditEntityComponent,
-          },
-        ],
       },
       {
         path: 'flow',

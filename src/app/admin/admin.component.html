@@ -1,1 +1,26 @@
-<p>admin works!</p>
+<nav>
+  <section>
+    <a class="nav-link" [routerLink]="Link.APPS_ROOT" routerLinkActive="active">
+      <div matTooltip="Boite de Réception" matTooltipPosition="right">
+        <mat-icon>apps</mat-icon>
+      </div>
+    </a>
+
+    <a class="nav-link" [routerLink]="Link.USERS" routerLinkActive="active">
+      <div matTooltipPosition="right">
+        <mat-icon>people</mat-icon>
+      </div>
+    </a>
+
+    <a class="nav-link" [routerLink]="Link.ENTITIES" routerLinkActive="active">
+      <div>
+        <mat-icon>domain</mat-icon>
+      </div>
+    </a>
+  </section>
+</nav>
+<div class="nav-holder"></div>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

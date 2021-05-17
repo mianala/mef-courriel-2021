@@ -53,9 +53,9 @@ import { EntityUsersComponent } from './courriel/entities/entity-users/entity-us
 import { EntityComponent } from './courriel/entities/entity/entity.component';
 import { AssignFlowComponent } from './courriel/flows/assign-flow/assign-flow.component';
 import { FlowItemComponent } from './courriel/flows/components/flow-item/flow-item.component';
-import { FlowLoadingComponent } from './courriel/flows/components/flow-loading/flow-loading.component';
+import { FlowLoadingComponent } from './components/loading/flow-loading/flow-loading.component';
 import { FlowRouteItemComponent } from './courriel/flows/components/flow-route-item/flow-route-item.component';
-import { FlowsLoadingComponent } from './courriel/flows/components/flows-loading/flows-loading.component';
+import { FlowsLoadingComponent } from './components/loading/flows-loading/flows-loading.component';
 import { LabelsComponent } from './courriel/flows/components/labels/labels.component';
 import { LetterTextsComponent } from './courriel/flows/components/letter-texts/letter-texts.component';
 import { ObservationsComponent } from './courriel/flows/components/observations/observations.component';
@@ -81,6 +81,8 @@ import { SearchPageComponent } from './search/search-root/search-root.component'
 import { SearchHeaderComponent } from './search/search-header/search-header.component';
 import { SentFlowsComponent } from './courriel/sent-flows/sent-flows.component';
 import { WithLoadingPipe } from './pipes/with-loading.pipe';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { EntityPageLoadingComponent } from './components/loading/entity-page-loading/entity-page-loading.component';
 
 registerLocaleData(localeFr);
 
@@ -166,6 +168,10 @@ registerLocaleData(localeFr);
     SentFlowsComponent,
 
     WithLoadingPipe,
+
+    AdminDashboardComponent,
+
+    EntityPageLoadingComponent,
   ],
   imports: [
     BrowserModule,

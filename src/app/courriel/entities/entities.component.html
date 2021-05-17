@@ -1,9 +1,4 @@
-<!-- <div class="actions">
-  <button mat-raised-button color="primary">
-    <mat-icon>add</mat-icon> Ajouter
-  </button>
-</div> -->
-<div class="header">
+<header class="header">
   <mat-form-field appearance="outline">
     <mat-label>Rechercher</mat-label>
     <input name="message" matInput />
@@ -11,7 +6,10 @@
       <mat-icon>search</mat-icon>
     </button>
   </mat-form-field>
-</div>
+  <a mat-button color="primary" [routerLink]="Link.ENTITIES_ADD">
+    <mat-icon>add</mat-icon> Ajouter
+  </a>
+</header>
 
 <div class="entities">
   <entity

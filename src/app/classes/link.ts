@@ -1,6 +1,12 @@
 export class Link {
   static NOT_FOUND = '/404'; // Link.NOT_FOUND
 
+  // ADMIN
+  static ADMIN_ROOT = '/admin'; // Link.ADMIN_ROOT
+  static ENTITIES = `${Link.ADMIN_ROOT}/entities`; // Link.ENTITIES
+  static ENTITIES_ADD = `${Link.ENTITIES}/add`; // Link.ENTITIES
+  static USERS = `${Link.ADMIN_ROOT}/users`; // Link.USERS
+
   // APPS
   static APPS_ROOT = '/apps'; // Link.APPS_ROOT
 
@@ -22,11 +28,9 @@ export class Link {
   static FLOW_SEND = `${Link.FLOW_APP}/send`; // Link.FLOW_SEND
 
   // USER
-  static USERS = `${Link.FLOW_ROOT}/users`; // Link.USERS
   static USER = `${Link.FLOW_ROOT}/user`; // Link.USER
 
   // ENTITY
-  static ENTITIES = `${Link.FLOW_ROOT}/entities`; // Link.ENTITIES
   static ENTITY = `${Link.FLOW_ROOT}/entity`; // Link.ENTITY
 
   // SETTINGS

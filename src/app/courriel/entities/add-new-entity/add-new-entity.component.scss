@@ -1,12 +1,6 @@
-:host {
-  display: block;
-  padding: 1rem;
-}
-
+@import "~src/styles/box";
 form {
   display: flex;
+  width: clamp(300px, 60vw, 800px);
   flex-direction: column;
-  mat-form-field {
-    max-width: 30rem;
-  }
 }
