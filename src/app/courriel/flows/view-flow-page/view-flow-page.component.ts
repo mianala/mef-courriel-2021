@@ -6,6 +6,7 @@ import { FlowService } from '../flow.service';
 import { Location } from '@angular/common';
 import { map, switchMap } from 'rxjs/operators';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Strings } from 'src/app/classes/strings';
 
 @Component({
   selector: 'flow-page',
@@ -17,6 +18,7 @@ export class ViewFlowPageComponent implements OnInit {
   flow_id = 0;
   app_page = false;
   loading = true;
+  Strings = Strings;
 
   flow$ = this.route.queryParams.pipe(
     switchMap((routeData) => {
@@ -51,11 +53,6 @@ export class ViewFlowPageComponent implements OnInit {
         console.log(error);
       }
     );
-  }
-
-  viewFile(file: AppFile) {
-    this.activeFile = file;
-    console.log(file);
   }
 
   ngOnInit(): void {}

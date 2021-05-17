@@ -26,7 +26,7 @@
     </div>
   </section>
   <article>
-    <h1 style="font-weight: 300; margin-bottom: 1rem" class="mat-display-1">
+    <h1 class="mat-display-1">
       {{ flow.r.title() }}
     </h1>
   </article>
@@ -34,11 +34,19 @@
   <div aria-label="File list" class="files">
     <div *ngFor="let file of flow.files" class="file">
       <img [src]="file.iconUrl()" alt="" />
-      <span class="file-name">{{ file.name }}</span>
-      <button mat-icon-button (click)="viewFile(file)">
-        <mat-icon>visibility</mat-icon>
-      </button>
-      <button mat-icon-button><mat-icon>download</mat-icon></button>
+      <span
+        [title]="Strings.open"
+        (click)="activeFile = file"
+        class="file-name"
+        >{{ file.name }}</span
+      >
+      <a
+        mat-icon-button
+        [title]="Strings.download"
+        target="_blank"
+        [href]="file.src"
+        ><mat-icon>downloading</mat-icon></a
+      >
     </div>
   </div>
   <!-- <flow-list></flow-list> -->

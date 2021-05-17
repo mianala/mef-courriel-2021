@@ -37,9 +37,9 @@ export class AppFile {
       return this.type.includes(t.short.toLocaleLowerCase());
     })?.icon;
 
-    if (icon) {
+    if (!icon) {
       icon = AppFile.file_types.find((t) => {
-        return this.type.includes(t.short.toLocaleLowerCase());
+        return this.name.includes(t.short.toLocaleLowerCase());
       })?.icon;
     }
 
