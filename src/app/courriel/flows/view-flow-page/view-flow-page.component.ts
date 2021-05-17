@@ -13,7 +13,7 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./view-flow-page.component.scss'],
 })
 export class ViewFlowPageComponent implements OnInit {
-  activeFile = new AppFile();
+  activeFile: AppFile | null = null;
   flow_id = 0;
   app_page = false;
   loading = true;

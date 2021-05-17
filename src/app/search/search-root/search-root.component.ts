@@ -2,7 +2,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { EntityService } from 'src/app/courriel/entities/service/entity.service';
 import { FlowService } from 'src/app/courriel/flows/flow.service';
 import { Entity } from 'src/app/classes/entity';
@@ -29,9 +29,11 @@ export class SearchPageComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router
   ) {
-    this.entityService.userEntity$.subscribe((entity: any) => {
-      this.dataSource.data = entity.children;
-    });
+    this.entityService.userEntity$
+      .pipe(filter((entity) => !!entity))
+      .subscribe((entity: Entity | null) => {
+        this.dataSource.data = entity!.children;
+      });
 
     this.userService.loggedIn$.subscribe((value) =>
       value ? null : this.router.navigate(['/auth/login'])

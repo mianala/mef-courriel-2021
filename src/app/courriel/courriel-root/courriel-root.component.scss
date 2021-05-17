@@ -54,9 +54,6 @@ nav {
       justify-content: center;
       padding: 1rem 0;
     }
-    .mat-icon {
-      font-size: 23px;
-    }
     .nav-link {
       cursor: pointer;
       outline: 0;
@@ -97,6 +94,11 @@ nav {
           background-color: white;
           color: $red-ryb;
         }
+      }
+
+      .mat-icon {
+        font-size: 23px;
+        overflow: hidden;
       }
     }
   }

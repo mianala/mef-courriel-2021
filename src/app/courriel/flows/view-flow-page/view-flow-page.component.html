@@ -22,7 +22,7 @@
     <div class="mat-caption" style="color: #444; margin-bottom: 1em">
       <b class="flow-header-entity">{{ flow.sender() }}</b> à
       <b class="flow-header-entity">{{ flow.receiver() }}</b>
-      (Réf: {{ flow.reference }})
+      (Réf: {{ flow.r.reference() }})
     </div>
   </section>
   <article>
@@ -31,13 +31,18 @@
     </h1>
   </article>
 
-  <mat-chip-list aria-label="File list">
-    <mat-chip (click)="viewFile(file)" *ngFor="let file of flow.files">{{
-      file.name
-    }}</mat-chip>
-  </mat-chip-list>
+  <div aria-label="File list" class="files">
+    <div *ngFor="let file of flow.files" class="file">
+      <img src="" alt="" />
+      <span class="file-name">{{ file.name }}</span>
+      <button mat-icon-button (click)="viewFile(file)">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button mat-icon-button><mat-icon>download</mat-icon></button>
+    </div>
+  </div>
   <!-- <flow-list></flow-list> -->
-  <viewer [file]="activeFile"></viewer>
+  <viewer *ngIf="activeFile" [file]="activeFile"></viewer>
 </main>
 
 <ng-template #loading>

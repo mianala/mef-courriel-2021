@@ -18,3 +18,20 @@
     }
   }
 }
+
+// files
+
+.files {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  .file {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    img {
+      width: 2rem;
+      height: auto;
+    }
+  }
+}

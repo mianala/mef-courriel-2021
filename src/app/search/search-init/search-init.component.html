@@ -3,7 +3,13 @@
     <img alt="MEF" src="/assets/flag.png" />
   </div>
   <form id="searchbar">
-    <input id="searchbartext" type="text" name="q" [(ngModel)]="query" />
+    <input
+      id="searchbartext"
+      autofocus
+      type="text"
+      name="q"
+      [(ngModel)]="query"
+    />
     <button
       type="submit"
       id="searchbarbutton"

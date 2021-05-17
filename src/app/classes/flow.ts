@@ -99,6 +99,9 @@ export class Flow {
     date_received: () => {
       return this.is.saved() ? this.date_received : this.root?.date;
     },
+    files: () => {
+      return this.root?.files;
+    },
   };
 
   rootId(): number {
@@ -143,6 +146,9 @@ export class Flow {
       }
       parent {
         ...CoreFlowFields
+        files {
+          ...CoreFileFields
+        }
       }
       root {
         ...CoreFlowFields
