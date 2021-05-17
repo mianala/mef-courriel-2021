@@ -33,7 +33,7 @@
 
   <div aria-label="File list" class="files">
     <div *ngFor="let file of flow.files" class="file">
-      <img src="" alt="" />
+      <img [src]="file.iconUrl()" alt="" />
       <span class="file-name">{{ file.name }}</span>
       <button mat-icon-button (click)="viewFile(file)">
         <mat-icon>visibility</mat-icon>

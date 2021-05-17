@@ -8,6 +8,7 @@ import { AppFile } from '../../classes/file';
 })
 export class ViewerComponent implements OnInit {
   @Input() file: AppFile = new AppFile();
+  File = AppFile;
   constructor() {}
 
   ngOnInit(): void {

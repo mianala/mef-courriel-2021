@@ -43,4 +43,7 @@ export class Link {
   static SEARCH_ROOT = '/search'; // Link.SEARCH_ROOT
   static SEARCH_APP = Link.SEARCH_ROOT; // Link.SEARCH_APP
   static SEARCH_SAVE = `${Link.SEARCH_APP}/save`; // Link.SEARCH_SAVE
+
+  // file icons assets folder URL
+  static FILE_ICON_ASSETS_URL = '/assets/file-icons/'; // Link.FILE_ICON_ASSETS_URL
 }
