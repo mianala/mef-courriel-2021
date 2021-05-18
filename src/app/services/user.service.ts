@@ -9,7 +9,7 @@ import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Link } from '../classes/link';
 import { AuthQueries } from '../queries/auth.queries';
-import { UserQueries } from '../queries/user.queries';
+import UserQueries from '../queries/user.queries';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +56,7 @@ export class UserService {
 
   saveNewUser(variables: any) {
     return this.apollo.mutate({
-      mutation: UserQueries.SAVE_NEW_USER_MUTATION,
+      mutation: UserQueries.SAVE_NEW,
       variables: variables,
     });
   }
@@ -64,7 +64,7 @@ export class UserService {
   getUsers() {
     return this.apollo
       .query({
-        query: UserQueries.GET_USERS_QUERY,
+        query: UserQueries.USERS,
       })
       .pipe(this.mapUser);
   }
@@ -78,7 +78,7 @@ export class UserService {
   getUnverifiedUsers() {
     return this.apollo
       .watchQuery({
-        query: UserQueries.GET_UNVERIFEID_USERS_QUERY,
+        query: UserQueries.UNVERIFIED,
         fetchPolicy: 'cache-and-network',
       })
       .valueChanges.pipe(this.mapUser);
@@ -87,7 +87,7 @@ export class UserService {
   getEntityUsers(entity_id: number) {
     return this.apollo
       .query({
-        query: UserQueries.GET_ENTITY_USERS_QUERY,
+        query: UserQueries.ENTITY_USERS,
         variables: {
           entity_id: entity_id,
         },
@@ -194,7 +194,7 @@ export class UserService {
 
   updateUser(user_id: number, set: any = {}, inc: any = {}) {
     return this.apollo.mutate({
-      mutation: UserQueries.UPDATE_USER_MUTATION,
+      mutation: UserQueries.UPDATE,
       variables: {
         user_id: user_id,
         _set: set,

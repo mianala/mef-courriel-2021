@@ -1,18 +1,33 @@
-import { gql } from 'apollo-angular';
+import gql from 'graphql-tag';
 import { Entity } from '../classes/entity';
 import { User } from '../classes/user';
 
-export class UserQueries {
-  static GET_ENTITY_USERS_QUERY = gql`
+const UserQueries = {
+  UNVERIFIED: gql`
+    ${User.core_user_fields}
+    ${Entity.CORE_ENTITY_FIELDS}
+    query get_users {
+      user {
+        ...CoreUserFields
+        verified
+        action_counter
+        entity {
+          ...CoreEntityFields
+        }
+      }
+    }
+  `,
+
+  ENTITY_USERS: gql`
       ${User.core_user_fields}
       query get_entity_users($entity_id:Int!){
         user({where:{entity_id:{_eq:$entity_id}}}){
           ...CoreUserFields
         }
       }
-    `;
+    `,
 
-  static GET_UNVERIFEID_USERS_QUERY = gql`
+  USERS: gql`
     ${User.core_user_fields}
     ${Entity.CORE_ENTITY_FIELDS}
     query get_users {
@@ -25,24 +40,9 @@ export class UserQueries {
         }
       }
     }
-  `;
+  `,
 
-  static GET_USERS_QUERY = gql`
-    ${User.core_user_fields}
-    ${Entity.CORE_ENTITY_FIELDS}
-    query get_users {
-      user {
-        ...CoreUserFields
-        verified
-        action_counter
-        entity {
-          ...CoreEntityFields
-        }
-      }
-    }
-  `;
-
-  static SAVE_NEW_USER_MUTATION = gql`
+  SAVE_NEW: gql`
     mutation new_user(
       $im: Int!
       $lastname: String!
@@ -72,9 +72,9 @@ export class UserQueries {
         }
       }
     }
-  `;
+  `,
 
-  static UPDATE_USER_MUTATION = gql`
+  UPDATE: gql`
     mutation update_user_mutation(
       $user_id: Int!
       $_set: user_set_input = {}
@@ -87,5 +87,7 @@ export class UserQueries {
         }
       }
     }
-  `;
-}
+  `,
+};
+
+export default UserQueries;

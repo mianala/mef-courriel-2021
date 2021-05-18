@@ -4,18 +4,9 @@ import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
 
 import { BehaviorSubject } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  scan,
-  skip,
-  skipWhile,
-  switchMap,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Entity } from 'src/app/classes/entity';
-import { User } from 'src/app/classes/user';
 
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from '../../../services/user.service';
