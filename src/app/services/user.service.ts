@@ -15,6 +15,12 @@ import UserQueries from '../queries/user.queries';
   providedIn: 'root',
 })
 export class UserService {
+  mapUser = map((val: any) => {
+    return val.data.user.map((val: any) => {
+      return new User(val);
+    });
+  });
+
   // save in cookie no sensitive data
   activeUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
     null
@@ -28,8 +34,17 @@ export class UserService {
 
   _activeUser: User | null = null;
 
-  users$ = this.getUsers();
   loggedIn$ = this.activeUser$.pipe(map((user) => (user ? true : false)));
+
+  usersQuery = this.getUsers();
+  unverifiedUsersQuery = this.getUnverifiedUsers();
+  inactivatedUsersQuery = this.getInactiveUsers();
+
+  users$ = this.usersQuery.valueChanges.pipe(this.mapUser);
+  unverifiedUsers$ = this.unverifiedUsersQuery.valueChanges.pipe(this.mapUser);
+  inactivatedUsers$ = this.inactivatedUsersQuery.valueChanges.pipe(
+    this.mapUser
+  );
 
   loggedOut$ = this.loggedIn$.pipe(
     distinctUntilChanged(),
@@ -62,17 +77,24 @@ export class UserService {
   }
 
   getUsers() {
-    return this.apollo
-      .query({
-        query: UserQueries.USERS,
-      })
-      .pipe(
-        map((val: any) => {
-          return val.data.user.map((val: any) => {
-            return new User(val);
-          });
-        })
-      );
+    return this.apollo.watchQuery({
+      query: UserQueries.USERS,
+      fetchPolicy: 'cache-and-network',
+    });
+  }
+
+  getUnverifiedUsers() {
+    return this.apollo.watchQuery({
+      query: UserQueries.UNVERIFIED,
+      fetchPolicy: 'cache-and-network',
+    });
+  }
+
+  getInactiveUsers() {
+    return this.apollo.watchQuery({
+      query: UserQueries.INACTIVE,
+      fetchPolicy: 'cache-and-network',
+    });
   }
 
   getEntityUsers(entity_id: number) {
@@ -86,20 +108,15 @@ export class UserService {
     `;
 
     return this.apollo
-      .query({
+      .watchQuery({
         query: GET_ENTITY_USERS_QUERY,
         variables: {
           entity_id: entity_id,
+          fetchPolicy: 'cache-and-network',
         },
       })
-      .pipe(this.mapUser);
+      .valueChanges.pipe(this.mapUser);
   }
-
-  mapUser = map((val: any) => {
-    return val.data.user.map((val: any) => {
-      return new User(val);
-    });
-  });
 
   logIn(variables: { username: any; hashed: any }, next: () => void) {
     this.apollo
@@ -227,8 +244,4 @@ export class UserService {
       },
     });
   }
-
-  saveActiveUserInCookies() {}
-
-  getActiveUserFromCookies() {}
 }

@@ -42,6 +42,7 @@ export class EntityAutocompleteComponent
   displayEntity = (value: Entity) => (value ? value.short : '');
 
   entityCtrl = new FormControl('');
+
   filteredEntities$ = combineLatest([
     this.allEntities$,
     this.entityCtrl.valueChanges.pipe(startWith('')),
@@ -54,6 +55,7 @@ export class EntityAutocompleteComponent
       );
     })
   );
+
   @Input() must_select_entity: Boolean = false;
   @Input() label = 'Département';
 

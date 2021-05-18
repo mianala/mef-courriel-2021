@@ -11,8 +11,8 @@ import { UserService } from '../../services/user.service';
 export class CourrielRootComponent implements OnInit {
   Link = Link;
   constructor(public userService: UserService, public router: Router) {
-    this.userService.loggedIn$.subscribe((logged_in) => {
-      if (!logged_in) {
+    this.userService.loggedOut$.subscribe((loggedOut) => {
+      if (loggedOut) {
         router.navigate(['/']);
       }
     });
