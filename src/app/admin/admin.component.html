@@ -6,7 +6,12 @@
       </div>
     </a>
 
-    <a class="nav-link" [routerLink]="Link.USERS" routerLinkActive="active">
+    <a
+      class="nav-link"
+      [routerLink]="Link.USERS"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
       <div matTooltipPosition="right">
         <mat-icon>people</mat-icon>
       </div>
@@ -15,6 +20,16 @@
     <a class="nav-link" [routerLink]="Link.ENTITIES" routerLinkActive="active">
       <div>
         <mat-icon>domain</mat-icon>
+      </div>
+    </a>
+
+    <a
+      class="nav-link"
+      [routerLink]="Link.USERS_VERIFY"
+      routerLinkActive="active"
+    >
+      <div>
+        <mat-icon>person_off</mat-icon>
       </div>
     </a>
   </section>

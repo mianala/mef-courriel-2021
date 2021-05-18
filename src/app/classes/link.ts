@@ -6,6 +6,7 @@ export class Link {
   static ENTITIES = `${Link.ADMIN_ROOT}/entities`; // Link.ENTITIES
   static ENTITIES_ADD = `${Link.ENTITIES}/add`; // Link.ENTITIES
   static USERS = `${Link.ADMIN_ROOT}/users`; // Link.USERS
+  static USERS_VERIFY = `${Link.USERS}/verify`; // Link.USERS
 
   // APPS
   static APPS_ROOT = '/apps'; // Link.APPS_ROOT

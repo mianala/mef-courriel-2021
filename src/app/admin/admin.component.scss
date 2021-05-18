@@ -1,4 +1,8 @@
 @import "~src/styles/sidenav";
 :host nav {
   background-color: $accent;
+  color: white;
+  section .nav-link:hover div .mat-icon {
+    color: $primary;
+  }
 }

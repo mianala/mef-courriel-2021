@@ -83,6 +83,7 @@ import { SentFlowsComponent } from './courriel/sent-flows/sent-flows.component';
 import { WithLoadingPipe } from './pipes/with-loading.pipe';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { EntityPageLoadingComponent } from './components/loading/entity-page-loading/entity-page-loading.component';
+import { UnverifiedComponent } from './admin/users/unverified/unverified.component';
 
 registerLocaleData(localeFr);
 
@@ -172,6 +173,8 @@ registerLocaleData(localeFr);
     AdminDashboardComponent,
 
     EntityPageLoadingComponent,
+
+    UnverifiedComponent,
   ],
   imports: [
     BrowserModule,

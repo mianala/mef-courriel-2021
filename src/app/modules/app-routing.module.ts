@@ -35,6 +35,7 @@ import { SearchPageComponent } from '../search/search-root/search-root.component
 import { SentFlowsComponent } from '../courriel/sent-flows/sent-flows.component';
 import { AdminComponent } from '../admin/admin.component';
 import { AppsComponent } from '../apps/apps.component';
+import { UnverifiedComponent } from '../admin/users/unverified/unverified.component';
 
 const routes: Routes = [
   {
@@ -73,7 +74,16 @@ const routes: Routes = [
     children: [
       {
         path: 'users',
-        component: UsersComponent,
+        children: [
+          {
+            path: '',
+            component: UsersComponent,
+          },
+          {
+            path: 'verify',
+            component: UnverifiedComponent,
+          },
+        ],
       },
       {
         path: 'entities',
