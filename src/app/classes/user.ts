@@ -44,6 +44,7 @@ export class User {
     fragment UserItemFields on user {
       ...CoreUserFields
       verified
+      active
       action_counter
       entity {
         ...CoreEntityFields

@@ -54,7 +54,7 @@ const UserQueries = {
     ${User.user_item_fields}
     query get_users {
       user(where: { verified: { _eq: false } }) {
-        ...CoreUserFields
+        ...UserItemFields
       }
     }
   `,
@@ -63,7 +63,7 @@ const UserQueries = {
     ${User.user_item_fields}
     query get_users {
       user(where: { active: { _eq: false } }) {
-        ...CoreUserFields
+        ...UserItemFields
       }
     }
   `,
@@ -72,7 +72,7 @@ const UserQueries = {
     ${User.user_item_fields}
     query get_users {
       user {
-        ...CoreUserFields
+        ...UserItemFields
       }
     }
   `,
