@@ -36,6 +36,7 @@ import { SentFlowsComponent } from '../courriel/sent-flows/sent-flows.component'
 import { AdminComponent } from '../admin/admin.component';
 import { AppsComponent } from '../apps/apps.component';
 import { UnverifiedComponent } from '../admin/users/unverified/unverified.component';
+import { InactiveUsersComponent } from '../admin/users/inactive-users/inactive-users.component';
 
 const routes: Routes = [
   {
@@ -80,8 +81,12 @@ const routes: Routes = [
             component: UsersComponent,
           },
           {
-            path: 'verify',
+            path: 'unverified',
             component: UnverifiedComponent,
+          },
+          {
+            path: 'inactive',
+            component: InactiveUsersComponent,
           },
         ],
       },

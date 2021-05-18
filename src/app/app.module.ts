@@ -84,6 +84,7 @@ import { WithLoadingPipe } from './pipes/with-loading.pipe';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { EntityPageLoadingComponent } from './components/loading/entity-page-loading/entity-page-loading.component';
 import { UnverifiedComponent } from './admin/users/unverified/unverified.component';
+import { InactiveUsersComponent } from './admin/users/inactive-users/inactive-users.component';
 
 registerLocaleData(localeFr);
 
@@ -175,6 +176,8 @@ registerLocaleData(localeFr);
     EntityPageLoadingComponent,
 
     UnverifiedComponent,
+
+    InactiveUsersComponent,
   ],
   imports: [
     BrowserModule,

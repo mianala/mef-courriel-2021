@@ -52,15 +52,18 @@ const UserQueries = {
 
   UNVERIFIED: gql`
     ${User.user_item_fields}
-    ${Entity.CORE_ENTITY_FIELDS}
     query get_users {
-      user {
+      user(where: { verified: { _eq: false } }) {
         ...CoreUserFields
-        verified
-        action_counter
-        entity {
-          ...CoreEntityFields
-        }
+      }
+    }
+  `,
+
+  INACTIVE: gql`
+    ${User.user_item_fields}
+    query get_users {
+      user(where: { active: { _eq: false } }) {
+        ...CoreUserFields
       }
     }
   `,

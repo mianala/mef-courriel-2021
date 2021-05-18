@@ -17,19 +17,54 @@
       </div>
     </a>
 
-    <a class="nav-link" [routerLink]="Link.ENTITIES" routerLinkActive="active">
+    <a
+      class="nav-link"
+      [routerLink]="Link.USERS_UNVERIFIED"
+      routerLinkActive="active"
+    >
       <div>
-        <mat-icon>domain</mat-icon>
+        <mat-icon>how_to_reg</mat-icon>
       </div>
     </a>
 
     <a
       class="nav-link"
-      [routerLink]="Link.USERS_VERIFY"
+      [routerLink]="Link.USERS_INACTIVE"
       routerLinkActive="active"
     >
       <div>
         <mat-icon>person_off</mat-icon>
+      </div>
+    </a>
+
+    <!-- entities -->
+    <a
+      class="nav-link"
+      [routerLink]="Link.ENTITIES"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="active"
+    >
+      <div>
+        <mat-icon>domain</mat-icon>
+      </div>
+    </a>
+    <a
+      class="nav-link"
+      [routerLink]="Link.ENTITIES_ADD"
+      routerLinkActive="active"
+    >
+      <div>
+        <mat-icon>playlist_add</mat-icon>
+      </div>
+    </a>
+    <a
+      class="nav-link"
+      [routerLink]="Link.ENTITIES"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="active"
+    >
+      <div>
+        <mat-icon>domain_disabled</mat-icon>
       </div>
     </a>
   </section>
