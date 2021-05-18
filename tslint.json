@@ -39,9 +39,7 @@
     "no-var-requires": false,
     "object-literal-key-quotes": [true, "as-needed"],
     "quotemark": [true, "single"],
-    "semicolon": {
-      "options": ["never"]
-    },
+    "semicolon": [true, "never"],
     "space-before-function-paren": {
       "options": {
         "anonymous": "never",

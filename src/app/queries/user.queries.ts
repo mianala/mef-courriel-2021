@@ -3,45 +3,6 @@ import { Entity } from '../classes/entity';
 import { User } from '../classes/user';
 
 const UserQueries = {
-  UNVERIFIED: gql`
-    ${User.core_user_fields}
-    ${Entity.CORE_ENTITY_FIELDS}
-    query get_users {
-      user {
-        ...CoreUserFields
-        verified
-        action_counter
-        entity {
-          ...CoreEntityFields
-        }
-      }
-    }
-  `,
-
-  ENTITY_USERS: gql`
-      ${User.core_user_fields}
-      query get_entity_users($entity_id:Int!){
-        user({where:{entity_id:{_eq:$entity_id}}}){
-          ...CoreUserFields
-        }
-      }
-    `,
-
-  USERS: gql`
-    ${User.core_user_fields}
-    ${Entity.CORE_ENTITY_FIELDS}
-    query get_users {
-      user {
-        ...CoreUserFields
-        verified
-        action_counter
-        entity {
-          ...CoreEntityFields
-        }
-      }
-    }
-  `,
-
   SAVE_NEW: gql`
     mutation new_user(
       $im: Int!
@@ -84,6 +45,36 @@ const UserQueries = {
         affected_rows
         returning {
           id
+        }
+      }
+    }
+  `,
+
+  UNVERIFIED: gql`
+    ${User.core_user_fields}
+    ${Entity.CORE_ENTITY_FIELDS}
+    query get_users {
+      user {
+        ...CoreUserFields
+        verified
+        action_counter
+        entity {
+          ...CoreEntityFields
+        }
+      }
+    }
+  `,
+
+  USERS: gql`
+    ${User.core_user_fields}
+    ${Entity.CORE_ENTITY_FIELDS}
+    query get_users {
+      user {
+        ...CoreUserFields
+        verified
+        action_counter
+        entity {
+          ...CoreEntityFields
         }
       }
     }

@@ -66,6 +66,32 @@ export class UserService {
       .query({
         query: UserQueries.USERS,
       })
+      .pipe(
+        map((val: any) => {
+          return val.data.user.map((val: any) => {
+            return new User(val);
+          });
+        })
+      );
+  }
+
+  getEntityUsers(entity_id: number) {
+    const GET_ENTITY_USERS_QUERY = gql`
+      ${User.core_user_fields}
+      query get_entity_users($entity_id:Int!){
+        user({where:{entity_id:{_eq:$entity_id}}}){
+          ...CoreUserFields
+        }
+      }
+    `;
+
+    return this.apollo
+      .query({
+        query: GET_ENTITY_USERS_QUERY,
+        variables: {
+          entity_id: entity_id,
+        },
+      })
       .pipe(this.mapUser);
   }
 
@@ -75,30 +101,10 @@ export class UserService {
     });
   });
 
-  getUnverifiedUsers() {
-    return this.apollo
-      .watchQuery({
-        query: UserQueries.UNVERIFIED,
-        fetchPolicy: 'cache-and-network',
-      })
-      .valueChanges.pipe(this.mapUser);
-  }
-
-  getEntityUsers(entity_id: number) {
-    return this.apollo
-      .query({
-        query: UserQueries.ENTITY_USERS,
-        variables: {
-          entity_id: entity_id,
-        },
-      })
-      .pipe(this.mapUser);
-  }
-
   logIn(variables: { username: any; hashed: any }, next: () => void) {
     this.apollo
       .query({
-        query: AuthQueries.USER_LOGIN_QUERY,
+        query: AuthQueries.LOGIN,
         variables: variables,
       })
       .pipe(this.mapUser)
@@ -193,6 +199,25 @@ export class UserService {
   }
 
   updateUser(user_id: number, set: any = {}, inc: any = {}) {
+    const UPDATE_USER_MUTATION = gql`
+      mutation update_user_mutation(
+        $user_id: Int!
+        $_set: user_set_input = {}
+        $_inc: user_inc_input = {}
+      ) {
+        update_user(
+          where: { id: { _eq: $user_id } }
+          _set: $_set
+          _inc: $_inc
+        ) {
+          affected_rows
+          returning {
+            id
+          }
+        }
+      }
+    `;
+
     return this.apollo.mutate({
       mutation: UserQueries.UPDATE,
       variables: {

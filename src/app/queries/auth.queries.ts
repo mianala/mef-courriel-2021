@@ -2,8 +2,8 @@ import { gql } from 'apollo-angular';
 import { Entity } from '../classes/entity';
 import { User } from '../classes/user';
 
-export class AuthQueries {
-  static USER_LOGIN_QUERY = gql`
+const AuthQueries = {
+  LOGIN: gql`
     ${User.core_user_fields}
     ${Entity.CORE_ENTITY_FIELDS}
     query login($username: String!, $hashed: String!) {
@@ -20,5 +20,7 @@ export class AuthQueries {
         }
       }
     }
-  `;
-}
+  `,
+};
+
+export { AuthQueries };
