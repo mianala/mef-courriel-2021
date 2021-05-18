@@ -1,1 +1,12 @@
-<p>inactive-users works!</p>
+<div class="header">
+  <mat-form-field appearance="outline">
+    <mat-label>Rechercher</mat-label>
+    <input name="filter" [formControl]="filter" matInput />
+    <button mat-button matSuffix mat-icon-button aria-label="send">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div class="users">
+  <user *ngFor="let user of filteredUsers$ | async" [user]="user"></user>
+</div>
