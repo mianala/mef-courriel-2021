@@ -38,6 +38,19 @@ export class User {
     }
   `;
 
+  static user_item_fields = gql`
+    ${User.core_user_fields}
+    ${Entity.CORE_ENTITY_FIELDS}
+    fragment UserItemFields on user {
+      ...CoreUserFields
+      verified
+      action_counter
+      entity {
+        ...CoreEntityFields
+      }
+    }
+  `;
+
   emailMD5() {
     return new Md5().appendStr(this.email).end();
   }

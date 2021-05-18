@@ -51,7 +51,7 @@ const UserQueries = {
   `,
 
   UNVERIFIED: gql`
-    ${User.core_user_fields}
+    ${User.user_item_fields}
     ${Entity.CORE_ENTITY_FIELDS}
     query get_users {
       user {
@@ -66,16 +66,10 @@ const UserQueries = {
   `,
 
   USERS: gql`
-    ${User.core_user_fields}
-    ${Entity.CORE_ENTITY_FIELDS}
+    ${User.user_item_fields}
     query get_users {
       user {
         ...CoreUserFields
-        verified
-        action_counter
-        entity {
-          ...CoreEntityFields
-        }
       }
     }
   `,
