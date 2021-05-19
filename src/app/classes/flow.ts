@@ -4,36 +4,50 @@ import { Entity } from './entity';
 import { AppFile } from './file';
 
 export class Flow {
+  id = 0;
+  user_id = 0;
+
+  // assigned
+  assignee_id = 0;
+  assigned = false;
+
+  // flow status
+  status = 0;
+  important = false;
+  action = 0;
+
+  // flow information
+  numero = 0;
   date = new Date();
   date_received = new Date();
-  datepipe = new DatePipe('fr-FR');
-  id = 0;
-  action = 0;
-  root_id = 0;
-  owner_id = 0;
-  initiator_id = 0;
-  numero = 0;
-  user_id = 0;
-  status = 0;
   owner_text = '';
   type_text = '';
   letter_text = '';
-  content = '';
-  updated_at = new Date();
   created_at = new Date();
+  updated_at = new Date();
   labels = '';
+  content = '';
   reference = '';
   initiator_text = '';
   note = '';
   title = '';
-  thread_id = 0;
+
+  // related entities
+  owner_id = 0;
   owner = new Entity();
+  initiator_id = 0;
   initiator = new Entity();
+
+  // related flows
+  root_id = 0;
   root: Flow | undefined;
   parent: Flow | undefined;
-  files: AppFile[] = [];
   children = [];
   flows = [];
+  thread_id = 0;
+
+  // files
+  files: AppFile[] = [];
 
   constructor(_flow: Partial<{}> = {}) {
     Object.assign(this, _flow);
@@ -64,6 +78,7 @@ export class Flow {
 
   // implement in FlowWithActions
   markAsImportant() {}
+  unmarkAsImportant() {}
   markAsRead() {}
 
   sender() {
@@ -116,25 +131,38 @@ export class Flow {
     fragment CoreFlowFields on flow {
       id
       action
-      content
+
+      # entities
       owner_id
       owner_text
-      reference
-      status
-      title
-      thread_id
-      labels
-      parent_id
       initiator_id
       initiator_text
-      type_text
-      letter_text
-      progress
+
+      # flow info
+      title
+      reference
       numero
+      status
+      content
+      labels
+      letter_text
+      type_text
       created_at
       updated_at
       date
       date_received
+
+      # related flows
+      thread_id
+      parent_id
+
+      # flow status
+      progress
+      important
+
+      # assignee
+      assignee_id
+      assigned
     }
   `;
 
@@ -165,4 +193,6 @@ export class Flow {
       }
     }
   `;
+
+  datepipe = new DatePipe('fr-FR');
 }

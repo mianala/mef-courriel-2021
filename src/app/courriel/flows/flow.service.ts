@@ -11,8 +11,27 @@ import { EntityService } from 'src/app/services/entity.service';
 import FlowQueries from 'src/app/queries/flow.queries';
 
 class FlowWithActions extends Flow {
-  markAsImportant() {}
-  markAsRead() {}
+  markAsImportant() {
+    if (this.important) {
+      return;
+    }
+
+    this.important = true;
+
+    FlowService.getInstance().markAsImportant(this.id);
+  }
+  unmarkAsImportant() {
+    if (!this.important) {
+      return;
+    }
+
+    this.important = false;
+
+    FlowService.getInstance().unmarkAsImportant(this.id);
+  }
+  markAsRead() {
+    FlowService.getInstance().markFlowAsRead(this.id);
+  }
 
   static mapFlows = map((val: any): FlowWithActions[] => {
     return val.data.flow.map((val: any): FlowWithActions => {
@@ -137,10 +156,20 @@ export class FlowService {
     );
   }
 
-  markAsImportant(flow_id: number) {
-    const set = { progress: 1 };
+  unmarkAsImportant(flow_id: number) {
+    const set = { important: true };
     this.updateFlow(flow_id, set).subscribe(
-      (data) => this.notification.notify('Marqué Comme Lu'),
+      (data) => this.notification.notify('Marqué Comme Important'),
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  markAsImportant(flow_id: number) {
+    const set = { important: false };
+    this.updateFlow(flow_id, set).subscribe(
+      (data) => {},
       (error) => {
         console.log(error);
       }
