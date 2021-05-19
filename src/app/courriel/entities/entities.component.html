@@ -1,7 +1,7 @@
 <header class="header">
   <mat-form-field appearance="outline">
     <mat-label>Rechercher</mat-label>
-    <input name="message" matInput />
+    <input name="filter" [formControl]="filter" matInput />
     <button mat-button matSuffix mat-icon-button aria-label="send">
       <mat-icon>search</mat-icon>
     </button>
@@ -13,7 +13,7 @@
 
 <div class="entities">
   <entity
-    *ngFor="let entity of entityService.allEntities$ | async"
+    *ngFor="let entity of filteredEntities$ | async"
     [entity]="entity"
   ></entity>
 </div>

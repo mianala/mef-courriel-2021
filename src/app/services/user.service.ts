@@ -15,11 +15,15 @@ import UserQueries from '../queries/user.queries';
   providedIn: 'root',
 })
 export class UserService {
-  mapUser = map((val: any) => {
-    return val.data.user.map((val: any) => {
-      return new User(val);
-    });
-  });
+  static instance: UserService;
+
+  static getInstance() {
+    if (UserService.instance) {
+      return UserService.instance;
+    }
+
+    return UserService.instance;
+  }
 
   // save in cookie no sensitive data
   activeUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
@@ -40,10 +44,10 @@ export class UserService {
   unverifiedUsersQuery = this.getUnverifiedUsers();
   inactivatedUsersQuery = this.getInactiveUsers();
 
-  users$ = this.usersQuery.valueChanges.pipe(this.mapUser);
-  unverifiedUsers$ = this.unverifiedUsersQuery.valueChanges.pipe(this.mapUser);
+  users$ = this.usersQuery.valueChanges.pipe(User.mapUsers);
+  unverifiedUsers$ = this.unverifiedUsersQuery.valueChanges.pipe(User.mapUsers);
   inactivatedUsers$ = this.inactivatedUsersQuery.valueChanges.pipe(
-    this.mapUser
+    User.mapUsers
   );
 
   loggedOut$ = this.loggedIn$.pipe(
@@ -56,6 +60,10 @@ export class UserService {
     private notification: NotificationService,
     private router: Router
   ) {
+    if (!UserService.instance) {
+      UserService.instance = this;
+    }
+
     const localStorageUser =
       localStorage.getItem('user') !== null
         ? new User(JSON.parse(localStorage.getItem('user') || '[]'))
@@ -115,7 +123,7 @@ export class UserService {
           fetchPolicy: 'cache-and-network',
         },
       })
-      .valueChanges.pipe(this.mapUser);
+      .valueChanges.pipe(User.mapUsers);
   }
 
   logIn(variables: { username: any; hashed: any }, next: () => void) {
@@ -124,7 +132,7 @@ export class UserService {
         query: AuthQueries.LOGIN,
         variables: variables,
       })
-      .pipe(this.mapUser)
+      .pipe(User.mapUsers)
       .subscribe((users) => {
         this.logInHandler(users);
         next();

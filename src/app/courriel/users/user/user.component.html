@@ -10,13 +10,18 @@
       {{ user.firstname }}
       {{ user.lastname }}
     </mat-card-title>
-    <mat-card-subtitle>{{ user.title }}</mat-card-subtitle>
+    <mat-card-subtitle
+      >{{ user.title }} -
+      <span class="short-header">{{
+        user.entity.short_header
+      }}</span></mat-card-subtitle
+    >
   </mat-card-header>
-  <mat-card-content>
+  <!-- <mat-card-content>
     <div class="entity" fxFlex fxLayoutGap="1rem" fxLayoutAlign="center center">
       <mat-icon>domain</mat-icon> <span>{{ user.entity.short_header }}</span>
     </div>
-  </mat-card-content>
+  </mat-card-content> -->
   <mat-card-actions fxLayoutAlign="center">
     <button mat-icon-button color="primary">
       <mat-icon>mail_outline</mat-icon>
@@ -26,9 +31,12 @@
     </button>
     <!-- <button *ngIf="!user.verified" mat-icon-button (click)="verify()"> -->
     <button mat-icon-button (click)="verify()">
-      <mat-icon color="primary">how_to_reg</mat-icon>
+      <mat-icon class="green">how_to_reg</mat-icon>
     </button>
-    <button mat-icon-button (click)="delete()">
+    <button mat-icon-button (click)="verify()">
+      <mat-icon class="green">arrow_circle_up</mat-icon>
+    </button>
+    <button mat-icon-button (click)="user.desactivate()">
       <mat-icon color="warn">remove_circle</mat-icon>
     </button>
     <button mat-icon-button (click)="transfer()">

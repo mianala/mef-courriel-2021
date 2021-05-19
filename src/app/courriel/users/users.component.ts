@@ -18,8 +18,6 @@ export class UsersComponent implements OnInit {
     this.filter.valueChanges.pipe(startWith('')),
   ]).pipe(
     map(([users, query]) => {
-      console.log(users);
-
       const q = new RegExp(query, 'i');
 
       return users.filter((user: User) => {
