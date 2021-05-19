@@ -31,10 +31,15 @@
     >
       <mat-icon>edit</mat-icon>
     </a>
-    <button mat-icon-button (click)="entity.activate()">
+    <button *ngIf="!entity.active" mat-icon-button (click)="entity.activate()">
       <mat-icon class="green">arrow_circle_up</mat-icon>
     </button>
-    <button mat-icon-button color="warn" (click)="entity.desactivate()">
+    <button
+      *ngIf="entity.active"
+      mat-icon-button
+      color="warn"
+      (click)="entity.desactivate()"
+    >
       <mat-icon> do_not_disturb_on</mat-icon>
     </button>
   </mat-card-actions>

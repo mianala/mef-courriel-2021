@@ -86,6 +86,7 @@ import { EntityPageLoadingComponent } from './components/loading/entity-page-loa
 import { UnverifiedComponent } from './admin/users/unverified/unverified.component';
 import { InactiveUsersComponent } from './admin/users/inactive-users/inactive-users.component';
 import { InactiveEntitiesComponent } from './admin/entities/inactive-entities/inactive-entities.component';
+import { AssignedFlowsComponent } from './courriel/flows/assigned-flows/assigned-flows.component';
 
 registerLocaleData(localeFr);
 
@@ -181,6 +182,8 @@ registerLocaleData(localeFr);
     InactiveUsersComponent,
 
     InactiveEntitiesComponent,
+
+    AssignedFlowsComponent,
   ],
   imports: [
     BrowserModule,

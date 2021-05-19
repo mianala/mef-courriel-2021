@@ -6,6 +6,7 @@
       </div>
     </a>
 
+    <!-- inbox -->
     <a
       class="nav-link"
       [routerLink]="Link.FLOWS_INBOX"
@@ -15,6 +16,8 @@
         <mat-icon>inbox</mat-icon>
       </div>
     </a>
+
+    <!-- sent flows -->
     <a
       class="nav-link"
       [routerLink]="Link.FLOWS_SENT"
@@ -25,12 +28,22 @@
       </div>
     </a>
 
+    <!-- assigned flows -->
     <a class="nav-link" [routerLink]="Link.ENTITY" routerLinkActive="active">
       <div>
         <mat-icon>work_outline</mat-icon>
       </div>
     </a>
-    <a
+
+    <!-- entity page -->
+    <a class="nav-link" [routerLink]="Link.ENTITY" routerLinkActive="active">
+      <div>
+        <mat-icon>domain</mat-icon>
+      </div>
+    </a>
+
+    <!-- dashboard? -->
+    <!-- <a
       class="nav-link"
       [routerLink]="Link.DASHBOARD_APP"
       routerLinkActive="active"
@@ -38,7 +51,7 @@
       <div>
         <mat-icon>bar_chart</mat-icon>
       </div>
-    </a>
+    </a> -->
   </section>
 
   <section>

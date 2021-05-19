@@ -37,6 +37,8 @@ import { AdminComponent } from '../admin/admin.component';
 import { AppsComponent } from '../apps/apps.component';
 import { UnverifiedComponent } from '../admin/users/unverified/unverified.component';
 import { InactiveUsersComponent } from '../admin/users/inactive-users/inactive-users.component';
+import { InactiveEntitiesComponent } from '../admin/entities/inactive-entities/inactive-entities.component';
+import { AssignedFlowsComponent } from '../courriel/flows/assigned-flows/assigned-flows.component';
 
 const routes: Routes = [
   {
@@ -96,6 +98,10 @@ const routes: Routes = [
           {
             path: '',
             component: EntitiesComponent,
+          },
+          {
+            path: 'inactive',
+            component: InactiveEntitiesComponent,
           },
           {
             path: 'entity',
@@ -192,6 +198,10 @@ const routes: Routes = [
           {
             path: 'inbox',
             component: FlowsComponent,
+          },
+          {
+            path: 'assigned',
+            component: AssignedFlowsComponent,
           },
           {
             path: 'sent',
