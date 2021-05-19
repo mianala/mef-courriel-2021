@@ -80,16 +80,6 @@ interface IEntityInfo {
   providedIn: 'root',
 })
 export class EntityService {
-  static instance: EntityService;
-
-  static getInstance() {
-    if (EntityService.instance) {
-      return EntityService.instance;
-    }
-
-    return EntityService.instance;
-  }
-
   _userEntity: Entity | undefined;
 
   userEntityInfoQuery:
@@ -145,10 +135,6 @@ export class EntityService {
     private userService: UserService,
     private notification: NotificationService
   ) {
-    if (!EntityService.instance) {
-      EntityService.instance = this;
-    }
-
     this.activeUserEntityId$.subscribe((userEntityId) => {
       this.userEntityInfoQuery = this.userEntityInfo(userEntityId);
       this.userEntityQuery = this.userEntity(userEntityId);
@@ -164,6 +150,10 @@ export class EntityService {
           this._userEntity = entity;
         });
     });
+
+    if (!EntityService.instance) {
+      EntityService.instance = this;
+    }
   }
 
   logout() {
@@ -259,5 +249,15 @@ export class EntityService {
       mutation: EntityQueries.ADD,
       variables: variables,
     });
+  }
+
+  static instance: EntityService;
+
+  static getInstance() {
+    if (EntityService.instance) {
+      return EntityService.instance;
+    }
+
+    return EntityService.instance;
   }
 }

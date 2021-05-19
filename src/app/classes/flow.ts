@@ -62,6 +62,10 @@ export class Flow {
     },
   };
 
+  // implement in FlowWithActions
+  markAsImportant() {}
+  markAsRead() {}
+
   sender() {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
   }
