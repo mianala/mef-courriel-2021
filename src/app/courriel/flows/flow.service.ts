@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { Entity } from 'src/app/classes/entity';
 import { Flow } from 'src/app/classes/flow';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from '../../services/user.service';
@@ -11,26 +10,40 @@ import { EntityService } from 'src/app/services/entity.service';
 import FlowQueries from 'src/app/queries/flow.queries';
 
 class FlowWithActions extends Flow {
-  markAsImportant() {
-    if (this.important) {
-      return;
+  toggleImportant() {
+    if (!this.important) {
+      this.markAsImportant();
+    } else {
+      this.unmarkAsImportant();
     }
+  }
 
+  markAsImportant() {
     this.important = true;
 
     FlowService.getInstance().markAsImportant(this.id);
   }
-  unmarkAsImportant() {
-    if (!this.important) {
-      return;
-    }
 
+  unmarkAsImportant() {
     this.important = false;
 
     FlowService.getInstance().unmarkAsImportant(this.id);
   }
+
+  toggleRead() {
+    if (!this.read) {
+      this.markAsRead();
+    } else {
+      this.markAsUnread();
+    }
+  }
+
   markAsRead() {
     FlowService.getInstance().markFlowAsRead(this.id);
+  }
+
+  markAsUnread() {
+    FlowService.getInstance().markFlowAsUnread(this.id);
   }
 
   static mapFlows = map((val: any): FlowWithActions[] => {
@@ -147,7 +160,7 @@ export class FlowService {
   }
 
   markFlowAsRead(flow_id: number) {
-    const set = { progress: 1 };
+    const set = { read: true };
     this.updateFlow(flow_id, set).subscribe(
       (data) => this.notification.notify('Marqué Comme Lu'),
       (error) => {
@@ -156,7 +169,17 @@ export class FlowService {
     );
   }
 
-  unmarkAsImportant(flow_id: number) {
+  markFlowAsUnread(flow_id: number) {
+    const set = { read: false };
+    this.updateFlow(flow_id, set).subscribe(
+      (data) => this.notification.notify('Marqué Comme Non Lu'),
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  markAsImportant(flow_id: number) {
     const set = { important: true };
     this.updateFlow(flow_id, set).subscribe(
       (data) => this.notification.notify('Marqué Comme Important'),
@@ -166,10 +189,12 @@ export class FlowService {
     );
   }
 
-  markAsImportant(flow_id: number) {
+  unmarkAsImportant(flow_id: number) {
     const set = { important: false };
     this.updateFlow(flow_id, set).subscribe(
-      (data) => {},
+      (data) => {
+        console.log(data);
+      },
       (error) => {
         console.log(error);
       }
@@ -181,8 +206,8 @@ export class FlowService {
       mutation: FlowQueries.UPDATE,
       variables: {
         flow_id: flow_id,
-        set: set,
-        inc: inc,
+        _set: set,
+        _inc: inc,
       },
     });
   }

@@ -1,7 +1,16 @@
 <div class="labels">
-  <a mat-icon-button>
-    <mat-icon class="mat-18">label_important_outline</mat-icon>
-  </a>
+  <button
+    mat-icon-button
+    [ngSwitch]="flow.important"
+    (click)="flow.toggleImportant()"
+  >
+    <ng-container *ngSwitchCase="false">
+      <mat-icon class="mat-18">label_important_outline</mat-icon>
+    </ng-container>
+    <ng-container *ngSwitchCase="true">
+      <mat-icon class="mat-18">label_important</mat-icon>
+    </ng-container>
+  </button>
 </div>
 <div class="headers" [ngSwitch]="layout">
   <!-- inbox -->

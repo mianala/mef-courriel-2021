@@ -14,6 +14,7 @@ export class Flow {
   // flow status
   status = 0;
   important = false;
+  read = false;
   action = 0;
 
   // flow information
@@ -79,7 +80,11 @@ export class Flow {
   // implement in FlowWithActions
   markAsImportant() {}
   unmarkAsImportant() {}
+  toggleImportant() {}
+
+  toggleRead() {}
   markAsRead() {}
+  markAsunread() {}
 
   sender() {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
@@ -159,6 +164,7 @@ export class Flow {
       # flow status
       progress
       important
+      read
 
       # assignee
       assignee_id
