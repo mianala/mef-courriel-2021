@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Entity } from 'src/app/classes/entity';
 import { NotificationService } from 'src/app/services/notification.service';
-import { EntityService } from '../service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 
 @Component({
   selector: 'app-edit-entity',

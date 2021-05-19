@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { EntityService } from 'src/app/courriel/entities/service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 import { FlowService } from 'src/app/courriel/flows/flow.service';
 import { Entity } from 'src/app/classes/entity';
 import { UserService } from 'src/app/services/user.service';

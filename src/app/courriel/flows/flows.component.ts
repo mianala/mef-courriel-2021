@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Link } from 'src/app/classes/link';
-import { EntityService } from '../entities/service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 import { FlowService } from './flow.service';
 @Component({
   selector: 'app-flow',

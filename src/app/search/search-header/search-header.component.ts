@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Link } from 'src/app/classes/link';
-import { EntityService } from 'src/app/courriel/entities/service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 import { FlowService } from 'src/app/courriel/flows/flow.service';
 import { UserService } from 'src/app/services/user.service';
 import { SearchService } from '../search.service';

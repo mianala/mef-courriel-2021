@@ -12,7 +12,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
-import { EntityService } from '../../service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**

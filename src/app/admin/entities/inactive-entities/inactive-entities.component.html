@@ -1,0 +1,19 @@
+<header class="header">
+  <mat-form-field appearance="outline">
+    <mat-label>Rechercher</mat-label>
+    <input name="filter" [formControl]="filter" matInput />
+    <button mat-button matSuffix mat-icon-button aria-label="send">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+  <a mat-button color="primary" [routerLink]="Link.ENTITIES_ADD">
+    <mat-icon>add</mat-icon> Ajouter
+  </a>
+</header>
+
+<div class="entities">
+  <entity
+    *ngFor="let entity of filteredEntities$ | async"
+    [entity]="entity"
+  ></entity>
+</div>

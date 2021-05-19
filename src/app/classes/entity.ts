@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
-import { EntityService } from '../courriel/entities/service/entity.service';
-import { User } from './user';
+import { EntityService } from '../services/entity.service';
 
 export class Entity {
   id = 0;
@@ -28,7 +27,8 @@ export class Entity {
     Object.assign(this, _entity);
   }
 
-  delete() {}
+  desactivate() {}
+  activate() {}
 
   labelsArray() {
     return this.labels.split(',');

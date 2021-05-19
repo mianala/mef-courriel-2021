@@ -10,7 +10,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { EntityService } from 'src/app/courriel/entities/service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 
 @Component({
   selector: 'labels',

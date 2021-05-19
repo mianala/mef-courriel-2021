@@ -4,12 +4,12 @@ import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
 
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { Entity } from 'src/app/classes/entity';
 
 import { NotificationService } from 'src/app/services/notification.service';
-import { UserService } from '../../../services/user.service';
+import { UserService } from './user.service';
 
 interface IEntityInfo {
   labels: string[] | null;
@@ -22,6 +22,16 @@ interface IEntityInfo {
   providedIn: 'root',
 })
 export class EntityService {
+  static instance: EntityService;
+
+  static getInstance() {
+    if (EntityService.instance) {
+      return EntityService.instance;
+    }
+
+    return EntityService.instance;
+  }
+
   mapEntities = map((val: any): Entity[] => {
     return val.data.entity.map((val: any) => {
       return new Entity(val);
@@ -99,6 +109,12 @@ export class EntityService {
   allEntitiesQuery = this.allEntities();
 
   allEntities$ = this.allEntitiesQuery.valueChanges.pipe(this.mapEntities);
+  activeEntities$ = this.allEntities$.pipe(
+    map((entities) => entities.filter((entity) => entity.active))
+  );
+  inactiveEntities$ = this.allEntities$.pipe(
+    map((entities) => entities.filter((entity) => !entity.active))
+  );
 
   activeUserEntityId$ = this.userService.activeUserEntityId$;
 
@@ -115,6 +131,10 @@ export class EntityService {
     private userService: UserService,
     private notification: NotificationService
   ) {
+    if (!EntityService.instance) {
+      EntityService.instance = this;
+    }
+
     this.activeUserEntityId$.subscribe((userEntityId) => {
       this.userEntityInfoQuery = this.userEntityInfo(userEntityId);
       this.userEntityQuery = this.userEntity(userEntityId);

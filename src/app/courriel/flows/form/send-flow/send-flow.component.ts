@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EntityService } from 'src/app/courriel/entities/service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';

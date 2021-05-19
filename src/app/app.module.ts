@@ -85,6 +85,7 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
 import { EntityPageLoadingComponent } from './components/loading/entity-page-loading/entity-page-loading.component';
 import { UnverifiedComponent } from './admin/users/unverified/unverified.component';
 import { InactiveUsersComponent } from './admin/users/inactive-users/inactive-users.component';
+import { InactiveEntitiesComponent } from './admin/entities/inactive-entities/inactive-entities.component';
 
 registerLocaleData(localeFr);
 
@@ -178,6 +179,8 @@ registerLocaleData(localeFr);
     UnverifiedComponent,
 
     InactiveUsersComponent,
+
+    InactiveEntitiesComponent,
   ],
   imports: [
     BrowserModule,

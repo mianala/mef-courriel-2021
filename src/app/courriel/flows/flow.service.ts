@@ -6,9 +6,9 @@ import { Entity } from 'src/app/classes/entity';
 import { AppFile } from 'src/app/classes/file';
 import { Flow } from 'src/app/classes/flow';
 import { NotificationService } from 'src/app/services/notification.service';
-import { EntityService } from '../entities/service/entity.service';
 import { UserService } from '../../services/user.service';
 import { User } from 'src/app/classes/user';
+import { EntityService } from 'src/app/services/entity.service';
 
 @Injectable({
   providedIn: 'root',
@@ -85,6 +85,8 @@ export class FlowService {
       variables: { objects: flows },
     });
   }
+
+  transferFlows(owner_id: number, new_owner_id: number) {}
 
   assign() {}
 

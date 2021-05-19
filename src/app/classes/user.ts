@@ -2,9 +2,6 @@ import { gql } from 'apollo-angular';
 import { Entity } from './entity';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Link } from './link';
-import { Injector } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { map } from 'rxjs/operators';
 
 export class User {
   id = 0;
@@ -41,10 +38,6 @@ export class User {
     }
   `;
 
-  desactivate = () => {
-    UserService.getInstance().desactivateUser(this);
-  };
-
   static user_item_fields = gql`
     ${User.core_user_fields}
     ${Entity.CORE_ENTITY_FIELDS}
@@ -59,15 +52,13 @@ export class User {
     }
   `;
 
+  // implemented in UserWithActions
+  desactivate() {}
+  activate() {}
+
   emailMD5() {
     return new Md5().appendStr(this.email).end();
   }
-
-  static mapUsers = map((val: any) => {
-    return val.data.user.map((val: any) => {
-      return new User(val);
-    });
-  });
 
   static SETTINGS_DEFAULT_LETTER_TEXT = 'Lecture';
 

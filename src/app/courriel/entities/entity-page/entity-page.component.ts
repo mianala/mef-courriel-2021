@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Entity } from 'src/app/classes/entity';
 import { User } from 'src/app/classes/user';
 import { UserService } from '../../../services/user.service';
-import { EntityService } from '../service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 
 @Component({
   selector: 'app-entity-page',

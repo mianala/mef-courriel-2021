@@ -17,9 +17,5 @@ export class UserComponent implements OnInit {
     this.userService.verifyUser(this.user.id);
   }
 
-  delete() {
-    this.userService.desactivateUser(this.user);
-  }
-
   transfer() {}
 }

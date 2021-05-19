@@ -11,6 +11,34 @@ import { Link } from '../classes/link';
 import { AuthQueries } from '../queries/auth.queries';
 import UserQueries from '../queries/user.queries';
 
+class UserWithActions extends User {
+  desactivate() {
+    UserService.getInstance().desactivateUser(this.id);
+  }
+
+  activate() {
+    UserService.getInstance().activateUser(this.id);
+  }
+
+  static mapActiveAndVerifiedUsers = map((users: UserWithActions[]) => {
+    return users.filter((user) => user.active && user.verified);
+  });
+
+  static unverifiedUsers = map((users: UserWithActions[]) => {
+    return users.filter((user) => user.verified);
+  });
+
+  static inactiveUsers = map((users: UserWithActions[]) => {
+    return users.filter((user) => !user.active);
+  });
+
+  static mapUsers = map((val: any): UserWithActions[] => {
+    return val.data.user.map((val: any) => {
+      return new UserWithActions(val);
+    });
+  });
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -44,10 +72,16 @@ export class UserService {
   unverifiedUsersQuery = this.getUnverifiedUsers();
   inactivatedUsersQuery = this.getInactiveUsers();
 
-  users$ = this.usersQuery.valueChanges.pipe(User.mapUsers);
-  unverifiedUsers$ = this.unverifiedUsersQuery.valueChanges.pipe(User.mapUsers);
+  users$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
+  allUsers$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
+  activeAndVerifiedUsers$ = this.allUsers$.pipe(
+    UserWithActions.mapActiveAndVerifiedUsers
+  );
+  unverifiedUsers$ = this.unverifiedUsersQuery.valueChanges.pipe(
+    UserWithActions.mapUsers
+  );
   inactivatedUsers$ = this.inactivatedUsersQuery.valueChanges.pipe(
-    User.mapUsers
+    UserWithActions.mapUsers
   );
 
   loggedOut$ = this.loggedIn$.pipe(
@@ -91,6 +125,13 @@ export class UserService {
     });
   }
 
+  getAllUsers() {
+    return this.apollo.watchQuery({
+      query: UserQueries.USERS,
+      fetchPolicy: 'cache-and-network',
+    });
+  }
+
   getUnverifiedUsers() {
     return this.apollo.watchQuery({
       query: UserQueries.UNVERIFIED,
@@ -123,7 +164,7 @@ export class UserService {
           fetchPolicy: 'cache-and-network',
         },
       })
-      .valueChanges.pipe(User.mapUsers);
+      .valueChanges.pipe(UserWithActions.mapUsers);
   }
 
   logIn(variables: { username: any; hashed: any }, next: () => void) {
@@ -132,7 +173,7 @@ export class UserService {
         query: AuthQueries.LOGIN,
         variables: variables,
       })
-      .pipe(User.mapUsers)
+      .pipe(UserWithActions.mapUsers)
       .subscribe((users) => {
         this.logInHandler(users);
         next();
@@ -216,10 +257,17 @@ export class UserService {
     );
   }
 
-  desactivateUser(user: User) {
+  desactivateUser(user_id: number) {
     const set = { active: false };
-    this.updateUser(user.id, set).subscribe((data) =>
+    this.updateUser(user_id, set).subscribe((data) =>
       this.notification.notify('Utilisateur désactivé')
+    );
+  }
+
+  activateUser(user_id: number) {
+    const set = { active: true };
+    this.updateUser(user_id, set).subscribe((data) =>
+      this.notification.notify('Utilisateur activé')
     );
   }
 

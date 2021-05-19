@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Entity } from 'src/app/classes/entity';
-import { EntityService } from '../service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 
 @Component({
   selector: 'entity',

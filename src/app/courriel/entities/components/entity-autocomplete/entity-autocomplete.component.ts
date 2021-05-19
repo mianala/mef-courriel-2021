@@ -16,7 +16,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
-import { EntityService } from '../../service/entity.service';
+import { EntityService } from 'src/app/services/entity.service';
 
 @Component({
   selector: 'entity-autocomplete',
