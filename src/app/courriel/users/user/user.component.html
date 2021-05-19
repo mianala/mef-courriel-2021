@@ -30,13 +30,13 @@
       <mat-icon>chat_bubble_outlined</mat-icon>
     </button>
     <!-- <button *ngIf="!user.verified" mat-icon-button (click)="verify()"> -->
-    <button mat-icon-button (click)="verify()">
+    <button mat-icon-button *ngIf="!user.verified" (click)="user.verify()">
       <mat-icon class="green">how_to_reg</mat-icon>
     </button>
-    <button mat-icon-button (click)="verify()">
+    <button mat-icon-button *ngIf="!user.active" (click)="user.activate()">
       <mat-icon class="green">arrow_circle_up</mat-icon>
     </button>
-    <button mat-icon-button (click)="user.desactivate()">
+    <button mat-icon-button *ngIf="user.active" (click)="user.desactivate()">
       <mat-icon color="warn">remove_circle</mat-icon>
     </button>
     <button mat-icon-button (click)="transfer()">

@@ -29,6 +29,7 @@ export class Entity {
 
   desactivate() {}
   activate() {}
+  delete() {}
 
   labelsArray() {
     return this.labels.split(',');

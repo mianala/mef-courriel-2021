@@ -31,10 +31,10 @@
     >
       <mat-icon>edit</mat-icon>
     </a>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="entity.activate()">
       <mat-icon class="green">arrow_circle_up</mat-icon>
     </button>
-    <button mat-icon-button color="warn" (click)="remove()">
+    <button mat-icon-button color="warn" (click)="entity.desactivate()">
       <mat-icon> do_not_disturb_on</mat-icon>
     </button>
   </mat-card-actions>

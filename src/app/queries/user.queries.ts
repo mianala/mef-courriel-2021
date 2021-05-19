@@ -52,7 +52,7 @@ const UserQueries = {
 
   UNVERIFIED: gql`
     ${User.user_item_fields}
-    query get_users {
+    query get_unverified_users {
       user(where: { verified: { _eq: false } }) {
         ...UserItemFields
       }
@@ -61,8 +61,19 @@ const UserQueries = {
 
   INACTIVE: gql`
     ${User.user_item_fields}
-    query get_users {
+    query get_inactive_users {
       user(where: { active: { _eq: false } }) {
+        ...UserItemFields
+      }
+    }
+  `,
+
+  ACTIVE_AND_VERIFIED: gql`
+    ${User.user_item_fields}
+    query get_active_and_inactive_users {
+      user(
+        where: { _and: { verified: { _eq: true }, active: { _eq: true } } }
+      ) {
         ...UserItemFields
       }
     }

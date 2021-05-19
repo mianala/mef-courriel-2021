@@ -9,8 +9,66 @@ import { filter, map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
 
 import { NotificationService } from 'src/app/services/notification.service';
+import EntityQueries from '../queries/entity.queries';
 import { UserService } from './user.service';
 
+class EntityWithActions extends Entity {
+  desactivate() {
+    EntityService.getInstance().desactivateEntity(this.id);
+  }
+
+  activate() {
+    EntityService.getInstance().activateEntity(this.id);
+  }
+
+  delete() {}
+
+  static mapEntities = map((val: any): Entity[] => {
+    return val.data.entity.map((val: any) => {
+      return new EntityWithActions(val);
+    });
+  });
+
+  static mapEntityInfo = map((info: any): IEntityInfo => {
+    return {
+      labels: info?.labels ? info?.labels.split(',') : null,
+      letter_texts: info?.letter_texts ? info?.letter_texts.split(',') : null,
+      type_texts: info?.type_texts ? info?.type_texts.split(',') : null,
+      observations: info?.observations ? info?.observations.split(',') : null,
+    };
+  });
+
+  static mapEntityLabelsInfo = map((info: IEntityInfo | null) =>
+    info ? info.labels : null
+  );
+
+  static mapUserEntity = map((val: any): Entity => {
+    const entity_query_result = val.data.entity[0];
+
+    let entity = new EntityWithActions(entity_query_result);
+
+    if (!entity.parent === null) {
+      entity.parent = new EntityWithActions(entity_query_result.parent);
+      entity.parent.children = entity_query_result.parent.children.map(
+        (entity: any) => new EntityWithActions(entity)
+      );
+    }
+
+    entity.children = entity_query_result.children.map((child: any) => {
+      let newChild = new EntityWithActions(child);
+      let c = child.children.map(
+        (grandchild: any) => new EntityWithActions(grandchild)
+      );
+      newChild.children = c.filter((e: any) => {
+        return e.level < entity.level + 3;
+      });
+
+      return newChild;
+    });
+
+    return entity;
+  });
+}
 interface IEntityInfo {
   labels: string[] | null;
   observations: string[] | null;
@@ -31,54 +89,6 @@ export class EntityService {
 
     return EntityService.instance;
   }
-
-  mapEntities = map((val: any): Entity[] => {
-    return val.data.entity.map((val: any) => {
-      return new Entity(val);
-    });
-  });
-
-  mapEntity = map((val: any) => {
-    val.data.entity;
-  });
-
-  mapEntityInfo = map((info: any): IEntityInfo => {
-    return {
-      labels: info?.labels ? info?.labels.split(',') : null,
-      letter_texts: info?.letter_texts ? info?.letter_texts.split(',') : null,
-      type_texts: info?.type_texts ? info?.type_texts.split(',') : null,
-      observations: info?.observations ? info?.observations.split(',') : null,
-    };
-  });
-
-  mapEntityLabelsInfo = map((info: IEntityInfo | null) =>
-    info ? info.labels : null
-  );
-
-  mapUserEntity = map((val: any): Entity => {
-    const entity_query_result = val.data.entity[0];
-
-    let entity = new Entity(entity_query_result);
-
-    if (!entity.parent === null) {
-      entity.parent = new Entity(entity_query_result.parent);
-      entity.parent.children = entity_query_result.parent.children.map(
-        (entity: any) => new Entity(entity)
-      );
-    }
-
-    entity.children = entity_query_result.children.map((child: any) => {
-      let newChild = new Entity(child);
-      let c = child.children.map((grandchild: any) => new Entity(grandchild));
-      newChild.children = c.filter((e: any) => {
-        return e.level < entity.level + 3;
-      });
-
-      return newChild;
-    });
-
-    return entity;
-  });
 
   _userEntity: Entity | undefined;
 
@@ -108,7 +118,9 @@ export class EntityService {
     | undefined;
   allEntitiesQuery = this.allEntities();
 
-  allEntities$ = this.allEntitiesQuery.valueChanges.pipe(this.mapEntities);
+  allEntities$ = this.allEntitiesQuery.valueChanges.pipe(
+    EntityWithActions.mapEntities
+  );
   activeEntities$ = this.allEntities$.pipe(
     map((entities) => entities.filter((entity) => entity.active))
   );
@@ -121,7 +133,9 @@ export class EntityService {
   userEntity$ = new BehaviorSubject<Entity | null>(null);
   userEntityInfo$ = new BehaviorSubject<IEntityInfo | null>(null);
 
-  userEntityLabels$ = this.userEntityInfo$.pipe(this.mapEntityLabelsInfo);
+  userEntityLabels$ = this.userEntityInfo$.pipe(
+    EntityWithActions.mapEntityLabelsInfo
+  );
   userEntityObservations$: Observable<any> | undefined;
   userEntityTypeTexts$: Observable<any> | undefined;
   userEntityLetterTexts$: Observable<any> | undefined;
@@ -140,11 +154,11 @@ export class EntityService {
       this.userEntityQuery = this.userEntity(userEntityId);
 
       this.userEntityInfoQuery.valueChanges
-        .pipe(this.mapEntityInfo)
+        .pipe(EntityWithActions.mapEntityInfo)
         .subscribe((info) => this.userEntityInfo$.next(info));
 
       this.userEntityQuery.valueChanges
-        .pipe(this.mapUserEntity)
+        .pipe(EntityWithActions.mapUserEntity)
         .subscribe((entity) => {
           this.userEntity$.next(entity);
           this._userEntity = entity;
@@ -157,145 +171,55 @@ export class EntityService {
   }
 
   userEntityInfo(entity_id: number) {
-    const GET_ENTITY_LABEL_QUERY = gql`
-      query get_entity($entity_id: Int!) {
-        entity(where: { id: { _eq: $entity_id } }) {
-          labels
-          observations
-          letter_texts
-          type_texts
-        }
-      }
-    `;
     return this.apollo.watchQuery({
-      query: GET_ENTITY_LABEL_QUERY,
+      query: EntityQueries.INFO,
       variables: { entity_id: entity_id },
       fetchPolicy: 'cache-and-network',
     });
   }
 
   userEntity(entity_id: number) {
-    const GET_USER_ENTITY_QUERY = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-
-      query getUserEntity($entity_id: Int!) {
-        entity(where: { id: { _eq: $entity_id } }) {
-          ...CoreEntityFields
-          labels
-          observations
-          letter_texts
-          parent {
-            ...CoreEntityFields
-            children {
-              ...CoreEntityFields
-            }
-          }
-          children {
-            ...CoreEntityFields
-            children {
-              ...CoreEntityFields
-            }
-          }
-        }
-      }
-    `;
-
     return this.apollo.watchQuery({
-      query: GET_USER_ENTITY_QUERY,
+      query: EntityQueries.USER_ENTITY,
       variables: { entity_id: entity_id },
       fetchPolicy: 'cache-and-network',
     });
   }
 
   allEntities() {
-    const GET_ENTITIES_QUERY = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      query get_entities {
-        entity(order_by: { id: asc }) {
-          ...CoreEntityFields
-        }
-      }
-    `;
-
     return this.apollo.watchQuery({
-      query: GET_ENTITIES_QUERY,
+      query: EntityQueries.ALL_ENTITIES,
       fetchPolicy: 'cache-and-network',
     });
   }
 
   getEntity(id: number) {
-    const GET_ENTITY_QUERY = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      query get_entity($id: Int!) {
-        entity(where: { id: { _eq: $id } }) {
-          ...CoreEntityFields
-        }
-      }
-    `;
     return this.apollo
       .query({
-        query: GET_ENTITY_QUERY,
+        query: EntityQueries.ENTITY,
         variables: {
           id: id,
         },
       })
-      .pipe(this.mapEntities);
+      .pipe(EntityWithActions.mapEntities);
   }
 
   getEntityWithUsers(id: number) {
-    const GET_ENTITY_QUERY_WITH_USERS = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      query get_entity($id: Int!) {
-        entity(where: { id: { _eq: $id } }) {
-          ...CoreEntityFields
-          users {
-            id
-            firstname
-            lastname
-            title
-            im
-            entity {
-              ...CoreEntityFields
-            }
-          }
-        }
-      }
-    `;
     return this.apollo
       .query({
-        query: GET_ENTITY_QUERY_WITH_USERS,
+        query: EntityQueries.WITH_USERS,
         variables: {
           id: id,
         },
       })
-      .pipe(this.mapEntities);
+      .pipe(EntityWithActions.mapEntities);
   }
 
   // CREATIONS AND UPDATES
 
   updateEntity(entity_id: number, set: any = {}, inc: any = {}) {
-    const UPDATE_ENTITY_MUTATION = gql`
-      mutation update_entity_mutation(
-        $entity_id: Int!
-        $_set: entity_set_input = {}
-        $_inc: entity_inc_input = {}
-      ) {
-        update_entity(
-          where: { id: { _eq: $entity_id } }
-          _set: $_set
-          _inc: $_inc
-        ) {
-          affected_rows
-          returning {
-            id
-            labels
-          }
-        }
-      }
-    `;
-
     return this.apollo.mutate({
-      mutation: UPDATE_ENTITY_MUTATION,
+      mutation: EntityQueries.UPDATE,
       variables: {
         entity_id: entity_id,
         _set: set,
@@ -331,45 +255,8 @@ export class EntityService {
   }
 
   addNewEntity(variables: any) {
-    const ADD_NEW_ENTITY_MUTATION = gql`
-      ${Entity.CORE_ENTITY_FIELDS}
-      mutation add_new_entity(
-        $short: String!
-        $long: String!
-        $short_header: String!
-        $id_text: String!
-        $level: Int!
-        $parent_entity_id: Int!
-      ) {
-        insert_entity(
-          objects: {
-            level: $level
-            short: $short
-            long: $long
-            short_header: $short_header
-            id_text: $id_text
-            parent_entity_id: $parent_entity_id
-          }
-        ) {
-          returning {
-            ...CoreEntityFields
-          }
-        }
-
-        update_entity(
-          where: { id: { _eq: $parent_entity_id } }
-          _inc: { sub_entities_count: 1 }
-        ) {
-          returning {
-            id
-            short
-            sub_entities_count
-          }
-        }
-      }
-    `;
     return this.apollo.mutate({
-      mutation: ADD_NEW_ENTITY_MUTATION,
+      mutation: EntityQueries.ADD,
       variables: variables,
     });
   }

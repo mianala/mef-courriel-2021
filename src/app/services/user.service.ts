@@ -20,19 +20,24 @@ class UserWithActions extends User {
     UserService.getInstance().activateUser(this.id);
   }
 
+  verify() {
+    UserService.getInstance().verifyUser(this.id);
+  }
+
   static mapActiveAndVerifiedUsers = map((users: UserWithActions[]) => {
     return users.filter((user) => user.active && user.verified);
   });
 
-  static unverifiedUsers = map((users: UserWithActions[]) => {
-    return users.filter((user) => user.verified);
+  static mapUnverifiedUsers = map((users: UserWithActions[]) => {
+    return users.filter((user) => !user.verified && user.active);
   });
 
-  static inactiveUsers = map((users: UserWithActions[]) => {
-    return users.filter((user) => !user.active);
+  static mapInactiveUsers = map((users: UserWithActions[]) => {
+    return users.filter((user) => !user.active && user.verified);
   });
 
   static mapUsers = map((val: any): UserWithActions[] => {
+    console.log(val);
     return val.data.user.map((val: any) => {
       return new UserWithActions(val);
     });
@@ -71,12 +76,14 @@ export class UserService {
   usersQuery = this.getUsers();
   unverifiedUsersQuery = this.getUnverifiedUsers();
   inactivatedUsersQuery = this.getInactiveUsers();
+  activeAndVerifiedUsersQuery = this.getActiveAndVerifiedUsers();
 
   users$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
-  allUsers$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
-  activeAndVerifiedUsers$ = this.allUsers$.pipe(
-    UserWithActions.mapActiveAndVerifiedUsers
+  // allUsers$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
+  activeAndVerifiedUsers$ = this.activeAndVerifiedUsersQuery.valueChanges.pipe(
+    UserWithActions.mapUsers
   );
+
   unverifiedUsers$ = this.unverifiedUsersQuery.valueChanges.pipe(
     UserWithActions.mapUsers
   );
@@ -135,6 +142,13 @@ export class UserService {
   getUnverifiedUsers() {
     return this.apollo.watchQuery({
       query: UserQueries.UNVERIFIED,
+      fetchPolicy: 'cache-and-network',
+    });
+  }
+
+  getActiveAndVerifiedUsers() {
+    return this.apollo.watchQuery({
+      query: UserQueries.ACTIVE_AND_VERIFIED,
       fetchPolicy: 'cache-and-network',
     });
   }

@@ -55,6 +55,8 @@ export class User {
   // implemented in UserWithActions
   desactivate() {}
   activate() {}
+  verify() {}
+  delete() {}
 
   emailMD5() {
     return new Md5().appendStr(this.email).end();

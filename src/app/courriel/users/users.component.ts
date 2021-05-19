@@ -14,7 +14,7 @@ import { UserService } from '../../services/user.service';
 export class UsersComponent implements OnInit {
   filter = new FormControl('');
   filteredUsers$ = combineLatest([
-    this.userService.users$,
+    this.userService.activeAndVerifiedUsers$,
     this.filter.valueChanges.pipe(startWith('')),
   ]).pipe(
     map(([users, query]) => {
