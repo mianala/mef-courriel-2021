@@ -1,7 +1,7 @@
 <nav>
   <section>
     <a class="nav-link" [routerLink]="Link.APPS_ROOT" routerLinkActive="active">
-      <div matTooltip="Boite de Réception" matTooltipPosition="right">
+      <div title="Applications" matTooltipPosition="right">
         <mat-icon>apps</mat-icon>
       </div>
     </a>
@@ -11,6 +11,7 @@
       class="nav-link"
       [routerLink]="Link.FLOWS_INBOX"
       routerLinkActive="active"
+      title="Boite"
     >
       <div matTooltip="Boite de Réception" matTooltipPosition="right">
         <mat-icon>inbox</mat-icon>
@@ -21,6 +22,7 @@
     <a
       class="nav-link"
       [routerLink]="Link.FLOWS_SENT"
+      title="Envoyés"
       routerLinkActive="active"
     >
       <div matTooltip="Envoyés" matTooltipPosition="right">
@@ -32,6 +34,30 @@
     <a class="nav-link" [routerLink]="Link.ENTITY" routerLinkActive="active">
       <div>
         <mat-icon>work_outline</mat-icon>
+      </div>
+    </a>
+
+    <!-- assigned flows -->
+    <a
+      class="nav-link"
+      [routerLink]="Link.ENTITY"
+      title="Lecture"
+      routerLinkActive="active"
+    >
+      <div>
+        <mat-icon>receipt_long</mat-icon>
+      </div>
+    </a>
+
+    <!-- assigned flows -->
+    <a
+      class="nav-link"
+      [routerLink]="Link.ENTITY"
+      title="Signature"
+      routerLinkActive="active"
+    >
+      <div>
+        <mat-icon>draw</mat-icon>
       </div>
     </a>
 
@@ -74,7 +100,7 @@
         <mat-icon>settings_outlined</mat-icon>
       </div>
     </a>
-    <a class="nav-link" (click)="userService.logout()">
+    <a class="nav-link" title="Se deconnecter" (click)="userService.logout()">
       <div>
         <mat-icon>logout</mat-icon>
       </div>

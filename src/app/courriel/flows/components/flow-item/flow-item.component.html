@@ -5,10 +5,10 @@
     (click)="flow.toggleImportant()"
   >
     <ng-container *ngSwitchCase="false">
-      <mat-icon class="mat-18">label_important_outline</mat-icon>
+      <mat-icon color="accent" class="mat-18">label_important_outline</mat-icon>
     </ng-container>
     <ng-container *ngSwitchCase="true">
-      <mat-icon class="mat-18">label_important</mat-icon>
+      <mat-icon color="accent" class="mat-18">label_important</mat-icon>
     </ng-container>
   </button>
 </div>
@@ -64,13 +64,27 @@
 <div class="actions">
   <a
     mat-icon-button
+    title="Ouvrir"
     [routerLink]="Link.FLOW_PAGE"
     [queryParams]="{ flow_id: flow.id }"
   >
     <mat-icon class="mat-18">folder_open</mat-icon>
   </a>
-  <a mat-icon-button (click)="markAsRead(flow.id)">
-    <mat-icon class="mat-18">mark_email_read</mat-icon>
+  <a
+    class="green"
+    mat-icon-button
+    [ngSwitch]="flow.read"
+    (click)="flow.toggleRead()"
+  >
+    <ng-container *ngSwitchCase="false">
+      <mat-icon title="Marqué Lu" class="green" class="mat-18"
+        >mark_email_read</mat-icon
+      >
+    </ng-container>
+
+    <ng-container *ngSwitchCase="true">
+      <mat-icon title="Marqué Non Lu" class="mat-18">mark_as_unread</mat-icon>
+    </ng-container>
   </a>
   <a
     mat-icon-button

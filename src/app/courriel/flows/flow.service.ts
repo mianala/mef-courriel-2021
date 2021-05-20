@@ -39,10 +39,14 @@ class FlowWithActions extends Flow {
   }
 
   markAsRead() {
+    this.read = true;
+
     FlowService.getInstance().markFlowAsRead(this.id);
   }
 
   markAsUnread() {
+    this.read = false;
+
     FlowService.getInstance().markFlowAsUnread(this.id);
   }
 
