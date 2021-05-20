@@ -6,19 +6,20 @@
     transition: ease-out 0.2s;
     color: #222;
 
+    // &:hover {
+    //   border-radius: 0.5rem;
+    //   background-color: $grey;
+    // }
+
     &:hover {
-      border-radius: 0.5rem;
-      background-color: $grey;
+      box-shadow: 0 4px 10px 0 rgb(0 0 0 / 20%);
+      z-index: 2;
     }
 
     &.read {
       background-color: $little-grey;
       color: #555;
       border-bottom: 1px #eee solid;
-
-      &:hover {
-        background-color: $grey;
-      }
 
       ::ng-deep .content .title {
         font-weight: normal;

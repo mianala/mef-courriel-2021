@@ -87,6 +87,8 @@ import { UnverifiedComponent } from './admin/users/unverified/unverified.compone
 import { InactiveUsersComponent } from './admin/users/inactive-users/inactive-users.component';
 import { InactiveEntitiesComponent } from './admin/entities/inactive-entities/inactive-entities.component';
 import { AssignedFlowsComponent } from './courriel/flows/assigned-flows/assigned-flows.component';
+import { FileLoadingComponent } from './components/loading/file-loading/file-loading.component';
+import { ViewerLoadingComponent } from './components/loading/viewer-loading/viewer-loading.component';
 
 registerLocaleData(localeFr);
 
@@ -184,6 +186,10 @@ registerLocaleData(localeFr);
     InactiveEntitiesComponent,
 
     AssignedFlowsComponent,
+
+    FileLoadingComponent,
+
+    ViewerLoadingComponent,
   ],
   imports: [
     BrowserModule,

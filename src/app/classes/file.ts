@@ -25,26 +25,22 @@ export class AppFile {
   `;
 
   viewer = () => {
-    const viewer = AppFile.file_types.find((t) => {
-      return this.type.includes(t.short);
-    })?.viewer;
-
-    return viewer;
+    return this.fileType()?.viewer;
   };
 
   icon = () => {
-    let icon = AppFile.file_types.find((t) => {
-      return this.type.includes(t.short.toLocaleLowerCase());
-    })?.icon;
-
-    if (!icon) {
-      icon = AppFile.file_types.find((t) => {
-        return this.name.includes(t.short.toLocaleLowerCase());
-      })?.icon;
-    }
-
-    return icon;
+    return this.fileType()?.icon;
   };
+
+  fileType() {
+    return (
+      AppFile.file_types.find((t) => {
+        const type = new RegExp(t.short, 'i');
+        const icon = this.type.match(type);
+        return icon ? icon : this.name.match(type);
+      }) || null
+    );
+  }
 
   iconUrl = () => {
     return `${AppFile.icon_asset_url}${this.icon()}`;

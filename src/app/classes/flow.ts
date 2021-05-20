@@ -88,6 +88,12 @@ export class Flow {
 
   delete() {}
 
+  viewRoute() {}
+  viewDetails() {}
+  viewEdit() {}
+  view() {}
+  assign() {}
+
   sender() {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
   }

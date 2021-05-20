@@ -17,13 +17,12 @@
   .content {
     flex: 1 1 auto;
     flex-direction: column;
+
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
     .title {
       outline: 0;
       font-weight: bold;
-      cursor: pointer;
-
-      color: inherit; /* blue colors for links too */
-      text-decoration: inherit; /* no underline */
 
       &:after {
         content: "";

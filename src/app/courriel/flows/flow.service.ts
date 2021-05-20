@@ -1,14 +1,15 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Flow } from 'src/app/classes/flow';
+import { User } from 'src/app/classes/user';
+import FlowQueries from 'src/app/queries/flow.queries';
+import { EntityService } from 'src/app/services/entity.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from '../../services/user.service';
-import { User } from 'src/app/classes/user';
-import { EntityService } from 'src/app/services/entity.service';
-import FlowQueries from 'src/app/queries/flow.queries';
-import { Location } from '@angular/common';
 
 class FlowWithActions extends Flow {
   toggleImportant() {
@@ -38,6 +39,8 @@ class FlowWithActions extends Flow {
       this.markAsUnread();
     }
   }
+
+  viewRoute() {}
 
   markAsRead() {
     this.read = true;
@@ -103,7 +106,7 @@ export class FlowService {
     private entityService: EntityService,
     private userService: UserService,
     private location: Location,
-
+    private router: Router,
     private notification: NotificationService
   ) {
     this.activeUser$.subscribe((user: User | null) => {

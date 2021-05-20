@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { AppFile } from '../../classes/file';
 
 @Component({
@@ -11,7 +11,13 @@ export class ViewerComponent implements OnInit {
   File = AppFile;
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.file);
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges) {}
+
+  load() {}
+
+  error(e: any) {
+    console.log(e);
   }
 }

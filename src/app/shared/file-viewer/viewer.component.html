@@ -1,16 +1,25 @@
-<div *ngIf="file && file.viewer() == 'image'" class="img-container">
-  <img [src]="file.src" alt="" />
-</div>
-<div *ngIf="file && file.viewer() == 'audio'" class="img-container">
-  <audio controls>
-    <source [src]="file.src" [type]="file.type" />
-    Votre navigateur ne supporte pas l'élément audio.
-  </audio>
-</div>
-<div *ngIf="file && file.viewer() == 'ngx-doc-viewer'" class="img-container">
-  <ngx-doc-viewer
-    [url]="file.src"
-    viewer="google"
-    style="width: 100%; height: clamp(800px, 90vh, 2048px)"
-  ></ngx-doc-viewer>
-</div>
+<ng-container [ngSwitch]="file.viewer()">
+  <div *ngSwitchCase="'image'">
+    <img #img [src]="file.src" alt="" />
+  </div>
+  <div *ngSwitchCase="'audio'">
+    <audio #audio controls>
+      <source [src]="file.src" [type]="file.type" />
+      Votre navigateur ne supporte pas l'élément audio.
+    </audio>
+  </div>
+  <div #video *ngSwitchCase="'video'">
+    <video controls>
+      <source [src]="file.src" [type]="file.type" />
+      Votre navigateur ne supporte pas l'élément video.
+    </video>
+  </div>
+  <div *ngSwitchCase="'ngx-doc-viewer'">
+    <ngx-doc-viewer
+      #doc
+      [url]="file.src"
+      viewer="google"
+      style="width: 100%; height: clamp(800px, 90vh, 2048px)"
+    ></ngx-doc-viewer>
+  </div>
+</ng-container>
