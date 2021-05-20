@@ -86,6 +86,8 @@ export class Flow {
   markAsRead() {}
   markAsunread() {}
 
+  delete() {}
+
   sender() {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
   }

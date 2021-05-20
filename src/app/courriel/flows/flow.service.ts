@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { User } from 'src/app/classes/user';
 import { EntityService } from 'src/app/services/entity.service';
 import FlowQueries from 'src/app/queries/flow.queries';
+import { Location } from '@angular/common';
 
 class FlowWithActions extends Flow {
   toggleImportant() {
@@ -42,6 +43,10 @@ class FlowWithActions extends Flow {
     this.read = true;
 
     FlowService.getInstance().markFlowAsRead(this.id);
+  }
+
+  delete() {
+    FlowService.getInstance().deleteFlow(this.id);
   }
 
   markAsUnread() {
@@ -97,6 +102,8 @@ export class FlowService {
     private apollo: Apollo,
     private entityService: EntityService,
     private userService: UserService,
+    private location: Location,
+
     private notification: NotificationService
   ) {
     this.activeUser$.subscribe((user: User | null) => {
@@ -139,12 +146,21 @@ export class FlowService {
   }
 
   deleteFlow(flow_id: number) {
-    return this.apollo.mutate({
-      mutation: FlowQueries.DELETE,
-      variables: {
-        flow_id: flow_id,
-      },
-    });
+    if (!confirm('Voulez-vous vraiment supprimer ce courriel?')) {
+      return;
+    }
+
+    return this.apollo
+      .mutate({
+        mutation: FlowQueries.DELETE,
+        variables: {
+          flow_id: flow_id,
+        },
+      })
+      .subscribe((data) => {
+        this.notification.notify('Courriel supprimé', 500);
+        this.location.back();
+      });
   }
 
   inboxFlows = (entity_id: number) => {

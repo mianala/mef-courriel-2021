@@ -30,29 +30,18 @@ export class ViewFlowPageComponent implements OnInit {
   constructor(
     private flowService: FlowService,
     private route: ActivatedRoute,
-    private location: Location,
-    private notification: NotificationService,
     private router: Router
   ) {
     this.app_page = this.router.url.includes('/courriel/flow');
-  }
-
-  delete(id: number) {
-    if (!confirm('Voulez-vous vraiment supprimer ce courriel?')) {
-      return;
-    }
-
-    this.flowService.deleteFlow(id).subscribe(
-      (data) => {
-        console.log('delted flow ', id, data);
-
-        this.notification.notify('Courriel supprimé', 500);
-        this.location.back();
-      },
-      (error) => {
-        console.log(error);
+    this.flow$.subscribe((flow) => {
+      if (!flow.read) {
+        flow.markAsRead();
       }
-    );
+
+      if (flow.files) {
+        this.activeFile = flow.files[0];
+      }
+    });
   }
 
   ngOnInit(): void {}

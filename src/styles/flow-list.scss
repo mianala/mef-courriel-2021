@@ -1,4 +1,31 @@
 .flow-list {
   display: flex;
   flex-direction: column;
+
+  flow {
+    transition: ease-out 0.2s;
+    color: #222;
+
+    &:hover {
+      border-radius: 0.5rem;
+      background-color: $grey;
+    }
+
+    &.read {
+      background-color: $little-grey;
+      color: #555;
+      border-bottom: 1px #eee solid;
+
+      &:hover {
+        background-color: $grey;
+      }
+
+      ::ng-deep .content .title {
+        font-weight: normal;
+      }
+    }
+
+    &.unread {
+    }
+  }
 }
