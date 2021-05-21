@@ -1,20 +1,4 @@
-<div *ngFor="let file of files" class="file">
-  <div class="file-icon">
-    <img src="/assets/file-icons/doc.svg" alt="" />
-  </div>
-  <div class="file-info">
-    <div class="title">{{ file.name }}</div>
-    <div class="filesize">{{ file.size }}</div>
-  </div>
-  <button
-    (click)="remove(file)"
-    color="warn"
-    mat-icon-button
-    style="font-size: 13px"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
-<progress-bar></progress-bar>
+<!-- TODO: merge files in view flow page, differs in [Viewer, Remove Button, Progress bar] -->
 
-<file-upload-button (fileSelected)="getFiles($event)"></file-upload-button>
+<file *ngFor="let file of files" [file]="file"></file>
+<progress-bar></progress-bar>

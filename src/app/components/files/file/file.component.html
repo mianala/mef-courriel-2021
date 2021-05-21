@@ -1,5 +1,15 @@
 <img [src]="file?.iconUrl()" alt="" />
 <span [title]="Strings.open" class="file-name">{{ file?.name }}</span>
-<a mat-icon-button [title]="Strings.download" target="_blank" [href]="file?.src"
-  ><mat-icon>downloading</mat-icon></a
+
+<button
+  (click)="file?.remove()"
+  color="warn"
+  mat-icon-button
+  style="font-size: 13px"
 >
+  <mat-icon>close</mat-icon>
+</button>
+
+<!-- <a mat-icon-button [title]="Strings.download" target="_blank" [href]="file?.src"
+  ><mat-icon>downloading</mat-icon></a
+> -->

@@ -107,6 +107,8 @@
 
     <files formControlName="files"></files>
     <div class="columns">
+      <file-upload-button></file-upload-button>
+
       <button
         [disabled]="!saveFlowForm.valid"
         (click)="submit()"

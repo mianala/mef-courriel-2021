@@ -51,6 +51,8 @@ export class AppFile {
     return `${AppFile.icon_asset_url}${this.icon()}`;
   };
 
+  remove() {}
+
   static pdf = [];
   static icon_asset_url = Link.FILE_ICON_ASSETS_URL;
   static file_types = [

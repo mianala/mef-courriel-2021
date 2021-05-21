@@ -3,12 +3,13 @@ import { AppFile } from 'src/app/classes/file';
 import { Strings } from 'src/app/classes/strings';
 
 @Component({
-  selector: 'app-file',
+  selector: 'file',
   templateUrl: './file.component.html',
   styleUrls: ['./file.component.scss'],
 })
 export class FileComponent implements OnInit {
   @Input() file: AppFile | undefined;
+  @Input() layout = 'upload';
   Strings = Strings;
   constructor() {}
 
