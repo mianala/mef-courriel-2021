@@ -15,13 +15,6 @@
     </video>
   </div>
   <div *ngSwitchCase="'ngx-doc-viewer'">
-    <object
-      [data]="file.url()"
-      type="application/pdf"
-      style="width: 100%; height: clamp(800px, 90vh, 2048px)"
-    >
-      <a href="data/test.pdf">test.pdf</a>
-    </object>
     <ngx-doc-viewer
       #doc
       [url]="file.url()"

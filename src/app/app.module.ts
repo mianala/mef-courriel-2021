@@ -92,6 +92,8 @@ import { ViewerLoadingComponent } from './components/loading/viewer-loading/view
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { FileComponent } from './components/files/file/file.component';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -206,6 +208,7 @@ registerLocaleData(localeFr);
     ApolloModule,
     ReactiveFormsModule,
     FormsModule,
+    PdfViewerModule,
 
     MaterialModule,
     NgxDocViewerModule,
