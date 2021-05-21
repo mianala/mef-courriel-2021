@@ -1,0 +1,26 @@
+:host {
+  padding: 0.3rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  .file-name {
+    cursor: pointer;
+  }
+  img {
+    width: 2rem;
+    height: auto;
+  }
+
+  transition: all ease-out 0.2s;
+
+  &:hover {
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 20%);
+  }
+
+  .mat-icon {
+    color: $primary;
+  }
+}

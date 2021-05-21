@@ -6,7 +6,11 @@ export class AppFile {
   name = '';
   size = 0;
   type = '';
+
+  // TODO: remove src after next version | it's been replaced by URL
   src = '';
+
+  url = '';
   lastModified = '';
 
   constructor(_file: Partial<{}> = {}) {

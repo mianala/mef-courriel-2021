@@ -32,9 +32,10 @@ export class FileUploadService {
     map((p) => (p ? p + '%' : '0'))
   );
   progressState$ = this.progress$.pipe();
+  files$ = new BehaviorSubject<AppFile[]>([]);
+  uploadedFiles = new BehaviorSubject<AppFile[]>([]);
 
   private endpoint = environment.upload_endpoint;
-  files$ = new BehaviorSubject<AppFile[]>([]);
   constructor(private http: HttpClient) {
     this.progress$.subscribe((p) => {
       if (!p) {

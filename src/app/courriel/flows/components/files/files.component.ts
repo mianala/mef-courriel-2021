@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { AppFile } from 'src/app/classes/file';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -17,14 +17,12 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
   ],
 })
 export class FilesComponent implements OnInit, ControlValueAccessor {
-  files: any[] = [];
-  progress$ = this.upload.progress$;
+  files: AppFile[] = [];
+
+  progress$ = this.fileUploadService.progress$;
   progress: number[] = [];
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private upload: FileUploadService
-  ) {}
+  constructor(private fileUploadService: FileUploadService) {}
 
   onChange!: (files: AppFile[] | null) => void;
   onTouched!: () => void;
@@ -56,29 +54,8 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {}
 
-  remove(file: any) {
+  remove(file: AppFile) {
     this.files.splice(this.files.indexOf(file), 1);
-    this.setValue(this.files);
-  }
-
-  getFiles(files: File[]) {
-    files.forEach((file, index) => {
-      this.progress.push(0);
-
-      // uploading file
-      this.firebaseService
-        .pushFileToStorage(files[0], (url) => {
-          // add returned value to _files
-          this.setValue([
-            ...this.files,
-            ...[Object.assign(file, { src: url })],
-          ]);
-        })
-        .subscribe((progress) => {
-          // get the upload progress and creates an array of files
-          this.progress[index] = progress;
-          console.log(progress);
-        });
-    });
+    this.fileUploadService.uploadedFiles.next(this.files);
   }
 }
