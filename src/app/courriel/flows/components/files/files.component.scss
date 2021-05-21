@@ -1,4 +1,12 @@
+@import "~src/_variables";
+
 :host {
+  padding: 1rem;
+
+  // this is for the appearnace in saveFile
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  background-color: $grey;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;

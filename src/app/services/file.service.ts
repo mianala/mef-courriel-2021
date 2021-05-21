@@ -1,13 +1,11 @@
 import {
   HttpClient,
   HttpEventType,
-  HttpHeaders,
   HttpProgressEvent,
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -25,12 +23,13 @@ interface IUploadStarted {
 @Injectable({
   providedIn: 'root',
 })
-export class FileUploadService {
+export class FileService {
   progress$ = new BehaviorSubject<number | null>(null);
   progress = 0;
   progressPercentageString$ = this.progress$.pipe(
     map((p) => (p ? p + '%' : '0'))
   );
+  uploadInProgress$ = this.progress$.pipe(map((p) => !(p == null || p == 100)));
   progressState$ = this.progress$.pipe();
   files$ = new BehaviorSubject<AppFile[]>([]);
   uploadedFiles = new BehaviorSubject<AppFile[]>([]);
@@ -85,8 +84,12 @@ export class FileUploadService {
         case HttpEventType.Response:
           console.log('Response', originalResponse);
           const response: HttpResponse<any> = originalResponse;
-          const files: AppFile[] = response.body.files;
-          if (files.length) {
+          const responseFiles: any[] = response.body.files;
+          if (responseFiles.length) {
+            const files: AppFile[] = responseFiles.map((file) =>
+              AppFile.responseToFile(file)
+            );
+            this.files$.next([...files, ...this.files$.value]);
           }
 
           break;

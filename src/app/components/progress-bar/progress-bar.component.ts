@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FileUploadService } from 'src/app/services/file-upload.service';
+import { FileService } from 'src/app/services/file.service';
 
 @Component({
   selector: 'progress-bar',
@@ -8,7 +8,8 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 })
 export class ProgressBarComponent implements OnInit {
   progressPercentageString$ = this.service.progressPercentageString$;
-  constructor(private service: FileUploadService) {}
+  uploadInProgress$ = this.service.uploadInProgress$;
+  constructor(private service: FileService) {}
 
   ngOnInit(): void {}
 }

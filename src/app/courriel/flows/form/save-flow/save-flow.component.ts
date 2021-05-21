@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
-import { User } from 'src/app/classes/user';
+import { FileService } from 'src/app/services/file.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 import { FlowService } from '../../flow.service';
-import { AppFile } from 'src/app/classes/file';
 
 @Component({
   selector: 'save-flow-form',
@@ -14,12 +13,14 @@ import { AppFile } from 'src/app/classes/file';
 })
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
+  files$ = this.fileUploadService.files$;
   loading = false;
   user = this.userService._activeUser;
 
   constructor(
     private flowService: FlowService,
     private fb: FormBuilder,
+    private fileUploadService: FileService,
     private userService: UserService,
     private notification: NotificationService
   ) {}
@@ -58,6 +59,11 @@ export class SaveFlowFormComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
     });
+
+    // push files to files || why not inside files component? Because it will be used everywhere and this isn't
+    this.files$.subscribe((files) => {
+      this.saveFlowForm.patchValue({ files: files });
+    });
   }
 
   preview() {}
@@ -73,6 +79,8 @@ export class SaveFlowFormComponent implements OnInit {
       size: number;
       type: string;
       src: string;
+      destination: string;
+      filename: string;
       lastModified: number;
     }[] = [];
 
@@ -80,6 +88,8 @@ export class SaveFlowFormComponent implements OnInit {
       form_files.push({
         name: file.name,
         size: file.size,
+        destination: file.destination,
+        filename: file.filename,
         type: file.type,
         src: file.src,
         lastModified: file.lastModified.toString(),
@@ -114,6 +124,8 @@ export class SaveFlowFormComponent implements OnInit {
   }
 
   flowSaved(data: any) {
+    this.fileUploadService.files$.next([]);
+    this.fileUploadService.progress$.next(null);
     this.notification.flowSaved(data.data.insert_flow.returning[0]);
     this.loading = false;
   }

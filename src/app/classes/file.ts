@@ -11,6 +11,8 @@ export class AppFile {
   src = '';
 
   url = '';
+  destination = '';
+  filename = '';
   lastModified = '';
 
   constructor(_file: Partial<{}> = {}) {
@@ -26,6 +28,7 @@ export class AppFile {
       src
       lastModified
       destination
+      filename
     }
   `;
 
@@ -45,6 +48,13 @@ export class AppFile {
         return icon ? icon : this.name.match(type);
       }) || null
     );
+  }
+
+  static responseToFile(file: any) {
+    const appFile = new AppFile(file);
+    appFile.name = file.originalname;
+    appFile.type = file.mimetype;
+    return appFile;
   }
 
   iconUrl = () => {

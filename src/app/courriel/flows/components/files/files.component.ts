@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { AppFile } from 'src/app/classes/file';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { FileUploadService } from 'src/app/services/file-upload.service';
+import { FileService } from 'src/app/services/file.service';
 
 @Component({
   selector: 'files',
@@ -19,10 +19,10 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 export class FilesComponent implements OnInit, ControlValueAccessor {
   files: AppFile[] = [];
 
-  progress$ = this.fileUploadService.progress$;
+  progress$ = this.fileService.progress$;
   progress: number[] = [];
 
-  constructor(private fileUploadService: FileUploadService) {}
+  constructor(private fileService: FileService) {}
 
   onChange!: (files: AppFile[] | null) => void;
   onTouched!: () => void;
@@ -56,6 +56,6 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
 
   remove(file: AppFile) {
     this.files.splice(this.files.indexOf(file), 1);
-    this.fileUploadService.uploadedFiles.next(this.files);
+    this.fileService.uploadedFiles.next(this.files);
   }
 }

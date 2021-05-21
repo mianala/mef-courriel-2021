@@ -105,7 +105,7 @@
     >
     <labels formControlName="labels"></labels>
 
-    <files formControlName="files"></files>
+    <files *ngIf="(files$ | async)?.length" formControlName="files"></files>
     <div class="columns">
       <file-upload-button></file-upload-button>
 

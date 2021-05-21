@@ -1,1 +1,4 @@
-<div [ngStyle]="{ width: (progressPercentageString$ | async) }"></div>
+<div
+  *ngIf="uploadInProgress$ | async"
+  [ngStyle]="{ width: (progressPercentageString$ | async) }"
+></div>

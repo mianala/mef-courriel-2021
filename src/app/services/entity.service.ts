@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { Observable } from 'rxjs';
-
-import { BehaviorSubject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Entity } from 'src/app/classes/entity';
-
 import { NotificationService } from 'src/app/services/notification.service';
 import EntityQueries from '../queries/entity.queries';
 import { UserService } from './user.service';
