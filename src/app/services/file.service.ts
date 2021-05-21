@@ -35,6 +35,7 @@ export class FileService {
   uploadedFiles = new BehaviorSubject<AppFile[]>([]);
 
   private endpoint = environment.upload_endpoint;
+
   constructor(private http: HttpClient) {
     this.progress$.subscribe((p) => {
       if (!p) {
@@ -69,11 +70,10 @@ export class FileService {
     this.upload(files).subscribe((originalResponse) => {
       switch (originalResponse.type) {
         case HttpEventType.Sent:
-          console.log('sent', originalResponse);
+          this.progress$.next(1);
 
           break;
         case HttpEventType.UploadProgress:
-          console.log('Upload progress', originalResponse);
           const progressData: HttpProgressEvent = originalResponse;
           if (progressData.total) {
             const progressPercentage =
@@ -82,7 +82,6 @@ export class FileService {
           }
           break;
         case HttpEventType.Response:
-          console.log('Response', originalResponse);
           const response: HttpResponse<any> = originalResponse;
           const responseFiles: any[] = response.body.files;
           if (responseFiles.length) {
@@ -91,7 +90,6 @@ export class FileService {
             );
             this.files$.next([...files, ...this.files$.value]);
           }
-
           break;
 
         default:

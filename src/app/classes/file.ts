@@ -1,4 +1,5 @@
 import { gql } from 'apollo-angular';
+import { environment } from 'src/environments/environment';
 import { Link } from './link';
 
 export class AppFile {
@@ -10,7 +11,6 @@ export class AppFile {
   // TODO: remove src after next version | it's been replaced by URL
   src = '';
 
-  url = '';
   destination = '';
   filename = '';
   lastModified = '';
@@ -31,6 +31,11 @@ export class AppFile {
       filename
     }
   `;
+
+  url() {
+    const path = this.destination.replace('uploads/', '');
+    return `${environment.file_server}/${path}/${this.filename}`;
+  }
 
   viewer = () => {
     return this.fileType()?.viewer;
