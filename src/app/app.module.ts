@@ -90,6 +90,7 @@ import { AssignedFlowsComponent } from './courriel/flows/assigned-flows/assigned
 import { FileLoadingComponent } from './components/loading/file-loading/file-loading.component';
 import { ViewerLoadingComponent } from './components/loading/viewer-loading/viewer-loading.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { FileComponent } from './components/files/file/file.component';
 
 registerLocaleData(localeFr);
 
@@ -193,6 +194,8 @@ registerLocaleData(localeFr);
     ViewerLoadingComponent,
 
     ProgressBarComponent,
+
+    FileComponent,
   ],
   imports: [
     BrowserModule,

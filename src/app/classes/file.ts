@@ -21,6 +21,7 @@ export class AppFile {
       type
       src
       lastModified
+      destination
     }
   `;
 

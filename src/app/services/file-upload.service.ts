@@ -4,6 +4,7 @@ import {
   HttpHeaders,
   HttpProgressEvent,
   HttpRequest,
+  HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -25,17 +26,28 @@ interface IUploadStarted {
   providedIn: 'root',
 })
 export class FileUploadService {
-  progress$ = new BehaviorSubject<number | null>(50);
-  progressPercentageString$ = this.progress$.pipe(map((p) => p + '%'));
+  progress$ = new BehaviorSubject<number | null>(null);
+  progress = 0;
+  progressPercentageString$ = this.progress$.pipe(
+    map((p) => (p ? p + '%' : '0'))
+  );
   progressState$ = this.progress$.pipe();
 
   private endpoint = environment.upload_endpoint;
   files$ = new BehaviorSubject<AppFile[]>([]);
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.progress$.subscribe((p) => {
+      if (!p) {
+        this.progress = 0;
+        return;
+      }
+
+      this.progress = p;
+    });
+  }
 
   upload(files: FileList) {
     const formData = new FormData();
-    const item = files.item(0);
 
     for (let index = 0; index < files.length; index++) {
       const element = files.item(index);
@@ -52,15 +64,17 @@ export class FileUploadService {
   }
 
   save(files: FileList) {
-    this.upload(files).subscribe((data) => {
-      switch (data.type) {
+    this.progress$.next(0);
+
+    this.upload(files).subscribe((originalResponse) => {
+      switch (originalResponse.type) {
         case HttpEventType.Sent:
-          console.log('sent', data);
+          console.log('sent', originalResponse);
 
           break;
         case HttpEventType.UploadProgress:
-          console.log('Upload progress', data);
-          const progressData: HttpProgressEvent = data;
+          console.log('Upload progress', originalResponse);
+          const progressData: HttpProgressEvent = originalResponse;
           if (progressData.total) {
             const progressPercentage =
               (progressData.loaded / progressData.total) * 100;
@@ -68,14 +82,17 @@ export class FileUploadService {
           }
           break;
         case HttpEventType.Response:
-          console.log('Response', data);
+          console.log('Response', originalResponse);
+          const response: HttpResponse<any> = originalResponse;
+          const files: AppFile[] = response.body.files;
+          if (files.length) {
+          }
 
           break;
 
         default:
           break;
       }
-      console.log(data.type);
     });
   }
 }
