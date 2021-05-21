@@ -86,7 +86,7 @@ export class AppFile {
       short: 'pdf',
       alt: 'pdf file',
       icon: 'pdf.svg',
-      viewer: 'ngx-doc-viewer',
+      viewer: 'pdf',
     },
     { short: 'png', alt: 'png file', icon: 'png.svg', viewer: 'image' },
     {

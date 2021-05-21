@@ -14,6 +14,13 @@
       Votre navigateur ne supporte pas l'élément video.
     </video>
   </div>
+  <div #video *ngSwitchCase="'pdf'">
+    <pdf-viewer
+      [src]="file.url()"
+      [render-text]="true"
+      style="width: 100%"
+    ></pdf-viewer>
+  </div>
   <div *ngSwitchCase="'ngx-doc-viewer'">
     <ngx-doc-viewer
       #doc

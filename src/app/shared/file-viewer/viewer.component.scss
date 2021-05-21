@@ -6,4 +6,8 @@
   img {
     width: clamp(600px, 90vw, 1620px);
   }
+
+  ::ng-deep .ng2-pdf-viewer-container {
+    height: auto !important;
+  }
 }
