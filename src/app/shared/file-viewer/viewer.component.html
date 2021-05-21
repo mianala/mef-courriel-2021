@@ -15,6 +15,7 @@
     </video>
   </div>
   <div #video *ngSwitchCase="'pdf'">
+    <!-- TODO: https://github.com/VadimDez/ng2-pdf-viewer#on-progress -->
     <pdf-viewer
       [src]="file.url()"
       [render-text]="true"
