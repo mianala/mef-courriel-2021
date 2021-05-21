@@ -18,6 +18,24 @@ const FlowQueries = {
       }
     }
   `,
+
+  FLOW_ROUTE: gql`
+    ${Flow.ITEM_FLOW_FIELDS}
+
+    query get_flow($id: Int!) {
+      flow(where: { id: { _eq: $id } }) {
+        ...ItemFlowFields
+        root {
+          ...ItemFlowFields
+
+          flows {
+            ...ItemFlowFields
+          }
+        }
+      }
+    }
+  `,
+
   INBOX: gql`
     ${Flow.ITEM_FLOW_FIELDS}
     query get_inbox_flows($entity_id: Int!) {
@@ -26,6 +44,7 @@ const FlowQueries = {
       }
     }
   `,
+
   SENT: gql`
     ${Flow.ITEM_FLOW_FIELDS}
 
@@ -38,6 +57,7 @@ const FlowQueries = {
       }
     }
   `,
+
   UPDATE: gql`
     mutation update_flow_mutation(
       $flow_id: Int!

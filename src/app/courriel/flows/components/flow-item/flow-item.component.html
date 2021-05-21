@@ -5,10 +5,12 @@
     (click)="flow.toggleImportant()"
   >
     <ng-container *ngSwitchCase="false">
-      <mat-icon color="accent" class="mat-18">label_important_outline</mat-icon>
+      <mat-icon color="primary" class="mat-18"
+        >label_important_outline</mat-icon
+      >
     </ng-container>
     <ng-container *ngSwitchCase="true">
-      <mat-icon color="accent" class="mat-18">label_important</mat-icon>
+      <mat-icon color="primary" class="mat-18">label_important</mat-icon>
     </ng-container>
   </button>
 </div>
@@ -112,6 +114,6 @@
     [routerLink]="Link.FLOW_SEND"
     [queryParams]="{ flow_id: flow.id }"
   >
-    <mat-icon class="mat-18">send</mat-icon>
+    <mat-icon color="primary" class="mat-18">send</mat-icon>
   </a>
 </div>

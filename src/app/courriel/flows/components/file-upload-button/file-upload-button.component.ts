@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({

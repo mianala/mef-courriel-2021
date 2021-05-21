@@ -198,6 +198,9 @@ export class Flow {
       }
       root {
         ...CoreFlowFields
+        files {
+          ...CoreFileFields
+        }
       }
       owner {
         ...CoreEntityFields

@@ -15,20 +15,21 @@ export class FileUploadService {
 
   upload(files: FileList) {
     const formData = new FormData();
-    const filesArray = [];
-    for (var i = 0; i < files.length; i++) {
-      formData.append('files[]', files[i]);
-      filesArray.push(files[i]);
+    const item = files.item(0);
+
+    for (let index = 0; index < files.length; index++) {
+      const element = files.item(index);
+      if (element) {
+        console.log(element);
+
+        formData.append('files', element, element.name);
+      }
     }
 
     console.log(formData);
 
     const request = new HttpRequest('POST', this.endpoint, formData, {
-      responseType: 'blob',
       reportProgress: true,
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
     });
 
     return this.http.request(request);
