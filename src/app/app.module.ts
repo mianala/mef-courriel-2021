@@ -89,6 +89,7 @@ import { InactiveEntitiesComponent } from './admin/entities/inactive-entities/in
 import { AssignedFlowsComponent } from './courriel/flows/assigned-flows/assigned-flows.component';
 import { FileLoadingComponent } from './components/loading/file-loading/file-loading.component';
 import { ViewerLoadingComponent } from './components/loading/viewer-loading/viewer-loading.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 registerLocaleData(localeFr);
 
@@ -190,6 +191,8 @@ registerLocaleData(localeFr);
     FileLoadingComponent,
 
     ViewerLoadingComponent,
+
+    ProgressBarComponent,
   ],
   imports: [
     BrowserModule,

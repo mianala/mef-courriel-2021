@@ -31,8 +31,6 @@ export class FileUploadButtonComponent implements OnInit {
   upload(e: any) {
     const files = e.target.files;
 
-    this.uploadService.upload(files).subscribe((data) => {
-      console.log(data);
-    });
+    this.uploadService.save(files);
   }
 }

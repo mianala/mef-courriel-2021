@@ -1,0 +1,15 @@
+@import "~src/_variables";
+
+:host {
+  width: 100vw;
+  height: 0.2rem;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  div {
+    transition: all 0.1s ease-in;
+    background-color: $accent;
+    height: 100%;
+  }
+}

@@ -9,7 +9,7 @@
   // flex-wrap: wrap;
   .headers {
     .reference {
-      border-bottom: 1px solid rgba(195, 0, 255, 0.8);
+      border-bottom: 1px solid $accent;
       width: clamp(min-content, auto, max-content);
     }
   }
