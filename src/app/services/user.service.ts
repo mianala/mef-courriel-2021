@@ -101,6 +101,13 @@ export class UserService {
     private notification: NotificationService,
     private router: Router
   ) {
+    console.log(window.navigator.onLine);
+    if (!window.navigator.onLine) {
+      this.notification.notify('Verifiez votre connexion Internet', 5000);
+
+      return;
+    }
+
     if (!UserService.instance) {
       UserService.instance = this;
     }
