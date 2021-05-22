@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { _MatTabGroupBase } from '@angular/material/tabs';
-import { NavigationEnd, Router } from '@angular/router';
-import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
-import { Entity } from 'src/app/classes/entity';
+import { Router } from '@angular/router';
+import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Link } from '../classes/link';
@@ -74,11 +72,20 @@ export class UserService {
   loggedIn$ = this.activeUser$.pipe(map((user) => (user ? true : false)));
 
   usersQuery = this.getUsers();
+  entityUsersQuery:
+    | QueryRef<
+        unknown,
+        {
+          entity_id: number;
+        }
+      >
+    | undefined;
   unverifiedUsersQuery = this.getUnverifiedUsers();
   inactivatedUsersQuery = this.getInactiveUsers();
   activeAndVerifiedUsersQuery = this.getActiveAndVerifiedUsers();
 
   users$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
+  entityUsers$: Observable<User[]> | undefined;
   // allUsers$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
   activeAndVerifiedUsers$ = this.activeAndVerifiedUsersQuery.valueChanges.pipe(
     UserWithActions.mapUsers
@@ -122,7 +129,17 @@ export class UserService {
       this.activeUser$.next(localStorageUser);
     }
 
-    this.activeUser$.subscribe((user) => (this._activeUser = user));
+    this.activeUser$.subscribe((user) => {
+      if (!user) {
+        return;
+      }
+
+      this._activeUser = user;
+      this.entityUsersQuery = this.getEntityUsers(user!.entity_id);
+      this.entityUsers$ = this.entityUsersQuery?.valueChanges.pipe(
+        UserWithActions.mapUsers
+      );
+    });
   }
 
   saveNewUser(variables: any) {
@@ -168,15 +185,13 @@ export class UserService {
   }
 
   getEntityUsers(entity_id: number) {
-    return this.apollo
-      .watchQuery({
-        query: UserQueries.ENTITY_USERS,
-        variables: {
-          entity_id: entity_id,
-          fetchPolicy: 'cache-and-network',
-        },
-      })
-      .valueChanges.pipe(UserWithActions.mapUsers);
+    return this.apollo.watchQuery({
+      query: UserQueries.ENTITY_USERS,
+      variables: {
+        entity_id: entity_id,
+      },
+      fetchPolicy: 'cache-and-network',
+    });
   }
 
   logIn(variables: { username: any; hashed: any }, next: () => void) {

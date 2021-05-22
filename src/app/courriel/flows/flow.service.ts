@@ -76,10 +76,10 @@ export class FlowService {
     }
   `;
 
-  flowSearchResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
-  searchAppResult$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+  flowSearchResult$ = new BehaviorSubject<Flow[]>([]);
+  searchAppResult$ = new BehaviorSubject<Flow[]>([]);
 
-  searchFlows$: BehaviorSubject<Flow[]> = new BehaviorSubject<Flow[]>([]);
+  searchFlows$ = new BehaviorSubject<Flow[]>([]);
   activeUser$ = this.userService.activeUser$.pipe(filter((user) => !!user));
 
   inboxFlows$: Observable<Flow[]> | undefined;
