@@ -87,6 +87,14 @@ const UserQueries = {
       }
     }
   `,
+  ENTITY_USERS: gql`
+    ${User.user_item_fields}
+    query get_users($entity_id: Int!) {
+      user(where: { entity_id: { _eq: $entity_id } }) {
+        ...UserItemFields
+      }
+    }
+  `,
 };
 
 export default UserQueries;

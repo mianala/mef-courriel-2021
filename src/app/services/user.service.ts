@@ -168,18 +168,9 @@ export class UserService {
   }
 
   getEntityUsers(entity_id: number) {
-    const GET_ENTITY_USERS_QUERY = gql`
-      ${User.core_user_fields}
-      query get_entity_users($entity_id:Int!){
-        user({where:{entity_id:{_eq:$entity_id}}}){
-          ...CoreUserFields
-        }
-      }
-    `;
-
     return this.apollo
       .watchQuery({
-        query: GET_ENTITY_USERS_QUERY,
+        query: UserQueries.ENTITY_USERS,
         variables: {
           entity_id: entity_id,
           fetchPolicy: 'cache-and-network',

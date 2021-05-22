@@ -93,6 +93,7 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
 import { FileComponent } from './components/files/file/file.component';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SelectUsersComponent } from './components/users/select-users/select-users.component';
 
 registerLocaleData(localeFr);
 
@@ -198,6 +199,8 @@ registerLocaleData(localeFr);
     ProgressBarComponent,
 
     FileComponent,
+
+    SelectUsersComponent,
   ],
   imports: [
     BrowserModule,

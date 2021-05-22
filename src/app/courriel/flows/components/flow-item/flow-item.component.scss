@@ -12,6 +12,11 @@
       border-bottom: 1px solid $accent;
       width: clamp(min-content, auto, max-content);
     }
+    .numero {
+    }
+    .sender {
+      font-weight: bold;
+    }
   }
 
   .content {

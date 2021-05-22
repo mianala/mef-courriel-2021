@@ -115,6 +115,7 @@ const EntityQueries = {
     }
   `,
 
+  // TODO: remove this and replace the used query to be user queries ENITTY_USERS
   WITH_USERS: gql`
     ${Entity.CORE_ENTITY_FIELDS}
     query get_entity($id: Int!) {

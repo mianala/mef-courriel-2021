@@ -21,8 +21,19 @@
       color: #555;
       border-bottom: 1px #eee solid;
 
-      ::ng-deep .content .title {
-        font-weight: normal;
+      ::ng-deep {
+        .content .title {
+          font-weight: normal;
+        }
+
+        .headers {
+          .reference {
+            border-bottom: none;
+          }
+          .sender {
+            font-weight: normal;
+          }
+        }
       }
     }
 
