@@ -61,7 +61,7 @@ import { LetterTextsComponent } from './courriel/flows/components/letter-texts/l
 import { ObservationsComponent } from './courriel/flows/components/observations/observations.component';
 import { FlowRouteComponent } from './courriel/flows/flow-route/flow-route.component';
 import { FlowTopbarComponent } from './courriel/flows/flow-topbar/flow-topbar.component';
-import { FlowsComponent } from './courriel/flows/flows.component';
+import { FlowsComponent } from './courriel/flows/inbox.component';
 import { SaveFlowFormComponent } from './courriel/flows/form/save-flow/save-flow.component';
 import { SendFlowFormComponent } from './courriel/flows/form/send-flow/send-flow.component';
 import { SaveFlowPageComponent } from './courriel/flows/save-flow-page/save-flow-page.component';

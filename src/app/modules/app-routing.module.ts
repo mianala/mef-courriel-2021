@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatComponent } from '../chat/chat.component';
-import { FlowsComponent } from '../courriel/flows/flows.component';
+import { FlowsComponent } from '../courriel/flows/inbox.component';
 import { AuthComponent } from '../auth/auth.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HelpComponent } from '../help/help.component';

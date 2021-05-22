@@ -9,6 +9,13 @@
   </a>
 </section>
 
+<nav mat-tab-nav-bar backgroundColor="primary">
+  <a mat-tab-link>Principale</a>
+  <a mat-tab-link>Assigné</a>
+  <a mat-tab-link>Lecture</a>
+  <a mat-tab-link>Signature</a>
+</nav>
+
 <section #recentFlows *ngIf="inboxFlows$ | async as flows; else loading">
   <div
     class="empty"
