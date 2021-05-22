@@ -101,7 +101,7 @@ export class UserService {
     private notification: NotificationService,
     private router: Router
   ) {
-    console.log(window.navigator.onLine);
+    // FIXME: navigaor.online always true !!! This is just for localhost as, you won't be able to load the page without having internet right?
     if (!window.navigator.onLine) {
       this.notification.notify('Verifiez votre connexion Internet', 5000);
 
