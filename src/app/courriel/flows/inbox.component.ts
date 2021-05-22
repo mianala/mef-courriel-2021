@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { Link } from 'src/app/classes/link';
 import { FlowService } from './flow.service';
 @Component({
@@ -14,6 +15,39 @@ export class FlowsComponent implements OnInit {
   inboxFlows$ = this.flowService.inboxFlows$;
   appSearchFlows$ = this.flowService.flowSearchResult$;
   queryParams$ = this.route.queryParams;
+  activeTab$ = this.queryParams$.pipe(
+    map((query) => (query.tab ? query.tab : 'MAIN'))
+  );
+  tabs = [
+    {
+      tab: 'MAIN',
+      title: 'Principale',
+      icon: 'inbox',
+      id: 0,
+      order: 0,
+    },
+    {
+      tab: 'LECTURE',
+      title: 'Assigné',
+      icon: 'import_contacts',
+      id: 0,
+      order: 0,
+    },
+    {
+      tab: 'SIGNATURE',
+      title: 'Lecture',
+      icon: 'draw',
+      id: 0,
+      order: 0,
+    },
+    {
+      tab: 'ASSIGNED',
+      title: 'Signature',
+      icon: 'work_outline',
+      id: 0,
+      order: 0,
+    },
+  ];
 
   constructor(public flowService: FlowService, private route: ActivatedRoute) {}
 

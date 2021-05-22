@@ -9,11 +9,15 @@
   </a>
 </section>
 
-<nav mat-tab-nav-bar backgroundColor="primary">
-  <a mat-tab-link>Principale</a>
-  <a mat-tab-link>Assigné</a>
-  <a mat-tab-link>Lecture</a>
-  <a mat-tab-link>Signature</a>
+<nav mat-tab-nav-bar>
+  <a
+    mat-tab-link
+    *ngFor="let tab of tabs"
+    [routerLink]="Link.FLOWS_INBOX"
+    [queryParams]="{ tab: tab.tab }"
+    [active]="(activeTab$ | async) == tab.tab"
+    ><mat-icon>{{ tab.icon }}</mat-icon> {{ tab.title }}</a
+  >
 </nav>
 
 <section #recentFlows *ngIf="inboxFlows$ | async as flows; else loading">
