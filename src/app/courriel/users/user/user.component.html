@@ -29,21 +29,29 @@
     <button mat-icon-button color="primary">
       <mat-icon>chat_bubble_outlined</mat-icon>
     </button>
-    <!-- <button *ngIf="!user.verified" mat-icon-button (click)="verify()"> -->
+    <!-- verify user -->
     <button mat-icon-button *ngIf="!user.verified" (click)="user.verify()">
       <mat-icon class="green">how_to_reg</mat-icon>
     </button>
+
+    <!-- activate user -->
     <button mat-icon-button *ngIf="!user.active" (click)="user.activate()">
       <mat-icon class="green">arrow_circle_up</mat-icon>
     </button>
+
+    <!-- update role -->
     <button mat-icon-button *ngIf="user.active" (click)="user.updateRole()">
-      <mat-icon color="warn">admin_panel_settings</mat-icon>
+      <mat-icon color="accent">admin_panel_settings</mat-icon>
     </button>
+
+    <!-- desactivate -->
     <button mat-icon-button *ngIf="user.active" (click)="user.desactivate()">
       <mat-icon color="warn">remove_circle</mat-icon>
     </button>
+
+    <!-- transfer -->
     <button mat-icon-button (click)="transfer()">
-      <mat-icon color="warn">change_circle</mat-icon>
+      <mat-icon color="accent">change_circle</mat-icon>
     </button>
   </mat-card-actions>
 </mat-card>

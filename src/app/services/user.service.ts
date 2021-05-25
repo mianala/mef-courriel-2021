@@ -11,22 +11,35 @@ import UserQueries from '../queries/user.queries';
 
 class UserWithActions extends User {
   desactivate() {
+    if (!confirm('Are you sure you want to desactivate this user?')) {
+      return;
+    }
     UserService.getInstance().desactivateUser(this.id);
   }
 
   activate() {
+    if (!confirm('Please confirm if you want to activate this user?')) {
+      return;
+    }
     UserService.getInstance().activateUser(this.id);
   }
 
   verify() {
+    if (!confirm('Please confirm if you want to verify this user?')) {
+      return;
+    }
     UserService.getInstance().verifyUser(this.id);
   }
 
   udpateRole() {
-    const role = prompt('LEAD:1, INTERIM:2, SECRETARY:3, MEMBER:4');
+    const role = prompt(
+      'LEAD:1, INTERIM:2, SECRETARY:3, MEMBER:4',
+      this.role.toString() || '4'
+    );
     if (!role) {
       return;
     }
+
     UserService.getInstance().updateUserRole(this.id, parseInt(role));
   }
 
