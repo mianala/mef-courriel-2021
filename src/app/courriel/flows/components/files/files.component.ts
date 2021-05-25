@@ -3,6 +3,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { AppFile } from 'src/app/classes/file';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FileService } from 'src/app/services/file.service';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'files',
@@ -23,13 +24,7 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
   progress$ = this.fileService.progress$;
   progress: number[] = [];
 
-  constructor(private fileService: FileService) {
-    this.files$.subscribe((files) => {
-      console.log('current fioles', files);
-
-      this.setValue(files);
-    });
-  }
+  constructor(private fileService: FileService) {}
 
   onChange!: (files: AppFile[] | null) => void;
   onTouched!: () => void;
@@ -59,7 +54,12 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
     this.onTouched();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.files$.pipe(skip(1)).subscribe((files) => {
+      console.log('current fioles', files);
+      this.setValue(files);
+    });
+  }
 
   remove(file: AppFile) {
     this.files.splice(this.files.indexOf(file), 1);
