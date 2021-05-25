@@ -251,6 +251,16 @@ export class UserService {
     );
   }
 
+  updateUserRole(role: number) {
+    if (!this._activeUser) {
+      return;
+    }
+    const set = { role: role };
+    this.updateUser(this._activeUser.id, set).subscribe((data) =>
+      console.log('updated user role', data)
+    );
+  }
+
   updateDefaultApp(default_app: string) {
     if (!this._activeUser) {
       return;
