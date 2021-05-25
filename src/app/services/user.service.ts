@@ -22,8 +22,12 @@ class UserWithActions extends User {
     UserService.getInstance().verifyUser(this.id);
   }
 
-  udpateRole(role: number) {
-    UserService.getInstance().updateUserRole(this.id, role);
+  udpateRole() {
+    const role = prompt('LEAD:1, INTERIM:2, SECRETARY:3, MEMBER:4');
+    if (!role) {
+      return;
+    }
+    UserService.getInstance().updateUserRole(this.id, parseInt(role));
   }
 
   static mapActiveAndVerifiedUsers = map((users: UserWithActions[]) => {
