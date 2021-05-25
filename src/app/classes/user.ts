@@ -10,6 +10,7 @@ export class User {
   email = '';
   phone = 0;
   im = 0;
+  role = 40;
   title = '';
   rights = 0;
   entity_id = 0;
@@ -33,6 +34,7 @@ export class User {
       profile_picture
       entity_id
       im
+      role
       last_login
       title
     }
@@ -64,7 +66,9 @@ export class User {
 
   static SETTINGS_DEFAULT_LETTER_TEXT = 'Lecture';
 
-  hasAccessToInbox() {}
+  hasInboxAccess() {
+    return -this.role > -User.Role.MEMBER;
+  }
 
   static Role = {
     LEAD: 1,
