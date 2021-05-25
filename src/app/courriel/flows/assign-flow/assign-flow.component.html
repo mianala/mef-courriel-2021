@@ -1,1 +1,38 @@
-<p>assign-flow-dialog works!</p>
+<form
+  #form="ngForm"
+  (ngSubmit)="submit()"
+  [formGroup]="sendFlowForm"
+  class="box"
+>
+  <div class="header">
+    <h1>
+      <mat-icon>send</mat-icon> Envoyer - {{ (parentFlow$ | async)?.title }}
+    </h1>
+    <!-- <p>
+      Veuillez saisir toutes les informations sur le courrier dans le formulaire
+      ci-dessous
+    </p> -->
+  </div>
+  <div class="users"></div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Observations / Instructions</mat-label>
+    <textarea required formControlName="content" matInput></textarea>
+  </mat-form-field>
+  <mat-checkbox formControlName="urgent" name="urgent" name="urgent"
+    >Urgent <mat-icon color="warn">error_outline</mat-icon></mat-checkbox
+  >
+  <mat-form-field appearance="outline">
+    <mat-label>Note</mat-label>
+    <textarea formControlName="note" matInput></textarea>
+  </mat-form-field>
+  <labels formControlName="labels"></labels>
+  <files formControlName="files"></files>
+  <div class="columns">
+    <file-upload-button></file-upload-button>
+    <button mat-raised-button color="primary" cdkFocusInitial>
+      Envoyer <mat-icon>send</mat-icon>
+    </button>
+    <!-- <button mat-raised-button="">VOIR CORRIER ENREGISTRE</button> -->
+  </div>
+</form>

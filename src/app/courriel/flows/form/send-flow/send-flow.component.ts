@@ -59,17 +59,14 @@ export class SendFlowFormComponent implements OnInit {
     const form = this.sendFlowForm.value;
     const flows: any[] = [];
 
-    const userEntity = this.userEntity;
-    const activeUser = this.activeUser;
-
-    if (!userEntity || !activeUser) return;
+    if (!this.userEntity || !this.activeUser) return;
 
     console.log(form);
 
     form.receivers.forEach((entity: Entity) => {
       let flow = {
-        user_id: activeUser.id,
-        initiator_id: userEntity.id,
+        user_id: this.activeUser!.id,
+        initiator_id: this.userEntity!.id,
         action: 2,
         root_id: this.parentFlow.rootId(),
         parent_id: this.parentFlow.id,

@@ -8,10 +8,10 @@
     <h1>
       <mat-icon>send</mat-icon> Envoyer - {{ (parentFlow$ | async)?.title }}
     </h1>
-    <p>
+    <!-- <p>
       Veuillez saisir toutes les informations sur le courrier dans le formulaire
       ci-dessous
-    </p>
+    </p> -->
   </div>
   <entities-chip-autocomplete
     formControlName="receivers"
@@ -33,6 +33,7 @@
   <labels formControlName="labels"></labels>
   <files formControlName="files"></files>
   <div class="columns">
+    <file-upload-button></file-upload-button>
     <button mat-raised-button color="primary" cdkFocusInitial>
       Envoyer <mat-icon>send</mat-icon>
     </button>
