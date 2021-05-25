@@ -94,6 +94,7 @@ import { FileComponent } from './components/files/file/file.component';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SelectUsersComponent } from './components/users/select-users/select-users.component';
+import { ClearOnEscapeDirective } from './directives/clear-on-escape.directive';
 
 registerLocaleData(localeFr);
 
@@ -201,6 +202,8 @@ registerLocaleData(localeFr);
     FileComponent,
 
     SelectUsersComponent,
+
+    ClearOnEscapeDirective,
   ],
   imports: [
     BrowserModule,

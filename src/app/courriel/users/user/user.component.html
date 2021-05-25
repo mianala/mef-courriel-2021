@@ -17,18 +17,20 @@
       }}</span></mat-card-subtitle
     >
   </mat-card-header>
-  <!-- <mat-card-content>
-    <div class="entity" fxFlex fxLayoutGap="1rem" fxLayoutAlign="center center">
-      <mat-icon>domain</mat-icon> <span>{{ user.entity.short_header }}</span>
-    </div>
-  </mat-card-content> -->
+
+  <!-- <mat-card-content></mat-card-content> -->
+
   <mat-card-actions fxLayoutAlign="center">
+    <!-- mail -->
     <button mat-icon-button color="primary">
       <mat-icon>mail_outline</mat-icon>
     </button>
+
+    <!-- chat -->
     <button mat-icon-button color="primary">
       <mat-icon>chat_bubble_outlined</mat-icon>
     </button>
+
     <!-- verify user -->
     <button mat-icon-button *ngIf="!user.verified" (click)="user.verify()">
       <mat-icon class="green">how_to_reg</mat-icon>

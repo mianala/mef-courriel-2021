@@ -71,6 +71,10 @@ export class User {
     return -this.role > -User.Role.MEMBER;
   }
 
+  roleTitle() {
+    return User.Roles.find((user) => user.value == this.role)?.title;
+  }
+
   static Role = {
     LEAD: 1,
     INTERIM: 2,

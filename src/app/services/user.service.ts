@@ -37,12 +37,9 @@ class UserWithActions extends User {
       this.role.toString() || '4'
     );
 
-    console.log(role);
-
     if (!role || !User.RolesArray.includes(parseInt(role))) {
       return;
     }
-    console.log(role);
 
     UserService.getInstance().updateUserRole(this.id, parseInt(role));
   }
@@ -60,7 +57,6 @@ class UserWithActions extends User {
   });
 
   static mapUsers = map((val: any): UserWithActions[] => {
-    console.log(val);
     return val.data.user.map((val: any) => {
       return new UserWithActions(val);
     });
@@ -151,8 +147,6 @@ export class UserService {
 
     if (localStorageUser !== null) {
       console.log('active user from localstorage');
-      console.log(localStorageUser);
-
       this.activeUser$.next(localStorageUser);
     }
 
