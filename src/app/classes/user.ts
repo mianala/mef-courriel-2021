@@ -57,7 +57,7 @@ export class User {
   // implemented in UserWithActions
   desactivate() {}
   activate() {}
-  udpateRight() {}
+  udpateRole(role: number) {}
   verify() {}
   delete() {}
 

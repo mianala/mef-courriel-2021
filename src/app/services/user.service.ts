@@ -22,6 +22,10 @@ class UserWithActions extends User {
     UserService.getInstance().verifyUser(this.id);
   }
 
+  udpateRole(role: number) {
+    UserService.getInstance().updateUserRole(this.id, role);
+  }
+
   static mapActiveAndVerifiedUsers = map((users: UserWithActions[]) => {
     return users.filter((user) => user.active && user.verified);
   });
@@ -251,12 +255,12 @@ export class UserService {
     );
   }
 
-  updateUserRole(role: number) {
+  updateUserRole(user_id: number, role: number) {
     if (!this._activeUser) {
       return;
     }
     const set = { role: role };
-    this.updateUser(this._activeUser.id, set).subscribe((data) =>
+    this.updateUser(user_id, set).subscribe((data) =>
       console.log('updated user role', data)
     );
   }
