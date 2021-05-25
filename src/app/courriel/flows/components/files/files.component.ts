@@ -56,7 +56,7 @@ export class FilesComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     this.files$.pipe(skip(1)).subscribe((files) => {
-      console.log('current fioles', files);
+      console.log('current files', files);
       this.setValue(files);
     });
   }

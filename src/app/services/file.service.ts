@@ -20,6 +20,8 @@ interface IUploadStarted {
   type: number;
 }
 
+class FileWithActions extends File {}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -45,6 +47,10 @@ export class FileService {
 
       this.progress = p;
     });
+
+    if (!FileService.instance) {
+      FileService.instance = this;
+    }
   }
 
   upload(files: FileList) {
@@ -96,5 +102,19 @@ export class FileService {
           break;
       }
     });
+  }
+
+  remove(file: AppFile) {
+    this.files$.next(this.files$.value.slice(this.files$.value.indexOf(file)));
+  }
+
+  static instance: FileService;
+
+  static getInstance() {
+    if (FileService.instance) {
+      return FileService.instance;
+    }
+
+    return FileService.instance;
   }
 }

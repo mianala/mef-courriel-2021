@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Entity } from 'src/app/classes/entity';
 import { FileService } from 'src/app/services/file.service';
@@ -15,6 +15,8 @@ export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
   loading = false;
   user = this.userService._activeUser;
+
+  @HostBinding('class.empty') empty: boolean = true;
 
   constructor(
     private flowService: FlowService,
