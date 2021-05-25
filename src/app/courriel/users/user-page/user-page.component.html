@@ -11,7 +11,9 @@
         {{ user.firstname }}
         {{ user.lastname }}
       </mat-card-title>
-      <mat-card-subtitle>{{ user.title }}</mat-card-subtitle>
+      <mat-card-subtitle
+        >{{ user.title }} - {{ user.roleTitle() }}</mat-card-subtitle
+      >
     </mat-card-header>
     <mat-card-content fxLayout="column" fxLayoutGap=".5rem">
       <div
