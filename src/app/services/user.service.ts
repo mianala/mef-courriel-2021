@@ -81,7 +81,7 @@ export class UserService {
       >
     | undefined;
   unverifiedUsersQuery = this.getUnverifiedUsers();
-  inactivatedUsersQuery = this.getInactiveUsers();
+  desactevatedUsersQuery = this.getInactiveUsers();
   activeAndVerifiedUsersQuery = this.getActiveAndVerifiedUsers();
 
   users$ = this.usersQuery.valueChanges.pipe(UserWithActions.mapUsers);
@@ -94,7 +94,7 @@ export class UserService {
   unverifiedUsers$ = this.unverifiedUsersQuery.valueChanges.pipe(
     UserWithActions.mapUsers
   );
-  inactivatedUsers$ = this.inactivatedUsersQuery.valueChanges.pipe(
+  inactivatedUsers$ = this.desactevatedUsersQuery.valueChanges.pipe(
     UserWithActions.mapUsers
   );
 
