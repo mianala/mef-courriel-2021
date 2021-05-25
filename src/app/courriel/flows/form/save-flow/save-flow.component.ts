@@ -13,7 +13,6 @@ import { FlowService } from '../../flow.service';
 })
 export class SaveFlowFormComponent implements OnInit {
   saveFlowForm = new FormGroup({});
-  files$ = this.fileUploadService.files$;
   loading = false;
   user = this.userService._activeUser;
 
@@ -61,9 +60,6 @@ export class SaveFlowFormComponent implements OnInit {
     });
 
     // push files to files || why not inside files component? Because it will be used everywhere and this isn't
-    this.files$.subscribe((files) => {
-      this.saveFlowForm.patchValue({ files: files });
-    });
   }
 
   preview() {}

@@ -11,7 +11,7 @@ import UserQueries from '../queries/user.queries';
 
 class UserWithActions extends User {
   desactivate() {
-    if (!confirm('Are you sure you want to desactivate this user?')) {
+    if (!confirm('Do you want to desactivate this user?')) {
       return;
     }
     UserService.getInstance().desactivateUser(this.id);

@@ -18,11 +18,18 @@ import { FileService } from 'src/app/services/file.service';
 })
 export class FilesComponent implements OnInit, ControlValueAccessor {
   files: AppFile[] = [];
+  files$ = this.fileService.files$;
 
   progress$ = this.fileService.progress$;
   progress: number[] = [];
 
-  constructor(private fileService: FileService) {}
+  constructor(private fileService: FileService) {
+    this.files$.subscribe((files) => {
+      console.log('current fioles', files);
+
+      this.setValue(files);
+    });
+  }
 
   onChange!: (files: AppFile[] | null) => void;
   onTouched!: () => void;

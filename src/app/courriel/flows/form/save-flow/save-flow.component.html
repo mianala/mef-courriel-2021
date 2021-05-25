@@ -105,9 +105,9 @@
     >
     <labels formControlName="labels"></labels>
 
-    <files *ngIf="(files$ | async)?.length" formControlName="files"></files>
+    <files formControlName="files"></files>
     <div class="columns">
-      <file-upload-button></file-upload-button>
+      <file-upload-button formControlName="files"></file-upload-button>
 
       <button
         [disabled]="!saveFlowForm.valid"
