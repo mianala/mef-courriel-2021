@@ -37,6 +37,9 @@
       <mat-icon class="green">arrow_circle_up</mat-icon>
     </button>
     <button mat-icon-button *ngIf="user.active" (click)="user.desactivate()">
+      <mat-icon color="warn">admin_panel_settings</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="user.active" (click)="user.desactivate()">
       <mat-icon color="warn">remove_circle</mat-icon>
     </button>
     <button mat-icon-button (click)="transfer()">
