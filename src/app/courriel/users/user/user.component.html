@@ -12,10 +12,9 @@
     </mat-card-title>
     <mat-card-subtitle
       >{{ user.title }} -
-      <span class="short-header">{{
-        user.entity.short_header
-      }}</span></mat-card-subtitle
-    >
+      <span class="short-header">{{ user.entity.short_header }}</span> -
+      <span class="role-title">{{ user.roleTitle() }}</span>
+    </mat-card-subtitle>
   </mat-card-header>
 
   <!-- <mat-card-content></mat-card-content> -->

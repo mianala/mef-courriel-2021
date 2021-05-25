@@ -29,6 +29,7 @@ export class Link {
   static FLOW_APP = `${Link.FLOW_ROOT}/${Link.FLOW_STRING}`; // Link.FLOW
   static FLOWS_INBOX = `${Link.FLOW_APP}/inbox`; // Link.FLOWS
   static FLOWS_ASSIGNED = `${Link.FLOW_APP}/assigned`; // Link.FLOWS
+
   static FLOWS_SENT = `${Link.FLOW_APP}/sent`; // Link.FLOWS
   static FLOW_PAGE = `${Link.FLOW_APP}/project`; // Link.FLOW_PAGE
   static FLOW_ASSIGN = `${Link.FLOW_APP}/assign`; // Link.FLOW_ASSIGN

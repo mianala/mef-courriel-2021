@@ -72,7 +72,9 @@ export class User {
   }
 
   roleTitle() {
-    return User.Roles.find((user) => user.value == this.role)?.title;
+    return (
+      User.Roles.find((user) => user.value == this.role)?.title || 'Member'
+    );
   }
 
   static Role = {
