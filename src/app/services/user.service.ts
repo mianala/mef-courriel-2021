@@ -126,6 +126,8 @@ export class UserService {
 
     if (localStorageUser !== null) {
       console.log('active user from localstorage');
+      console.log(localStorageUser);
+
       this.activeUser$.next(localStorageUser);
     }
 

@@ -64,6 +64,22 @@ export class User {
 
   static SETTINGS_DEFAULT_LETTER_TEXT = 'Lecture';
 
+  hasAccessToInbox() {}
+
+  static Role = {
+    LEAD: 1,
+    INTERIM: 2,
+    SECRETARY: 3,
+    MEMBER: 4,
+  };
+
+  static Roles = [
+    { value: 1, title: 'Lead' },
+    { value: 2, title: 'Interim' },
+    { value: 3, title: 'Secretary' },
+    { value: 4, title: 'Member' },
+  ];
+
   // omitted , default which is flow, to test user settings in user services
   static default_apps = [Link.SEARCH_APP, Link.CHAT_APP, Link.FLOWS_INBOX];
 }
