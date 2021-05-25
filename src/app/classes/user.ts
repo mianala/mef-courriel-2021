@@ -78,6 +78,8 @@ export class User {
     MEMBER: 4,
   };
 
+  static RolesArray = [1, 2, 3, 4];
+
   static Roles = [
     { value: 1, title: 'Lead' },
     { value: 2, title: 'Interim' },

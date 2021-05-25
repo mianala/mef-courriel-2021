@@ -31,14 +31,18 @@ class UserWithActions extends User {
     UserService.getInstance().verifyUser(this.id);
   }
 
-  udpateRole() {
+  updateRole() {
     const role = prompt(
       'LEAD:1, INTERIM:2, SECRETARY:3, MEMBER:4',
       this.role.toString() || '4'
     );
-    if (!role) {
+
+    console.log(role);
+
+    if (!role || !User.RolesArray.includes(parseInt(role))) {
       return;
     }
+    console.log(role);
 
     UserService.getInstance().updateUserRole(this.id, parseInt(role));
   }
@@ -277,9 +281,10 @@ export class UserService {
       return;
     }
     const set = { role: role };
-    this.updateUser(user_id, set).subscribe((data) =>
-      console.log('updated user role', data)
-    );
+    this.updateUser(user_id, set).subscribe((data) => {
+      this.notification.notify('Role Mis à jour');
+      console.log('updated user role', data);
+    });
   }
 
   updateDefaultApp(default_app: string) {
