@@ -20,8 +20,11 @@ export class AssignFlowComponent implements OnInit {
   parentFlow: Flow = new Flow();
   activeUser = this.userService._activeUser;
   queryParams$ = this.route.queryParams;
+
   userEntity$ = this.entityService.userEntity$;
-  userEntity = this.entityService._userEntity;
+
+  entityUsers$ = this.userService.entityUsers$;
+
   activeUser$ = this.userService.activeUser$;
   flowId$ = this.queryParams$.pipe(map((params) => parseInt(params.flow_id)));
   parentFlow$ = this.flowId$.pipe(
@@ -59,14 +62,18 @@ export class AssignFlowComponent implements OnInit {
     const form = this.sendFlowForm.value;
     const flows: any[] = [];
 
-    if (!this.userEntity || !this.activeUser) return;
+    const userEntity = this.entityService.userEntity$.value;
+
+    console.log('activeUser', this.activeUser, 'activeEntity', userEntity);
+
+    if (!userEntity || !this.activeUser) return;
 
     console.log(form);
 
     form.users.forEach((user: User) => {
       let flow = {
         user_id: this.activeUser!.id,
-        initiator_id: this.userEntity!.id,
+        initiator_id: userEntity!.id,
         action: 2,
         root_id: this.parentFlow.rootId(),
         parent_id: this.parentFlow.id,
@@ -76,7 +83,7 @@ export class AssignFlowComponent implements OnInit {
         files: form.files,
         status: form.urgent ? 1 : null,
         assignee_id: user.id,
-        owner_text: user.firstname + ' ' + user.lastname + ' ' + user.im,
+        owner_text: user.userString(),
       };
 
       flows.push(flow);

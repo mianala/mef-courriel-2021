@@ -13,7 +13,13 @@
       ci-dessous
     </p> -->
   </div>
-  <div class="users"></div>
+  <div class="users columns">
+    <mat-selection-list formControlName="users">
+      <mat-list-option *ngFor="let user of entityUsers$ | async" [value]="user">
+        {{ user.userString() }}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
 
   <mat-form-field appearance="outline">
     <mat-label>Observations / Instructions</mat-label>
@@ -30,9 +36,7 @@
   <files formControlName="files"></files>
   <div class="columns">
     <file-upload-button></file-upload-button>
-    <button mat-raised-button color="primary" cdkFocusInitial>
-      Envoyer <mat-icon>send</mat-icon>
-    </button>
+    <button mat-raised-button color="primary" cdkFocusInitial>Envoyer</button>
     <!-- <button mat-raised-button="">VOIR CORRIER ENREGISTRE</button> -->
   </div>
 </form>

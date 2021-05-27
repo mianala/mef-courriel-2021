@@ -22,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatList, MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
@@ -31,6 +32,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     CommonModule,
     MatProgressSpinnerModule,
     MatButtonModule,
+    MatListModule,
     MatSnackBarModule,
     MatIconModule,
     MatDatepickerModule,
@@ -66,6 +68,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogModule,
     MatSelectModule,
     MatPaginatorModule,
+    MatListModule,
     MatMenuModule,
     MatInputModule,
     MatTooltipModule,

@@ -26,6 +26,10 @@ export class User {
     Object.assign(this, _user);
   }
 
+  userString() {
+    return `${this.firstname} ${this.lastname} - ${this.im}`;
+  }
+
   static core_user_fields = gql`
     fragment CoreUserFields on user {
       id
