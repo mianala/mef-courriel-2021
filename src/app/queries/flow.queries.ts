@@ -45,6 +45,15 @@ const FlowQueries = {
     }
   `,
 
+  ASSIGNED: gql`
+    ${Flow.ITEM_FLOW_FIELDS}
+    query get_assigned_flows($user_id: Int!) {
+      flow(where: { assignee_id: { _eq: $user_id } }, order_by: { id: desc }) {
+        ...ItemFlowFields
+      }
+    }
+  `,
+
   SENT: gql`
     ${Flow.ITEM_FLOW_FIELDS}
 

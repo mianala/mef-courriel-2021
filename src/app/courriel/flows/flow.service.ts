@@ -83,6 +83,9 @@ export class FlowService {
   activeUser$ = this.userService.activeUser$.pipe(filter((user) => !!user));
 
   inboxFlows$: Observable<Flow[]> | undefined;
+  sentFlows$: Observable<Flow[]> | undefined;
+  assignedFlows$: Observable<Flow[]> | undefined;
+
   inboxFlowsQuery:
     | QueryRef<
         unknown,
@@ -91,12 +94,19 @@ export class FlowService {
         }
       >
     | undefined;
-  sentFlows$: Observable<Flow[]> | undefined;
   sentFlowsQuery:
     | QueryRef<
         unknown,
         {
           entity_id: number;
+        }
+      >
+    | undefined;
+  assignedFlowsQuery:
+    | QueryRef<
+        unknown,
+        {
+          user_id: number;
         }
       >
     | undefined;
@@ -106,17 +116,20 @@ export class FlowService {
     private entityService: EntityService,
     private userService: UserService,
     private location: Location,
-    private router: Router,
     private notification: NotificationService
   ) {
     this.activeUser$.subscribe((user: User | null) => {
       this.inboxFlowsQuery = this.inboxFlows(user!.entity.id);
       this.sentFlowsQuery = this.sentFlows(user!.entity.id);
+      this.assignedFlowsQuery = this.assignedFlows(user!.id);
 
       this.inboxFlows$ = this.inboxFlowsQuery.valueChanges.pipe(
         FlowWithActions.mapFlows
       );
       this.sentFlows$ = this.sentFlowsQuery.valueChanges.pipe(
+        FlowWithActions.mapFlows
+      );
+      this.assignedFlows$ = this.assignedFlowsQuery.valueChanges.pipe(
         FlowWithActions.mapFlows
       );
     });
@@ -170,6 +183,14 @@ export class FlowService {
     return this.apollo.watchQuery({
       query: FlowQueries.INBOX,
       variables: { entity_id: entity_id },
+      fetchPolicy: 'cache-and-network',
+    });
+  };
+
+  assignedFlows = (user_id: number) => {
+    return this.apollo.watchQuery({
+      query: FlowQueries.ASSIGNED,
+      variables: { user_id: user_id },
       fetchPolicy: 'cache-and-network',
     });
   };
