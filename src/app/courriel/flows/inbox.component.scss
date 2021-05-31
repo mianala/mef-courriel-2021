@@ -2,6 +2,10 @@
 @import "~src/styles/flow-list";
 @import "~src/styles/padding";
 
+// tabs
+.mat-tab-link.mat-tab-label-active .mat-icon {
+  color: $primary;
+}
 section.actions {
   margin-bottom: 1rem;
   flex-wrap: wrap;

@@ -15,12 +15,15 @@
     *ngFor="let tab of tabs"
     [routerLink]="Link.FLOWS_INBOX"
     [queryParams]="{ tab: tab.tab }"
-    [active]="(activeTab$ | async) == tab.tab"
-    ><mat-icon>{{ tab.icon }}</mat-icon> {{ tab.title }}</a
+    [active]="activeTab == tab.tab"
+    ><mat-icon [matBadge]="tab.unread | async" matBadgeColor="accent">{{
+      tab.icon
+    }}</mat-icon>
+    <span style="margin-left: 1rem"> {{ tab.title }}</span></a
   >
 </nav>
 
-<section #recentFlows *ngIf="inboxFlows$ | async as flows; else loading">
+<section *ngIf="flows$ | async as flows; else loading">
   <div
     class="empty"
     *ngIf="!flows.length"
