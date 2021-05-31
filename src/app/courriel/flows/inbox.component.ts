@@ -4,7 +4,6 @@ import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { Flow } from 'src/app/classes/flow';
 import { Link } from 'src/app/classes/link';
 import { Strings } from 'src/app/classes/strings';
-import Observable from 'zen-observable';
 import { FlowService } from './flow.service';
 @Component({
   selector: 'inbox',
