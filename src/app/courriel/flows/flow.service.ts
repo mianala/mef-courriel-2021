@@ -33,12 +33,12 @@ class FlowWithActions extends Flow {
   }
 
   toggleRead() {
-    FlowService.getInstance().refetchFlows();
     if (!this.read) {
       this.markAsRead();
     } else {
       this.markAsUnread();
     }
+    FlowService.getInstance().refetchFlows();
   }
 
   viewRoute() {}
