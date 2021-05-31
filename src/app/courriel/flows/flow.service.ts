@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { Flow } from 'src/app/classes/flow';
 import { User } from 'src/app/classes/user';
 import FlowQueries from 'src/app/queries/flow.queries';
@@ -33,6 +33,7 @@ class FlowWithActions extends Flow {
   }
 
   toggleRead() {
+    FlowService.getInstance().refetchFlows();
     if (!this.read) {
       this.markAsRead();
     } else {
@@ -80,7 +81,24 @@ export class FlowService {
   searchAppResult$ = new BehaviorSubject<Flow[]>([]);
 
   searchFlows$ = new BehaviorSubject<Flow[]>([]);
-  activeUser$ = this.userService.activeUser$.pipe(filter((user) => !!user));
+  activeUser$ = this.userService.activeUser$.pipe(
+    filter((user) => !!user),
+    tap((user: User | null) => {
+      this.inboxFlowsQuery = this.inboxFlows(user!.entity.id);
+      this.sentFlowsQuery = this.sentFlows(user!.entity.id);
+      this.assignedFlowsQuery = this.assignedFlows(user!.id);
+
+      this.inboxFlows$ = this.inboxFlowsQuery.valueChanges.pipe(
+        FlowWithActions.mapFlows
+      );
+      this.sentFlows$ = this.sentFlowsQuery.valueChanges.pipe(
+        FlowWithActions.mapFlows
+      );
+      this.assignedFlows$ = this.assignedFlowsQuery.valueChanges.pipe(
+        FlowWithActions.mapFlows
+      );
+    })
+  );
 
   inboxFlows$: Observable<Flow[]> | undefined;
   sentFlows$: Observable<Flow[]> | undefined;
@@ -118,21 +136,7 @@ export class FlowService {
     private location: Location,
     private notification: NotificationService
   ) {
-    this.activeUser$.subscribe((user: User | null) => {
-      this.inboxFlowsQuery = this.inboxFlows(user!.entity.id);
-      this.sentFlowsQuery = this.sentFlows(user!.entity.id);
-      this.assignedFlowsQuery = this.assignedFlows(user!.id);
-
-      this.inboxFlows$ = this.inboxFlowsQuery.valueChanges.pipe(
-        FlowWithActions.mapFlows
-      );
-      this.sentFlows$ = this.sentFlowsQuery.valueChanges.pipe(
-        FlowWithActions.mapFlows
-      );
-      this.assignedFlows$ = this.assignedFlowsQuery.valueChanges.pipe(
-        FlowWithActions.mapFlows
-      );
-    });
+    this.activeUser$.subscribe();
 
     if (!FlowService.instance) {
       FlowService.instance = this;
@@ -160,6 +164,13 @@ export class FlowService {
       })
       .pipe(FlowWithActions.mapFlows);
   }
+
+  // FIXME: optimize
+  refetchFlows = () => {
+    this.inboxFlowsQuery?.refetch();
+    this.assignedFlowsQuery?.refetch();
+    this.sentFlowsQuery?.refetch();
+  };
 
   deleteFlow(flow_id: number) {
     if (!confirm('Voulez-vous vraiment supprimer ce courriel?')) {

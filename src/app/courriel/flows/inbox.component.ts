@@ -81,7 +81,7 @@ export class FlowsComponent implements OnInit {
     {
       tab: Strings.inboxTypes.assigned.tabLabel,
       title: Strings.inboxTypes.assigned.title,
-      icon: 'badge',
+      icon: 'work_outline',
       id: 0,
       order: 0,
       unread: this.unreadAssignedxFlows$,
