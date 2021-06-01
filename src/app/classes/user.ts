@@ -1,6 +1,6 @@
 import { gql } from 'apollo-angular';
 import { Entity } from './entity';
-import { Md5 } from 'ts-md5/dist/md5';
+// import { Md5 } from 'ts-md5/dist/md5';
 import { Link } from './link';
 
 export class User {
@@ -65,9 +65,9 @@ export class User {
   verify() {}
   delete() {}
 
-  emailMD5() {
-    return new Md5().appendStr(this.email).end();
-  }
+  // emailMD5() {
+  //   return new Md5().appendStr(this.email).end();
+  // }
 
   static SETTINGS_DEFAULT_LETTER_TEXT = 'Lecture';
 
