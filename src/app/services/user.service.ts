@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { User } from 'src/app/classes/user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Link } from '../classes/link';
@@ -243,7 +243,7 @@ export class UserService {
     this.activeUser$.next(user);
 
     this.updateUserLastLogin();
-    localStorage.setItem('user', JSON.stringify(users[0]));
+    localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('logged_in', new Date().toString());
 
     if (User.default_apps.includes(user.settings_default_app)) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 import { Flow } from 'src/app/classes/flow';
 import { Link } from 'src/app/classes/link';
 import { Strings } from 'src/app/classes/strings';
@@ -17,7 +17,7 @@ export class FlowsComponent implements OnInit {
   activeTab = 'MAIN';
   Link = Link;
 
-  inboxFlows$ = this.flowService.inboxFlows$;
+  inboxFlows$ = this.flowService.inboxFlows$?.pipe(share());
 
   unreadInboxFlows$ = this.inboxFlows$?.pipe(
     map((flows: Flow[]) => {
@@ -26,7 +26,7 @@ export class FlowsComponent implements OnInit {
     })
   );
 
-  assignedFlows$ = this.flowService.assignedFlows$;
+  assignedFlows$ = this.flowService.assignedFlows$?.pipe(share());
 
   unreadAssignedxFlows$ = this.assignedFlows$?.pipe(
     map((flows: Flow[]) => {
