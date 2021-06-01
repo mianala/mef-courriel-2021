@@ -17,15 +17,13 @@
     "target": "es2015",
     "module": "es2020",
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "lib": ["es2018", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
+    "enableIvy": false,
     "strictTemplates": true
   }
 }
