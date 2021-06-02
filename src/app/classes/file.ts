@@ -7,6 +7,7 @@ export class AppFile {
   name = '';
   size = 0;
   type = '';
+  attachment = true; // just an attachment? if not then we are able to add signature to this file
 
   // TODO: remove src after next version | it's been replaced by URL
   src = '';

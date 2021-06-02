@@ -1,6 +1,5 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';

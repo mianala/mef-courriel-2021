@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@almothafar/angular-signature-pad@^3.0.0-beta.7":
+  "integrity" "sha512-P9wrgl5vHWW75B30O5dRL9lb1K+x1GNM29WnefIuO/Uf9DZ0B3gqCrolgYS7CBSGhLP/LLIc7kTCjaO8CRM51w=="
+  "resolved" "https://registry.npmjs.org/@almothafar/angular-signature-pad/-/angular-signature-pad-3.0.0-beta.7.tgz"
+  "version" "3.0.0-beta.7"
+  dependencies:
+    "signature_pad" "~3.0.0-beta.4"
+    "tslib" "^2.1.0"
+
 "@angular-devkit/architect@0.1200.2":
   "integrity" "sha512-Vy/dE1iwEiV63cxcU+SC+Lf5SUnY64vg9J3YA3jxFlJnELbxxN+T7xDfjMEMPoLzTY02K9XNb8ZGLStZxVmZLg=="
   "resolved" "https://registry.npmjs.org/@angular-devkit/architect/-/architect-0.1200.2.tgz"
@@ -163,7 +171,7 @@
     "symbol-observable" "4.0.0"
     "uuid" "8.3.2"
 
-"@angular/common@^11.0.0 || ^12.0.0-0", "@angular/common@^11.2.0", "@angular/common@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/common@>=12.0.0", "@angular/common@~12.0.2", "@angular/common@12.0.2":
+"@angular/common@^10.0.0 || ^11.0.0 || ^12.0.0", "@angular/common@^11.0.0 || ^12.0.0-0", "@angular/common@^11.2.0", "@angular/common@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/common@>=12.0.0", "@angular/common@~12.0.2", "@angular/common@12.0.2":
   "integrity" "sha512-KJFtqdIGVrF97iK3zcN9FoQ1fDsc/u4ez1Qtx0HdH21qAuAvK/FYybg4r1G6miXoUJcO8hu9oRddEoiNPkXAew=="
   "resolved" "https://registry.npmjs.org/@angular/common/-/common-12.0.2.tgz"
   "version" "12.0.2"
@@ -197,7 +205,7 @@
   dependencies:
     "tslib" "^2.1.0"
 
-"@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^11.2.0", "@angular/core@^6.1.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@>=12.0.0", "@angular/core@~12.0.2", "@angular/core@12.0.2":
+"@angular/core@^10.0.0 || ^11.0.0 || ^12.0.0", "@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^11.2.0", "@angular/core@^6.1.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@^9.0.0 || ^10.0.0 || ^11.0.0", "@angular/core@>=12.0.0", "@angular/core@~12.0.2", "@angular/core@12.0.2":
   "integrity" "sha512-RBTl8L2ckSI3n2lo9rmwlUeZAuEd/TWUjoidoxPYWrKfbnFwKX65idCCbWLJivSVIBnPQYvAdC+3k4w40N9AWA=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-12.0.2.tgz"
   "version" "12.0.2"
@@ -8048,6 +8056,11 @@
   "integrity" "sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA=="
   "resolved" "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.3.tgz"
   "version" "3.0.3"
+
+"signature_pad@~3.0.0-beta.4":
+  "integrity" "sha512-cOf2NhVuTiuNqe2X/ycEmizvCDXk0DoemhsEpnkcGnA4kS5iJYTCqZ9As7tFBbsch45Q1EdX61833+6sjJ8rrw=="
+  "resolved" "https://registry.npmjs.org/signature_pad/-/signature_pad-3.0.0-beta.4.tgz"
+  "version" "3.0.0-beta.4"
 
 "slash@^3.0.0":
   "integrity" "sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q=="

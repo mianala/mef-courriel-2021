@@ -95,6 +95,9 @@ import { FileComponent } from './components/files/file/file.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SelectUsersComponent } from './components/users/select-users/select-users.component';
 import { ClearOnEscapeDirective } from './directives/clear-on-escape.directive';
+import { SignaturePadComponent } from './components/signature-pad/signature-pad.component';
+
+import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
 
 registerLocaleData(localeFr);
 
@@ -204,6 +207,7 @@ registerLocaleData(localeFr);
     SelectUsersComponent,
 
     ClearOnEscapeDirective,
+    SignaturePadComponent,
   ],
   imports: [
     BrowserModule,
@@ -215,7 +219,7 @@ registerLocaleData(localeFr);
     ReactiveFormsModule,
     FormsModule,
     PdfViewerModule,
-
+    AngularSignaturePadModule,
     MaterialModule,
     NgxDocViewerModule,
   ],
