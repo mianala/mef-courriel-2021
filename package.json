@@ -39,6 +39,7 @@
     "ng2-pdf-viewer": "^7.0.1",
     "ngx-doc-viewer": "^2.0.2",
     "rxjs": "~6.6.0",
+    "signature_pad": "^3.0.0-beta.4",
     "subscriptions-transport-ws": "^0.9.18",
     "tslib": "^2.1.0",
     "ws": "^7.4.4",
