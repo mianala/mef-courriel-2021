@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import SignaturePad, { Options, PointGroup } from 'signature_pad';
 
@@ -8,10 +8,19 @@ import SignaturePad, { Options, PointGroup } from 'signature_pad';
   styleUrls: ['./signature-pad.component.scss'],
 })
 export class SignaturePadComponent implements OnInit {
-  constructor() {}
-  @ViewChild('canvas') signature: any;
+  constructor(private elementRef: ElementRef) {}
+
+  signaturePad: SignaturePad | undefined;
 
   ngOnInit(): void {
-    new SignaturePad(this.signature);
+    const signatureCanvas: HTMLCanvasElement | null =
+      this.elementRef.nativeElement.querySelector('#canvas');
+    if (signatureCanvas) {
+      this.signaturePad = new SignaturePad(signatureCanvas, {
+        minWidth: 5,
+        maxWidth: 10,
+        penColor: 'rgb(10, 10, 10)',
+      });
+    }
   }
 }
