@@ -97,8 +97,6 @@ import { SelectUsersComponent } from './components/users/select-users/select-use
 import { ClearOnEscapeDirective } from './directives/clear-on-escape.directive';
 import { SignaturePadComponent } from './components/signature-pad/signature-pad.component';
 
-import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
-
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -219,7 +217,6 @@ registerLocaleData(localeFr);
     ReactiveFormsModule,
     FormsModule,
     PdfViewerModule,
-    AngularSignaturePadModule,
     MaterialModule,
     NgxDocViewerModule,
   ],
