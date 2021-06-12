@@ -180,6 +180,31 @@ export class Flow {
     }
   `;
 
+  static INBOX_FLOW_FIELDS = gql`
+    ${Flow.CORE_FLOW_FIELDS}
+
+    fragment InboxFlowFields on flow {
+      ...CoreFlowFields
+
+      initiator {
+        short
+        long
+      }
+      parent {
+        title
+        content
+      }
+      root {
+        title
+        content
+      }
+      owner {
+        short
+        long
+      }
+    }
+  `;
+
   static ITEM_FLOW_FIELDS = gql`
     ${Entity.CORE_ENTITY_FIELDS}
     ${Flow.CORE_FLOW_FIELDS}

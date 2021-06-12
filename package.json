@@ -1,6 +1,6 @@
 {
   "name": "mef-courriel",
-  "version": "0.0.0",
+  "version": "2021.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

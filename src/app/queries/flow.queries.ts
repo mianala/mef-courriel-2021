@@ -37,10 +37,10 @@ const FlowQueries = {
   `,
 
   INBOX: gql`
-    ${Flow.ITEM_FLOW_FIELDS}
+    ${Flow.INBOX_FLOW_FIELDS}
     query get_inbox_flows($entity_id: Int!) {
       flow(where: { owner_id: { _eq: $entity_id } }, order_by: { id: desc }) {
-        ...ItemFlowFields
+        ...InboxFlowFields
       }
     }
   `,

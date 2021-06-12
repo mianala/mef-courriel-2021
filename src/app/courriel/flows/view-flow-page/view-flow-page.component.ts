@@ -39,7 +39,10 @@ export class ViewFlowPageComponent implements OnInit {
       }
 
       if (flow.files) {
-        this.activeFile = flow.files[0];
+        const defaultFlow = flow.files[0];
+        console.log(defaultFlow);
+
+        this.activeFile = defaultFlow;
       }
     });
   }

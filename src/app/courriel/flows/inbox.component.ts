@@ -17,7 +17,7 @@ export class FlowsComponent implements OnInit {
   activeTab = 'MAIN';
   Link = Link;
 
-  inboxFlows$ = this.flowService.inboxFlows$?.pipe(share());
+  inboxFlows$ = this.flowService.inboxFlows$;
 
   unreadInboxFlows$ = this.inboxFlows$?.pipe(
     map((flows: Flow[]) => {
@@ -26,7 +26,7 @@ export class FlowsComponent implements OnInit {
     })
   );
 
-  assignedFlows$ = this.flowService.assignedFlows$?.pipe(share());
+  assignedFlows$ = this.flowService.assignedFlows$;
 
   unreadAssignedxFlows$ = this.assignedFlows$?.pipe(
     map((flows: Flow[]) => {

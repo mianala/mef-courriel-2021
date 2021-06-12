@@ -34,6 +34,7 @@ export class AppFile {
   `;
 
   url() {
+    if (!this.destination) return '';
     const path = this.destination.replace('uploads/', '');
     return `${environment.file_server}/${path}/${this.filename}`;
   }
