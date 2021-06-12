@@ -4,21 +4,22 @@
 :host {
   border-bottom: 1px solid aliceblue;
   padding: 0.5rem;
+
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   // flex-wrap: wrap;
   .headers {
     .reference {
-      border-bottom: 1px solid $accent;
-
       overflow: hidden;
       text-overflow: ellipsis;
-      width: clamp(min-content, auto, 4em);
+      white-space: nowrap;
+      width: 7rem;
     }
     .numero {
     }
     .sender {
       font-weight: bold;
+      // border-bottom: 1px dashed $accent;
     }
   }
 
@@ -26,11 +27,17 @@
     flex: 1 1 auto;
     flex-direction: column;
 
+    min-width: 0;
+
     color: inherit; /* blue colors for links too */
     text-decoration: inherit; /* no underline */
     .title {
       outline: 0;
       font-weight: bold;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       &:after {
         content: "";
@@ -58,6 +65,10 @@
     }
     .observation {
       font-weight: 300;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -104,7 +115,7 @@
     // box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
     // 0 1px 5px 0 rgb(0 0 0 / 12%);
 
-    padding-right: 10rem;
+    padding-right: 15rem;
 
     .actions {
       visibility: visible;
