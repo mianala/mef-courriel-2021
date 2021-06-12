@@ -97,6 +97,9 @@ export class Flow {
   sender() {
     return this.initiator_id ? this.initiator.short : this.initiator_text;
   }
+  senderLong() {
+    return this.initiator_id ? this.initiator.long : this.initiator_text;
+  }
 
   receiver() {
     return this.owner_id ? this.owner.short : this.owner_text;

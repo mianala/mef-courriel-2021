@@ -3,6 +3,7 @@
     mat-icon-button
     [ngSwitch]="flow.important"
     (click)="flow.toggleImportant()"
+    title="Important"
   >
     <ng-container *ngSwitchCase="false">
       <mat-icon color="primary" class="mat-18"
@@ -20,10 +21,10 @@
     <span class="numero">
       {{ flow.numero }}
     </span>
-    <span class="sender">
+    <span class="sender" [title]="flow.senderLong()">
       {{ flow.sender() }}
     </span>
-    <div class="reference">{{ flow.reference }}</div>
+    <div class="reference" [title]="flow.reference">{{ flow.reference }}</div>
   </ng-container>
 
   <!-- sent -->
@@ -49,10 +50,10 @@
   [routerLink]="Link.FLOW_PAGE"
   [queryParams]="{ flow_id: flow.id }"
 >
-  <div class="title">
+  <div class="title" [title]="flow.r.title()">
     {{ flow.r.title() }}
   </div>
-  <div class="observation">
+  <div class="observation" [title]="flow.content">
     {{ flow.content }}
   </div>
 </a>

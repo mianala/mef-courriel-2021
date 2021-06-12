@@ -10,7 +10,10 @@
   .headers {
     .reference {
       border-bottom: 1px solid $accent;
-      width: clamp(min-content, auto, max-content);
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: clamp(min-content, auto, 4em);
     }
     .numero {
     }
