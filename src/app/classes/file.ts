@@ -9,7 +9,7 @@ export class AppFile {
   type = '';
   attachment = true; // just an attachment? if not then we are able to add signature to this file
 
-  // TODO: remove src after next version | it's been replaced by URL
+  // use src for files not stored in other server or as URL
   src = '';
 
   destination = '';
@@ -34,7 +34,7 @@ export class AppFile {
   `;
 
   url() {
-    if (!this.destination) return '';
+    if (!this.destination) return this.src;
     const path = this.destination.replace('uploads/', '');
     return `${environment.file_server}/${path}/${this.filename}`;
   }
