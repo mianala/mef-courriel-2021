@@ -215,6 +215,18 @@ export class UserService {
     });
   }
 
+  getMapEntityUsers(entity_id: number) {
+    return this.apollo
+      .watchQuery({
+        query: UserQueries.ENTITY_USERS,
+        variables: {
+          entity_id: entity_id,
+        },
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(UserWithActions.mapUsers);
+  }
+
   logIn(variables: { username: any; hashed: any }, next: () => void) {
     this.apollo
       .query({

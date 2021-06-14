@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="entity$ | async as entity">
   <div class="about">
     <h1>{{ entity.short }}</h1>
     <h3>{{ entity.short_header }}</h3>
@@ -41,5 +41,5 @@
 </header>
 
 <div class="users">
-  <user *ngFor="let user of entity.users" [user]="user"></user>
+  <user *ngFor="let user of entityUsers$ | async" [user]="user"></user>
 </div>

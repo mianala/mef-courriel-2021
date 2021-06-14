@@ -14,12 +14,7 @@ export class EntityUsersComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private entityService: EntityService
-  ) {
-    this.entity_id = parseInt(this.route.snapshot.params.entity_id);
-    this.entityService
-      .getEntity(this.entity_id)
-      .subscribe((data) => (this.entity = data[0]));
-  }
+  ) {}
 
   ngOnInit(): void {}
 }

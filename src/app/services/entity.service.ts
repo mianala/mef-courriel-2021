@@ -178,6 +178,7 @@ export class EntityService {
     });
   }
 
+  // TODO: check where this function is used and refactor to observable
   getEntity(id: number) {
     return this.apollo
       .query({
@@ -186,7 +187,10 @@ export class EntityService {
           id: id,
         },
       })
-      .pipe(EntityWithActions.mapEntities);
+      .pipe(
+        EntityWithActions.mapEntities,
+        map((entities) => entities[0])
+      );
   }
 
   getEntityWithUsers(id: number) {

@@ -36,8 +36,8 @@ export class EditEntityComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getEntity(data: any) {
-    Object.assign(this.entity, data[0]);
+  getEntity(data: Entity) {
+    Object.assign(this.entity, data);
 
     this.editEntityForm.patchValue({
       level: this.entity.level,

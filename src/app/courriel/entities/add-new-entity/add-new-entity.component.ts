@@ -22,6 +22,7 @@ export class AddNewEntityComponent implements OnInit {
     short_header: new FormControl(''),
   });
 
+  // refactor observables
   constructor(
     private route: ActivatedRoute,
     private entityService: EntityService
@@ -36,8 +37,8 @@ export class AddNewEntityComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getEntity(entities: Entity[]) {
-    Object.assign(this.parent_entity, entities[0]);
+  getEntity(entity: Entity) {
+    Object.assign(this.parent_entity, entity);
 
     this.newNewEntityForm.patchValue({
       level: this.parent_entity.level + 1,
