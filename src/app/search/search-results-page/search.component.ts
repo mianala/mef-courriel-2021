@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { FlowService } from 'src/app/courriel/flows/flow.service';
 import { UserService } from 'src/app/services/user.service';
 import { Entity } from 'src/app/classes/entity';
@@ -43,13 +43,10 @@ export class SearchResultComponent implements OnInit {
     })
   );
 
-  constructor(
-    public flowService: FlowService,
-    private searchService: SearchService,
-    public userService: UserService,
-    route: ActivatedRoute
-  ) {
-    route.queryParams.subscribe((data) => {
+  params$ = this.route.queryParams.pipe(
+    tap((data) => {
+      console.log(data);
+
       this.results$.next([]);
 
       let searchFilters: any = { _and: {} };
@@ -70,13 +67,20 @@ export class SearchResultComponent implements OnInit {
       entityFilter && (searchFilters._and.initiator_id = { _eq: entityFilter });
       labelFilter && (searchFilters._and.labels = { _eq: labelFilter });
 
-      console.log('searchFilters', searchFilters);
-
       this.flowService.searchApp(searchFilters);
-    });
-  }
+    })
+  );
 
-  ngOnInit(): void {}
+  constructor(
+    public flowService: FlowService,
+    private searchService: SearchService,
+    public userService: UserService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.params$.subscribe();
+  }
 
   filterEntity() {}
 }

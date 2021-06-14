@@ -275,7 +275,7 @@ export class FlowService {
   // search from received query
   searchQuery(searchFlowVariables: any) {
     searchFlowVariables.owner_id = {
-      _eq: this.entityService._userEntity!.id,
+      _eq: this.userService._activeUser!.entity_id,
     };
 
     return this.apollo
