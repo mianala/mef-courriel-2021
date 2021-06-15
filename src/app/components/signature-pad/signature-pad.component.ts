@@ -1,8 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import SignaturePad, { Options, PointGroup } from 'signature_pad';
 
-import { jsPDF } from 'jspdf';
 @Component({
   selector: 'signature-pad',
   templateUrl: './signature-pad.component.html',
@@ -36,30 +35,25 @@ export class SignaturePadComponent implements OnInit {
   }
 
   initializeJsPDF() {
-    const doc = new jsPDF();
-
-    doc.addImage(this.stampLink, 'PNG', 10, 10, 60, 60);
+    // const doc = new jsPDF();
+    // doc.addImage(this.stampLink, 'PNG', 10, 10, 60, 60);
     // doc.save('a4.pdf');
   }
 
   printSignature() {
-    const doc = new jsPDF();
-    const signatureData = this.signaturePad?.toDataURL();
-
-    if (!signatureData) return;
-    doc.addImage(signatureData, 'PNG', 50, 50, 60, 120);
-
-    doc.save('a4.pdf');
+    // const doc = new jsPDF();
+    // const signatureData = this.signaturePad?.toDataURL();
+    // if (!signatureData) return;
+    // doc.addImage(signatureData, 'PNG', 50, 50, 60, 120);
+    // doc.save('a4.pdf');
   }
 
   print() {
-    const doc = new jsPDF();
-    const signatureData = this.signaturePad?.toDataURL();
-
-    if (!signatureData) return;
-    doc.addImage(signatureData, 'PNG', 50, 50, 60, 120);
-
-    doc.save('a4.pdf');
+    // const doc = new jsPDF();
+    // const signatureData = this.signaturePad?.toDataURL();
+    // if (!signatureData) return;
+    // doc.addImage(signatureData, 'PNG', 50, 50, 60, 120);
+    // doc.save('a4.pdf');
   }
 
   clear() {
