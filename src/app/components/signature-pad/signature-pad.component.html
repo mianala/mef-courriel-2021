@@ -1,1 +1,8 @@
 <canvas id="canvas" #canvas></canvas>
+
+<button *ngIf="!signaturePad?.isEmpty()" mat-icon-button (click)="print()">
+  <mat-icon> print</mat-icon>
+</button>
+<button *ngIf="!signaturePad?.isEmpty()" mat-icon-button (click)="clear()">
+  <mat-icon>refresh</mat-icon>
+</button>
