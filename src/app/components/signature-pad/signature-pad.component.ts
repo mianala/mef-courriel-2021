@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb, degrees } from 'pdf-lib';
 import SignaturePad, { Options, PointGroup } from 'signature_pad';
 
 @Component({
@@ -9,9 +9,9 @@ import SignaturePad, { Options, PointGroup } from 'signature_pad';
 })
 export class SignaturePadComponent implements OnInit {
   labels = ['nothing'];
-  pdfLink =
-    'http://localhost:4001/mef/files/1622468912210-153945063-project-1617960006012-SUIVI%20COVID%20SAVA.pdf';
-  stampLink = 'http://localhost:4001/mef/files/stamp.png';
+  pdfLink = 'https://pdf-lib.js.org/assets/with_update_sections.pdf';
+  stampLink =
+    'https://drive.google.com/file/d/1VAx6Ws6F8k_NdJHqu9CC_XkLrQcLGnBX/view?usp=sharing';
 
   constructor(private elementRef: ElementRef) {}
 
@@ -19,7 +19,7 @@ export class SignaturePadComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeSignaturePad();
-    this.initializeJsPDF();
+    this.initializePDF();
   }
 
   initializeSignaturePad() {
@@ -34,10 +34,28 @@ export class SignaturePadComponent implements OnInit {
     }
   }
 
-  initializeJsPDF() {
-    // const doc = new jsPDF();
-    // doc.addImage(this.stampLink, 'PNG', 10, 10, 60, 60);
-    // doc.save('a4.pdf');
+  async initializePDF() {
+    const existingPdfBytes = await fetch(this.pdfLink).then((res) =>
+      res.arrayBuffer()
+    );
+
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+    const { width, height } = firstPage.getSize();
+    firstPage.drawText('This text was added with JavaScript!', {
+      x: 5,
+      y: height / 2 + 300,
+      size: 50,
+      font: helveticaFont,
+      color: rgb(0.95, 0.1, 0.1),
+      rotate: degrees(-45),
+    });
+
+    const pdfBytes = await pdfDoc.save();
+    console.log(pdfBytes);
   }
 
   printSignature() {
