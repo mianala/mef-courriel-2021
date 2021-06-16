@@ -56,7 +56,7 @@ export class SignaturePadComponent implements OnInit {
     });
 
     const pdfBytes = await pdfDoc.save();
-    download(pdfBytes, 'pdf-lib_creation_example.pdf', 'application/pdf');
+    // download(pdfBytes, 'pdf-lib_creation_example.pdf', 'application/pdf');
     console.log(pdfBytes);
   }
 
