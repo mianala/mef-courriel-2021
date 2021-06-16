@@ -39,6 +39,7 @@ import { UnverifiedComponent } from '../admin/users/unverified/unverified.compon
 import { InactiveUsersComponent } from '../admin/users/inactive-users/inactive-users.component';
 import { InactiveEntitiesComponent } from '../admin/entities/inactive-entities/inactive-entities.component';
 import { AssignedFlowsComponent } from '../courriel/flows/assigned-flows/assigned-flows.component';
+import { SignComponent } from '../courriel/flows/sign/sign.component';
 
 const routes: Routes = [
   {
@@ -230,6 +231,10 @@ const routes: Routes = [
           {
             path: 'send',
             component: SendFlowFormComponent,
+          },
+          {
+            path: 'sign',
+            component: SignComponent,
           },
         ],
       },

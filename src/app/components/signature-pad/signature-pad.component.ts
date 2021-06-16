@@ -11,8 +11,7 @@ import SignaturePad, { Options, PointGroup } from 'signature_pad';
 export class SignaturePadComponent implements OnInit {
   labels = ['nothing'];
   pdfLink = 'https://pdf-lib.js.org/assets/with_update_sections.pdf';
-  stampLink =
-    'https://drive.google.com/file/d/1VAx6Ws6F8k_NdJHqu9CC_XkLrQcLGnBX/view?usp=sharing';
+  stampLink = 'http://localhost:4002/mef/files/stamp.png';
 
   constructor(private elementRef: ElementRef) {}
 
@@ -41,22 +40,27 @@ export class SignaturePadComponent implements OnInit {
     );
 
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
     const { width, height } = firstPage.getSize();
-    firstPage.drawText('This text was added with JavaScript!', {
-      x: 5,
-      y: height / 2 + 300,
-      size: 50,
-      font: helveticaFont,
-      color: rgb(0.95, 0.1, 0.1),
-      rotate: degrees(-45),
+
+    const pngImageBytes = await fetch(this.stampLink).then((res) =>
+      res.arrayBuffer()
+    );
+
+    const pngImage = await pdfDoc.embedPng(pngImageBytes);
+
+    const pngDims = pngImage.scale(0.5);
+    firstPage.drawImage(pngImage, {
+      x: firstPage.getWidth() / 2 - pngDims.width / 2 + 75,
+      y: firstPage.getHeight() / 2 - pngDims.height + 250,
+      width: pngDims.width,
+      height: pngDims.height,
     });
 
     const pdfBytes = await pdfDoc.save();
-    // download(pdfBytes, 'pdf-lib_creation_example.pdf', 'application/pdf');
+    download(pdfBytes, 'pdf-lib_creation_example.pdf', 'application/pdf');
     console.log(pdfBytes);
   }
 

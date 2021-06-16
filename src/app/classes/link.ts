@@ -37,6 +37,7 @@ export class Link {
   static FLOW_REPLY = `${Link.FLOW_APP}/reply`; // Link.FLOW_REPLY
   static FLOW_ROUTE = `${Link.FLOW_APP}/route`; // Link.FLOW_ROUTE
   static FLOW_SEND = `${Link.FLOW_APP}/send`; // Link.FLOW_SEND
+  static FLOW_SIGN = `${Link.FLOW_APP}/sign`; // Link.FLOW_SEND
 
   // USER
   static USER_WORD = `user`; // Link.USER
