@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PDFDocument, StandardFonts, rgb, degrees } from 'pdf-lib';
+import download from 'downloadjs';
 import SignaturePad, { Options, PointGroup } from 'signature_pad';
 
 @Component({
@@ -55,6 +56,7 @@ export class SignaturePadComponent implements OnInit {
     });
 
     const pdfBytes = await pdfDoc.save();
+    download(pdfBytes, 'pdf-lib_creation_example.pdf', 'application/pdf');
     console.log(pdfBytes);
   }
 
