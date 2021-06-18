@@ -1,0 +1,28 @@
+pdf-viewer {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+::ng-deep {
+  .ng2-pdf-viewer-container {
+    height: auto !important;
+    width: 100% !important;
+    // position: relative !important;
+  }
+}
+
+signature-pad {
+  position: absolute;
+}
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+}
+
+.drag {
+  z-index: 10;
+  display: inline-block;
+}
