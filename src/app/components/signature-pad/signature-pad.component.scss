@@ -1,3 +1,17 @@
-canvas {
-  border: 1px solid black;
+@import "~src/_variables";
+:host {
+  canvas {
+    border: 1px dotted grey;
+  }
+  .actions {
+    transition: all ease-in-out 0.5s;
+    opacity: 0;
+  }
+
+  &:hover {
+    .actions {
+      display: block;
+      opacity: 1;
+    }
+  }
 }

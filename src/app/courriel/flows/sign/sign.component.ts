@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { PDFDocument, StandardFonts, rgb, degrees } from 'pdf-lib';
 import download from 'downloadjs';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-sign',
@@ -11,8 +12,9 @@ import download from 'downloadjs';
 export class SignComponent implements OnInit {
   pdfLink = 'https://pdf-lib.js.org/assets/with_update_sections.pdf';
   stampLink = 'http://localhost:4002/mef/files/stamp.png';
+  documentHeight = 0;
 
-  constructor() {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {}
 
@@ -44,5 +46,19 @@ export class SignComponent implements OnInit {
     const pdfBytes = await pdfDoc.save();
     // download(pdfBytes, 'pdf-lib_creation_example.pdf', 'application/pdf');
     console.log(pdfBytes);
+  }
+
+  rendered() {
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+
+    this.documentHeight = height;
   }
 }
