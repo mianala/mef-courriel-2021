@@ -28,10 +28,12 @@ export class SignComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  async pdfDOC() {
+    return await fetch(this.pdfLink).then((res) => res.arrayBuffer());
+  }
+
   async initializePDF() {
-    const existingPdfBytes = await fetch(this.pdfLink).then((res) =>
-      res.arrayBuffer()
-    );
+    const existingPdfBytes = await this.pdfDOC();
 
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
@@ -76,19 +78,28 @@ export class SignComponent implements OnInit {
       html.offsetWidth
     );
 
+    console.log(
+      body.scrollWidth,
+      body.offsetWidth,
+      html.clientWidth,
+      html.scrollWidth,
+      html.offsetWidth
+    );
+
     this.documentHeight = height;
     this.documentWidth = width;
     this.repositionSignaturePad();
   }
 
   repositionSignaturePad() {
+    console.log(this.documentWidth);
+
     this.signaturePadPosition = {
       // total width - margin right - canvas width
-      x:
-        this.documentWidth -
-        (this.documentWidth - this.pageWidth) / 2 -
-        this.canvasWidth,
+      x: this.pageWidth / 2,
       y: this.pageHeight - this.canvasHeight,
     };
   }
+
+  download() {}
 }
