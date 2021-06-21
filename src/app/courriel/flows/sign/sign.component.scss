@@ -23,16 +23,25 @@ pdf-viewer {
   background-color: $grey;
 }
 
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin: auto;
+}
+
 .drop {
+  margin: auto;
   .drag {
     z-index: 10;
     display: inline-block;
   }
-  .handle {
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    cursor: move;
+
+  .signature {
+    .handle {
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      cursor: move;
+    }
   }
-  transition: all ease-in-out 0.5s;
 }

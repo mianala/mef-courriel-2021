@@ -23,6 +23,7 @@ import { LabelsComponent } from 'src/app/courriel/flows/components/labels/labels
 })
 export class SignaturePadComponent implements OnInit, ControlValueAccessor {
   labels = ['nothing'];
+  canvas: HTMLCanvasElement | null | undefined;
 
   constructor(private elementRef: ElementRef) {}
   writeValue(obj: any): void {
@@ -39,16 +40,18 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.initializeSignaturePad();
+
+    // resize canvas always makes the canvas bigger
+    // window.addEventListener('resize', this.resizeCanvas);
   }
 
   initializeSignaturePad() {
-    const signatureCanvas: HTMLCanvasElement | null =
-      this.elementRef.nativeElement.querySelector('#canvas');
-    if (signatureCanvas) {
-      this.signaturePad = new SignaturePad(signatureCanvas, {
+    this.canvas = this.elementRef.nativeElement.querySelector('#canvas');
+    if (this.canvas) {
+      this.signaturePad = new SignaturePad(this.canvas, {
         minWidth: 0.7,
         maxWidth: 1.1,
-        penColor: 'rgb(10, 10, 10)',
+        penColor: 'rgb(10, 10, 250)',
         dotSize: 0.7,
       });
     }
@@ -60,5 +63,17 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
 
   clear() {
     this.signaturePad?.clear();
+  }
+
+  resizeCanvas() {
+    if (this.canvas === null || this.canvas === undefined) return;
+
+    var ratio = Math.max(window.devicePixelRatio || 1, 1);
+    this.canvas.width = this.canvas.offsetWidth * ratio;
+    this.canvas.height = this.canvas.offsetHeight * ratio;
+
+    this.canvas.getContext('2d')?.scale(ratio, ratio);
+
+    this.signaturePad?.clear(); // otherwise isEmpty() might return incorrect value
   }
 }

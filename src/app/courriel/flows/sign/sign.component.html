@@ -1,4 +1,14 @@
-<div class="drop" [style.height.px]="documentHeight">
+<div class="actions" [style.width.px]="pageWidth">
+  <button mat-raised-button color="primary">Signer</button>
+  <button mat-raised-button color="primary">Tamponner</button>
+</div>
+
+<!-- documentHeight + 40 :  -->
+<div
+  class="drop"
+  [style.height.px]="documentHeight"
+  [style.width.px]="pageWidth"
+>
   <pdf-viewer
     (page-rendered)="rendered()"
     [src]="pdfLink"
@@ -7,7 +17,12 @@
   >
   </pdf-viewer>
 
-  <div class="drag" cdkDragBoundary=".drop" cdkDrag>
+  <div
+    class="drag signature"
+    cdkDragBoundary=".drop"
+    cdkDrag
+    [cdkDragFreeDragPosition]="signaturePadPosition"
+  >
     <div class="handle" cdkDragHandle>
       <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
         <path

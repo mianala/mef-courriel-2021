@@ -12,7 +12,17 @@ import { FormBuilder } from '@angular/forms';
 export class SignComponent implements OnInit {
   pdfLink = 'https://pdf-lib.js.org/assets/with_update_sections.pdf';
   stampLink = 'http://localhost:4002/mef/files/stamp.png';
+
   documentHeight = 0;
+  documentWidth = 0;
+
+  pageWidth = 816;
+  pageHeight = 1056;
+
+  canvasWidth = 300;
+  canvasHeight = 150;
+
+  signaturePadPosition = { x: 0, y: 0 };
 
   constructor(private fb: FormBuilder) {}
 
@@ -58,7 +68,27 @@ export class SignComponent implements OnInit {
       html.scrollHeight,
       html.offsetHeight
     );
+    const width = Math.max(
+      body.scrollWidth,
+      body.offsetWidth,
+      html.clientWidth,
+      html.scrollWidth,
+      html.offsetWidth
+    );
 
     this.documentHeight = height;
+    this.documentWidth = width;
+    this.repositionSignaturePad();
+  }
+
+  repositionSignaturePad() {
+    this.signaturePadPosition = {
+      // total width - margin right - canvas width
+      x:
+        this.documentWidth -
+        (this.documentWidth - this.pageWidth) / 2 -
+        this.canvasWidth,
+      y: this.pageHeight - this.canvasHeight,
+    };
   }
 }
