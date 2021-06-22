@@ -24,16 +24,18 @@ import { LabelsComponent } from 'src/app/courriel/flows/components/labels/labels
 export class SignaturePadComponent implements OnInit, ControlValueAccessor {
   labels = ['nothing'];
   canvas: HTMLCanvasElement | null | undefined;
+  val: any;
 
   constructor(private elementRef: ElementRef) {}
+
   writeValue(obj: any): void {
-    throw new Error('Method not implemented.');
+    this.value = obj;
   }
   registerOnChange(fn: any): void {
-    throw new Error('Method not implemented.');
+    this.onChange = fn;
   }
   registerOnTouched(fn: any): void {
-    throw new Error('Method not implemented.');
+    this.onTouch = fn;
   }
 
   signaturePad: SignaturePad | undefined;
@@ -55,6 +57,16 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
         dotSize: 0.7,
       });
     }
+  }
+
+  onChange: any = () => {};
+  onTouch: any = () => {};
+
+  set value(val: any) {
+    // this value is updated by programmatic changes if( val !== undefined && this.val !== val){
+    this.val = val;
+    this.onChange(val);
+    this.onTouch(val);
   }
 
   printSignature() {}

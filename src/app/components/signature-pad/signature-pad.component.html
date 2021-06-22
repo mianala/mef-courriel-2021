@@ -1,8 +1,8 @@
 <div class="actions">
   <button
     color="primary"
+    mat-icon-button
     *ngIf="!signaturePad?.isEmpty()"
-    mat-mini-fab
     (click)="print()"
   >
     <mat-icon> check</mat-icon>

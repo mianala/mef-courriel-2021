@@ -4,6 +4,8 @@
     border: 1px dotted grey;
   }
   .actions {
+    position: absolute;
+    bottom: 0;
     transition: all ease-in-out 0.5s;
     opacity: 0;
   }

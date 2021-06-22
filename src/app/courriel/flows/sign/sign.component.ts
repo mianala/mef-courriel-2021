@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { PDFDocument, StandardFonts, rgb, degrees } from 'pdf-lib';
 import download from 'downloadjs';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-sign',
@@ -23,6 +23,10 @@ export class SignComponent implements OnInit {
   canvasHeight = 150;
 
   signaturePadPosition = { x: 0, y: 0 };
+  signature = new FormControl();
+
+  @ViewChild('actions')
+  actionsElement!: ElementRef;
 
   constructor(private fb: FormBuilder) {}
 
@@ -86,7 +90,9 @@ export class SignComponent implements OnInit {
       html.offsetWidth
     );
 
-    this.documentHeight = height;
+    const actionsElementHeight = this.actionsElement.nativeElement.offsetHeight;
+
+    this.documentHeight = height - actionsElementHeight;
     this.documentWidth = width;
     this.repositionSignaturePad();
   }
