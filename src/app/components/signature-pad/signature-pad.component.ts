@@ -42,7 +42,9 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.initializeSignaturePad();
-
+    this.signaturePad!.onEnd = () => {
+      this.value = this.signaturePad?.toData;
+    };
     // resize canvas always makes the canvas bigger
     // window.addEventListener('resize', this.resizeCanvas);
   }
