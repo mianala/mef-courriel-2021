@@ -12,7 +12,7 @@ import { ValidatorService } from 'src/app/services/validator.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
-  signUpForm: FormGroup = new FormGroup({});
+  signUpForm = new FormGroup({});
   entity: Entity = new Entity();
   loading = false;
   constructor(

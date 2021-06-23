@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Apollo, gql } from 'apollo-angular';
 import { combineLatest } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { User } from 'src/app/classes/user';
 import { UserService } from '../../services/user.service';
 

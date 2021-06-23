@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { PDFDocument, StandardFonts, rgb, degrees } from 'pdf-lib';
 import download from 'downloadjs';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-sign',
@@ -28,9 +28,14 @@ export class SignComponent implements OnInit {
   @ViewChild('actions')
   actionsElement!: ElementRef;
 
+  validationForm = new FormGroup({});
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.validationForm = this.fb.group({
+      signature: [],
+    });
+  }
 
   async pdfDOC() {
     return await fetch(this.pdfLink).then((res) => res.arrayBuffer());
