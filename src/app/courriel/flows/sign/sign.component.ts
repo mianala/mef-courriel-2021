@@ -49,6 +49,8 @@ export class SignComponent implements OnInit {
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
     const { width, height } = firstPage.getSize();
+    this.pageWidth = width;
+    this.pageHeight = height;
 
     const pngImageBytes = await fetch(this.stampLink).then((res) =>
       res.arrayBuffer()
