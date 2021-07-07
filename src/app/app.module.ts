@@ -98,6 +98,7 @@ import { ClearOnEscapeDirective } from './directives/clear-on-escape.directive';
 import { SignaturePadComponent } from './components/signature-pad/signature-pad.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SignComponent } from './courriel/flows/sign/sign.component';
+import { StampComponent } from './components/stamp/stamp.component';
 
 registerLocaleData(localeFr);
 
@@ -209,6 +210,7 @@ registerLocaleData(localeFr);
     ClearOnEscapeDirective,
     SignaturePadComponent,
     SignComponent,
+    StampComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,11 @@ Uses flaticon gradient icons with style_id=886
 ng serve
 npm run file-server // runs the file server app for mef courriel
 
+## ASSETS
+
+/assets/flag.png
+http://localhost:4002/uploads/mef/files/
+
 ## DATABASE
 
 Hasura GRAPHQL
