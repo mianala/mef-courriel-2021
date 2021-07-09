@@ -38,5 +38,10 @@
     <signature-pad></signature-pad>
   </div>
 
-  <img src="" class="png drag" cdkDrag alt="" />
+  <stamp
+    [cdkDragFreeDragPosition]="stampPosition"
+    class="drag"
+    cdkDrag
+    cdkDragBoundary=".drop"
+  ></stamp>
 </form>

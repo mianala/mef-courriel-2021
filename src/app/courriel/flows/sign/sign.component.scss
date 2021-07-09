@@ -32,15 +32,19 @@ pdf-viewer {
 .drop {
   margin: auto;
   .drag {
+    position: absolute;
     z-index: 10;
     display: inline-block;
+  }
+
+  .stamp {
+    cursor: move;
   }
 
   .signature {
     .handle {
       width: 24px;
       height: 24px;
-      position: absolute;
       cursor: move;
     }
   }

@@ -19,10 +19,13 @@ export class SignComponent implements OnInit {
   pageWidth = 816;
   pageHeight = 1056;
 
+  stampSize = 80;
+
   canvasWidth = 300;
   canvasHeight = 150;
 
   signaturePadPosition = { x: 0, y: 0 };
+  stampPosition = { x: 0, y: 0 };
   signature = new FormControl();
 
   @ViewChild('actions')
@@ -101,16 +104,17 @@ export class SignComponent implements OnInit {
 
     this.documentHeight = height - actionsElementHeight;
     this.documentWidth = width;
-    this.repositionSignaturePad();
+    this.repositionDraggables();
   }
 
-  repositionSignaturePad() {
-    console.log(this.documentWidth);
-
+  repositionDraggables() {
     this.signaturePadPosition = {
-      // total width - margin right - canvas width
       x: this.pageWidth / 2,
       y: this.pageHeight - this.canvasHeight,
+    };
+    this.stampPosition = {
+      x: this.pageWidth / 2 - this.stampSize,
+      y: this.pageHeight - this.stampSize,
     };
   }
 
