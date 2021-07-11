@@ -1,7 +1,7 @@
 <div #actions class="actions" [style.width.px]="pageWidth">
   <button mat-raised-button color="primary">Signer</button>
   <button mat-raised-button color="primary">Tamponner</button>
-  <button mat-raised-button color="primary" (click)="download()">
+  <button mat-raised-button color="primary" (click)="print()">
     Enregistrer
   </button>
 </div>
@@ -25,6 +25,8 @@
     class="drag signature"
     cdkDragBoundary=".drop"
     cdkDrag
+    #signatureElement
+    (cdkDragEnded)="dropped($event)"
     [cdkDragFreeDragPosition]="signaturePadPosition"
   >
     <div class="handle" cdkDragHandle>
@@ -35,12 +37,17 @@
         <path d="M0 0h24v24H0z" fill="none"></path>
       </svg>
     </div>
-    <signature-pad></signature-pad>
+    <signature-pad
+      [canvasHeight]="canvasHeight"
+      [canvasWidth]="canvasWidth"
+      formControlName="signature"
+    ></signature-pad>
   </div>
 
   <stamp
     [cdkDragFreeDragPosition]="stampPosition"
     class="drag"
+    formControlName="stamp"
     cdkDrag
     cdkDragBoundary=".drop"
   ></stamp>

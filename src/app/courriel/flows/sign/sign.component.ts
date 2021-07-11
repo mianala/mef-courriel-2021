@@ -21,10 +21,11 @@ export class SignComponent implements OnInit {
 
   stampSize = 80;
 
-  canvasWidth = 300;
-  canvasHeight = 150;
+  canvasWidth = 200;
+  canvasHeight = 100;
 
   signaturePadPosition = { x: 0, y: 0 };
+  signatureDropPoint = { x: 0, y: 0 };
   stampPosition = { x: 0, y: 0 };
   signature = new FormControl();
 
@@ -37,41 +38,14 @@ export class SignComponent implements OnInit {
   ngOnInit(): void {
     this.validationForm = this.fb.group({
       signature: [],
+      stamp: ['/assets/flag.png'],
     });
   }
 
   async pdfDOC() {
-    return await fetch(this.pdfLink).then((res) => res.arrayBuffer());
-  }
-
-  async initializePDF() {
-    const existingPdfBytes = await this.pdfDOC();
-
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-    const pages = pdfDoc.getPages();
-    const firstPage = pages[0];
-    const { width, height } = firstPage.getSize();
-    this.pageWidth = width;
-    this.pageHeight = height;
-
-    const pngImageBytes = await fetch(this.stampLink).then((res) =>
-      res.arrayBuffer()
-    );
-
-    const pngImage = await pdfDoc.embedPng(pngImageBytes);
-
-    const pngDims = pngImage.scale(0.5);
-    firstPage.drawImage(pngImage, {
-      x: firstPage.getWidth() / 2 - pngDims.width / 2 + 75,
-      y: firstPage.getHeight() / 2 - pngDims.height + 250,
-      width: pngDims.width,
-      height: pngDims.height,
-    });
-
-    const pdfBytes = await pdfDoc.save();
-    // download(pdfBytes, 'pdf-lib_creation_example.pdf', 'application/pdf');
-    console.log(pdfBytes);
+    const pdfBites = await fetch(this.pdfLink).then((res) => res.arrayBuffer());
+    const pdfDoc = await PDFDocument.load(pdfBites);
+    return pdfDoc;
   }
 
   rendered() {
@@ -116,6 +90,72 @@ export class SignComponent implements OnInit {
       x: this.pageWidth / 2 - this.stampSize,
       y: this.pageHeight - this.stampSize,
     };
+  }
+
+  async print() {
+    // gettings validations information
+    const validations = this.validationForm.value;
+    console.log(validations);
+
+    // setting up the pdf doc
+    const pdfDoc = await this.pdfDOC();
+
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+    const { width, height } = firstPage.getSize();
+    const ratio = width / this.pageWidth;
+    const ratioHeight = height / this.pageHeight;
+    console.log(ratioHeight);
+
+    const signaturePng = await pdfDoc.embedPng(validations.signature);
+    const pngDims = signaturePng.scale(0.75);
+    const drawSignature = {
+      x: this.signatureDropPoint.x * ratio,
+      y: (this.pageHeight - this.signatureDropPoint.y) * ratio - pngDims.height,
+      width: pngDims.width,
+      height: pngDims.height,
+    };
+
+    console.log(
+      'page',
+      this.pageHeight,
+      this.pageWidth,
+      'pdf',
+      width,
+      height,
+      this.signatureDropPoint,
+      ratio,
+      drawSignature
+    );
+
+    firstPage.drawImage(signaturePng, drawSignature);
+
+    const pdfBytes = await pdfDoc.save();
+    download(pdfBytes, 'signed.pdf', 'application/pdf');
+  }
+
+  dropped(event: any) {
+    let element = event.source.getRootElement();
+    let boundingClientRect = element.getBoundingClientRect();
+    let parentPosition = this.getPosition(element);
+
+    this.signatureDropPoint = {
+      x: boundingClientRect.x - parentPosition.left,
+      y: boundingClientRect.y - parentPosition.top,
+    };
+
+    console.log(this.signatureDropPoint, event);
+  }
+
+  getPosition(el: any) {
+    let x = 0;
+    let y = 0;
+    while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+      x += el.offsetLeft - el.scrollLeft;
+      y += el.offsetTop - el.scrollTop;
+      el = el.offsetParent;
+    }
+    return { top: y, left: x };
   }
 
   download() {}

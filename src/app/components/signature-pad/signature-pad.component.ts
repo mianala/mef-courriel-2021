@@ -2,12 +2,12 @@ import {
   Component,
   ElementRef,
   forwardRef,
+  Input,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import SignaturePad, { Options, PointGroup } from 'signature_pad';
-import { LabelsComponent } from 'src/app/courriel/flows/components/labels/labels.component';
 
 @Component({
   selector: 'signature-pad',
@@ -16,7 +16,7 @@ import { LabelsComponent } from 'src/app/courriel/flows/components/labels/labels
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => LabelsComponent),
+      useExisting: forwardRef(() => SignaturePadComponent),
       multi: true,
     },
   ],
@@ -25,6 +25,8 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
   labels = ['nothing'];
   canvas: HTMLCanvasElement | null | undefined;
   val: any;
+  @Input() canvasHeight = 150;
+  @Input() canvasWidth = 300;
 
   constructor(private elementRef: ElementRef) {}
 
@@ -42,8 +44,9 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.initializeSignaturePad();
+
     this.signaturePad!.onEnd = () => {
-      this.value = this.signaturePad?.toData;
+      this.value = this.signaturePad?.toDataURL();
     };
     // resize canvas always makes the canvas bigger
     // window.addEventListener('resize', this.resizeCanvas);
@@ -67,6 +70,8 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
   set value(val: any) {
     // this value is updated by programmatic changes if( val !== undefined && this.val !== val){
     this.val = val;
+    console.log(val);
+
     this.onChange(val);
     this.onTouch(val);
   }
@@ -77,17 +82,5 @@ export class SignaturePadComponent implements OnInit, ControlValueAccessor {
 
   clear() {
     this.signaturePad?.clear();
-  }
-
-  resizeCanvas() {
-    if (this.canvas === null || this.canvas === undefined) return;
-
-    var ratio = Math.max(window.devicePixelRatio || 1, 1);
-    this.canvas.width = this.canvas.offsetWidth * ratio;
-    this.canvas.height = this.canvas.offsetHeight * ratio;
-
-    this.canvas.getContext('2d')?.scale(ratio, ratio);
-
-    this.signaturePad?.clear(); // otherwise isEmpty() might return incorrect value
   }
 }
