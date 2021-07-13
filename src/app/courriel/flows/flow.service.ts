@@ -197,6 +197,20 @@ export class FlowService {
     });
   };
 
+  inboxFlowsWithPagination = (
+    entity_id: number,
+    offset: number,
+    limit: number
+  ) => {
+    return this.apollo
+      .watchQuery({
+        query: FlowQueries.INBOXPAGE,
+        variables: { entity_id: entity_id, offset: offset, limit: limit },
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(FlowWithActions.mapFlows);
+  };
+
   assignedFlows = (user_id: number) => {
     return this.apollo.watchQuery({
       query: FlowQueries.ASSIGNED,

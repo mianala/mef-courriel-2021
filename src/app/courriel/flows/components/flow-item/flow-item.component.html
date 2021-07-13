@@ -18,13 +18,16 @@
 <div class="headers" [ngSwitch]="layout">
   <!-- inbox -->
   <ng-container *ngSwitchCase="'inbox'">
-    <span class="numero">
-      {{ flow.numero }}
-    </span>
     <span class="sender" [title]="flow.senderLong()">
       {{ flow.sender() }}
     </span>
-    <div class="reference" [title]="flow.reference">{{ flow.reference }}</div>
+    <div class="reference" [title]="flow.reference">
+      <span class="numero">
+        {{ flow.numero }}
+      </span>
+      -
+      {{ flow.reference }}
+    </div>
   </ng-container>
 
   <!-- sent -->

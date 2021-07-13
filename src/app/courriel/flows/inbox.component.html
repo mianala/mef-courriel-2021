@@ -23,7 +23,7 @@
   >
 </nav>
 
-<section *ngIf="flows$ | async as flows; else loading">
+<section *ngIf="inboxFlowsWithPagination$ | async as flows; else loading">
   <div
     class="empty"
     *ngIf="!flows.length"
@@ -45,21 +45,20 @@
     ></flow>
   </div>
 
-  <mat-paginator *ngIf="flows.length" [showFirstLastButtons]="true">
+  <!-- FIXME: -->
+  <mat-paginator
+    *ngIf="flows.length"
+    [hidePageSize]="true"
+    [length]="pageLength"
+    [pageSize]="pageSize"
+    [pageIndex]="(queryParams$ | async)?.page"
+    (page)="pageEvent($event)"
+    [showFirstLastButtons]="true"
+  >
   </mat-paginator>
 </section>
 <ng-template #loading>
   <flows-loading></flows-loading>
 </ng-template>
 
-<!--
-<div *ngIf="(flowService.recent_flows | async)?.length" class="flow-list">
-  <flow
-    class="mat-typography"
-    *ngFor="let flow of flowService.recent_flows | async"
-    [flow]="flow"
-  ></flow>
-</div>
-
-<search-flow-list></search-flow-list> -->
 <router-outlet></router-outlet>

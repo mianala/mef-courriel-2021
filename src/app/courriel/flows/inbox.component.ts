@@ -1,9 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
+import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  share,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { Flow } from 'src/app/classes/flow';
 import { Link } from 'src/app/classes/link';
 import { Strings } from 'src/app/classes/strings';
+import { EntityService } from 'src/app/services/entity.service';
+import { UserService } from 'src/app/services/user.service';
 import { FlowService } from './flow.service';
 @Component({
   selector: 'inbox',
@@ -26,8 +36,11 @@ export class FlowsComponent implements OnInit {
     })
   );
 
-  assignedFlows$ = this.flowService.assignedFlows$;
+  // FIXME:
+  pageLength = 1000;
+  pageSize = 20;
 
+  assignedFlows$ = this.flowService.assignedFlows$;
   unreadAssignedxFlows$ = this.assignedFlows$?.pipe(
     map((flows: Flow[]) => {
       // null hides the badge
@@ -51,6 +64,25 @@ export class FlowsComponent implements OnInit {
         default:
           break;
       }
+    })
+  );
+
+  inboxFlowsWithPagination$ = combineLatest([
+    this.queryParams$,
+    this.userService.activeUserEntityId$,
+  ]).pipe(
+    switchMap(([params, entity_id]) => {
+      console.log(params, entity_id);
+
+      const page = parseInt(params.page) || 0;
+      const items = parseInt(params.items) || this.pageSize;
+      const offset = page * items;
+
+      return this.flowService.inboxFlowsWithPagination(
+        entity_id,
+        offset,
+        items
+      );
     })
   );
 
@@ -89,8 +121,24 @@ export class FlowsComponent implements OnInit {
 
   flows$ = this.inboxFlows$;
 
-  constructor(public flowService: FlowService, private route: ActivatedRoute) {
+  constructor(
+    public flowService: FlowService,
+    private entityService: EntityService,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.queryParams$.subscribe();
+    this.inboxFlowsWithPagination$.subscribe();
+  }
+
+  pageEvent(e: PageEvent) {
+    console.log(e);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: e.pageIndex },
+      queryParamsHandling: 'merge',
+    });
   }
 
   ngOnInit(): void {}
