@@ -23,7 +23,7 @@
   >
 </nav>
 
-<section *ngIf="inboxFlowsWithPagination$ | async as flows; else loading">
+<section *ngIf="flows$ | async as flows; else loading">
   <div
     class="empty"
     *ngIf="!flows.length"

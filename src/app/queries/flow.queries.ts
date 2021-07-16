@@ -58,6 +58,32 @@ const FlowQueries = {
       }
     }
   `,
+  SIGNATUREPAGE: gql`
+    ${Flow.INBOX_FLOW_FIELDS}
+    query get_inbox_flows($entity_id: Int!, $offset: Int!, $limit: Int!) {
+      flow(
+        where: { owner_id: { _eq: $entity_id }, signature: { _eq: true } }
+        order_by: { id: desc }
+        offset: $offset
+        limit: $limit
+      ) {
+        ...InboxFlowFields
+      }
+    }
+  `,
+  LECTUREPAGE: gql`
+    ${Flow.INBOX_FLOW_FIELDS}
+    query get_inbox_flows($entity_id: Int!, $offset: Int!, $limit: Int!) {
+      flow(
+        where: { owner_id: { _eq: $entity_id }, signature: { _neq: true } }
+        order_by: { id: desc }
+        offset: $offset
+        limit: $limit
+      ) {
+        ...InboxFlowFields
+      }
+    }
+  `,
 
   ASSIGNED: gql`
     ${Flow.ITEM_FLOW_FIELDS}

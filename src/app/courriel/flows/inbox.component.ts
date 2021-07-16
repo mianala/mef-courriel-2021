@@ -27,14 +27,14 @@ export class FlowsComponent implements OnInit {
   activeTab = 'MAIN';
   Link = Link;
 
-  inboxFlows$ = this.flowService.inboxFlows$;
+  // inboxFlows$ = this.flowService.inboxFlows$;
 
-  unreadInboxFlows$ = this.inboxFlows$?.pipe(
-    map((flows: Flow[]) => {
-      // null hides the badge
-      return flows.filter((flow) => !flow.read).length || null;
-    })
-  );
+  // unreadInboxFlows$ = this.inboxFlows$?.pipe(
+  //   map((flows: Flow[]) => {
+  //     // null hides the badge
+  //     return flows.filter((flow) => !flow.read).length || null;
+  //   })
+  // );
 
   // FIXME:
   pageLength = 1000;
@@ -55,10 +55,18 @@ export class FlowsComponent implements OnInit {
       this.activeTab = params.tab;
       switch (this.activeTab) {
         case Strings.inboxTypes.main.tabLabel:
-          this.flows$ = this.inboxFlows$;
+          this.flows$ = this.inboxFlowsWithPagination$;
           break;
-        case Strings.inboxTypes.assigned.tabLabel:
+        case Strings.inboxTypes.assigned.tabLabel: {
+          if (!this.assignedFlows$) return;
           this.flows$ = this.assignedFlows$;
+          break;
+        }
+        case Strings.inboxTypes.sign.tabLabel:
+          this.flows$ = this.signatureFlowsWithPagination$;
+          break;
+        case Strings.inboxTypes.lecture.tabLabel:
+          this.flows$ = this.lectureFlowsWithPagination$;
           break;
 
         default:
@@ -86,6 +94,44 @@ export class FlowsComponent implements OnInit {
     })
   );
 
+  signatureFlowsWithPagination$ = combineLatest([
+    this.queryParams$,
+    this.userService.activeUserEntityId$,
+  ]).pipe(
+    switchMap(([params, entity_id]) => {
+      console.log(params, entity_id);
+
+      const page = parseInt(params.page) || 0;
+      const items = parseInt(params.items) || this.pageSize;
+      const offset = page * items;
+
+      return this.flowService.signatureFlowsWithPagination(
+        entity_id,
+        offset,
+        items
+      );
+    })
+  );
+
+  lectureFlowsWithPagination$ = combineLatest([
+    this.queryParams$,
+    this.userService.activeUserEntityId$,
+  ]).pipe(
+    switchMap(([params, entity_id]) => {
+      console.log(params, entity_id);
+
+      const page = parseInt(params.page) || 0;
+      const items = parseInt(params.items) || this.pageSize;
+      const offset = page * items;
+
+      return this.flowService.lectureFlowsWithPagination(
+        entity_id,
+        offset,
+        items
+      );
+    })
+  );
+
   tabs = [
     {
       tab: Strings.inboxTypes.main.tabLabel,
@@ -93,7 +139,7 @@ export class FlowsComponent implements OnInit {
       icon: 'inbox',
       id: 0,
       order: 0,
-      unread: this.unreadInboxFlows$,
+      // unread: this.unreadInboxFlows$,
     },
     {
       tab: Strings.inboxTypes.lecture.tabLabel,
@@ -119,7 +165,7 @@ export class FlowsComponent implements OnInit {
     },
   ];
 
-  flows$ = this.inboxFlows$;
+  flows$ = this.inboxFlowsWithPagination$;
 
   constructor(
     public flowService: FlowService,

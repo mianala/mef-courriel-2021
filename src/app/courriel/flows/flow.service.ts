@@ -101,7 +101,7 @@ export class FlowService {
 
   inboxFlows$: Observable<Flow[]> | undefined;
   sentFlows$: Observable<Flow[]> | undefined;
-  assignedFlows$: Observable<Flow[]> | undefined;
+  assignedFlows$: Observable<FlowWithActions[]> | undefined;
 
   inboxFlowsQuery:
     | QueryRef<
@@ -205,6 +205,34 @@ export class FlowService {
     return this.apollo
       .watchQuery({
         query: FlowQueries.INBOXPAGE,
+        variables: { entity_id: entity_id, offset: offset, limit: limit },
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(FlowWithActions.mapFlows);
+  };
+
+  signatureFlowsWithPagination = (
+    entity_id: number,
+    offset: number,
+    limit: number
+  ) => {
+    return this.apollo
+      .watchQuery({
+        query: FlowQueries.SIGNATUREPAGE,
+        variables: { entity_id: entity_id, offset: offset, limit: limit },
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.pipe(FlowWithActions.mapFlows);
+  };
+
+  lectureFlowsWithPagination = (
+    entity_id: number,
+    offset: number,
+    limit: number
+  ) => {
+    return this.apollo
+      .watchQuery({
+        query: FlowQueries.LECTUREPAGE,
         variables: { entity_id: entity_id, offset: offset, limit: limit },
         fetchPolicy: 'cache-and-network',
       })

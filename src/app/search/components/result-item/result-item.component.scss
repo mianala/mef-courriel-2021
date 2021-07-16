@@ -24,6 +24,9 @@
     font-weight: normal;
     color: rgb(29, 1, 189);
     margin-bottom: 0px;
+    &:hover {
+      text-decoration: underline;
+    }
     a {
       text-decoration: none;
     }

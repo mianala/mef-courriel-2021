@@ -120,7 +120,9 @@ export class Flow {
 
   r = {
     title: () => {
-      return this.is.saved() ? this.title : `${this.root?.title}`;
+      return this.is.saved()
+        ? unescape(this.title)
+        : unescape(`${this.root?.title}`);
     },
     reference: () => {
       return this.is.saved() ? this.reference : this.root?.reference;
