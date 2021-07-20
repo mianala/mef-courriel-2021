@@ -19,15 +19,13 @@
     <pdf-viewer
       [src]="file.url()"
       [render-text]="true"
-      style="width: 100%"
+      [fit-to-page]="true"
+      [original-size]="false"
+      [autoresize]="true"
+      [show-all]="true"
     ></pdf-viewer>
   </div>
   <div *ngSwitchCase="'ngx-doc-viewer'">
-    <ngx-doc-viewer
-      #doc
-      [url]="file.url()"
-      viewer="google"
-      style="width: 100%; height: clamp(800px, 90vh, 2048px)"
-    ></ngx-doc-viewer>
+    <ngx-doc-viewer #doc [url]="file.url()" viewer="google"></ngx-doc-viewer>
   </div>
 </ng-container>
